@@ -8,7 +8,7 @@ from typing import Sequence
 
 import pandas as pd
 
-from thrive.data.download import Fetcher, fetch, first_working, openfema_records, sha256, zip_member
+from thrive.data.download import Fetcher, discover_openfema_endpoint, fetch, openfema_records, probe, sha256, zip_member
 from thrive.fairness import group_disparity
 
 REQUIRED_HMA = ("programArea", "programFy", "stateNumberCode", "countyCode", "projectType", "status", "federalShareObligated")
@@ -16,6 +16,8 @@ QUINTILE_LABELS = {1: "1 (least vulnerable)", 2: "2", 3: "3", 4: "4", 5: "5 (mos
 
 @dataclass(frozen=True)
 class Config:
+    dataset: str
+    catalog: str
     endpoint: str
     page_size: int
     first_fiscal_year: int
@@ -31,6 +33,8 @@ def load_config(path: Path) -> Config:
     o, n, f = c["openfema"], c["nri"], c["flood"]
     keys = ("fips", "population", "riverine_eal", "coastal_eal", "vulnerability", "vulnerability_rating")
     return Config(
+        dataset=o["dataset"],
+        catalog=o["catalog"],
         endpoint=o["endpoint"],
         page_size=int(o["page_size"]),
         first_fiscal_year=int(o["first_fiscal_year"]),
@@ -162,13 +166,46 @@ def _report(summary: dict, sources: dict) -> str:
     ]
     return "\n".join(lines) + "\n"
 
+def preflight(cfg: Config, out_dir: Path, fetcher: Fetcher) -> tuple[str, str, bytes]:
+    checks = []
+    try:
+        endpoint = discover_openfema_endpoint(cfg.dataset, cfg.catalog, fetcher)
+        checks.append({"check": "OpenFEMA catalog", "url": cfg.catalog, "ok": True, "error": None, "found": endpoint})
+    except Exception as exc:
+        endpoint = cfg.endpoint
+        checks.append({"check": "OpenFEMA catalog", "url": cfg.catalog, "ok": False, "error": str(exc), "found": None})
+    first = probe(f"{endpoint}?$top=1", fetcher)
+    checks.append({"check": "OpenFEMA first record", **first})
+    if not first["ok"] and endpoint != cfg.endpoint:
+        alt = probe(f"{cfg.endpoint}?$top=1", fetcher)
+        checks.append({"check": "OpenFEMA configured endpoint", **alt})
+        if alt["ok"]:
+            endpoint = cfg.endpoint
+            first = alt
+    nri_url, nri_zip = None, None
+    for url in cfg.nri_urls:
+        try:
+            data = fetcher(url)
+            zip_member(data, cfg.nri_member)
+            checks.append({"check": "National Risk Index", "url": url, "ok": True, "bytes": len(data), "error": None})
+            nri_url, nri_zip = url, data
+            break
+        except Exception as exc:
+            checks.append({"check": "National Risk Index", "url": url, "ok": False, "bytes": 0, "error": str(exc)})
+    (out_dir / "preflight.json").write_text(json.dumps(checks, indent=2) + "\n", encoding="utf-8")
+    problems = [c for c in checks if not c["ok"]]
+    if not first["ok"] or nri_zip is None:
+        raise RuntimeError("preflight failed: " + " | ".join(f"{c['check']} {c['url']}: {c['error']}" for c in problems))
+    return endpoint, nri_url, nri_zip
+
+
 def run(config_path: Path, out_dir: Path, fetcher: Fetcher = fetch) -> dict:
     cfg = load_config(config_path)
     out_dir = Path(out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
-    records, digests = openfema_records(cfg.endpoint, cfg.page_size, fetcher)
+    endpoint, nri_url, nri_zip = preflight(cfg, out_dir, fetcher)
+    records, digests = openfema_records(endpoint, cfg.page_size, fetcher)
     hma = pd.DataFrame.from_records(records)
-    nri_url, nri_zip = first_working(cfg.nri_urls, fetcher)
     nri_raw = pd.read_csv(io.BytesIO(zip_member(nri_zip, cfg.nri_member)), dtype=str, low_memory=False)
     nri, nri_cols = prepare_nri(nri_raw, cfg)
     direction_ok = check_vulnerability_direction(nri)
@@ -182,7 +219,7 @@ def run(config_path: Path, out_dir: Path, fetcher: Fetcher = fetch) -> dict:
     unmatched = sorted(set(funding["fips"]) - set(nri["fips"]))
     sources = {
         "retrieved_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
-        "openfema_endpoint": cfg.endpoint,
+        "openfema_endpoint": endpoint,
         "openfema_records": int(len(hma)),
         "openfema_pages_sha256": digests,
         "openfema_columns": sorted(hma.columns.tolist()),

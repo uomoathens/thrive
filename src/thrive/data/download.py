@@ -36,7 +36,7 @@ def openfema_records(endpoint: str, page_size: int = 10000, fetcher: Fetcher = f
     while True:
         if len(digests) >= max_pages:
             raise RuntimeError(f"stopped after {max_pages} pages; the source may be ignoring $skip")
-        query = urllib.parse.urlencode({"$top": page_size, "$skip": skip, "$format": "json"}, safe="$")
+        query = urllib.parse.urlencode({"$top": page_size, "$skip": skip}, safe="$")
         raw = fetcher(f"{endpoint}?{query}")
         digest = sha256(raw)
         if digests and digest == digests[-1]:
@@ -70,3 +70,33 @@ def zip_member(data: bytes, name: str) -> bytes:
         if not match:
             raise ValueError(f"{name} not found in archive, which holds: {names}")
         return zf.read(match[0])
+
+
+def payload_rows(raw: bytes) -> list[dict]:
+    payload = json.loads(raw)
+    keys = [k for k in payload if k != "metadata"]
+    if len(keys) != 1:
+        raise ValueError(f"unexpected OpenFEMA response keys: {sorted(payload)}")
+    return payload[keys[0]]
+
+
+def discover_openfema_endpoint(name: str, catalog_url: str, fetcher: Fetcher = fetch) -> str:
+    rows = payload_rows(fetcher(catalog_url))
+    versions = []
+    for r in rows:
+        if str(r.get("name", "")).lower() == name.lower():
+            try:
+                versions.append(int(float(r.get("version"))))
+            except (TypeError, ValueError):
+                continue
+    if not versions:
+        raise ValueError(f"{name} not listed in the OpenFEMA catalog")
+    return f"https://www.fema.gov/api/open/v{max(versions)}/{name}"
+
+
+def probe(url: str, fetcher: Fetcher = fetch) -> dict:
+    try:
+        data = fetcher(url)
+        return {"url": url, "ok": True, "bytes": len(data), "error": None}
+    except Exception as exc:
+        return {"url": url, "ok": False, "bytes": 0, "error": str(exc)}

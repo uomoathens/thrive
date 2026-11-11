@@ -48,9 +48,23 @@ def nri_zip():
     return buf.getvalue()
 
 
-def fake_fetcher(page_size):
+HMA_URL = "https://www.fema.gov/api/open/v5/HazardMitigationAssistanceProjects"
+CATALOG = {"metadata": {}, "DataSets": [
+    {"name": "HazardMitigationAssistanceProjects", "version": 4},
+    {"name": "HazardMitigationAssistanceProjects", "version": 5},
+    {"name": "DisasterDeclarationsSummaries", "version": 2},
+]}
+
+
+def fake_fetcher(page_size, catalog=True):
     def f(url):
-        if url.startswith("https://example.test/hma"):
+        if url == "https://example.test/catalog":
+            if not catalog:
+                raise OSError("catalog down")
+            return json.dumps(CATALOG).encode()
+        if url.startswith("https://example.test/hma") or url.startswith(HMA_URL):
+            if "$skip=" not in url:
+                return json.dumps({"metadata": {}, "HazardMitigationAssistanceProjects": RECORDS[:1]}).encode()
             skip = int(url.split("$skip=")[1].split("&")[0])
             page = RECORDS[skip:skip + page_size]
             return json.dumps({"metadata": {"skip": skip}, "HazardMitigationAssistanceProjects": page}).encode()
@@ -66,6 +80,8 @@ def fake_fetcher(page_size):
 def config(tmp_path):
     p = tmp_path / "phase-a.toml"
     p.write_text('''[openfema]
+dataset = "HazardMitigationAssistanceProjects"
+catalog = "https://example.test/catalog"
 endpoint = "https://example.test/hma"
 page_size = 3
 first_fiscal_year = 2000
@@ -123,6 +139,9 @@ def test_run_end_to_end(config, tmp_path):
     assert summary["r_cov_most_vs_least_vulnerable"] == pytest.approx(0.5 / 3.0)
     assert summary["share_without_funding_by_quintile"] == pytest.approx([0.0, 1.0, 1.0, 1.0, 0.5])
     sources = json.loads((out / "sources.json").read_text())
+    assert sources["openfema_endpoint"] == HMA_URL
+    pre = json.loads((out / "preflight.json").read_text())
+    assert [c["ok"] for c in pre] == [True, True, False, True]
     assert sources["projects_in_scope"] == 4
     assert sources["statewide_or_unknown_county_funding"] == pytest.approx(777.0)
     assert sources["nri_url"] == "https://example.test/nri.zip"
@@ -143,7 +162,7 @@ def test_missing_column_is_reported(config, tmp_path):
     bad = [{k: v for k, v in r.items() if k != "federalShareObligated"} for r in RECORDS]
 
     def f(url):
-        if url.startswith("https://example.test/hma"):
+        if url.startswith(HMA_URL) and "$skip=" in url:
             skip = int(url.split("$skip=")[1].split("&")[0])
             return json.dumps({"metadata": {}, "X": bad[skip:skip + 3]}).encode()
         return fake_fetcher(3)(url)
@@ -156,3 +175,31 @@ def test_paging_stops_if_source_ignores_skip():
     page = json.dumps({"metadata": {}, "X": RECORDS[:3]}).encode()
     with pytest.raises(RuntimeError, match="twice"):
         openfema_records("https://example.test/hma", 3, lambda url: page)
+
+
+def test_falls_back_to_configured_endpoint_when_catalog_is_down(config, tmp_path):
+    out = tmp_path / "out"
+    run(config, out, fake_fetcher(3, catalog=False))
+    sources = json.loads((out / "sources.json").read_text())
+    assert sources["openfema_endpoint"] == "https://example.test/hma"
+
+
+def test_preflight_reports_every_problem(config, tmp_path):
+    def f(url):
+        if "nri" in url:
+            raise OSError("gone")
+        if url.startswith(HMA_URL) or url.startswith("https://example.test/hma"):
+            raise OSError("404")
+        return fake_fetcher(3)(url)
+
+    out = tmp_path / "out"
+    with pytest.raises(RuntimeError, match="preflight failed") as err:
+        run(config, out, f)
+    assert "National Risk Index" in str(err.value) and "OpenFEMA" in str(err.value)
+    pre = json.loads((out / "preflight.json").read_text())
+    assert [c["check"] for c in pre] == ["OpenFEMA catalog", "OpenFEMA first record", "OpenFEMA configured endpoint", "National Risk Index", "National Risk Index"]
+
+
+def test_discover_picks_latest_version():
+    from thrive.data.download import discover_openfema_endpoint
+    assert discover_openfema_endpoint("HazardMitigationAssistanceProjects", "https://example.test/catalog", fake_fetcher(3)) == HMA_URL

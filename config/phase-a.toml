@@ -1,11 +1,16 @@
 [openfema]
+dataset = "HazardMitigationAssistanceProjects"
+catalog = "https://www.fema.gov/api/open/v1/DataSets"
 endpoint = "https://www.fema.gov/api/open/v4/HazardMitigationAssistanceProjects"
-page_size = 10000
+page_size = 1000
 first_fiscal_year = 2000
 excluded_status = ["Void", "Withdrawn"]
 
 [nri]
-urls = ["https://hazards.fema.gov/nri/Content/StaticDocuments/DataDownload//NRI_Table_Counties/NRI_Table_Counties.zip"]
+urls = [
+  "https://hazards.fema.gov/nri/Content/StaticDocuments/DataDownload//NRI_Table_Counties/NRI_Table_Counties.zip",
+  "https://hazards.fema.gov/nri/Content/StaticDocuments/DataDownload/NRI_Table_Counties/NRI_Table_Counties.zip",
+]
 member = "NRI_Table_Counties.csv"
 fips = ["STCOFIPS"]
 population = ["POPULATION"]
