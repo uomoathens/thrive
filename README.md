@@ -16,18 +16,29 @@ THRIVE answers the three in a loop, so that what we learn after one flood change
 
 ![tests](https://github.com/uomoathens/thrive/actions/workflows/ci.yml/badge.svg)
 
-The package skeleton, the tests and the automatic checks on GitHub are in place (version 0.1.0). The methods themselves are not written yet, so there are no results. The charts below show published figures or simple examples, and each caption says which. Every new step adds code with its own tests, and every number will be reproducible.
+Version 0.2.0 holds the first working code: the four core calculations, each with its own tests, run on every push. They are checked on worked examples, and the examples give exactly the numbers on the interactive page. There are no results on real data yet. The charts below show published figures or simple examples, and each caption says which.
 
-To try what exists so far:
+To try it:
 
 ```
 pip install -e ".[dev]"
 pytest
-thrive info
-thrive cite
+thrive demo
 ```
 
-`thrive info` lists the four steps of the loop and the frameworks of the book each one builds on. `thrive cite` prints the citation of the book.
+`thrive demo` runs the three worked examples of this page: the two levees, the two recovery curves, and the fairness check on three made-up decision rules. `thrive info` lists the steps of the loop and the frameworks of the book each one builds on, and `thrive cite` prints the citation of the book.
+
+### What the code does today
+
+| Module | What it does | Where it comes from |
+| --- | --- | --- |
+| `thrive.recovery` | Finds the day an area is back to a share of normal, optionally for several days in a row, and keeps a finding about who recovered first only if it holds under every threshold | “Recovery is measured” below |
+| `thrive.weights` | Equity weights and the point where a decision changes | “People count” below |
+| `thrive.allocate` | Chooses which works to fund within a budget, with equity weights, and reports how unevenly protection falls across groups. One plan per value of η, so a council can compare them | “People count” below, with the group-fairness measure of FCFL (Table 5.8) |
+| `thrive.fairness` | The group-fairness measure of FCFL | FCFL (Table 5.8) |
+| `thrive.audit` | The fairness check: changes one detail at a time, compares with a placebo run, and passes a plan only if, after Holm correction across all checks, no identity change moves it and every need change raises it | “Need may count” and “Nothing is built before a fairness check” below, method of Who Gets Help First? |
+
+Still to come: the forecasting and vulnerability models of the Predicting step, the satellite data for recovery, learning the allocation policy with Proximal Policy Optimization, federated learning across towns, and the validation phases.
 
 ## The problem
 
@@ -135,7 +146,7 @@ We cannot rerun history, so some limits should be stated now. Phase B can show w
 P\left(\hat{Y}_{A\leftarrow a}=y \mid X=x,\ N=n\right)=P\left(\hat{Y}_{A\leftarrow a'}=y \mid X=x,\ N=n\right)\quad \forall\, a,a'
 ```
 
-**People, not property.** The reward of the allocation policy counts avoided expected annual loss $\Delta\mathrm{EAL}_i$ with an income weight $\omega_i$, and subtracts the recovery penalty. The policy is trained with Proximal Policy Optimization and the group-fairness penalty of FCFL:
+**People, not property.** The reward of the allocation policy counts avoided expected annual loss $\Delta\mathrm{EAL}_i$ with an income weight $\omega_i$, and subtracts the recovery penalty. In version 0.2.0 the allocation is found by exact search over the possible sets of works. Learning it with Proximal Policy Optimization and the group-fairness penalty of FCFL comes in a later step:
 
 ```math
 R_t=\sum_{i}\omega_i\,\Delta\mathrm{EAL}_i(a_t)-\kappa\,\Phi_{\tau},\qquad \omega_i=\left(\frac{\bar{y}}{y_i}\right)^{\eta}
@@ -147,7 +158,7 @@ R_t=\sum_{i}\omega_i\,\Delta\mathrm{EAL}_i(a_t)-\kappa\,\Phi_{\tau},\qquad \omeg
 \mathrm{Deploy}\iff \max_{c\in\mathcal{C}_{\mathrm{id}}}\left(\mathrm{FR}_c-\mathrm{FR}_{\mathrm{placebo}}\right)_{\mathrm{UB}_{95}}\le\delta\ \wedge\ \min_{c\in\mathcal{C}_{\mathrm{need}}}\mathrm{Sens}_c\ge\gamma
 ```
 
-$\mathrm{FR}$ is the share of runs in which the plan changes, $\mathrm{UB}_{95}$ the upper end of its 95 % cluster-bootstrap interval after Holm correction, and $\mathrm{Sens}$ the share of need changes that raise the target's priority.
+$\mathrm{FR}$ is the share of runs in which the plan changes and $\mathrm{Sens}$ the share of need changes that raise the target's priority. In the code, each check is a test against the threshold ($\delta$ for identity, $\gamma$ for need) with a bootstrap over cases, and all checks together go through Holm correction, so the plan passes only if every one of them does.
 
 ## Sources for the charts
 
@@ -164,7 +175,7 @@ $\mathrm{FR}$ is the share of runs in which the plan changes, $\mathrm{UB}_{95}$
 ```
 README.md          this page
 pyproject.toml     package definition
-src/thrive/        the THRIVE package
+src/thrive/        the THRIVE package: recovery, weights, allocate, fairness, audit, examples
 tests/             tests, run on every push by GitHub Actions
 .github/workflows/ the automatic checks
 docs/index.html    the interactive version, published with GitHub Pages
