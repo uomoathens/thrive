@@ -6,7 +6,7 @@
 
 **[Try the interactive version →](https://uomoathens.github.io/thrive/)**
 
-THRIVE is the companion software to the book *AI for Resilient Cities: Predicting, Protecting, and Thriving in a Changing Climate* (Springer Nature, 2027, [doi:10.1007/978-3-032-36417-3](https://doi.org/10.1007/978-3-032-36417-3)). It takes the three verbs in the title and turns each into a question.
+THRIVE is the companion software to the book *AI for Resilient Cities: Predicting, Protecting, and Thriving in a Changing Climate* (Springer, Cham, 2027, [link.springer.com/book/9783032364166](https://link.springer.com/book/9783032364166)). It takes the three verbs in the title and turns each into a question.
 
 Predicting asks where the next flood will hit and who lives there. Protecting asks who gets protected first when the money for flood works runs out, as it always does. Thriving is the question most systems skip. After the water goes down, which neighbourhoods are back on their feet within weeks, and which are still waiting months later?
 
@@ -18,14 +18,14 @@ THRIVE is at the design stage. There is no code yet and no result. The charts be
 
 ## The problem
 
-Disasters are getting more expensive. In the EU, floods, storms, heatwaves and droughts cost €8.5 billion a year on average in the 1980s. Between 2020 and 2023 the yearly average was €44.5 billion.
+Disasters are getting more expensive. In the EU, weather and climate extremes such as floods, storms, heatwaves and droughts cost €8.5 billion a year on average in the 1980s. Between 2020 and 2023 the yearly average was €44.5 billion.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/eu-losses-dark.svg">
   <img src="docs/figures/eu-losses.svg" alt="Average yearly losses from weather and climate extremes in the EU, by decade" width="720">
 </picture>
 
-The money for protection is also shared out in a way that tends to favour the richer side of town. Most flood works are approved with one test: does the project save more property value than it costs? Zachary Liscow of Yale gives a simple example. Two levees cost $10 million each. Levee A protects 50 homes worth $210,000, so it saves $10.5 million and passes. Levee B protects 100 homes worth $90,000. It saves $9 million and fails, though it protects twice as many homes.
+In the United States, studies find that the money for protection is shared out in a way that tends to favour the richer side of town. Flood-mitigation projects funded by FEMA must pass a benefit-cost test, and the benefits it counts are mostly the property value a project protects. Zachary Liscow of Yale gives a simple example. Two levees cost $10 million each. Levee A protects 50 homes worth $210,000, so it saves $10.5 million and passes. Levee B protects 100 homes worth $90,000. It saves $9 million and fails, though it protects twice as many homes.
 
 Economists have a fix called equity weights: a dollar saved counts for more when the household that saves it has less. In our illustration, which assumes income follows home value, the weights turn the result around.
 
@@ -34,7 +34,7 @@ Economists have a fix called equity weights: a dollar saved counts for more when
   <img src="docs/figures/two-levees.svg" alt="Benefits of two levees, counted in property value and with equity weights" width="720">
 </picture>
 
-Europe has noticed the problem. The proposed European Climate Resilience Law (COM(2026) 730, 27 October 2026) defines *just resilience* and asks every national climate-resilience plan to take into consideration people in vulnerable situations and the regions hit hardest. It does not say how anyone should check that a plan does this. THRIVE is meant to give a public authority that check. If a system like it is classed as high-risk under the AI Act, the same check also documents the examination for possible bias that Article 10 requires.
+Europe has noticed the problem. The proposed European Climate Resilience Law (COM(2026) 730, 27 October 2026) defines *just resilience* and asks every national climate-resilience plan to take into consideration people in vulnerable situations and the regions hit hardest. As we read the text, it sets out no method for checking that a plan does this. THRIVE is meant to give a public authority that check. If a system like it is classed as high-risk under the AI Act, the same check also documents the examination for possible bias that Article 10 requires.
 
 ## How the loop works
 
@@ -61,7 +61,7 @@ Each step builds on frameworks from the book:
 
 ### Recovery is measured, and no single definition of it is trusted
 
-Satellites can see a town come back to life. Lights return at night (NASA Black Marble), and on farmland the fields turn green again (Sentinel-2). To compare two areas you have to decide what "recovered" means, say 90 % of normal light. That choice matters more than it seems. A 2026 study of Winter Storm Uri in Texas found that its answer to "do poorer areas recover more slowly?" flipped when the definition changed.
+Satellites can see a town come back to life. Lights return at night (NASA Black Marble), and on farmland the fields turn green again (Sentinel-2). To compare two areas you have to decide what "recovered" means, say 90 % of normal light. That choice matters more than it seems. A 2026 preprint on Winter Storm Uri in Texas, not yet peer-reviewed, found that its answer to "do more vulnerable areas recover more slowly?" flipped when the definition changed.
 
 The invented curves below show how that can happen.
 
@@ -90,7 +90,7 @@ A village of 2,000 people has too little data to train a model on its own. With 
 
 ### A language model explains, and never decides
 
-A language model may help explain a decision to residents. It should not take one. In our earlier study, five open models were given a clear priority rule for flood calls, and most of the time they did not keep it.
+A language model may help explain a decision to residents. It should not take one. In our earlier study, five small open models (7 to 8 billion parameters, run in 4-bit form) were given a clear priority rule for flood calls, and most of the time they did not keep it. Larger models may behave differently, and that is still to be tested.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/priority-rule-dark.svg">
@@ -140,6 +140,9 @@ $\mathrm{FR}$ is the share of runs in which the plan changes, $\mathrm{UB}_{95}$
 
 - European Environment Agency, *Economic losses from weather- and climate-related extremes in Europe*, 8th EAP headline indicator, 2024.
 - Z. Liscow, *Benefit-Cost Analysis and Equity*, NBER, 2023.
+- J. W. Lockwood, M. Oppenheimer, N. Lin and J. Gourevitch, *Socioeconomic distributional impacts of evaluating flood mitigation activities using equity-weighted benefit-cost analysis*, Environmental Research Letters, 2024.
+- Headwaters Economics, *Improving benefit-cost analyses for rural and low-income communities* (FEMA benefit-cost analysis and property values).
+- European Commission, *Proposal for a European Climate Resilience Law*, COM(2026) 730, 27 October 2026, Articles 2(7), 7(1) and 7(2).
 - *Spatial Patterns of Post-Storm Recovery Revealed by Nighttime Lights: Evidence from Harris County, Texas*, preprint, Preprints.org, September 2026.
 - D. Sargiotis, *Who Gets Help First?*, v1.0.0, 2026, [doi:10.5281/zenodo.23684889](https://doi.org/10.5281/zenodo.23684889), results in `results/study-cpu`.
 
@@ -158,7 +161,7 @@ LICENSE            MIT
 
 The book:
 
-> Sargiotis, D. (2027). *AI for Resilient Cities: Predicting, Protecting, and Thriving in a Changing Climate*. Springer Nature Switzerland AG. https://doi.org/10.1007/978-3-032-36417-3
+> Sargiotis, D. (2027). *AI for Resilient Cities: Predicting, Protecting, and Thriving in a Changing Climate*. Springer, Cham. ISBN 978-3-032-36416-6 (hardcover), 978-3-032-36417-3 (eBook). https://link.springer.com/book/9783032364166
 
 The related audit:
 

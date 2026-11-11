@@ -28,10 +28,11 @@ preferred-citation:
       affiliation: "National Technical University of Athens"
       orcid: "https://orcid.org/0009-0006-3644-4561"
   publisher:
-    name: "Springer Nature Switzerland AG"
+    name: "Springer"
+    city: "Cham"
   year: 2027
-  doi: 10.1007/978-3-032-36417-3
   isbn: "978-3-032-36416-6"
+  url: "https://link.springer.com/book/9783032364166"
 references:
   - type: software
     title: "Who Gets Help First? A counterfactual audit of large language model decisions in flood response"
