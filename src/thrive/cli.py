@@ -69,6 +69,9 @@ def main(argv: list[str] | None = None) -> int:
     pb = sub.add_parser("phase-b", help="who was in the water of Storm Daniel: Copernicus flood extent against the 1 km population grid")
     pb.add_argument("--config", default="config/phase-b.toml")
     pb.add_argument("--out", default="results/phase-b")
+    pt = sub.add_parser("thriving", help="when did the flooded land of Thessaly come back: Sentinel-2 greenness after Storm Daniel")
+    pt.add_argument("--config", default="config/thriving.toml")
+    pt.add_argument("--out", default="results/thriving")
     args = parser.parse_args(argv)
     if args.command == "info":
         print(_info())
@@ -91,6 +94,13 @@ def main(argv: list[str] | None = None) -> int:
 
         summary = run_b(Path(args.config), Path(args.out))
         print(f"Phase B done: {summary['population_exposed']:,.0f} residents in flooded cells, {summary['flooded_km2']:,.0f} km2 flooded")
+    elif args.command == "thriving":
+        from pathlib import Path
+
+        from thrive.data.thriving import run as run_t
+
+        summary = run_t(Path(args.config), Path(args.out))
+        print(f"Thriving done: {summary['items_used']} scenes used, direction: {summary['direction']}")
     else:
         parser.print_help()
     return 0

@@ -1,0 +1,71 @@
+name: thriving
+
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows: [phase-b]
+    types: [completed]
+  schedule:
+    - cron: "17 5 5 1 *"
+  push:
+    branches: [main]
+    paths:
+      - config/thriving.toml
+      - src/thrive/data/thriving.py
+      - .github/workflows/thriving.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: thriving
+  cancel-in-progress: false
+
+jobs:
+  run:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 330
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Wait for the Phase B cells
+        id: ready
+        run: |
+          if [ -f results/phase-b/cells.gpkg ]; then echo "go=yes" >> "$GITHUB_OUTPUT"; else echo "results/phase-b/cells.gpkg is not there yet; this run will start again when phase-b finishes"; echo "go=no" >> "$GITHUB_OUTPUT"; fi
+      - uses: actions/setup-python@v5
+        if: steps.ready.outputs.go == 'yes'
+        with:
+          python-version: "3.12"
+      - if: steps.ready.outputs.go == 'yes'
+        run: python -m pip install --upgrade pip
+      - if: steps.ready.outputs.go == 'yes'
+        run: pip install -e ".[sat]"
+      - name: Run Thriving
+        if: steps.ready.outputs.go == 'yes'
+        id: phase
+        run: |
+          mkdir -p results/thriving
+          set +e
+          thrive thriving --config config/thriving.toml --out results/thriving > results/thriving/last-run.log 2>&1
+          code=$?
+          set -e
+          cat results/thriving/last-run.log
+          echo "code=$code" >> "$GITHUB_OUTPUT"
+      - name: Commit results and the run log
+        if: steps.ready.outputs.go == 'yes'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add results/thriving
+          if git diff --cached --quiet; then
+            echo "No change in results"
+          else
+            git commit -m "Thriving results"
+            git pull --rebase
+            git push
+          fi
+      - name: Fail if Thriving failed
+        if: steps.ready.outputs.go == 'yes' && steps.phase.outputs.code != '0'
+        run: exit 1

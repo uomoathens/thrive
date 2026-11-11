@@ -221,7 +221,16 @@ def test_exposure_numbers(tmp_path, grid_zip):
     assert sources["products_used"] == 2 and sources["flood_layers_used"] == 2
     assert sources["population_column"] == "T" and sources["older_column"] == "Y_GE65"
     assert sources["grid_member"].endswith("ESTAT_Census_2021_V2.gpkg") and sources["grid_layer"] == "census2021"
-    for name in ("report.md", "phase-b.xlsx", "inventory.json", "preflight.json", "grid.json", "flood-extent.gpkg"):
+    cells = gpd.read_file(out / "cells.gpkg")
+    assert len(cells) == 10
+    c = cells.set_index(cells.geometry.centroid.x.round().astype(int).astype(str) + "_" + cells.geometry.centroid.y.round().astype(int).astype(str))
+    assert c.loc["5250500_1950500", "flooded_share_observed_all"] == pytest.approx(1.0)
+    assert c.loc["5253500_1950500", "flooded_share_observed_all"] == pytest.approx(0.5)
+    assert c.loc["5254500_1951500", "flooded_share_observed_all"] == pytest.approx(1.0)
+    assert c.loc["5254500_1951500", "flooded_share_observed_water"] == pytest.approx(0.0)
+    assert c.loc["5251500_1950500", "flooded_share_cems_maximum"] == pytest.approx(1.0)
+    assert set(c["region_id"]) == {"EL611", "EL612"}
+    for name in ("report.md", "phase-b.xlsx", "inventory.json", "preflight.json", "grid.json", "flood-extent.gpkg", "cells.gpkg"):
         assert (out / name).is_file(), name
     text = (out / "report.md").read_text()
     assert "Unit A" in text and "Volos" in text and "**not robust**" in text and "| 1.29 |" in text

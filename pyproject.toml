@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "thrive"
-version = "0.4.1"
+version = "0.5.0"
 description = "THRIVE: Trustworthy Hazard-to-Recovery Intelligence for Vulnerability-aware Equity. Companion software to the book AI for Resilient Cities (Springer, 2027)."
 readme = "README.md"
 license = "MIT"
@@ -22,7 +22,8 @@ dependencies = ["numpy>=1.24"]
 [project.optional-dependencies]
 data = ["pandas>=2", "openpyxl>=3.1"]
 geo = ["pandas>=2", "openpyxl>=3.1", "geopandas>=1.0", "pyogrio>=0.9", "shapely>=2"]
-dev = ["pytest>=8", "pyyaml>=6", "pandas>=2", "openpyxl>=3.1", "geopandas>=1.0", "pyogrio>=0.9", "shapely>=2"]
+sat = ["pandas>=2", "openpyxl>=3.1", "geopandas>=1.0", "pyogrio>=0.9", "shapely>=2", "pyproj>=3.6", "rasterio>=1.3.10", "pystac-client>=0.7"]
+dev = ["pytest>=8", "pyyaml>=6", "pandas>=2", "openpyxl>=3.1", "geopandas>=1.0", "pyogrio>=0.9", "shapely>=2", "pyproj>=3.6", "rasterio>=1.3.10", "pystac-client>=0.7"]
 
 [project.scripts]
 thrive = "thrive.cli:main"

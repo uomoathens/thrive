@@ -240,7 +240,14 @@ def exposure(cells, flood, target, near):
         flooded_share_of_land=lambda d: d["wet_area"] / d["land_area"],
         older_known=lambda d: d["older_known"].astype(bool),
     )[["cell_id", "region_id", "region_name", "population", "older", "older_known", "land_km2", "flooded_km2", "flooded_share_of_land", "population_exposed", "older_exposed"]]
-    return by_region, cells_out, float(unplaced["population"].sum()), int(len(unplaced))
+    per_cell = pieces.sort_values("piece_area", ascending=False).groupby("cell_id").agg(
+        region_id=("region_id", "first"),
+        region_name=("region_name", "first"),
+        land_km2=("land_km2", "sum"),
+        flooded_km2=("flooded_km2", "sum"),
+    )
+    per_cell["flooded_share"] = (per_cell["flooded_km2"] / per_cell["land_km2"].where(per_cell["land_km2"] > 0)).fillna(0.0).clip(upper=1.0)
+    return by_region, cells_out, float(unplaced["population"].sum()), int(len(unplaced)), per_cell
 
 
 def add_shares(df):
@@ -434,7 +441,7 @@ def run(config_path: Path, out_dir: Path, fetcher: Fetcher = fetch, grid_path: P
     cells, pop_col, older_col, grid_columns = grid_cells(src_path, layer, near[near.intersects(target.buffer(2000).union_all())], g, crs)
     min_exposed = float(a.get("min_exposed_for_ratio", 1000))
     defs = cfg.get("extent") or [{"key": "observed_all", "name": "Observed flood", "source": "observed", "exclude": []}]
-    extents, main = [], None
+    extents, main, shares = [], None, {}
     for d in defs:
         if d.get("source", "observed") == "observed":
             f = flood[~flood["flood_class"].isin(d.get("exclude", []))]
@@ -444,10 +451,14 @@ def run(config_path: Path, out_dir: Path, fetcher: Fetcher = fetch, grid_path: P
             extents.append({"key": d["key"], "name": d["name"], "available": False})
             continue
         res = exposure(cells, f, target, near)
+        shares[d["key"]] = res[4]
         if main is None:
             main = res
         extents.append({"key": d["key"], "name": d["name"], "available": True, **extent_summary(res[0], min_exposed)})
-    by_region, wet_cells, unplaced_pop, unplaced_cells = main
+    by_region, wet_cells, unplaced_pop, unplaced_cells, first_cells = main
+    cell_table = cells.assign(cell_id=range(len(cells))).set_index("cell_id").join(first_cells[["region_id", "region_name", "land_km2"]], how="inner")
+    for key, pc in shares.items():
+        cell_table[f"flooded_share_{key}"] = pc["flooded_share"].reindex(cell_table.index).fillna(0.0)
     usable = [e for e in extents if e["available"]]
     class_km2 = {}
     land = target[["geometry"]].union_all()
@@ -502,6 +513,7 @@ def run(config_path: Path, out_dir: Path, fetcher: Fetcher = fetch, grid_path: P
             flood_layer_details=lambda d: d["flood_layer_details"].map(json.dumps),
         ).to_excel(xl, sheet_name="Products", index=False)
         pd.DataFrame([{"field": k, "value": json.dumps(v) if isinstance(v, (list, dict)) else v} for k, v in sources.items()]).to_excel(xl, sheet_name="Sources", index=False)
+    cell_table.reset_index().drop(columns=["population_missing"]).to_file(out_dir / "cells.gpkg", layer="cells", driver="GPKG")
     flood.dissolve(by="flood_class").reset_index().to_file(out_dir / "flood-extent.gpkg", layer="observed-by-class", driver="GPKG")
     if maximum is not None:
         maximum[["geometry"]].dissolve().to_file(out_dir / "flood-extent.gpkg", layer="cems-maximum-water-extent", driver="GPKG")

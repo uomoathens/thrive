@@ -16,7 +16,7 @@ THRIVE answers the three in a loop, so that what we learn after one flood change
 
 ![tests](https://github.com/uomoathens/thrive/actions/workflows/ci.yml/badge.svg)
 
-Version 0.4.1 holds the four core calculations, each with its own tests, and two pipelines for real data. Phase A, on US flood grants, has run on GitHub and its results are in `results/phase-a` (summary below). Phase B, on Storm Daniel in Thessaly, has run on GitHub as well, with its results in `results/phase-b` (summary below). The calculations are checked on worked examples, which give exactly the numbers on the interactive page. The charts below show published figures or simple examples, and each caption says which.
+Version 0.5.0 holds the four core calculations, each with its own tests, and two pipelines for real data. Phase A, on US flood grants, has run on GitHub and its results are in `results/phase-a` (summary below). Phase B, on Storm Daniel in Thessaly, has run on GitHub as well, with its results in `results/phase-b` (summary below). The calculations are checked on worked examples, which give exactly the numbers on the interactive page. The charts below show published figures or simple examples, and each caption says which.
 
 To try it:
 
@@ -38,9 +38,10 @@ thrive demo
 | `thrive.fairness` | The group-fairness measure of FCFL | FCFL (Table 5.8) |
 | `thrive.data.phase_a` | Phase A: downloads FEMA's hazard-mitigation grants and the National Risk Index, and compares flood money with flood risk across five groups of counties, from least to most socially vulnerable | “How we will test it”, phase A |
 | `thrive.data.phase_b` | Phase B: downloads the Copernicus flood maps of Storm Daniel and the 2021 census on the 1 km grid, and counts how many residents, and how many aged 65 and over, lived inside the mapped flood in each regional unit of Thessaly | “How we will test it”, phase B |
+| `thrive.data.thriving` | Thriving: reads every Sentinel-2 image of the flooded plain from 2021 to 2024 and finds, for each group of flooded 1 km cells, the ten-day period in which its greenness came back to normal, measured against unflooded cells nearby | “Recovery is measured” below |
 | `thrive.audit` | The fairness check: changes one detail at a time, compares with a placebo run, and passes a plan only if, after Holm correction across all checks, no identity change moves it and every need change raises it | “Need may count” and “Nothing is built before a fairness check” below, method of Who Gets Help First? |
 
-Still to come: the forecasting and vulnerability models of the Predicting step, the satellite data for recovery, learning the allocation policy with Proximal Policy Optimization, federated learning across towns, and the validation phases.
+Still to come: the forecasting and vulnerability models of the Predicting step, learning the allocation policy with Proximal Policy Optimization, federated learning across towns, and the validation phases.
 
 ## The problem
 
@@ -128,9 +129,8 @@ A language model may help explain a decision to residents. It should not take on
 | Phase | Where | Data | Status |
 | --- | --- | --- | --- |
 | A | United States, fully open | OpenFEMA HMA Subapplications (which replaced the Hazard Mitigation Assistance Projects dataset on 15 October 2026), FEMA National Risk Index v1.20 (flood risk, population, social vulnerability) | First results below, rerun monthly |
-| B | Thessaly, Storm Daniel (September 2023) | Copernicus EMS maps EMSR692 and EMSN184, 2021 census on the 1 km grid, Sentinel-2, NASA Black Marble | Exposure pipeline in place (EMSR692 and the census grid); recovery from satellites comes next |
-| C | Thessaly, who actually received aid | Anonymised state-aid records by community, requested from the General Secretariat for Natural Disaster Recovery and State Aid | Needs a data request |
-| D | Attica, looking ahead | The current plan for flood and wildfire works, assessed before the next event | Later |
+| B | Thessaly, Storm Daniel (September 2023): who was in the water | Copernicus EMS maps EMSR692, Eurostat census grid 2021 | Results below |
+| Thriving | Thessaly, Storm Daniel: when the flooded land came back | Sentinel-2 Collection 1, 2021 to 2024, read through the open Earth Search catalogue | Pipeline in place, runs after every Phase B run |
 
 ### Phase A in plain words
 
@@ -180,6 +180,14 @@ The grid counts 687,327 residents in Thessaly, within 0.2 % of the 2021 census o
 | Copernicus maximum water extent | 999 | 35,824 | 5.2 % | 0.95 | 1.18 | 0.79 |
 
 The ratio compares the share of people aged 65 and over among those in the flood with their share among all residents. Under every definition, older people in Karditsa and Trikala were more likely than their neighbours to live where the water reached, and in Larisa less likely. For Thessaly as a whole the answer flips with the definition, so there is no robust direction for the region. Magnesia had 99 residents in the mapped flood, too few for a ratio, for the reason given above.
+
+### Thriving in plain words
+
+Phase B says who was in the water. Thriving asks when the flooded land came back to life. It reads every Sentinel-2 image of the Thessalian plain from 2021 to the end of 2024, from the reprocessed Collection 1 of the European Space Agency, through the open Earth Search catalogue on Amazon Web Services. For each 1 km cell it keeps only the pixels that the image itself classes as vegetation, bare soil or water, so that clouds and their shadows are left out, and it measures greenness (NDVI) for every ten-day period.
+
+A flooded field in October is not compared with a green field in May. Each cell is compared with the same ten-day period in 2021 and 2022, before the storm. And because a dry or a wet year changes the whole plain, every group is also divided by unflooded cells 3 to 15 km from the flood. A group counts as recovered on the first of three ten-day periods in a row in which its greenness is back to a chosen share of normal: 80, 85, 90 or 95 %. Following THRIVE's own rule, an answer about who recovered first is kept only if it holds under every one of these thresholds and every flood definition of Phase B.
+
+The groups are the flooded cells of each regional unit, and the flooded cells with more and with fewer older residents than the median. Every scene is listed in `items.json`, and any scene whose reflectance looks wrongly scaled is left out and counted. Greenness measures fields coming back, not households: a farm can be green while its owners still wait for help.
 
 ## The maths, for those who want it
 
@@ -233,6 +241,7 @@ docs/og.png        the preview image shown when the page is shared
 config/            settings of the data pipelines
 results/phase-a/   Phase A results, written by GitHub Actions
 results/phase-b/   Phase B results, written by GitHub Actions
+results/thriving/  Thriving results, written by GitHub Actions
 CITATION.cff       how to cite this repository and the book
 LICENSE            MIT
 ```
