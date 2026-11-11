@@ -4,96 +4,142 @@
 
 **Dimitrios Sargiotis** · National Technical University of Athens · [users.ntua.gr/dims](https://users.ntua.gr/dims/) · [uomoathens.github.io](https://uomoathens.github.io/)
 
-Companion software to the book *AI for Resilient Cities: Predicting, Protecting, and Thriving in a Changing Climate* (Springer Nature, 2027, [doi:10.1007/978-3-032-36417-3](https://doi.org/10.1007/978-3-032-36417-3)).
+**[Try the interactive version →](https://uomoathens.github.io/thrive/)**
 
-Who is predicted to be hit, who is protected before the hazard, and who recovers after it? THRIVE turns the three verbs of the book's title into one closed loop: it forecasts hazard and latent vulnerability, allocates climate-adaptation resources under explicit fairness constraints, measures from satellites how fast each group recovers, certifies every allocation with a paired counterfactual audit before it is used, and feeds the measured recovery back into the next allocation.
+THRIVE is the companion software to the book *AI for Resilient Cities: Predicting, Protecting, and Thriving in a Changing Climate* (Springer Nature, 2027, [doi:10.1007/978-3-032-36417-3](https://doi.org/10.1007/978-3-032-36417-3)). It takes the three verbs in the title and turns each into a question.
+
+Predicting asks where the next flood will hit and who lives there. Protecting asks who gets protected first when the money for flood works runs out, as it always does. Thriving is the question most systems skip. After the water goes down, which neighbourhoods are back on their feet within weeks, and which are still waiting months later?
+
+THRIVE answers the three in a loop, so that what we learn after one flood changes how we spend before the next.
 
 ## Status
 
-**Design stage.** This repository holds the design. No code has been run and no result is reported yet. Modules, data pipelines and the validation study are added step by step, and every result will be reproducible from the stored data and configuration.
+THRIVE is at the design stage. There is no code yet and no result. The charts below show published figures or simple examples, and each caption says which. Code, data and the validation study will be added in small steps, and every number will be reproducible.
 
-## Why
+## The problem
 
-Europe now asks for fairness in adaptation without a way to measure it. The proposed European Climate Resilience Law (COM(2026) 730, 27 October 2026) defines *just resilience* and requires national climate-resilience plans to take into consideration people in vulnerable situations and disproportionately affected regions, but it sets out no method for assessing the distributional effects of a plan. The AI Act (Regulation (EU) 2024/1689, Article 10) requires high-risk AI systems to examine their data for biases that could affect health and safety or lead to prohibited discrimination. THRIVE is designed to produce that evidence in a form a public authority can audit.
+Disasters are getting more expensive. In the EU, floods, storms, heatwaves and droughts cost €8.5 billion a year on average in the 1980s. Between 2020 and 2023 the yearly average was €44.5 billion.
 
-The research it builds on solves parts of the problem separately: equity-weighted benefit-cost analysis for flood mitigation, reinforcement learning for adaptation pathways, fairness-aware prediction of post-flood aid, and nighttime-light measurement of unequal recovery. THRIVE joins them in one loop and adds a certification step.
+![Average yearly losses from weather and climate extremes in the EU, by decade](docs/figures/eu-losses.svg)
 
-## Architecture
+The money for protection is also shared out in a way that tends to favour the richer side of town. Most flood works are approved with one test: does the project save more property value than it costs? Zachary Liscow of Yale gives a simple example. Two levees cost $10 million each. Levee A protects 50 homes worth $210,000, so it saves $10.5 million and passes. Levee B protects 100 homes worth $90,000. It saves $9 million and fails, though it protects twice as many homes.
 
-| Phase | What it does | Frameworks of the book it extends |
+Economists have a fix called equity weights: a dollar saved counts for more when the household that saves it has less. In our illustration, which assumes income follows home value, the weights turn the result around.
+
+![Benefits of two levees, counted in property value and with equity weights](docs/figures/two-levees.svg)
+
+Europe has noticed the problem. The proposed European Climate Resilience Law (COM(2026) 730, 27 October 2026) defines *just resilience* and asks every national climate-resilience plan to take into consideration people in vulnerable situations and the regions hit hardest. It does not say how anyone should check that a plan does this. THRIVE is meant to give a public authority that check. If a system like it is classed as high-risk under the AI Act, the same check also documents the examination for possible bias that Article 10 requires.
+
+## How the loop works
+
+```mermaid
+flowchart LR
+    P["1. Predicting<br/>where the water goes<br/>and who lives there"] --> R["2. Protecting<br/>a fair share of<br/>a limited budget"]
+    R --> C{"3. Fairness check<br/>passed?"}
+    C -- "no: revise the plan" --> R
+    C -- yes --> D["Works are built"]
+    D --> T["4. Thriving<br/>recovery measured<br/>from satellites"]
+    T -- "what we learned" --> P
+```
+
+Each step builds on frameworks from the book:
+
+| Step | Frameworks of the book it builds on |
+| --- | --- |
+| Predicting | HEFF-RC (Table 1.6), LSTM-AFFUW (Table 1.7), AIF-EWS (Table 1.8), VAE-LVM (Table 4.8) |
+| Protecting | EA-CURA (Table 3.5), FCFL (Table 5.8), DPFL-EDA (Table 1.5) |
+| Fairness check | The audit method of [Who Gets Help First?](https://github.com/uomoathens/who-gets-help-first) |
+| Thriving | A new step that extends the social-impact feedback layer of EA-CURA |
+
+## What THRIVE adds
+
+### Recovery is measured, and no single definition of it is trusted
+
+Satellites can see a town come back to life. Lights return at night (NASA Black Marble), and on farmland the fields turn green again (Sentinel-2). To compare two areas you have to decide what "recovered" means, say 90 % of normal light. That choice matters more than it seems. A 2026 study of Winter Storm Uri in Texas found that its answer to "do poorer areas recover more slowly?" flipped when the definition changed.
+
+The invented curves below show how that can happen.
+
+![Two recovery curves whose order flips with the threshold](docs/figures/recovery-definition.svg)
+
+THRIVE therefore checks every finding about unequal recovery under a range of thresholds, and keeps it only if it holds under all of them.
+
+### Need may count, identity may not
+
+A person over 80 should move a household up the list. So should a wheelchair user, a baby or a patient on dialysis. A foreign name, a woman's name or a poor postcode should not, once the need is the same. Our earlier audit found open language models breaking this rule in a quiet way: they moved Syrian names and asylum seekers up and areas of villas down, as if identity were a sign of need. THRIVE writes the rule down as a condition that every allocation has to meet.
+
+### People count, not just property
+
+THRIVE uses equity weights inside the allocation itself. How much more a euro counts for a poorer household is a political choice, so THRIVE never fixes the number. It shows an elected council what each choice would mean and leaves the decision to them.
+
+### Nothing is built before a fairness check
+
+Before a plan is used, THRIVE runs it again many times, changing one detail each time: a name, a neighbourhood, a residence status. A placebo run with nothing changed shows how much the plan moves by chance. If any detail moves it more than chance does, the plan fails. It also fails if adding a real need, such as a person over 80, does not move it.
+
+### Small towns can learn without handing over their data
+
+A village of 2,000 people has too little data to train a model on its own. With federated learning it can learn from larger towns while every town keeps its data on its own servers. THRIVE works with areas, the 1 km squares of the 2021 census, so bias can be checked without sensitive personal data.
+
+### A language model explains, and never decides
+
+A language model may help explain a decision to residents. It should not take one. In our earlier study, five open models were given a clear priority rule for flood calls, and most of the time they did not keep it.
+
+![Share of triage rankings in which each model kept the stated rule](docs/figures/priority-rule.svg)
+
+## How we will test it
+
+| Phase | Where | Data |
 | --- | --- | --- |
-| **Predicting** | Forecasts hazard and learns latent vulnerability | HEFF-RC (Table 1.6), LSTM-AFFUW (Table 1.7), AIF-EWS (Table 1.8), VAE-LVM (Table 4.8) |
-| **Protecting** | Allocates adaptation resources before the hazard, under fairness constraints and with privacy across municipalities | EA-CURA (Table 3.5), FCFL (Table 5.8), DPFL-EDA (Table 1.5) |
-| **Thriving** | Measures recovery equity after the hazard and feeds it back into the policy | Extends the post-AI evaluation and social-impact feedback layer of EA-CURA |
+| A | United States, fully open | OpenFEMA Hazard Mitigation Assistance projects, CDC Social Vulnerability Index, NASA Black Marble |
+| B | Thessaly, Storm Daniel (September 2023) | Copernicus EMS maps EMSR692 and EMSN184, 2021 census on the 1 km grid, Sentinel-2, NASA Black Marble |
+| C | Thessaly, who actually received aid | Anonymised state-aid records by community, requested from the General Secretariat for Natural Disaster Recovery and State Aid |
+| D | Attica, looking ahead | The current plan for flood and wildfire works, assessed before the next event |
 
-A language model may explain decisions to planners and residents, but it never takes them. The counterfactual audit in [Who Gets Help First?](https://github.com/uomoathens/who-gets-help-first) found that open models followed a stated priority rule in full in only 7 % to 47 % of triage rankings.
+We cannot rerun history, so some limits should be stated now. Phase B can show whether the real allocation after Daniel was unequal. Comparing it with what THRIVE would have done rests on assumptions, which we will state. Showing that a fairer allocation would also have reduced the damage needs hydraulic models of the floods with and without the works.
 
-## Design
+## The maths, for those who want it
 
-### 1. Recovery equity, robust to how recovery is defined
-
-The recovery time of group $g$ is the first day its nighttime light (urban areas, NASA Black Marble) or vegetation index (agricultural areas, Sentinel-2 NDVI) returns to a share $\alpha$ of its pre-event baseline. Because published findings on recovery inequality can reverse sign with the recovery definition, the penalty is taken over the worst case of a set of definitions $\mathcal{A}$:
+**Recovery equity.** Group $g$ has recovered at threshold $\alpha$ on the first day its light reaches $\alpha$ times its level before the event. The penalty is the spread of recovery times between groups, taken at the worst threshold in the set $\mathcal{A}$:
 
 ```math
 \tau_g(\alpha)=\min\left\{t:\ \mathrm{NTL}_g(t)\ge \alpha\,\mathrm{NTL}_g^{\mathrm{pre}}\right\},\qquad \Phi_{\tau}=\max_{\alpha\in\mathcal{A}}\ \sum_{g=1}^{G}\left|\tau_g(\alpha)-\bar{\tau}(\alpha)\right|
 ```
 
-A finding of unequal recovery is accepted only if it holds under every definition in $\mathcal{A}$.
-
-### 2. Need is separated from identity
-
-Legitimate need $N$ (a person over 80, a disability, an infant, a patient on dialysis) may change a decision. Protected identity $A$ (origin, gender, residence status, the wealth of an area) may not, once need is held fixed:
+**Need, not identity.** With need $N$ held fixed, changing identity $A$ must not change the decision $\hat{Y}$:
 
 ```math
 P\left(\hat{Y}_{A\leftarrow a}=y \mid X=x,\ N=n\right)=P\left(\hat{Y}_{A\leftarrow a'}=y \mid X=x,\ N=n\right)\quad \forall\, a,a'
 ```
 
-This keeps the debiasing of EA-CURA from removing the information on need that a fair allocation requires.
-
-### 3. Social value instead of property value
-
-The reward of the allocation policy weights avoided expected annual loss by income, so that a euro of avoided loss counts more for a poorer household, and subtracts the recovery-equity penalty:
+**People, not property.** The reward of the allocation policy counts avoided expected annual loss $\Delta\mathrm{EAL}_i$ with an income weight $\omega_i$, and subtracts the recovery penalty. The policy is trained with Proximal Policy Optimization and the group-fairness penalty of FCFL:
 
 ```math
 R_t=\sum_{i}\omega_i\,\Delta\mathrm{EAL}_i(a_t)-\kappa\,\Phi_{\tau},\qquad \omega_i=\left(\frac{\bar{y}}{y_i}\right)^{\eta}
 ```
 
-The policy is trained with Proximal Policy Optimization and the group-fairness penalty $\Phi(w)$ of FCFL. The weight $\eta$ is a political choice, not a technical one: THRIVE does not fix it, but returns the Pareto front over $\eta$ for elected bodies to choose from.
-
-### 4. A Just Resilience Certificate before any use
-
-Every allocation is re-posed with one identity attribute changed at a time, as in *Who Gets Help First?*, with a placebo variant as the noise floor. It is released only if no identity contrast moves it beyond the noise floor and every need contrast does:
+**The fairness check.** A plan is released only if no identity change $c$ moves it beyond the placebo flip rate, and every need change does:
 
 ```math
 \mathrm{Deploy}\iff \max_{c\in\mathcal{C}_{\mathrm{id}}}\left(\mathrm{FR}_c-\mathrm{FR}_{\mathrm{placebo}}\right)_{\mathrm{UB}_{95}}\le\delta\ \wedge\ \min_{c\in\mathcal{C}_{\mathrm{need}}}\mathrm{Sens}_c\ge\gamma
 ```
 
-$\mathrm{FR}$ is the flip rate, $\mathrm{UB}_{95}$ the upper bound of its 95 % cluster-bootstrap interval with Holm correction, and $\mathrm{Sens}$ the share of need contrasts that raise the target's priority.
+$\mathrm{FR}$ is the share of runs in which the plan changes, $\mathrm{UB}_{95}$ the upper end of its 95 % cluster-bootstrap interval after Holm correction, and $\mathrm{Sens}$ the share of need changes that raise the target's priority.
 
-### 5. Small municipalities learn without sharing data
+## Sources for the charts
 
-Municipalities train locally and share only perturbed model updates (DPFL-EDA), aggregated under the fairness constraint of FCFL. All data are held at area level, on the 1 km² grid of the 2021 census, so that bias can be examined without processing special categories of personal data.
-
-## Validation plan
-
-| Phase | Setting | Data |
-| --- | --- | --- |
-| A | United States, open and reproducible | OpenFEMA Hazard Mitigation Assistance projects, CDC Social Vulnerability Index, NASA Black Marble |
-| B | Thessaly, Storm Daniel (September 2023) | Copernicus EMS EMSR692 and EMSN184, 2021 census on the 1 km² grid, Sentinel-2, NASA Black Marble |
-| C | Thessaly, allocation records | Anonymised state-aid records by community, requested from the General Secretariat for Natural Disaster Recovery and State Aid |
-| D | Attica, prospective | Current allocation of flood and wildfire protection works, assessed before the next event |
-
-The counterfactual outcome is never fully observed. Phase B can show whether the actual allocation was unequal; the comparison with a THRIVE allocation rests on stated assumptions; and the claim that a fairer allocation would have reduced losses requires hydraulic scenarios with and without the works.
+- European Environment Agency, *Economic losses from weather- and climate-related extremes in Europe*, 8th EAP headline indicator, 2024.
+- Z. Liscow, *Benefit-Cost Analysis and Equity*, NBER, 2023.
+- *Spatial Patterns of Post-Storm Recovery Revealed by Nighttime Lights: Evidence from Harris County, Texas*, preprint, Preprints.org, September 2026.
+- D. Sargiotis, *Who Gets Help First?*, v1.0.0, 2026, [doi:10.5281/zenodo.23684889](https://doi.org/10.5281/zenodo.23684889), results in `results/study-cpu`.
 
 ## Layout
 
 ```
-README.md      design and plan
-CITATION.cff   how to cite this repository and the book
-LICENSE        MIT
+README.md          this page
+docs/index.html    the interactive version, published with GitHub Pages
+docs/figures/      the charts on this page
+CITATION.cff       how to cite this repository and the book
+LICENSE            MIT
 ```
-
-The layout grows with each step.
 
 ## Citation
 

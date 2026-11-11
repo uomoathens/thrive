@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>THRIVE: who is protected, and who recovers?</title>
+<meta name="description" content="Interactive introduction to THRIVE, companion software to the book AI for Resilient Cities: Predicting, Protecting, and Thriving in a Changing Climate (Springer Nature, 2027).">
+<style>
+:root{
+color-scheme:light;
+--surface-0:#f4f4f1;--surface-1:#fcfcfb;--grid:#e4e3de;--axis:#8f8e88;
+--text-primary:#0b0b0b;--text-secondary:#52514e;--text-muted:#6b6a65;
+--series-1:#2a78d6;--series-2:#eb6834;--ring:#fcfcfb;--accent:#2a78d6;
+--card-border:#e4e3de;--tip-bg:#0b0b0b;--tip-text:#f0efec}
+@media (prefers-color-scheme:dark){:root{
+color-scheme:dark;
+--surface-0:#121211;--surface-1:#1a1a19;--grid:#33332f;--axis:#7a7970;
+--text-primary:#f0efec;--text-secondary:#c3c2b7;--text-muted:#a3a299;
+--series-1:#3987e5;--series-2:#d95926;--ring:#1a1a19;--accent:#6da7ec;
+--card-border:#33332f;--tip-bg:#f0efec;--tip-text:#0b0b0b}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--surface-0);color:var(--text-primary);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+main{max-width:880px;margin:0 auto;padding:40px 20px 80px}
+h1{font-size:40px;line-height:1.1;margin:0 0 8px;letter-spacing:-0.5px}
+h2{font-size:24px;line-height:1.25;margin:56px 0 8px}
+p{margin:0 0 14px;color:var(--text-primary)}
+.lede{font-size:19px;color:var(--text-secondary);margin-bottom:18px}
+.meta{font-size:14px;color:var(--text-secondary)}
+a{color:var(--accent)}
+.note{border-left:3px solid var(--axis);padding:8px 14px;margin:20px 0;color:var(--text-secondary);font-size:15px;background:var(--surface-1)}
+.card{background:var(--surface-1);border:1px solid var(--card-border);border-radius:12px;padding:20px 20px 12px;margin:18px 0}
+.ctitle{font-weight:600;font-size:17px;margin:0}
+.csub{color:var(--text-secondary);font-size:14px;margin:2px 0 10px}
+svg.chart{width:100%;height:auto;display:block;overflow:visible}
+.grid{stroke:var(--grid);stroke-width:1}
+.base{stroke:var(--axis);stroke-width:1}
+.tick{fill:var(--text-secondary);font-size:12px}
+.val{fill:var(--text-primary);font-size:12px;font-weight:600}
+.s1{fill:var(--series-1)}.s2{fill:var(--series-2)}
+.ln1{stroke:var(--series-1)}.ln2{stroke:var(--series-2)}
+.ln{fill:none;stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+.ring{stroke:var(--ring);stroke-width:2}
+.hit{fill:transparent;cursor:default}
+.src{font-size:13px;color:var(--text-muted);margin:8px 0 4px}
+.legend{display:flex;gap:18px;flex-wrap:wrap;font-size:14px;color:var(--text-secondary);margin:4px 0 6px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.sw{width:12px;height:12px;border-radius:3px;display:inline-block}
+.swl{width:16px;height:3px;border-radius:2px;display:inline-block}
+.control{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:8px 0 10px;font-size:15px}
+.control input[type=range]{flex:1;min-width:180px;accent-color:var(--series-1)}
+.control output{font-variant-numeric:tabular-nums;font-weight:600;min-width:52px}
+.readout{font-size:15px;background:var(--surface-0);border-radius:8px;padding:10px 12px;margin:6px 0 10px}
+details{font-size:14px;color:var(--text-secondary);margin:6px 0 8px}
+summary{cursor:pointer}
+table{border-collapse:collapse;margin-top:8px;font-variant-numeric:tabular-nums}
+th,td{text-align:left;padding:4px 14px 4px 0;border-bottom:1px solid var(--grid)}
+th{color:var(--text-primary);font-weight:600}
+.loop{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:18px 0}
+.step{background:var(--surface-1);border:1px solid var(--card-border);border-radius:12px;padding:14px;cursor:pointer;text-align:left;font:inherit;color:inherit}
+.step[aria-pressed=true]{border-color:var(--series-1);box-shadow:0 0 0 1px var(--series-1)}
+.step b{display:block;font-size:16px}
+.step small{color:var(--text-secondary);font-size:13px}
+.stepinfo{background:var(--surface-1);border:1px solid var(--card-border);border-radius:12px;padding:14px 16px;min-height:96px}
+#tip{position:fixed;pointer-events:none;background:var(--tip-bg);color:var(--tip-text);font-size:13px;line-height:1.4;padding:6px 9px;border-radius:6px;opacity:0;transition:opacity .08s;z-index:10;max-width:260px}
+footer{margin-top:64px;font-size:14px;color:var(--text-secondary)}
+@media (max-width:640px){h1{font-size:32px}.loop{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<div id="tip" role="tooltip"></div>
+<main>
+<h1>THRIVE</h1>
+<p class="lede">When the money for flood protection runs out, who is protected first? And after the water goes down, who is back on their feet, and who is still waiting?</p>
+<p class="meta">Dimitrios Sargiotis, National Technical University of Athens. Companion software to the book <i>AI for Resilient Cities: Predicting, Protecting, and Thriving in a Changing Climate</i> (Springer Nature, 2027, <a href="https://doi.org/10.1007/978-3-032-36417-3">doi:10.1007/978-3-032-36417-3</a>). Code: <a href="https://github.com/uomoathens/thrive">github.com/uomoathens/thrive</a>.</p>
+<div class="note">THRIVE is at the design stage. Nothing on this page is a THRIVE result. The charts show published figures or simple examples, and each one says which it is.</div>
+
+<h2>The bill keeps growing</h2>
+<p>Floods, storms, heatwaves and droughts now cost the EU five times what they did in the 1980s. Hover over a bar to see the figure.</p>
+<div class="card">
+<p class="ctitle">Average yearly economic losses from weather and climate extremes, EU</p>
+<p class="csub">Billion euros, constant 2023 prices</p>
+<svg class="chart" id="c1" viewBox="0 0 720 300" role="img" aria-label="Bar chart of average yearly losses by decade"></svg>
+<p class="src">Source: European Environment Agency, Economic losses from weather- and climate-related extremes in Europe (8th EAP indicator, 2024).</p>
+<details><summary>Show the numbers</summary><table id="t1"></table></details>
+</div>
+
+<h2>The way we share out protection favours the richer side of town</h2>
+<p>Most flood works are approved with a simple test: does the project save more property value than it costs? Zachary Liscow of Yale gives an example. Two levees cost $10 million each. Levee A protects 50 homes worth $210,000. Levee B protects 100 homes worth $90,000. Counted in property value, A saves $10.5 million and passes. B saves $9 million and fails, though it protects twice as many homes.</p>
+<p>Economists have a fix called equity weights. A dollar saved counts for more when the household that saves it has less. How much more is set by one number, written η. At zero, every dollar counts the same. Move the slider and watch what happens.</p>
+<div class="card">
+<p class="ctitle">Which levee gets built?</p>
+<p class="csub">Benefit of each levee, million dollars</p>
+<div class="control"><label for="eta">Equity weight η</label><input type="range" id="eta" min="0" max="2" step="0.01" value="0"><output id="etaout" for="eta">0.00</output></div>
+<div class="legend"><span><i class="sw s1" style="background:var(--series-1)"></i>A: 50 homes worth $210,000</span><span><i class="sw" style="background:var(--series-2)"></i>B: 100 homes worth $90,000</span></div>
+<svg class="chart" id="c2" viewBox="0 0 720 280" role="img" aria-label="Bar chart of the benefits of levee A and levee B"></svg>
+<div class="readout" id="r2" aria-live="polite"></div>
+<p class="src">Example from Z. Liscow, Benefit-Cost Analysis and Equity, NBER 2023. To draw the weighted bars we assume household income follows home value. That assumption is ours, for illustration.</p>
+<details><summary>How the weights are computed</summary><p>Each dollar saved by a household is multiplied by (average income ÷ household income)<sup>η</sup>. With income following home value, the average across the 150 homes is $130,000, so a home in A is weighted (130/210)<sup>η</sup> and a home in B (130/90)<sup>η</sup>. B overtakes A at η ≈ 0.18 and passes the $10 million cost at η ≈ 0.29.</p></details>
+</div>
+<p>THRIVE builds this idea into the allocation from the start. The choice of η is political, so THRIVE never fixes it. It shows an elected council what each value would mean and leaves the decision to them.</p>
+
+<h2>Who recovered first? It depends on how you ask</h2>
+<p>Satellites can see a neighbourhood come back to life: lights return at night, and fields turn green again. To compare areas, you have to choose a threshold for "recovered". The two curves below are invented, but the problem is real. A 2026 study in Texas found that its answer to "do poorer areas recover more slowly?" flipped when the definition changed. Drag the threshold and see the order change.</p>
+<div class="card">
+<p class="ctitle">Night-time light after a flood, as a share of normal</p>
+<p class="csub">Made-up curves for two areas. The axis starts at 60%.</p>
+<div class="control"><label for="alpha">"Recovered" means back to</label><input type="range" id="alpha" min="0.80" max="0.98" step="0.01" value="0.90"><output id="alphaout" for="alpha">90%</output></div>
+<div class="legend"><span><i class="swl" style="background:var(--series-1)"></i>Area A</span><span><i class="swl" style="background:var(--series-2)"></i>Area B</span></div>
+<svg class="chart" id="c3" viewBox="0 0 720 300" role="img" aria-label="Line chart of two recovery curves with a movable threshold"></svg>
+<div class="readout" id="r3" aria-live="polite"></div>
+</div>
+<p>So THRIVE never trusts a single threshold. It checks every finding about unequal recovery under a range of them, and keeps the finding only if it holds under all.</p>
+
+<h2>Why a language model should explain decisions, and never make them</h2>
+<p>In an earlier study, five open language models were asked to rank flood calls and were given a clear rule: vulnerable people first, then households, then workers, then property. Most of the time they did not keep it.</p>
+<div class="card">
+<p class="ctitle">Share of triage rankings that kept the stated order in full</p>
+<p class="csub">All triage answers of the study, by model</p>
+<svg class="chart" id="c4" viewBox="0 0 720 280" role="img" aria-label="Bar chart of the share of rankings that followed the rule, by model"></svg>
+<p class="src">Source: Who Gets Help First? (Sargiotis, 2026, <a href="https://doi.org/10.5281/zenodo.23684889">doi:10.5281/zenodo.23684889</a>), results/study-cpu. 4-bit quantised models on CPU, one instruction wording.</p>
+<details><summary>Show the numbers</summary><table id="t4"></table></details>
+</div>
+
+<h2>How THRIVE works</h2>
+<p>The three verbs of the book's title become one loop. Click a step.</p>
+<div class="loop" role="group" aria-label="The THRIVE loop">
+<button class="step" data-k="0" aria-pressed="true"><b>1. Predicting</b><small>where the water goes, and who lives there</small></button>
+<button class="step" data-k="1" aria-pressed="false"><b>2. Protecting</b><small>a fair share of a limited budget</small></button>
+<button class="step" data-k="2" aria-pressed="false"><b>3. Fairness check</b><small>before anything is built</small></button>
+<button class="step" data-k="3" aria-pressed="false"><b>4. Thriving</b><small>recovery, measured from space</small></button>
+</div>
+<div class="stepinfo" id="stepinfo" aria-live="polite"></div>
+
+<footer>
+<p>Cite the book: Sargiotis, D. (2027). <i>AI for Resilient Cities: Predicting, Protecting, and Thriving in a Changing Climate</i>. Springer Nature Switzerland AG. <a href="https://doi.org/10.1007/978-3-032-36417-3">https://doi.org/10.1007/978-3-032-36417-3</a></p>
+<p>Code and design under the MIT licence at <a href="https://github.com/uomoathens/thrive">github.com/uomoathens/thrive</a>.</p>
+</footer>
+</main>
+<script>
+(function(){
+var NS="http://www.w3.org/2000/svg";
+var tip=document.getElementById("tip");
+function el(t,a,p){var e=document.createElementNS(NS,t);for(var k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e}
+function txt(s,a,p){var e=el("text",a,p);e.textContent=s;return e}
+function clear(s){while(s.firstChild)s.removeChild(s.firstChild)}
+function showTip(ev,html){tip.innerHTML=html;tip.style.opacity=1;var x=ev.clientX+14,y=ev.clientY-10;var w=tip.offsetWidth;if(x+w>window.innerWidth-8)x=ev.clientX-w-14;tip.style.left=x+"px";tip.style.top=y+"px"}
+function hideTip(){tip.style.opacity=0}
+function barPath(x,y,w,h){var r=Math.min(4,h);return "M"+x+","+(y+h)+" V"+(y+r)+" Q"+x+","+y+" "+(x+r)+","+y+" H"+(x+w-r)+" Q"+(x+w)+","+y+" "+(x+w)+","+(y+r)+" V"+(y+h)+" Z"}
+function yGrid(svg,L,R,T,ph,W,min,max,step,fmt){for(var v=min;v<=max+1e-9;v+=step){var y=T+ph-(v-min)/(max-min)*ph;el("line",{"class":"grid",x1:L,x2:W-R,y1:y,y2:y},svg);txt(fmt(v),{"class":"tick",x:L-8,y:y+4,"text-anchor":"end"},svg)}}
+function table(id,head,rows){var t=document.getElementById(id);var h="<tr>"+head.map(function(c){return"<th>"+c+"</th>"}).join("")+"</tr>";rows.forEach(function(r){h+="<tr>"+r.map(function(c){return"<td>"+c+"</td>"}).join("")+"</tr>"});t.innerHTML=h}
+function bars(svgId,data,max,step,fmt,valFmt,tipFmt){
+var svg=document.getElementById(svgId);clear(svg);
+var W=720,H=+svg.getAttribute("viewBox").split(" ")[3],L=64,R=16,T=24,B=36,ph=H-T-B,pw=W-L-R;
+yGrid(svg,L,R,T,ph,W,0,max,step,fmt);
+var band=pw/data.length,bw=24;
+data.forEach(function(d,i){
+var x=L+band*i+(band-bw)/2,h=d.v/max*ph,y=T+ph-h;
+el("path",{"class":d.c||"s1",d:barPath(x,y,bw,h)},svg);
+txt(valFmt(d.v),{"class":"val",x:x+bw/2,y:y-8,"text-anchor":"middle"},svg);
+txt(d.l,{"class":"tick",x:x+bw/2,y:T+ph+20,"text-anchor":"middle"},svg);
+var hit=el("rect",{"class":"hit",x:L+band*i,y:T,width:band,height:ph},svg);
+hit.addEventListener("mousemove",function(ev){showTip(ev,tipFmt(d))});
+hit.addEventListener("mouseleave",hideTip);
+});
+el("line",{"class":"base",x1:L,x2:W-R,y1:T+ph,y2:T+ph},svg);
+}
+var eu=[{l:"1980s",v:8.5},{l:"1990s",v:14.0},{l:"2000s",v:15.8},{l:"2010s",v:17.8},{l:"2020–2023",v:44.5}];
+bars("c1",eu,50,10,function(v){return"€"+v+"bn"},function(v){return"€"+v.toFixed(1)+"bn"},function(d){return"<b>"+d.l+"</b><br>€"+d.v.toFixed(1)+" billion a year on average"});
+table("t1",["Period","Average yearly loss"],eu.map(function(d){return[d.l,"€"+d.v.toFixed(1)+" billion"]}));
+var yb=(50*210+100*90)/150;
+function levees(){
+var e=+document.getElementById("eta").value;
+document.getElementById("etaout").textContent=e.toFixed(2);
+var a=10.5*Math.pow(yb/210,e),b=9*Math.pow(yb/90,e);
+var svg=document.getElementById("c2");clear(svg);
+var W=720,H=280,L=64,R=16,T=24,B=36,ph=H-T-B,pw=W-L-R,max=24;
+yGrid(svg,L,R,T,ph,W,0,max,4,function(v){return"$"+v+"m"});
+var yc=T+ph-10/max*ph;
+el("line",{"class":"base",x1:L,x2:W-R,y1:yc,y2:yc},svg);
+txt("cost of each levee: $10m",{"class":"tick",x:W-R,y:yc-6,"text-anchor":"end"},svg);
+[{n:"Levee A",v:a,c:"s1",d:"50 homes worth $210,000"},{n:"Levee B",v:b,c:"s2",d:"100 homes worth $90,000"}].forEach(function(d,i){
+var bw=24,x=L+pw*(i===0?0.3:0.6)-bw/2,h=d.v/max*ph,y=T+ph-h;
+el("path",{"class":d.c,d:barPath(x,y,bw,h)},svg);
+txt("$"+d.v.toFixed(1)+"m",{"class":"val",x:x+bw/2,y:y-8,"text-anchor":"middle"},svg);
+txt(d.n,{"class":"tick",x:x+bw/2,y:T+ph+20,"text-anchor":"middle"},svg);
+var hit=el("rect",{"class":"hit",x:x-40,y:T,width:bw+80,height:ph},svg);
+hit.addEventListener("mousemove",function(ev){showTip(ev,"<b>"+d.n+"</b>, "+d.d+"<br>Benefit: $"+d.v.toFixed(2)+" million<br>"+(d.v>=10?"Passes":"Fails")+" the $10 million cost test")});
+hit.addEventListener("mouseleave",hideTip);
+});
+el("line",{"class":"base",x1:L,x2:W-R,y1:T+ph,y2:T+ph},svg);
+var win=a>b?"Levee A, on the richer side, comes out ahead.":(b>a?"Levee B, which protects twice as many homes, comes out ahead.":"The two levees are level.");
+var pass=b>=10?"Levee B now passes the cost test.":"Levee B still fails the cost test.";
+document.getElementById("r2").textContent="At η = "+e.toFixed(2)+", A is worth $"+a.toFixed(1)+"m and B $"+b.toFixed(1)+"m. "+win+" "+pass;
+}
+document.getElementById("eta").addEventListener("input",levees);levees();
+function fA(t){return 0.92*(1-Math.exp(-t/4))+0.08*(1-Math.exp(-t/60))}
+function fB(t){return 1/(1+Math.exp(-(t-20)/3))}
+function dayOf(f,a){for(var t=0;t<=400;t++){if(f(t)>=a)return t}return null}
+function recovery(){
+var a=+document.getElementById("alpha").value;
+document.getElementById("alphaout").textContent=Math.round(a*100)+"%";
+var svg=document.getElementById("c3");clear(svg);
+var W=720,H=300,L=64,R=60,T=20,B=36,ph=H-T-B,pw=W-L-R,days=90,lo=0.6;
+function X(t){return L+t/days*pw}
+function Y(v){return T+ph-(Math.max(v,lo)-lo)/(1-lo)*ph}
+yGrid(svg,L,R,T,ph,W,lo,1,0.1,function(v){return Math.round(v*100)+"%"});
+for(var t=0;t<=days;t+=15)txt("day "+t,{"class":"tick",x:X(t),y:T+ph+20,"text-anchor":"middle"},svg);
+[[fA,"ln1","Area A"],[fB,"ln2","Area B"]].forEach(function(s){
+var pts=[];for(var t=0;t<=days;t++){if(s[0](t)>=lo)pts.push(X(t).toFixed(1)+","+Y(s[0](t)).toFixed(1))}
+el("polyline",{"class":"ln "+s[1],points:pts.join(" ")},svg);
+txt(s[2],{"class":"val",x:X(days)+8,y:Y(s[0](days))+(s[2]==="Area B"?-4:12)},svg);
+});
+el("line",{"class":"base",x1:L,x2:X(days),y1:Y(a),y2:Y(a)},svg);
+var dA=dayOf(fA,a),dB=dayOf(fB,a);
+[[dA,"s1","Area A"],[dB,"s2","Area B"]].forEach(function(s){
+if(s[0]===null||s[0]>days)return;
+var c=el("circle",{"class":s[1]+" ring",cx:X(s[0]),cy:Y(a),r:5},svg);
+var hit=el("circle",{"class":"hit",cx:X(s[0]),cy:Y(a),r:14},svg);
+hit.addEventListener("mousemove",function(ev){showTip(ev,"<b>"+s[2]+"</b><br>back to "+Math.round(a*100)+"% of normal on day "+s[0])});
+hit.addEventListener("mouseleave",hideTip);
+});
+el("line",{"class":"base",x1:L,x2:X(days),y1:T+ph,y2:T+ph},svg);
+var first=dA<dB?"Area A recovers first.":(dB<dA?"Area B recovers first.":"Both recover on the same day.");
+document.getElementById("r3").textContent="With “recovered” set at "+Math.round(a*100)+"%, Area A is back on day "+dA+" and Area B on day "+dB+". "+first;
+}
+document.getElementById("alpha").addEventListener("input",recovery);recovery();
+var rule=[{l:"Meltemi 7B",v:0.0723,n:899},{l:"Apertus 8B",v:0.2933,n:733},{l:"Qwen 2.5 7B",v:0.3681,n:891},{l:"Llama 3.1 8B",v:0.4641,n:849},{l:"Krikri 8B",v:0.4692,n:878}];
+bars("c4",rule,1,0.25,function(v){return Math.round(v*100)+"%"},function(v){return Math.round(v*100)+"%"},function(d){return"<b>"+d.l+"</b><br>"+(d.v*100).toFixed(1)+"% of "+d.n+" triage rankings kept the rule"});
+table("t4",["Model","Kept the rule","Triage answers"],rule.map(function(d){return[d.l,(d.v*100).toFixed(1)+"%",d.n]}));
+var info=[
+"<b>Predicting.</b> Flood forecasts tell us where the water will go. THRIVE adds who lives there and how exposed they are, using the 2021 census on a grid of 1 km squares. The forecasting models come from Chapter 1 of the book (HEFF-RC, LSTM-AFFUW, AIF-EWS) and the vulnerability map from Chapter 4 (VAE-LVM).",
+"<b>Protecting.</b> With a fixed budget, THRIVE proposes which works to fund. A euro saved counts more for a poorer household, and need may move a household up the list while a name or a postcode may not. Small towns learn from larger ones without sharing their data. This builds on EA-CURA (Chapter 3), FCFL (Chapter 5) and DPFL-EDA (Chapter 1).",
+"<b>Fairness check.</b> Before a plan is used, THRIVE runs it again and again with one detail changed each time: a name, a neighbourhood, a residence status. If any of those moves the plan more than chance would, the plan fails. If a real need, such as a person over 80, does not move it, the plan fails too. The method comes from the Who Gets Help First? audit.",
+"<b>Thriving.</b> After a flood, satellites show when lights come back in towns and when fields turn green again. THRIVE compares how fast each area recovers, under several definitions of recovered, and feeds what it learns into the next round of Predicting."];
+var steps=document.querySelectorAll(".step"),si=document.getElementById("stepinfo");
+function pick(k){steps.forEach(function(s){s.setAttribute("aria-pressed",s.dataset.k==k?"true":"false")});si.innerHTML=info[k]}
+steps.forEach(function(s){s.addEventListener("click",function(){pick(s.dataset.k)})});pick(0);
+})();
+</script>
+</body>
+</html>
