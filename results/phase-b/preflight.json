@@ -12,8 +12,8 @@
     "error": null
   },
   {
-    "check": "GISCO 1 km grid",
-    "url": "https://gisco-services.ec.europa.eu/grid/grid_1km_point.gpkg",
+    "check": "Eurostat census grid 2021, version 2.2 (22 January 2025)",
+    "url": "https://gisco-services.ec.europa.eu/census/2021/Eurostat_Census-GRID_2021_V2.2.zip",
     "ok": true,
     "error": null
   }

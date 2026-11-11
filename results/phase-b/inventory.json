@@ -8,19 +8,34 @@
     "ok": true,
     "layers": [
       "EMSR692_AOI01_DEL_MONIT03_areaOfInterestA_v3.json",
-      "EMSR692_AOI01_DEL_MONIT03_areaOfInterestA_v3.shp",
       "EMSR692_AOI01_DEL_MONIT03_imageFootprintA_v3.json",
-      "EMSR692_AOI01_DEL_MONIT03_imageFootprintA_v3.shp",
       "EMSR692_AOI01_DEL_MONIT03_maximumWaterExtentA_v3.json",
-      "EMSR692_AOI01_DEL_MONIT03_maximumWaterExtentA_v3.shp",
       "EMSR692_AOI01_DEL_MONIT03_observedEventA_v3.json",
-      "EMSR692_AOI01_DEL_MONIT03_observedEventA_v3.shp",
       "EMSR692_AOI01_DEL_MONIT03_waterDepthA_v3.json",
-      "EMSR692_AOI01_DEL_MONIT03_waterDepthA_v3.shp",
-      "EMSR692_AOI01_DEL_MONIT03_waterExtentA_v3.json",
-      "EMSR692_AOI01_DEL_MONIT03_waterExtentA_v3.shp"
+      "EMSR692_AOI01_DEL_MONIT03_waterExtentA_v3.json"
     ],
-    "flood_layers": 2,
+    "flood_layers": 1,
+    "flood_layer_details": [
+      {
+        "layer": "EMSR692_AOI01_DEL_MONIT03_observedEventA_v3.json",
+        "features": 1805,
+        "classes": {
+          "event_type": {
+            "5-Flood": 1805
+          },
+          "obj_desc": {
+            "Riverine flood": 1805
+          },
+          "det_method": {
+            "Semi-automatic extraction": 1805
+          },
+          "notation": {
+            "Flooded area": 1513,
+            "Flood trace": 292
+          }
+        }
+      }
+    ],
     "error": null
   },
   {
@@ -32,19 +47,33 @@
     "ok": true,
     "layers": [
       "EMSR692_AOI01_DEL_MONIT01_areaOfInterestA_v3.json",
-      "EMSR692_AOI01_DEL_MONIT01_areaOfInterestA_v3.shp",
       "EMSR692_AOI01_DEL_MONIT01_imageFootprintA_v3.json",
-      "EMSR692_AOI01_DEL_MONIT01_imageFootprintA_v3.shp",
       "EMSR692_AOI01_DEL_MONIT01_maximumWaterExtentA_v3.json",
-      "EMSR692_AOI01_DEL_MONIT01_maximumWaterExtentA_v3.shp",
       "EMSR692_AOI01_DEL_MONIT01_observedEventA_v3.json",
-      "EMSR692_AOI01_DEL_MONIT01_observedEventA_v3.shp",
       "EMSR692_AOI01_DEL_MONIT01_waterDepthA_v3.json",
-      "EMSR692_AOI01_DEL_MONIT01_waterDepthA_v3.shp",
-      "EMSR692_AOI01_DEL_MONIT01_waterExtentA_v3.json",
-      "EMSR692_AOI01_DEL_MONIT01_waterExtentA_v3.shp"
+      "EMSR692_AOI01_DEL_MONIT01_waterExtentA_v3.json"
     ],
-    "flood_layers": 2,
+    "flood_layers": 1,
+    "flood_layer_details": [
+      {
+        "layer": "EMSR692_AOI01_DEL_MONIT01_observedEventA_v3.json",
+        "features": 3578,
+        "classes": {
+          "event_type": {
+            "5-Flood": 3578
+          },
+          "obj_desc": {
+            "Riverine flood": 3578
+          },
+          "det_method": {
+            "Semi-automatic extraction": 3578
+          },
+          "notation": {
+            "Flooded area": 3578
+          }
+        }
+      }
+    ],
     "error": null
   },
   {
@@ -56,19 +85,33 @@
     "ok": true,
     "layers": [
       "EMSR692_AOI01_DEL_MONIT02_areaOfInterestA_v4.json",
-      "EMSR692_AOI01_DEL_MONIT02_areaOfInterestA_v4.shp",
       "EMSR692_AOI01_DEL_MONIT02_imageFootprintA_v4.json",
-      "EMSR692_AOI01_DEL_MONIT02_imageFootprintA_v4.shp",
       "EMSR692_AOI01_DEL_MONIT02_maximumWaterExtentA_v4.json",
-      "EMSR692_AOI01_DEL_MONIT02_maximumWaterExtentA_v4.shp",
       "EMSR692_AOI01_DEL_MONIT02_observedEventA_v4.json",
-      "EMSR692_AOI01_DEL_MONIT02_observedEventA_v4.shp",
       "EMSR692_AOI01_DEL_MONIT02_waterDepthA_v4.json",
-      "EMSR692_AOI01_DEL_MONIT02_waterDepthA_v4.shp",
-      "EMSR692_AOI01_DEL_MONIT02_waterExtentA_v4.json",
-      "EMSR692_AOI01_DEL_MONIT02_waterExtentA_v4.shp"
+      "EMSR692_AOI01_DEL_MONIT02_waterExtentA_v4.json"
     ],
-    "flood_layers": 2,
+    "flood_layers": 1,
+    "flood_layer_details": [
+      {
+        "layer": "EMSR692_AOI01_DEL_MONIT02_observedEventA_v4.json",
+        "features": 2698,
+        "classes": {
+          "event_type": {
+            "5-Flood": 2698
+          },
+          "obj_desc": {
+            "Riverine flood": 2698
+          },
+          "det_method": {
+            "Semi-automatic extraction": 2698
+          },
+          "notation": {
+            "Flooded area": 2698
+          }
+        }
+      }
+    ],
     "error": null
   },
   {
@@ -80,19 +123,34 @@
     "ok": true,
     "layers": [
       "EMSR692_AOI02_DEL_MONIT04_areaOfInterestA_v2.json",
-      "EMSR692_AOI02_DEL_MONIT04_areaOfInterestA_v2.shp",
       "EMSR692_AOI02_DEL_MONIT04_imageFootprintA_v2.json",
-      "EMSR692_AOI02_DEL_MONIT04_imageFootprintA_v2.shp",
       "EMSR692_AOI02_DEL_MONIT04_maximumWaterExtentA_v2.json",
-      "EMSR692_AOI02_DEL_MONIT04_maximumWaterExtentA_v2.shp",
       "EMSR692_AOI02_DEL_MONIT04_observedEventA_v2.json",
-      "EMSR692_AOI02_DEL_MONIT04_observedEventA_v2.shp",
       "EMSR692_AOI02_DEL_MONIT04_waterDepthA_v2.json",
-      "EMSR692_AOI02_DEL_MONIT04_waterDepthA_v2.shp",
-      "EMSR692_AOI02_DEL_MONIT04_waterExtentA_v2.json",
-      "EMSR692_AOI02_DEL_MONIT04_waterExtentA_v2.shp"
+      "EMSR692_AOI02_DEL_MONIT04_waterExtentA_v2.json"
     ],
-    "flood_layers": 2,
+    "flood_layers": 1,
+    "flood_layer_details": [
+      {
+        "layer": "EMSR692_AOI02_DEL_MONIT04_observedEventA_v2.json",
+        "features": 315,
+        "classes": {
+          "event_type": {
+            "5-Flood": 315
+          },
+          "obj_desc": {
+            "Riverine flood": 315
+          },
+          "det_method": {
+            "Semi-automatic extraction": 315
+          },
+          "notation": {
+            "Flooded area": 292,
+            "Flood trace": 23
+          }
+        }
+      }
+    ],
     "error": null
   },
   {
@@ -104,17 +162,34 @@
     "ok": true,
     "layers": [
       "EMSR692_AOI02_DEL_PRODUCT_areaOfInterestA_v2.json",
-      "EMSR692_AOI02_DEL_PRODUCT_areaOfInterestA_v2.shp",
       "EMSR692_AOI02_DEL_PRODUCT_imageFootprintA_v2.json",
-      "EMSR692_AOI02_DEL_PRODUCT_imageFootprintA_v2.shp",
       "EMSR692_AOI02_DEL_PRODUCT_observedEventA_v2.json",
-      "EMSR692_AOI02_DEL_PRODUCT_observedEventA_v2.shp",
       "EMSR692_AOI02_DEL_PRODUCT_waterDepthA_v2.json",
-      "EMSR692_AOI02_DEL_PRODUCT_waterDepthA_v2.shp",
-      "EMSR692_AOI02_DEL_PRODUCT_waterExtentA_v2.json",
-      "EMSR692_AOI02_DEL_PRODUCT_waterExtentA_v2.shp"
+      "EMSR692_AOI02_DEL_PRODUCT_waterExtentA_v2.json"
     ],
-    "flood_layers": 2,
+    "flood_layers": 1,
+    "flood_layer_details": [
+      {
+        "layer": "EMSR692_AOI02_DEL_PRODUCT_observedEventA_v2.json",
+        "features": 675,
+        "classes": {
+          "event_type": {
+            "5-Flood": 675
+          },
+          "obj_desc": {
+            "Riverine flood": 675
+          },
+          "det_method": {
+            "Photo-interpretation": 380,
+            "Semi-automatic extraction": 295
+          },
+          "notation": {
+            "Flood trace": 380,
+            "Flooded area": 295
+          }
+        }
+      }
+    ],
     "error": null
   },
   {
@@ -126,19 +201,35 @@
     "ok": true,
     "layers": [
       "EMSR692_AOI02_DEL_MONIT01_areaOfInterestA_v3.json",
-      "EMSR692_AOI02_DEL_MONIT01_areaOfInterestA_v3.shp",
       "EMSR692_AOI02_DEL_MONIT01_imageFootprintA_v3.json",
-      "EMSR692_AOI02_DEL_MONIT01_imageFootprintA_v3.shp",
       "EMSR692_AOI02_DEL_MONIT01_maximumWaterExtentA_v3.json",
-      "EMSR692_AOI02_DEL_MONIT01_maximumWaterExtentA_v3.shp",
       "EMSR692_AOI02_DEL_MONIT01_observedEventA_v3.json",
-      "EMSR692_AOI02_DEL_MONIT01_observedEventA_v3.shp",
       "EMSR692_AOI02_DEL_MONIT01_waterDepthA_v3.json",
-      "EMSR692_AOI02_DEL_MONIT01_waterDepthA_v3.shp",
-      "EMSR692_AOI02_DEL_MONIT01_waterExtentA_v3.json",
-      "EMSR692_AOI02_DEL_MONIT01_waterExtentA_v3.shp"
+      "EMSR692_AOI02_DEL_MONIT01_waterExtentA_v3.json"
     ],
-    "flood_layers": 2,
+    "flood_layers": 1,
+    "flood_layer_details": [
+      {
+        "layer": "EMSR692_AOI02_DEL_MONIT01_observedEventA_v3.json",
+        "features": 738,
+        "classes": {
+          "event_type": {
+            "5-Flood": 738
+          },
+          "obj_desc": {
+            "Riverine flood": 738
+          },
+          "det_method": {
+            "Photo-interpretation": 435,
+            "Semi-automatic extraction": 303
+          },
+          "notation": {
+            "Flood trace": 435,
+            "Flooded area": 303
+          }
+        }
+      }
+    ],
     "error": null
   },
   {
@@ -150,19 +241,35 @@
     "ok": true,
     "layers": [
       "EMSR692_AOI02_DEL_MONIT02_areaOfInterestA_v2.json",
-      "EMSR692_AOI02_DEL_MONIT02_areaOfInterestA_v2.shp",
       "EMSR692_AOI02_DEL_MONIT02_imageFootprintA_v2.json",
-      "EMSR692_AOI02_DEL_MONIT02_imageFootprintA_v2.shp",
       "EMSR692_AOI02_DEL_MONIT02_maximumWaterExtentA_v2.json",
-      "EMSR692_AOI02_DEL_MONIT02_maximumWaterExtentA_v2.shp",
       "EMSR692_AOI02_DEL_MONIT02_observedEventA_v2.json",
-      "EMSR692_AOI02_DEL_MONIT02_observedEventA_v2.shp",
       "EMSR692_AOI02_DEL_MONIT02_waterDepthA_v2.json",
-      "EMSR692_AOI02_DEL_MONIT02_waterDepthA_v2.shp",
-      "EMSR692_AOI02_DEL_MONIT02_waterExtentA_v2.json",
-      "EMSR692_AOI02_DEL_MONIT02_waterExtentA_v2.shp"
+      "EMSR692_AOI02_DEL_MONIT02_waterExtentA_v2.json"
     ],
-    "flood_layers": 2,
+    "flood_layers": 1,
+    "flood_layer_details": [
+      {
+        "layer": "EMSR692_AOI02_DEL_MONIT02_observedEventA_v2.json",
+        "features": 304,
+        "classes": {
+          "event_type": {
+            "5-Flood": 304
+          },
+          "obj_desc": {
+            "Riverine flood": 304
+          },
+          "det_method": {
+            "Photo-interpretation": 170,
+            "Semi-automatic extraction": 134
+          },
+          "notation": {
+            "Flood trace": 170,
+            "Flooded area": 134
+          }
+        }
+      }
+    ],
     "error": null
   },
   {
@@ -174,19 +281,35 @@
     "ok": true,
     "layers": [
       "EMSR692_AOI02_DEL_MONIT03_areaOfInterestA_v3.json",
-      "EMSR692_AOI02_DEL_MONIT03_areaOfInterestA_v3.shp",
       "EMSR692_AOI02_DEL_MONIT03_imageFootprintA_v3.json",
-      "EMSR692_AOI02_DEL_MONIT03_imageFootprintA_v3.shp",
       "EMSR692_AOI02_DEL_MONIT03_maximumWaterExtentA_v3.json",
-      "EMSR692_AOI02_DEL_MONIT03_maximumWaterExtentA_v3.shp",
       "EMSR692_AOI02_DEL_MONIT03_observedEventA_v3.json",
-      "EMSR692_AOI02_DEL_MONIT03_observedEventA_v3.shp",
       "EMSR692_AOI02_DEL_MONIT03_waterDepthA_v3.json",
-      "EMSR692_AOI02_DEL_MONIT03_waterDepthA_v3.shp",
-      "EMSR692_AOI02_DEL_MONIT03_waterExtentA_v3.json",
-      "EMSR692_AOI02_DEL_MONIT03_waterExtentA_v3.shp"
+      "EMSR692_AOI02_DEL_MONIT03_waterExtentA_v3.json"
     ],
-    "flood_layers": 2,
+    "flood_layers": 1,
+    "flood_layer_details": [
+      {
+        "layer": "EMSR692_AOI02_DEL_MONIT03_observedEventA_v3.json",
+        "features": 288,
+        "classes": {
+          "event_type": {
+            "5-Flood": 288
+          },
+          "obj_desc": {
+            "Riverine flood": 288
+          },
+          "det_method": {
+            "Semi-automatic extraction": 270,
+            "Photo-interpretation": 18
+          },
+          "notation": {
+            "Flooded area": 270,
+            "Flood trace": 18
+          }
+        }
+      }
+    ],
     "error": null
   },
   {
@@ -198,19 +321,35 @@
     "ok": true,
     "layers": [
       "EMSR692_AOI02_DEL_MONIT05_areaOfInterestA_v2.json",
-      "EMSR692_AOI02_DEL_MONIT05_areaOfInterestA_v2.shp",
       "EMSR692_AOI02_DEL_MONIT05_imageFootprintA_v2.json",
-      "EMSR692_AOI02_DEL_MONIT05_imageFootprintA_v2.shp",
       "EMSR692_AOI02_DEL_MONIT05_maximumWaterExtentA_v2.json",
-      "EMSR692_AOI02_DEL_MONIT05_maximumWaterExtentA_v2.shp",
       "EMSR692_AOI02_DEL_MONIT05_observedEventA_v2.json",
-      "EMSR692_AOI02_DEL_MONIT05_observedEventA_v2.shp",
       "EMSR692_AOI02_DEL_MONIT05_waterDepthA_v2.json",
-      "EMSR692_AOI02_DEL_MONIT05_waterDepthA_v2.shp",
-      "EMSR692_AOI02_DEL_MONIT05_waterExtentA_v2.json",
-      "EMSR692_AOI02_DEL_MONIT05_waterExtentA_v2.shp"
+      "EMSR692_AOI02_DEL_MONIT05_waterExtentA_v2.json"
     ],
-    "flood_layers": 2,
+    "flood_layers": 1,
+    "flood_layer_details": [
+      {
+        "layer": "EMSR692_AOI02_DEL_MONIT05_observedEventA_v2.json",
+        "features": 173,
+        "classes": {
+          "event_type": {
+            "5-Flood": 173
+          },
+          "obj_desc": {
+            "Riverine flood": 173
+          },
+          "det_method": {
+            "Semi-automatic extraction": 122,
+            "Photo-interpretation": 51
+          },
+          "notation": {
+            "Flooded area": 122,
+            "Flood trace": 51
+          }
+        }
+      }
+    ],
     "error": null
   },
   {
@@ -222,19 +361,34 @@
     "ok": true,
     "layers": [
       "EMSR692_AOI03_DEL_MONIT03_areaOfInterestA_v2.json",
-      "EMSR692_AOI03_DEL_MONIT03_areaOfInterestA_v2.shp",
       "EMSR692_AOI03_DEL_MONIT03_imageFootprintA_v2.json",
-      "EMSR692_AOI03_DEL_MONIT03_imageFootprintA_v2.shp",
       "EMSR692_AOI03_DEL_MONIT03_maximumWaterExtentA_v2.json",
-      "EMSR692_AOI03_DEL_MONIT03_maximumWaterExtentA_v2.shp",
       "EMSR692_AOI03_DEL_MONIT03_observedEventA_v2.json",
-      "EMSR692_AOI03_DEL_MONIT03_observedEventA_v2.shp",
       "EMSR692_AOI03_DEL_MONIT03_waterDepthA_v2.json",
-      "EMSR692_AOI03_DEL_MONIT03_waterDepthA_v2.shp",
-      "EMSR692_AOI03_DEL_MONIT03_waterExtentA_v2.json",
-      "EMSR692_AOI03_DEL_MONIT03_waterExtentA_v2.shp"
+      "EMSR692_AOI03_DEL_MONIT03_waterExtentA_v2.json"
     ],
-    "flood_layers": 2,
+    "flood_layers": 1,
+    "flood_layer_details": [
+      {
+        "layer": "EMSR692_AOI03_DEL_MONIT03_observedEventA_v2.json",
+        "features": 669,
+        "classes": {
+          "event_type": {
+            "5-Flood": 669
+          },
+          "obj_desc": {
+            "Riverine flood": 669
+          },
+          "det_method": {
+            "Semi-automatic extraction": 669
+          },
+          "notation": {
+            "Flood trace": 543,
+            "Flooded area": 126
+          }
+        }
+      }
+    ],
     "error": null
   },
   {
@@ -246,21 +400,35 @@
     "ok": true,
     "layers": [
       "EMSR692_AOI03_DEL_MONIT05_areaOfInterestA_v2.json",
-      "EMSR692_AOI03_DEL_MONIT05_areaOfInterestA_v2.shp",
       "EMSR692_AOI03_DEL_MONIT05_imageFootprintA_v2.json",
-      "EMSR692_AOI03_DEL_MONIT05_imageFootprintA_v2.shp",
       "EMSR692_AOI03_DEL_MONIT05_maximumWaterExtentA_v2.json",
-      "EMSR692_AOI03_DEL_MONIT05_maximumWaterExtentA_v2.shp",
       "EMSR692_AOI03_DEL_MONIT05_observedEventA_v2.json",
-      "EMSR692_AOI03_DEL_MONIT05_observedEventA_v2.shp",
       "EMSR692_AOI03_DEL_MONIT05_observedEventP_v2.json",
-      "EMSR692_AOI03_DEL_MONIT05_observedEventP_v2.shp",
       "EMSR692_AOI03_DEL_MONIT05_waterDepthA_v2.json",
-      "EMSR692_AOI03_DEL_MONIT05_waterDepthA_v2.shp",
-      "EMSR692_AOI03_DEL_MONIT05_waterExtentA_v2.json",
-      "EMSR692_AOI03_DEL_MONIT05_waterExtentA_v2.shp"
+      "EMSR692_AOI03_DEL_MONIT05_waterExtentA_v2.json"
     ],
-    "flood_layers": 2,
+    "flood_layers": 1,
+    "flood_layer_details": [
+      {
+        "layer": "EMSR692_AOI03_DEL_MONIT05_observedEventA_v2.json",
+        "features": 862,
+        "classes": {
+          "event_type": {
+            "5-Flood": 862
+          },
+          "obj_desc": {
+            "Riverine flood": 862
+          },
+          "det_method": {
+            "Semi-automatic extraction": 862
+          },
+          "notation": {
+            "Flood trace": 455,
+            "Flooded area": 407
+          }
+        }
+      }
+    ],
     "error": null
   },
   {
@@ -272,17 +440,33 @@
     "ok": true,
     "layers": [
       "EMSR692_AOI03_DEL_PRODUCT_areaOfInterestA_v3.json",
-      "EMSR692_AOI03_DEL_PRODUCT_areaOfInterestA_v3.shp",
       "EMSR692_AOI03_DEL_PRODUCT_imageFootprintA_v3.json",
-      "EMSR692_AOI03_DEL_PRODUCT_imageFootprintA_v3.shp",
       "EMSR692_AOI03_DEL_PRODUCT_observedEventA_v3.json",
-      "EMSR692_AOI03_DEL_PRODUCT_observedEventA_v3.shp",
       "EMSR692_AOI03_DEL_PRODUCT_waterDepthA_v3.json",
-      "EMSR692_AOI03_DEL_PRODUCT_waterDepthA_v3.shp",
-      "EMSR692_AOI03_DEL_PRODUCT_waterExtentA_v3.json",
-      "EMSR692_AOI03_DEL_PRODUCT_waterExtentA_v3.shp"
+      "EMSR692_AOI03_DEL_PRODUCT_waterExtentA_v3.json"
     ],
-    "flood_layers": 2,
+    "flood_layers": 1,
+    "flood_layer_details": [
+      {
+        "layer": "EMSR692_AOI03_DEL_PRODUCT_observedEventA_v3.json",
+        "features": 234,
+        "classes": {
+          "event_type": {
+            "5-Flood": 234
+          },
+          "obj_desc": {
+            "Riverine flood": 234
+          },
+          "det_method": {
+            "Semi-automatic extraction": 234
+          },
+          "notation": {
+            "Flooded area": 221,
+            "Flood trace": 13
+          }
+        }
+      }
+    ],
     "error": null
   },
   {
@@ -294,21 +478,35 @@
     "ok": true,
     "layers": [
       "EMSR692_AOI03_DEL_MONIT04_areaOfInterestA_v2.json",
-      "EMSR692_AOI03_DEL_MONIT04_areaOfInterestA_v2.shp",
       "EMSR692_AOI03_DEL_MONIT04_imageFootprintA_v2.json",
-      "EMSR692_AOI03_DEL_MONIT04_imageFootprintA_v2.shp",
       "EMSR692_AOI03_DEL_MONIT04_maximumWaterExtentA_v2.json",
-      "EMSR692_AOI03_DEL_MONIT04_maximumWaterExtentA_v2.shp",
       "EMSR692_AOI03_DEL_MONIT04_observedEventA_v2.json",
-      "EMSR692_AOI03_DEL_MONIT04_observedEventA_v2.shp",
       "EMSR692_AOI03_DEL_MONIT04_observedEventP_v2.json",
-      "EMSR692_AOI03_DEL_MONIT04_observedEventP_v2.shp",
       "EMSR692_AOI03_DEL_MONIT04_waterDepthA_v2.json",
-      "EMSR692_AOI03_DEL_MONIT04_waterDepthA_v2.shp",
-      "EMSR692_AOI03_DEL_MONIT04_waterExtentA_v2.json",
-      "EMSR692_AOI03_DEL_MONIT04_waterExtentA_v2.shp"
+      "EMSR692_AOI03_DEL_MONIT04_waterExtentA_v2.json"
     ],
-    "flood_layers": 2,
+    "flood_layers": 1,
+    "flood_layer_details": [
+      {
+        "layer": "EMSR692_AOI03_DEL_MONIT04_observedEventA_v2.json",
+        "features": 746,
+        "classes": {
+          "event_type": {
+            "5-Flood": 746
+          },
+          "obj_desc": {
+            "Riverine flood": 746
+          },
+          "det_method": {
+            "Semi-automatic extraction": 746
+          },
+          "notation": {
+            "Flood trace": 476,
+            "Flooded area": 270
+          }
+        }
+      }
+    ],
     "error": null
   },
   {
@@ -320,19 +518,34 @@
     "ok": true,
     "layers": [
       "EMSR692_AOI03_DEL_MONIT02_areaOfInterestA_v2.json",
-      "EMSR692_AOI03_DEL_MONIT02_areaOfInterestA_v2.shp",
       "EMSR692_AOI03_DEL_MONIT02_imageFootprintA_v2.json",
-      "EMSR692_AOI03_DEL_MONIT02_imageFootprintA_v2.shp",
       "EMSR692_AOI03_DEL_MONIT02_maximumWaterExtentA_v2.json",
-      "EMSR692_AOI03_DEL_MONIT02_maximumWaterExtentA_v2.shp",
       "EMSR692_AOI03_DEL_MONIT02_observedEventA_v2.json",
-      "EMSR692_AOI03_DEL_MONIT02_observedEventA_v2.shp",
       "EMSR692_AOI03_DEL_MONIT02_waterDepthA_v2.json",
-      "EMSR692_AOI03_DEL_MONIT02_waterDepthA_v2.shp",
-      "EMSR692_AOI03_DEL_MONIT02_waterExtentA_v2.json",
-      "EMSR692_AOI03_DEL_MONIT02_waterExtentA_v2.shp"
+      "EMSR692_AOI03_DEL_MONIT02_waterExtentA_v2.json"
     ],
-    "flood_layers": 2,
+    "flood_layers": 1,
+    "flood_layer_details": [
+      {
+        "layer": "EMSR692_AOI03_DEL_MONIT02_observedEventA_v2.json",
+        "features": 639,
+        "classes": {
+          "event_type": {
+            "5-Flood": 639
+          },
+          "obj_desc": {
+            "Riverine flood": 639
+          },
+          "det_method": {
+            "Semi-automatic extraction": 639
+          },
+          "notation": {
+            "Flood trace": 484,
+            "Flooded area": 155
+          }
+        }
+      }
+    ],
     "error": null
   },
   {
@@ -344,19 +557,35 @@
     "ok": true,
     "layers": [
       "EMSR692_AOI03_DEL_MONIT01_areaOfInterestA_v3.json",
-      "EMSR692_AOI03_DEL_MONIT01_areaOfInterestA_v3.shp",
       "EMSR692_AOI03_DEL_MONIT01_imageFootprintA_v3.json",
-      "EMSR692_AOI03_DEL_MONIT01_imageFootprintA_v3.shp",
       "EMSR692_AOI03_DEL_MONIT01_maximumWaterExtentA_v3.json",
-      "EMSR692_AOI03_DEL_MONIT01_maximumWaterExtentA_v3.shp",
       "EMSR692_AOI03_DEL_MONIT01_observedEventA_v3.json",
-      "EMSR692_AOI03_DEL_MONIT01_observedEventA_v3.shp",
       "EMSR692_AOI03_DEL_MONIT01_waterDepthA_v3.json",
-      "EMSR692_AOI03_DEL_MONIT01_waterDepthA_v3.shp",
-      "EMSR692_AOI03_DEL_MONIT01_waterExtentA_v3.json",
-      "EMSR692_AOI03_DEL_MONIT01_waterExtentA_v3.shp"
+      "EMSR692_AOI03_DEL_MONIT01_waterExtentA_v3.json"
     ],
-    "flood_layers": 2,
+    "flood_layers": 1,
+    "flood_layer_details": [
+      {
+        "layer": "EMSR692_AOI03_DEL_MONIT01_observedEventA_v3.json",
+        "features": 598,
+        "classes": {
+          "event_type": {
+            "5-Flood": 598
+          },
+          "obj_desc": {
+            "Riverine flood": 598
+          },
+          "det_method": {
+            "Photo-interpretation": 494,
+            "Semi-automatic extraction": 104
+          },
+          "notation": {
+            "Flood trace": 494,
+            "Flooded area": 104
+          }
+        }
+      }
+    ],
     "error": null
   },
   {
@@ -368,21 +597,35 @@
     "ok": true,
     "layers": [
       "EMSR692_AOI04_DEL_MONIT03_areaOfInterestA_v3.json",
-      "EMSR692_AOI04_DEL_MONIT03_areaOfInterestA_v3.shp",
       "EMSR692_AOI04_DEL_MONIT03_imageFootprintA_v3.json",
-      "EMSR692_AOI04_DEL_MONIT03_imageFootprintA_v3.shp",
       "EMSR692_AOI04_DEL_MONIT03_maximumWaterExtentA_v3.json",
-      "EMSR692_AOI04_DEL_MONIT03_maximumWaterExtentA_v3.shp",
       "EMSR692_AOI04_DEL_MONIT03_observedEventA_v3.json",
-      "EMSR692_AOI04_DEL_MONIT03_observedEventA_v3.shp",
       "EMSR692_AOI04_DEL_MONIT03_observedEventP_v3.json",
-      "EMSR692_AOI04_DEL_MONIT03_observedEventP_v3.shp",
       "EMSR692_AOI04_DEL_MONIT03_waterDepthA_v3.json",
-      "EMSR692_AOI04_DEL_MONIT03_waterDepthA_v3.shp",
-      "EMSR692_AOI04_DEL_MONIT03_waterExtentA_v3.json",
-      "EMSR692_AOI04_DEL_MONIT03_waterExtentA_v3.shp"
+      "EMSR692_AOI04_DEL_MONIT03_waterExtentA_v3.json"
     ],
-    "flood_layers": 2,
+    "flood_layers": 1,
+    "flood_layer_details": [
+      {
+        "layer": "EMSR692_AOI04_DEL_MONIT03_observedEventA_v3.json",
+        "features": 104,
+        "classes": {
+          "event_type": {
+            "5-Flood": 104
+          },
+          "obj_desc": {
+            "Riverine flood": 104
+          },
+          "det_method": {
+            "Semi-automatic extraction": 104
+          },
+          "notation": {
+            "Flood trace": 54,
+            "Flooded area": 50
+          }
+        }
+      }
+    ],
     "error": null
   },
   {
@@ -394,21 +637,35 @@
     "ok": true,
     "layers": [
       "EMSR692_AOI04_DEL_MONIT01_areaOfInterestA_v3.json",
-      "EMSR692_AOI04_DEL_MONIT01_areaOfInterestA_v3.shp",
       "EMSR692_AOI04_DEL_MONIT01_imageFootprintA_v3.json",
-      "EMSR692_AOI04_DEL_MONIT01_imageFootprintA_v3.shp",
       "EMSR692_AOI04_DEL_MONIT01_maximumWaterExtentA_v3.json",
-      "EMSR692_AOI04_DEL_MONIT01_maximumWaterExtentA_v3.shp",
       "EMSR692_AOI04_DEL_MONIT01_observedEventA_v3.json",
-      "EMSR692_AOI04_DEL_MONIT01_observedEventA_v3.shp",
       "EMSR692_AOI04_DEL_MONIT01_observedEventP_v3.json",
-      "EMSR692_AOI04_DEL_MONIT01_observedEventP_v3.shp",
       "EMSR692_AOI04_DEL_MONIT01_waterDepthA_v3.json",
-      "EMSR692_AOI04_DEL_MONIT01_waterDepthA_v3.shp",
-      "EMSR692_AOI04_DEL_MONIT01_waterExtentA_v3.json",
-      "EMSR692_AOI04_DEL_MONIT01_waterExtentA_v3.shp"
+      "EMSR692_AOI04_DEL_MONIT01_waterExtentA_v3.json"
     ],
-    "flood_layers": 2,
+    "flood_layers": 1,
+    "flood_layer_details": [
+      {
+        "layer": "EMSR692_AOI04_DEL_MONIT01_observedEventA_v3.json",
+        "features": 134,
+        "classes": {
+          "event_type": {
+            "5-Flood": 134
+          },
+          "obj_desc": {
+            "Riverine flood": 134
+          },
+          "det_method": {
+            "Photo-interpretation": 134
+          },
+          "notation": {
+            "Flood trace": 81,
+            "Flooded area": 53
+          }
+        }
+      }
+    ],
     "error": null
   },
   {
@@ -420,19 +677,34 @@
     "ok": true,
     "layers": [
       "EMSR692_AOI04_DEL_PRODUCT_areaOfInterestA_v2.json",
-      "EMSR692_AOI04_DEL_PRODUCT_areaOfInterestA_v2.shp",
       "EMSR692_AOI04_DEL_PRODUCT_imageFootprintA_v2.json",
-      "EMSR692_AOI04_DEL_PRODUCT_imageFootprintA_v2.shp",
       "EMSR692_AOI04_DEL_PRODUCT_observedEventA_v2.json",
-      "EMSR692_AOI04_DEL_PRODUCT_observedEventA_v2.shp",
       "EMSR692_AOI04_DEL_PRODUCT_observedEventP_v2.json",
-      "EMSR692_AOI04_DEL_PRODUCT_observedEventP_v2.shp",
       "EMSR692_AOI04_DEL_PRODUCT_waterDepthA_v2.json",
-      "EMSR692_AOI04_DEL_PRODUCT_waterDepthA_v2.shp",
-      "EMSR692_AOI04_DEL_PRODUCT_waterExtentA_v2.json",
-      "EMSR692_AOI04_DEL_PRODUCT_waterExtentA_v2.shp"
+      "EMSR692_AOI04_DEL_PRODUCT_waterExtentA_v2.json"
     ],
-    "flood_layers": 2,
+    "flood_layers": 1,
+    "flood_layer_details": [
+      {
+        "layer": "EMSR692_AOI04_DEL_PRODUCT_observedEventA_v2.json",
+        "features": 188,
+        "classes": {
+          "event_type": {
+            "5-Flood": 188
+          },
+          "notation": {
+            "Flooded area": 144,
+            "Flood trace": 44
+          },
+          "det_method": {
+            "Photo-interpretation": 188
+          },
+          "obj_desc": {
+            "Riverine flood": 188
+          }
+        }
+      }
+    ],
     "error": null
   },
   {
@@ -444,21 +716,35 @@
     "ok": true,
     "layers": [
       "EMSR692_AOI04_DEL_MONIT04_areaOfInterestA_v2.json",
-      "EMSR692_AOI04_DEL_MONIT04_areaOfInterestA_v2.shp",
       "EMSR692_AOI04_DEL_MONIT04_imageFootprintA_v2.json",
-      "EMSR692_AOI04_DEL_MONIT04_imageFootprintA_v2.shp",
       "EMSR692_AOI04_DEL_MONIT04_maximumWaterExtentA_v2.json",
-      "EMSR692_AOI04_DEL_MONIT04_maximumWaterExtentA_v2.shp",
       "EMSR692_AOI04_DEL_MONIT04_observedEventA_v2.json",
-      "EMSR692_AOI04_DEL_MONIT04_observedEventA_v2.shp",
       "EMSR692_AOI04_DEL_MONIT04_observedEventP_v2.json",
-      "EMSR692_AOI04_DEL_MONIT04_observedEventP_v2.shp",
       "EMSR692_AOI04_DEL_MONIT04_waterDepthA_v2.json",
-      "EMSR692_AOI04_DEL_MONIT04_waterDepthA_v2.shp",
-      "EMSR692_AOI04_DEL_MONIT04_waterExtentA_v2.json",
-      "EMSR692_AOI04_DEL_MONIT04_waterExtentA_v2.shp"
+      "EMSR692_AOI04_DEL_MONIT04_waterExtentA_v2.json"
     ],
-    "flood_layers": 2,
+    "flood_layers": 1,
+    "flood_layer_details": [
+      {
+        "layer": "EMSR692_AOI04_DEL_MONIT04_observedEventA_v2.json",
+        "features": 98,
+        "classes": {
+          "event_type": {
+            "5-Flood": 98
+          },
+          "obj_desc": {
+            "Riverine flood": 98
+          },
+          "det_method": {
+            "Photo-interpretation": 98
+          },
+          "notation": {
+            "Flooded area": 57,
+            "Flood trace": 41
+          }
+        }
+      }
+    ],
     "error": null
   },
   {
@@ -470,21 +756,35 @@
     "ok": true,
     "layers": [
       "EMSR692_AOI04_DEL_MONIT02_areaOfInterestA_v2.json",
-      "EMSR692_AOI04_DEL_MONIT02_areaOfInterestA_v2.shp",
       "EMSR692_AOI04_DEL_MONIT02_imageFootprintA_v2.json",
-      "EMSR692_AOI04_DEL_MONIT02_imageFootprintA_v2.shp",
       "EMSR692_AOI04_DEL_MONIT02_maximumWaterExtentA_v2.json",
-      "EMSR692_AOI04_DEL_MONIT02_maximumWaterExtentA_v2.shp",
       "EMSR692_AOI04_DEL_MONIT02_observedEventA_v2.json",
-      "EMSR692_AOI04_DEL_MONIT02_observedEventA_v2.shp",
       "EMSR692_AOI04_DEL_MONIT02_observedEventP_v2.json",
-      "EMSR692_AOI04_DEL_MONIT02_observedEventP_v2.shp",
       "EMSR692_AOI04_DEL_MONIT02_waterDepthA_v2.json",
-      "EMSR692_AOI04_DEL_MONIT02_waterDepthA_v2.shp",
-      "EMSR692_AOI04_DEL_MONIT02_waterExtentA_v2.json",
-      "EMSR692_AOI04_DEL_MONIT02_waterExtentA_v2.shp"
+      "EMSR692_AOI04_DEL_MONIT02_waterExtentA_v2.json"
     ],
-    "flood_layers": 2,
+    "flood_layers": 1,
+    "flood_layer_details": [
+      {
+        "layer": "EMSR692_AOI04_DEL_MONIT02_observedEventA_v2.json",
+        "features": 122,
+        "classes": {
+          "event_type": {
+            "5-Flood": 122
+          },
+          "obj_desc": {
+            "Riverine flood": 122
+          },
+          "det_method": {
+            "Photo-interpretation": 122
+          },
+          "notation": {
+            "Flooded area": 69,
+            "Flood trace": 53
+          }
+        }
+      }
+    ],
     "error": null
   },
   {
@@ -496,19 +796,34 @@
     "ok": true,
     "layers": [
       "EMSR692_AOI05_DEL_MONIT01_areaOfInterestA_v2.json",
-      "EMSR692_AOI05_DEL_MONIT01_areaOfInterestA_v2.shp",
       "EMSR692_AOI05_DEL_MONIT01_imageFootprintA_v2.json",
-      "EMSR692_AOI05_DEL_MONIT01_imageFootprintA_v2.shp",
       "EMSR692_AOI05_DEL_MONIT01_maximumWaterExtentA_v2.json",
-      "EMSR692_AOI05_DEL_MONIT01_maximumWaterExtentA_v2.shp",
       "EMSR692_AOI05_DEL_MONIT01_observedEventA_v2.json",
-      "EMSR692_AOI05_DEL_MONIT01_observedEventA_v2.shp",
       "EMSR692_AOI05_DEL_MONIT01_waterDepthA_v2.json",
-      "EMSR692_AOI05_DEL_MONIT01_waterDepthA_v2.shp",
-      "EMSR692_AOI05_DEL_MONIT01_waterExtentA_v2.json",
-      "EMSR692_AOI05_DEL_MONIT01_waterExtentA_v2.shp"
+      "EMSR692_AOI05_DEL_MONIT01_waterExtentA_v2.json"
     ],
-    "flood_layers": 2,
+    "flood_layers": 1,
+    "flood_layer_details": [
+      {
+        "layer": "EMSR692_AOI05_DEL_MONIT01_observedEventA_v2.json",
+        "features": 11202,
+        "classes": {
+          "event_type": {
+            "5-Flood": 11202
+          },
+          "notation": {
+            "Flood trace": 10138,
+            "Flooded area": 1064
+          },
+          "det_method": {
+            "Semi-automatic extraction": 11202
+          },
+          "obj_desc": {
+            "Riverine flood": 11202
+          }
+        }
+      }
+    ],
     "error": null
   },
   {
@@ -520,19 +835,34 @@
     "ok": true,
     "layers": [
       "EMSR692_AOI05_DEL_MONIT02_areaOfInterestA_v3.json",
-      "EMSR692_AOI05_DEL_MONIT02_areaOfInterestA_v3.shp",
       "EMSR692_AOI05_DEL_MONIT02_imageFootprintA_v3.json",
-      "EMSR692_AOI05_DEL_MONIT02_imageFootprintA_v3.shp",
       "EMSR692_AOI05_DEL_MONIT02_maximumWaterExtentA_v3.json",
-      "EMSR692_AOI05_DEL_MONIT02_maximumWaterExtentA_v3.shp",
       "EMSR692_AOI05_DEL_MONIT02_observedEventA_v3.json",
-      "EMSR692_AOI05_DEL_MONIT02_observedEventA_v3.shp",
       "EMSR692_AOI05_DEL_MONIT02_waterDepthA_v3.json",
-      "EMSR692_AOI05_DEL_MONIT02_waterDepthA_v3.shp",
-      "EMSR692_AOI05_DEL_MONIT02_waterExtentA_v3.json",
-      "EMSR692_AOI05_DEL_MONIT02_waterExtentA_v3.shp"
+      "EMSR692_AOI05_DEL_MONIT02_waterExtentA_v3.json"
     ],
-    "flood_layers": 2,
+    "flood_layers": 1,
+    "flood_layer_details": [
+      {
+        "layer": "EMSR692_AOI05_DEL_MONIT02_observedEventA_v3.json",
+        "features": 1290,
+        "classes": {
+          "event_type": {
+            "5-Flood": 1290
+          },
+          "obj_desc": {
+            "Riverine flood": 1290
+          },
+          "det_method": {
+            "Semi-automatic extraction": 1290
+          },
+          "notation": {
+            "Flooded area": 946,
+            "Flood trace": 344
+          }
+        }
+      }
+    ],
     "error": null
   },
   {
@@ -544,19 +874,34 @@
     "ok": true,
     "layers": [
       "EMSR692_AOI05_DEL_MONIT03_areaOfInterestA_v3.json",
-      "EMSR692_AOI05_DEL_MONIT03_areaOfInterestA_v3.shp",
       "EMSR692_AOI05_DEL_MONIT03_imageFootprintA_v3.json",
-      "EMSR692_AOI05_DEL_MONIT03_imageFootprintA_v3.shp",
       "EMSR692_AOI05_DEL_MONIT03_maximumWaterExtentA_v3.json",
-      "EMSR692_AOI05_DEL_MONIT03_maximumWaterExtentA_v3.shp",
       "EMSR692_AOI05_DEL_MONIT03_observedEventA_v3.json",
-      "EMSR692_AOI05_DEL_MONIT03_observedEventA_v3.shp",
       "EMSR692_AOI05_DEL_MONIT03_waterDepthA_v3.json",
-      "EMSR692_AOI05_DEL_MONIT03_waterDepthA_v3.shp",
-      "EMSR692_AOI05_DEL_MONIT03_waterExtentA_v3.json",
-      "EMSR692_AOI05_DEL_MONIT03_waterExtentA_v3.shp"
+      "EMSR692_AOI05_DEL_MONIT03_waterExtentA_v3.json"
     ],
-    "flood_layers": 2,
+    "flood_layers": 1,
+    "flood_layer_details": [
+      {
+        "layer": "EMSR692_AOI05_DEL_MONIT03_observedEventA_v3.json",
+        "features": 1547,
+        "classes": {
+          "event_type": {
+            "5-Flood": 1547
+          },
+          "obj_desc": {
+            "Riverine flood": 1547
+          },
+          "det_method": {
+            "Semi-automatic extraction": 1547
+          },
+          "notation": {
+            "Flood trace": 812,
+            "Flooded area": 735
+          }
+        }
+      }
+    ],
     "error": null
   },
   {
@@ -568,19 +913,34 @@
     "ok": true,
     "layers": [
       "EMSR692_AOI05_DEL_MONIT04_areaOfInterestA_v2.json",
-      "EMSR692_AOI05_DEL_MONIT04_areaOfInterestA_v2.shp",
       "EMSR692_AOI05_DEL_MONIT04_imageFootprintA_v2.json",
-      "EMSR692_AOI05_DEL_MONIT04_imageFootprintA_v2.shp",
       "EMSR692_AOI05_DEL_MONIT04_maximumWaterExtentA_v2.json",
-      "EMSR692_AOI05_DEL_MONIT04_maximumWaterExtentA_v2.shp",
       "EMSR692_AOI05_DEL_MONIT04_observedEventA_v2.json",
-      "EMSR692_AOI05_DEL_MONIT04_observedEventA_v2.shp",
       "EMSR692_AOI05_DEL_MONIT04_waterDepthA_v2.json",
-      "EMSR692_AOI05_DEL_MONIT04_waterDepthA_v2.shp",
-      "EMSR692_AOI05_DEL_MONIT04_waterExtentA_v2.json",
-      "EMSR692_AOI05_DEL_MONIT04_waterExtentA_v2.shp"
+      "EMSR692_AOI05_DEL_MONIT04_waterExtentA_v2.json"
     ],
-    "flood_layers": 2,
+    "flood_layers": 1,
+    "flood_layer_details": [
+      {
+        "layer": "EMSR692_AOI05_DEL_MONIT04_observedEventA_v2.json",
+        "features": 384,
+        "classes": {
+          "event_type": {
+            "5-Flood": 384
+          },
+          "obj_desc": {
+            "Riverine flood": 384
+          },
+          "det_method": {
+            "Semi-automatic extraction": 384
+          },
+          "notation": {
+            "Flooded area": 323,
+            "Flood trace": 61
+          }
+        }
+      }
+    ],
     "error": null
   },
   {
@@ -592,19 +952,34 @@
     "ok": true,
     "layers": [
       "EMSR692_AOI05_DEL_MONIT05_areaOfInterestA_v2.json",
-      "EMSR692_AOI05_DEL_MONIT05_areaOfInterestA_v2.shp",
       "EMSR692_AOI05_DEL_MONIT05_imageFootprintA_v2.json",
-      "EMSR692_AOI05_DEL_MONIT05_imageFootprintA_v2.shp",
       "EMSR692_AOI05_DEL_MONIT05_maximumWaterExtentA_v2.json",
-      "EMSR692_AOI05_DEL_MONIT05_maximumWaterExtentA_v2.shp",
       "EMSR692_AOI05_DEL_MONIT05_observedEventA_v2.json",
-      "EMSR692_AOI05_DEL_MONIT05_observedEventA_v2.shp",
       "EMSR692_AOI05_DEL_MONIT05_waterDepthA_v2.json",
-      "EMSR692_AOI05_DEL_MONIT05_waterDepthA_v2.shp",
-      "EMSR692_AOI05_DEL_MONIT05_waterExtentA_v2.json",
-      "EMSR692_AOI05_DEL_MONIT05_waterExtentA_v2.shp"
+      "EMSR692_AOI05_DEL_MONIT05_waterExtentA_v2.json"
     ],
-    "flood_layers": 2,
+    "flood_layers": 1,
+    "flood_layer_details": [
+      {
+        "layer": "EMSR692_AOI05_DEL_MONIT05_observedEventA_v2.json",
+        "features": 256,
+        "classes": {
+          "event_type": {
+            "5-Flood": 256
+          },
+          "obj_desc": {
+            "Riverine flood": 256
+          },
+          "det_method": {
+            "Semi-automatic extraction": 256
+          },
+          "notation": {
+            "Flooded area": 198,
+            "Flood trace": 58
+          }
+        }
+      }
+    ],
     "error": null
   },
   {
@@ -616,17 +991,33 @@
     "ok": true,
     "layers": [
       "EMSR692_AOI05_DEL_PRODUCT_areaOfInterestA_v2.json",
-      "EMSR692_AOI05_DEL_PRODUCT_areaOfInterestA_v2.shp",
       "EMSR692_AOI05_DEL_PRODUCT_imageFootprintA_v2.json",
-      "EMSR692_AOI05_DEL_PRODUCT_imageFootprintA_v2.shp",
       "EMSR692_AOI05_DEL_PRODUCT_observedEventA_v2.json",
-      "EMSR692_AOI05_DEL_PRODUCT_observedEventA_v2.shp",
       "EMSR692_AOI05_DEL_PRODUCT_waterDepthA_v2.json",
-      "EMSR692_AOI05_DEL_PRODUCT_waterDepthA_v2.shp",
-      "EMSR692_AOI05_DEL_PRODUCT_waterExtentA_v2.json",
-      "EMSR692_AOI05_DEL_PRODUCT_waterExtentA_v2.shp"
+      "EMSR692_AOI05_DEL_PRODUCT_waterExtentA_v2.json"
     ],
-    "flood_layers": 2,
+    "flood_layers": 1,
+    "flood_layer_details": [
+      {
+        "layer": "EMSR692_AOI05_DEL_PRODUCT_observedEventA_v2.json",
+        "features": 2038,
+        "classes": {
+          "event_type": {
+            "5-Flood": 2038
+          },
+          "notation": {
+            "Flood trace": 1238,
+            "Flooded area": 800
+          },
+          "det_method": {
+            "Semi-automatic extraction": 2038
+          },
+          "obj_desc": {
+            "Riverine flood": 2038
+          }
+        }
+      }
+    ],
     "error": null
   },
   {
@@ -638,21 +1029,34 @@
     "ok": true,
     "layers": [
       "EMSR692_AOI06_DEL_MONIT01_areaOfInterestA_v3.json",
-      "EMSR692_AOI06_DEL_MONIT01_areaOfInterestA_v3.shp",
       "EMSR692_AOI06_DEL_MONIT01_imageFootprintA_v3.json",
-      "EMSR692_AOI06_DEL_MONIT01_imageFootprintA_v3.shp",
       "EMSR692_AOI06_DEL_MONIT01_maximumWaterExtentA_v3.json",
-      "EMSR692_AOI06_DEL_MONIT01_maximumWaterExtentA_v3.shp",
       "EMSR692_AOI06_DEL_MONIT01_observedEventA_v3.json",
-      "EMSR692_AOI06_DEL_MONIT01_observedEventA_v3.shp",
       "EMSR692_AOI06_DEL_MONIT01_observedEventP_v3.json",
-      "EMSR692_AOI06_DEL_MONIT01_observedEventP_v3.shp",
       "EMSR692_AOI06_DEL_MONIT01_waterDepthA_v3.json",
-      "EMSR692_AOI06_DEL_MONIT01_waterDepthA_v3.shp",
-      "EMSR692_AOI06_DEL_MONIT01_waterExtentA_v3.json",
-      "EMSR692_AOI06_DEL_MONIT01_waterExtentA_v3.shp"
+      "EMSR692_AOI06_DEL_MONIT01_waterExtentA_v3.json"
     ],
-    "flood_layers": 2,
+    "flood_layers": 1,
+    "flood_layer_details": [
+      {
+        "layer": "EMSR692_AOI06_DEL_MONIT01_observedEventA_v3.json",
+        "features": 146,
+        "classes": {
+          "event_type": {
+            "5-Flood": 146
+          },
+          "obj_desc": {
+            "Riverine flood": 146
+          },
+          "det_method": {
+            "Semi-automatic extraction": 146
+          },
+          "notation": {
+            "Flooded area": 146
+          }
+        }
+      }
+    ],
     "error": null
   },
   {
@@ -664,19 +1068,33 @@
     "ok": true,
     "layers": [
       "EMSR692_AOI07_DEL_MONIT01_areaOfInterestA_v2.json",
-      "EMSR692_AOI07_DEL_MONIT01_areaOfInterestA_v2.shp",
       "EMSR692_AOI07_DEL_MONIT01_imageFootprintA_v2.json",
-      "EMSR692_AOI07_DEL_MONIT01_imageFootprintA_v2.shp",
       "EMSR692_AOI07_DEL_MONIT01_maximumWaterExtentA_v2.json",
-      "EMSR692_AOI07_DEL_MONIT01_maximumWaterExtentA_v2.shp",
       "EMSR692_AOI07_DEL_MONIT01_observedEventA_v2.json",
-      "EMSR692_AOI07_DEL_MONIT01_observedEventA_v2.shp",
       "EMSR692_AOI07_DEL_MONIT01_waterDepthA_v2.json",
-      "EMSR692_AOI07_DEL_MONIT01_waterDepthA_v2.shp",
-      "EMSR692_AOI07_DEL_MONIT01_waterExtentA_v2.json",
-      "EMSR692_AOI07_DEL_MONIT01_waterExtentA_v2.shp"
+      "EMSR692_AOI07_DEL_MONIT01_waterExtentA_v2.json"
     ],
-    "flood_layers": 2,
+    "flood_layers": 1,
+    "flood_layer_details": [
+      {
+        "layer": "EMSR692_AOI07_DEL_MONIT01_observedEventA_v2.json",
+        "features": 199,
+        "classes": {
+          "event_type": {
+            "5-Flood": 199
+          },
+          "notation": {
+            "Flooded area": 199
+          },
+          "det_method": {
+            "Semi-automatic extraction": 199
+          },
+          "obj_desc": {
+            "Riverine flood": 199
+          }
+        }
+      }
+    ],
     "error": null
   }
 ]
