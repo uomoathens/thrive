@@ -1,21 +1,72 @@
 {
   "counties": 3140,
-  "total_funding": 10605940087.216368,
+  "total_funding": 13717231381.322243,
   "total_flood_eal": 65929980628.106735,
   "funding_per_eal_dollar_by_quintile": [
-    0.11302202241513462,
-    0.12620505576802327,
-    0.14497968406099923,
-    0.27840225433876187,
-    0.2480129186584745
+    0.14054316829738514,
+    0.15843928851034073,
+    0.18772939727112398,
+    0.37052252950592757,
+    0.33488820160413835
   ],
-  "r_cov_most_vs_least_vulnerable": 2.1943769307853356,
+  "r_cov_most_vs_least_vulnerable": 2.3828138049053007,
   "share_without_funding_by_quintile": [
-    0.08917197452229299,
-    0.10668789808917198,
-    0.10668789808917198,
-    0.1305732484076433,
-    0.15605095541401273
+    0.08439490445859872,
+    0.09872611464968153,
+    0.1035031847133758,
+    0.12261146496815287,
+    0.14012738853503184
   ],
-  "disparity_in_any_funding": 0.10191082802547757
+  "disparity_in_any_funding": 0.0859872611464968,
+  "robustness": {
+    "share_of_money_in_largest_counties": 0.36383709674827297,
+    "largest_counties_left_out": 20,
+    "largest_counties": [
+      "Harris, Texas",
+      "Greene, New York",
+      "Orleans, Louisiana",
+      "Jefferson, Louisiana",
+      "Suffolk, New York",
+      "Jefferson, Texas",
+      "St. Tammany, Louisiana",
+      "Wayne, Michigan",
+      "Nassau, New York",
+      "Galveston, Texas",
+      "Kings, New York",
+      "New York, New York",
+      "East Baton Rouge, Louisiana",
+      "Queens, New York",
+      "Miami-Dade, Florida",
+      "Middlesex, New Jersey",
+      "Livingston, Louisiana",
+      "Buncombe, North Carolina",
+      "Cook, Illinois",
+      "Calcasieu, Louisiana"
+    ],
+    "funding_per_eal_dollar_by_quintile_without_largest": [
+      0.14054316829738514,
+      0.10742097115669448,
+      0.14764288613671667,
+      0.19100950644006368,
+      0.21514022574598066
+    ],
+    "r_cov_without_largest": 1.5307768307225746,
+    "median_county_ratio_by_quintile": [
+      0.0328440571934792,
+      0.030847409272777744,
+      0.028557729544346794,
+      0.025917877554689675,
+      0.027917807877279256
+    ],
+    "r_cov_median_county": 0.8500109384422216,
+    "median_ratio_of_funded_counties_by_quintile": [
+      0.042644147662919865,
+      0.041346449302792965,
+      0.039016360834590105,
+      0.04065100920164782,
+      0.04725250697408909
+    ],
+    "r_cov_median_funded_county": 1.1080654571313264
+  },
+  "robust_direction": "not robust"
 }
