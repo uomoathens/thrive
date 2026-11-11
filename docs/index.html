@@ -3,79 +3,165 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>THRIVE: who is protected, and who recovers?</title>
+<title>THRIVE · Who is protected first, and who recovers?</title>
 <meta name="description" content="Interactive introduction to THRIVE, companion software to the book AI for Resilient Cities: Predicting, Protecting, and Thriving in a Changing Climate (Springer Nature, 2027).">
+<meta property="og:type" content="website">
+<meta property="og:title" content="THRIVE · Who is protected first, and who recovers?">
+<meta property="og:description" content="Companion software to the book AI for Resilient Cities: Predicting, Protecting, and Thriving in a Changing Climate (Springer Nature, 2027).">
+<meta property="og:url" content="https://uomoathens.github.io/thrive/">
+<meta property="og:image" content="https://uomoathens.github.io/thrive/og.png">
+<meta name="twitter:card" content="summary_large_image">
 <style>
 :root{
 color-scheme:light;
---surface-0:#f4f4f1;--surface-1:#fcfcfb;--grid:#e4e3de;--axis:#8f8e88;
---text-primary:#0b0b0b;--text-secondary:#52514e;--text-muted:#6b6a65;
---series-1:#2a78d6;--series-2:#eb6834;--ring:#fcfcfb;--accent:#2a78d6;
---card-border:#e4e3de;--tip-bg:#0b0b0b;--tip-text:#f0efec}
-@media (prefers-color-scheme:dark){:root{
+--bg:#f4f4f1;--surface:#fcfcfb;--surface-2:#f0efeb;--grid:#ecebe6;--axis:#8f8e88;--border:#e4e3de;
+--text:#0b0b0b;--text-2:#52514e;--text-3:#6b6a65;
+--c1:#2a78d6;--c2:#eb6834;--ring:#fcfcfb;--accent:#2a78d6;--accent-soft:#e3eefb;
+--tip-bg:#0b0b0b;--tip-text:#f0efec;--shadow:0 1px 2px rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.05)}
+@media (prefers-color-scheme:dark){:root:where(:not([data-theme=light])){
 color-scheme:dark;
---surface-0:#121211;--surface-1:#1a1a19;--grid:#33332f;--axis:#7a7970;
---text-primary:#f0efec;--text-secondary:#c3c2b7;--text-muted:#a3a299;
---series-1:#3987e5;--series-2:#d95926;--ring:#1a1a19;--accent:#6da7ec;
---card-border:#33332f;--tip-bg:#f0efec;--tip-text:#0b0b0b}}
+--bg:#111110;--surface:#1a1a19;--surface-2:#222220;--grid:#2b2b28;--axis:#7a7970;--border:#33332f;
+--text:#f0efec;--text-2:#c3c2b7;--text-3:#a3a299;
+--c1:#3987e5;--c2:#d95926;--ring:#1a1a19;--accent:#6da7ec;--accent-soft:#1c2a3b;
+--tip-bg:#f0efec;--tip-text:#0b0b0b;--shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.25)}}
+:root[data-theme=dark]{
+color-scheme:dark;
+--bg:#111110;--surface:#1a1a19;--surface-2:#222220;--grid:#2b2b28;--axis:#7a7970;--border:#33332f;
+--text:#f0efec;--text-2:#c3c2b7;--text-3:#a3a299;
+--c1:#3987e5;--c2:#d95926;--ring:#1a1a19;--accent:#6da7ec;--accent-soft:#1c2a3b;
+--tip-bg:#f0efec;--tip-text:#0b0b0b;--shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.25)}
 *{box-sizing:border-box}
-body{margin:0;background:var(--surface-0);color:var(--text-primary);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
-main{max-width:880px;margin:0 auto;padding:40px 20px 80px}
-h1{font-size:40px;line-height:1.1;margin:0 0 8px;letter-spacing:-0.5px}
-h2{font-size:24px;line-height:1.25;margin:56px 0 8px}
-p{margin:0 0 14px;color:var(--text-primary)}
-.lede{font-size:19px;color:var(--text-secondary);margin-bottom:18px}
-.meta{font-size:14px;color:var(--text-secondary)}
-a{color:var(--accent)}
-.note{border-left:3px solid var(--axis);padding:8px 14px;margin:20px 0;color:var(--text-secondary);font-size:15px;background:var(--surface-1)}
-.card{background:var(--surface-1);border:1px solid var(--card-border);border-radius:12px;padding:20px 20px 12px;margin:18px 0}
-.ctitle{font-weight:600;font-size:17px;margin:0}
-.csub{color:var(--text-secondary);font-size:14px;margin:2px 0 10px}
-svg.chart{width:100%;height:auto;display:block;overflow:visible}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.65 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:var(--accent);text-underline-offset:3px}
+nav{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 82%,transparent);backdrop-filter:saturate(1.4) blur(12px);-webkit-backdrop-filter:saturate(1.4) blur(12px);border-bottom:1px solid var(--border)}
+.nav-in{max-width:1040px;margin:0 auto;padding:0 20px;height:56px;display:flex;align-items:center;gap:22px}
+.brand{font-weight:750;letter-spacing:1.5px;font-size:15px;color:var(--text);text-decoration:none}
+.links{display:flex;gap:18px;flex:1;overflow-x:auto;scrollbar-width:none}
+.links a{color:var(--text-2);text-decoration:none;font-size:14px;white-space:nowrap;padding:16px 0;border-bottom:2px solid transparent}
+.links a.on{color:var(--text);border-bottom-color:var(--c1)}
+.theme{border:1px solid var(--border);background:var(--surface);color:var(--text);border-radius:999px;height:32px;padding:0 12px;font:inherit;font-size:13px;cursor:pointer}
+main{max-width:1040px;margin:0 auto;padding:0 20px 96px}
+.hero{padding:72px 0 28px;max-width:820px}
+.eyebrow{font-size:13px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--accent);margin:0 0 14px}
+h1{font-size:clamp(34px,5.4vw,56px);line-height:1.05;letter-spacing:-1.2px;margin:0 0 18px;font-weight:760}
+.lede{font-size:clamp(17px,2.1vw,20px);color:var(--text-2);margin:0 0 26px;max-width:720px}
+.cta{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+.btn{display:inline-flex;align-items:center;gap:8px;height:42px;padding:0 18px;border-radius:999px;font-weight:600;font-size:15px;text-decoration:none;border:1px solid var(--border);color:var(--text);background:var(--surface)}
+.btn.primary{background:var(--text);color:var(--bg);border-color:var(--text)}
+.chip{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--text-2);background:var(--surface);border:1px solid var(--border);border-radius:999px;padding:5px 12px}
+.dot{width:8px;height:8px;border-radius:50%;background:#eda100}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:34px 0 8px}
+.stat{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:18px 18px 16px;box-shadow:var(--shadow)}
+.stat .v{font-size:32px;font-weight:700;letter-spacing:-0.8px;line-height:1.1;font-variant-numeric:tabular-nums}
+.stat .l{font-size:14px;color:var(--text-2);margin-top:6px;line-height:1.4}
+.stat .s{font-size:12px;color:var(--text-3);margin-top:8px}
+section{padding-top:56px}
+h2{font-size:clamp(24px,3vw,32px);line-height:1.2;letter-spacing:-0.5px;margin:0 0 12px;font-weight:720}
+.prose{max-width:720px}
+.prose p{margin:0 0 14px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:24px 24px 16px;margin:22px 0;box-shadow:var(--shadow)}
+.chead{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;flex-wrap:wrap}
+.ctitle{font-weight:650;font-size:18px;margin:0;letter-spacing:-0.2px}
+.csub{color:var(--text-2);font-size:14px;margin:2px 0 12px}
+svg.chart{width:100%;height:auto;display:block;overflow:visible;touch-action:pan-y}
 .grid{stroke:var(--grid);stroke-width:1}
 .base{stroke:var(--axis);stroke-width:1}
-.tick{fill:var(--text-secondary);font-size:12px}
-.val{fill:var(--text-primary);font-size:12px;font-weight:600}
-.s1{fill:var(--series-1)}.s2{fill:var(--series-2)}
-.ln1{stroke:var(--series-1)}.ln2{stroke:var(--series-2)}
-.ln{fill:none;stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+.tick{fill:var(--text-2);font-size:12px}
+.val{fill:var(--text);font-size:12.5px;font-weight:650}
+.f1{fill:var(--c1)}.f2{fill:var(--c2)}
+.st1{stroke:var(--c1)}.st2{stroke:var(--c2)}
+.ln{fill:none;stroke-width:2.5;stroke-linejoin:round;stroke-linecap:round}
 .ring{stroke:var(--ring);stroke-width:2}
-.hit{fill:transparent;cursor:default}
-.src{font-size:13px;color:var(--text-muted);margin:8px 0 4px}
-.legend{display:flex;gap:18px;flex-wrap:wrap;font-size:14px;color:var(--text-secondary);margin:4px 0 6px}
-.legend span{display:inline-flex;align-items:center;gap:6px}
+.hit{fill:transparent}
+.bar{transition:opacity .15s}
+.dim .bar{opacity:.3}.dim .bar.hot{opacity:1}
+.xh{stroke:var(--axis);stroke-width:1;opacity:0}
+.src{font-size:13px;color:var(--text-3);margin:10px 0 4px}
+.legend{display:flex;gap:18px;flex-wrap:wrap;font-size:14px;color:var(--text-2);margin:0 0 8px}
+.legend span{display:inline-flex;align-items:center;gap:7px}
 .sw{width:12px;height:12px;border-radius:3px;display:inline-block}
-.swl{width:16px;height:3px;border-radius:2px;display:inline-block}
-.control{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:8px 0 10px;font-size:15px}
-.control input[type=range]{flex:1;min-width:180px;accent-color:var(--series-1)}
-.control output{font-variant-numeric:tabular-nums;font-weight:600;min-width:52px}
-.readout{font-size:15px;background:var(--surface-0);border-radius:8px;padding:10px 12px;margin:6px 0 10px}
-details{font-size:14px;color:var(--text-secondary);margin:6px 0 8px}
-summary{cursor:pointer}
+.swl{width:18px;height:3px;border-radius:2px;display:inline-block}
+.ctrl{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:14px;margin:6px 0 10px;font-size:15px}
+.ctrl output{font-variant-numeric:tabular-nums;font-weight:700;font-size:18px;min-width:58px;text-align:right}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:6px;border-radius:999px;background:linear-gradient(to right,var(--c1) 0%,var(--c1) var(--p,0%),var(--grid) var(--p,0%));outline:none}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--surface);border:2px solid var(--c1);box-shadow:0 1px 4px rgba(0,0,0,.2);cursor:grab}
+input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:var(--surface);border:2px solid var(--c1);cursor:grab}
+input[type=range]:focus-visible::-webkit-slider-thumb{outline:3px solid var(--accent-soft)}
+.presets{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 12px}
+.presets button{font:inherit;font-size:13px;border:1px solid var(--border);background:var(--surface-2);color:var(--text);border-radius:999px;padding:4px 12px;cursor:pointer}
+.presets button.on{background:var(--text);color:var(--bg);border-color:var(--text)}
+.result{display:flex;gap:12px;align-items:center;background:var(--surface-2);border-radius:12px;padding:12px 14px;margin:8px 0 6px;font-size:15px}
+.badge{flex:none;font-size:12px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;border-radius:999px;padding:4px 10px;color:#fff}
+.badge.a{background:var(--c1)}.badge.b{background:var(--c2)}.badge.n{background:var(--axis)}
+details{font-size:14px;color:var(--text-2);margin:8px 0 6px}
+summary{cursor:pointer;color:var(--text)}
 table{border-collapse:collapse;margin-top:8px;font-variant-numeric:tabular-nums}
-th,td{text-align:left;padding:4px 14px 4px 0;border-bottom:1px solid var(--grid)}
-th{color:var(--text-primary);font-weight:600}
-.loop{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:18px 0}
-.step{background:var(--surface-1);border:1px solid var(--card-border);border-radius:12px;padding:14px;cursor:pointer;text-align:left;font:inherit;color:inherit}
-.step[aria-pressed=true]{border-color:var(--series-1);box-shadow:0 0 0 1px var(--series-1)}
-.step b{display:block;font-size:16px}
-.step small{color:var(--text-secondary);font-size:13px}
-.stepinfo{background:var(--surface-1);border:1px solid var(--card-border);border-radius:12px;padding:14px 16px;min-height:96px}
-#tip{position:fixed;pointer-events:none;background:var(--tip-bg);color:var(--tip-text);font-size:13px;line-height:1.4;padding:6px 9px;border-radius:6px;opacity:0;transition:opacity .08s;z-index:10;max-width:260px}
-footer{margin-top:64px;font-size:14px;color:var(--text-secondary)}
-@media (max-width:640px){h1{font-size:32px}.loop{grid-template-columns:1fr 1fr}}
+th,td{text-align:left;padding:6px 18px 6px 0;border-bottom:1px solid var(--grid)}
+th{color:var(--text);font-weight:650}
+.loopwrap{display:grid;grid-template-columns:minmax(260px,420px) 1fr;gap:28px;align-items:center}
+.node{cursor:pointer}
+.node circle{fill:var(--surface-2);stroke:var(--border);stroke-width:1.5;transition:fill .2s,stroke .2s}
+.node.on circle{fill:var(--c1);stroke:var(--c1)}
+.node text{fill:var(--text);font-size:13px;font-weight:650;pointer-events:none}
+.node.on text{fill:#fff}
+.node:focus{outline:none}.node:focus-visible circle{stroke:var(--accent);stroke-width:3}
+.arc{fill:none;stroke:var(--axis);stroke-width:1.5;stroke-dasharray:4 6;animation:flow 1.2s linear infinite}
+@keyframes flow{to{stroke-dashoffset:-20}}
+.panel{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:22px 24px;box-shadow:var(--shadow);min-height:220px}
+.panel h3{margin:0 0 8px;font-size:20px}
+.panel p{margin:0 0 10px;color:var(--text-2)}
+.panel .tag{font-size:13px;color:var(--text-3)}
+.cite pre{background:var(--surface-2);border:1px solid var(--border);border-radius:12px;padding:14px 16px;overflow:auto;font-size:13px;line-height:1.5;margin:10px 0}
+.copy{font:inherit;font-size:14px;border:1px solid var(--border);background:var(--surface);color:var(--text);border-radius:999px;padding:6px 14px;cursor:pointer}
+#tip{position:fixed;pointer-events:none;background:var(--tip-bg);color:var(--tip-text);font-size:13px;line-height:1.45;padding:8px 11px;border-radius:8px;opacity:0;transition:opacity .1s;z-index:30;max-width:280px;box-shadow:0 6px 20px rgba(0,0,0,.18)}
+#tip b{font-weight:700}
+footer{margin-top:72px;padding-top:24px;border-top:1px solid var(--border);font-size:14px;color:var(--text-2)}
+.reveal{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}
+.reveal.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.arc{animation:none}.reveal{opacity:1;transform:none;transition:none}}
+@media (max-width:820px){.stats{grid-template-columns:1fr 1fr}.loopwrap{grid-template-columns:1fr}.links{display:none}}
 </style>
 </head>
 <body>
 <div id="tip" role="tooltip"></div>
-<main>
-<h1>THRIVE</h1>
-<p class="lede">When the money for flood protection runs out, who is protected first? And after the water goes down, who is back on their feet, and who is still waiting?</p>
-<p class="meta">Dimitrios Sargiotis, National Technical University of Athens. Companion software to the book <i>AI for Resilient Cities: Predicting, Protecting, and Thriving in a Changing Climate</i> (Springer Nature, 2027, <a href="https://doi.org/10.1007/978-3-032-36417-3">doi:10.1007/978-3-032-36417-3</a>). Code: <a href="https://github.com/uomoathens/thrive">github.com/uomoathens/thrive</a>.</p>
-<div class="note">THRIVE is at the design stage. Nothing on this page is a THRIVE result. The charts show published figures or simple examples, and each one says which it is.</div>
+<nav>
+<div class="nav-in">
+<a class="brand" href="#top">THRIVE</a>
+<div class="links">
+<a href="#problem">The bill</a>
+<a href="#protect">Protecting</a>
+<a href="#recover">Thriving</a>
+<a href="#decide">Who decides</a>
+<a href="#loop">How it works</a>
+<a href="#cite">Cite</a>
+</div>
+<button class="theme" id="theme" type="button" aria-label="Switch between light and dark">Dark</button>
+</div>
+</nav>
+<main id="top">
+<header class="hero">
+<p class="eyebrow">Companion software to the book</p>
+<h1>Who is protected first, and who recovers?</h1>
+<p class="lede">When the money for flood protection runs out, someone decides which neighbourhood comes first. After the water goes down, some areas are back within weeks and others wait for months. THRIVE is being built to make those decisions fair, and to show that they are.</p>
+<div class="cta">
+<a class="btn primary" href="https://doi.org/10.1007/978-3-032-36417-3">AI for Resilient Cities · Springer, 2027</a>
+<a class="btn" href="https://github.com/uomoathens/thrive">Code on GitHub</a>
+</div>
+<span class="chip"><i class="dot"></i>Design stage. Nothing here is a THRIVE result yet.</span>
+<p class="src" style="margin-top:14px">Dimitrios Sargiotis, National Technical University of Athens</p>
+</header>
 
+<div class="stats reveal">
+<div class="stat"><div class="v" data-count="44.5" data-pre="€" data-suf="bn" data-dec="1">€44.5bn</div><div class="l">lost to weather and climate extremes in the EU each year, on average, 2020 to 2023</div><div class="s">European Environment Agency</div></div>
+<div class="stat"><div class="v" data-count="5" data-suf="×" data-dec="0">5×</div><div class="l">the yearly average of the 1980s</div><div class="s">European Environment Agency</div></div>
+<div class="stat"><div class="v">2030</div><div class="l">deadline for national climate-resilience plans in the proposed EU law</div><div class="s">COM(2026) 730, Article 7</div></div>
+<div class="stat"><div class="v">7–47%</div><div class="l">of flood triage rankings in which language models kept the rule they were given</div><div class="s">Who Gets Help First?, 2026</div></div>
+</div>
+
+<section id="problem" class="reveal">
 <h2>The bill keeps growing</h2>
-<p>Floods, storms, heatwaves and droughts now cost the EU five times what they did in the 1980s. Hover over a bar to see the figure.</p>
+<div class="prose"><p>In the 1980s, floods, storms, heatwaves and droughts cost the EU €8.5 billion a year on average. Between 2020 and 2023 the average was €44.5 billion. Hover over a bar for the figure.</p></div>
 <div class="card">
 <p class="ctitle">Average yearly economic losses from weather and climate extremes, EU</p>
 <p class="csub">Billion euros, constant 2023 prices</p>
@@ -83,158 +169,222 @@ footer{margin-top:64px;font-size:14px;color:var(--text-secondary)}
 <p class="src">Source: European Environment Agency, Economic losses from weather- and climate-related extremes in Europe (8th EAP indicator, 2024).</p>
 <details><summary>Show the numbers</summary><table id="t1"></table></details>
 </div>
+</section>
 
-<h2>The way we share out protection favours the richer side of town</h2>
-<p>Most flood works are approved with a simple test: does the project save more property value than it costs? Zachary Liscow of Yale gives an example. Two levees cost $10 million each. Levee A protects 50 homes worth $210,000. Levee B protects 100 homes worth $90,000. Counted in property value, A saves $10.5 million and passes. B saves $9 million and fails, though it protects twice as many homes.</p>
-<p>Economists have a fix called equity weights. A dollar saved counts for more when the household that saves it has less. How much more is set by one number, written η. At zero, every dollar counts the same. Move the slider and watch what happens.</p>
+<section id="protect" class="reveal">
+<h2>Protecting: who gets the levee?</h2>
+<div class="prose">
+<p>Most flood works are approved with one test: does the project save more property value than it costs? Zachary Liscow of Yale gives an example. Two levees cost $10 million each. Levee A protects 50 homes worth $210,000. Levee B protects 100 homes worth $90,000. Counted in property value, A saves $10.5 million and passes, while B saves $9 million and fails. B protects twice as many homes.</p>
+<p>Economists have a fix called equity weights. A dollar saved counts for more when the household that saves it has less, and one number, η, sets how much more. Drag it and watch the decision change.</p>
+</div>
 <div class="card">
-<p class="ctitle">Which levee gets built?</p>
-<p class="csub">Benefit of each levee, million dollars</p>
-<div class="control"><label for="eta">Equity weight η</label><input type="range" id="eta" min="0" max="2" step="0.01" value="0"><output id="etaout" for="eta">0.00</output></div>
-<div class="legend"><span><i class="sw s1" style="background:var(--series-1)"></i>A: 50 homes worth $210,000</span><span><i class="sw" style="background:var(--series-2)"></i>B: 100 homes worth $90,000</span></div>
+<div class="chead"><div><p class="ctitle">Which levee gets built?</p><p class="csub">Benefit of each levee, million dollars</p></div></div>
+<div class="ctrl"><label for="eta">Equity weight η</label><input type="range" id="eta" min="0" max="2" step="0.01" value="0"><output id="etaout" for="eta">0.00</output></div>
+<div class="presets" id="etap"><button type="button" data-v="0">η = 0 · property value only</button><button type="button" data-v="0.5">η = 0.5</button><button type="button" data-v="1">η = 1</button><button type="button" data-v="2">η = 2</button></div>
+<div class="legend"><span><i class="sw" style="background:var(--c1)"></i>Levee A · 50 homes worth $210,000</span><span><i class="sw" style="background:var(--c2)"></i>Levee B · 100 homes worth $90,000</span></div>
 <svg class="chart" id="c2" viewBox="0 0 720 280" role="img" aria-label="Bar chart of the benefits of levee A and levee B"></svg>
-<div class="readout" id="r2" aria-live="polite"></div>
+<div class="result" id="r2" aria-live="polite"></div>
 <p class="src">Example from Z. Liscow, Benefit-Cost Analysis and Equity, NBER 2023. To draw the weighted bars we assume household income follows home value. That assumption is ours, for illustration.</p>
 <details><summary>How the weights are computed</summary><p>Each dollar saved by a household is multiplied by (average income ÷ household income)<sup>η</sup>. With income following home value, the average across the 150 homes is $130,000, so a home in A is weighted (130/210)<sup>η</sup> and a home in B (130/90)<sup>η</sup>. B overtakes A at η ≈ 0.18 and passes the $10 million cost at η ≈ 0.29.</p></details>
 </div>
-<p>THRIVE builds this idea into the allocation from the start. The choice of η is political, so THRIVE never fixes it. It shows an elected council what each value would mean and leaves the decision to them.</p>
+<div class="prose"><p>THRIVE builds this idea into the allocation from the start. Choosing η is a political decision, so THRIVE never fixes it. It shows an elected council what each value would mean and leaves the choice to them.</p></div>
+</section>
 
-<h2>Who recovered first? It depends on how you ask</h2>
-<p>Satellites can see a neighbourhood come back to life: lights return at night, and fields turn green again. To compare areas, you have to choose a threshold for "recovered". The two curves below are invented, but the problem is real. A 2026 study in Texas found that its answer to "do poorer areas recover more slowly?" flipped when the definition changed. Drag the threshold and see the order change.</p>
+<section id="recover" class="reveal">
+<h2>Thriving: who recovered first?</h2>
+<div class="prose"><p>Satellites can see a neighbourhood come back to life: lights return at night, and fields turn green again. To compare areas you have to choose what counts as recovered. The two curves below are invented, but the problem is real. A 2026 study in Texas found that its answer to "do poorer areas recover more slowly?" flipped when the definition changed. Drag the threshold, or move along the chart to read any day.</p></div>
 <div class="card">
 <p class="ctitle">Night-time light after a flood, as a share of normal</p>
 <p class="csub">Made-up curves for two areas. The axis starts at 60%.</p>
-<div class="control"><label for="alpha">"Recovered" means back to</label><input type="range" id="alpha" min="0.80" max="0.98" step="0.01" value="0.90"><output id="alphaout" for="alpha">90%</output></div>
-<div class="legend"><span><i class="swl" style="background:var(--series-1)"></i>Area A</span><span><i class="swl" style="background:var(--series-2)"></i>Area B</span></div>
+<div class="ctrl"><label for="alpha">"Recovered" means back to</label><input type="range" id="alpha" min="0.80" max="0.98" step="0.01" value="0.90"><output id="alphaout" for="alpha">90%</output></div>
+<div class="legend"><span><i class="swl" style="background:var(--c1)"></i>Area A</span><span><i class="swl" style="background:var(--c2)"></i>Area B</span></div>
 <svg class="chart" id="c3" viewBox="0 0 720 300" role="img" aria-label="Line chart of two recovery curves with a movable threshold"></svg>
-<div class="readout" id="r3" aria-live="polite"></div>
+<div class="result" id="r3" aria-live="polite"></div>
 </div>
-<p>So THRIVE never trusts a single threshold. It checks every finding about unequal recovery under a range of them, and keeps the finding only if it holds under all.</p>
+<div class="prose"><p>So THRIVE never trusts a single threshold. It checks every finding about unequal recovery under a range of them, and keeps the finding only if it holds under all.</p></div>
+</section>
 
-<h2>Why a language model should explain decisions, and never make them</h2>
-<p>In an earlier study, five open language models were asked to rank flood calls and were given a clear rule: vulnerable people first, then households, then workers, then property. Most of the time they did not keep it.</p>
+<section id="decide" class="reveal">
+<h2>Why a language model should explain, and never decide</h2>
+<div class="prose"><p>In an earlier study, five open language models ranked flood calls under a clear rule: vulnerable people first, then households, then workers, then property. Most of the time they broke it.</p></div>
 <div class="card">
 <p class="ctitle">Share of triage rankings that kept the stated order in full</p>
-<p class="csub">All triage answers of the study, by model</p>
+<p class="csub">All 4,250 triage answers of the study, by model</p>
 <svg class="chart" id="c4" viewBox="0 0 720 280" role="img" aria-label="Bar chart of the share of rankings that followed the rule, by model"></svg>
 <p class="src">Source: Who Gets Help First? (Sargiotis, 2026, <a href="https://doi.org/10.5281/zenodo.23684889">doi:10.5281/zenodo.23684889</a>), results/study-cpu. 4-bit quantised models on CPU, one instruction wording.</p>
 <details><summary>Show the numbers</summary><table id="t4"></table></details>
 </div>
+</section>
 
+<section id="loop" class="reveal">
 <h2>How THRIVE works</h2>
-<p>The three verbs of the book's title become one loop. Click a step.</p>
-<div class="loop" role="group" aria-label="The THRIVE loop">
-<button class="step" data-k="0" aria-pressed="true"><b>1. Predicting</b><small>where the water goes, and who lives there</small></button>
-<button class="step" data-k="1" aria-pressed="false"><b>2. Protecting</b><small>a fair share of a limited budget</small></button>
-<button class="step" data-k="2" aria-pressed="false"><b>3. Fairness check</b><small>before anything is built</small></button>
-<button class="step" data-k="3" aria-pressed="false"><b>4. Thriving</b><small>recovery, measured from space</small></button>
+<div class="prose"><p>The three verbs of the book's title become one loop. Click a step, or use the arrow keys.</p></div>
+<div class="loopwrap">
+<svg id="ring" viewBox="0 0 400 400" role="group" aria-label="The THRIVE loop"></svg>
+<div class="panel" id="panel" aria-live="polite"></div>
 </div>
-<div class="stepinfo" id="stepinfo" aria-live="polite"></div>
+</section>
+
+<section id="cite" class="reveal cite">
+<h2>Cite the book</h2>
+<div class="prose"><p>Sargiotis, D. (2027). <i>AI for Resilient Cities: Predicting, Protecting, and Thriving in a Changing Climate</i>. Springer Nature Switzerland AG. <a href="https://doi.org/10.1007/978-3-032-36417-3">https://doi.org/10.1007/978-3-032-36417-3</a></p></div>
+<pre id="bib">@book{sargiotis2027resilient,
+  author    = {Sargiotis, Dimitrios},
+  title     = {AI for Resilient Cities: Predicting, Protecting, and Thriving in a Changing Climate},
+  publisher = {Springer Nature Switzerland AG},
+  year      = {2027},
+  doi       = {10.1007/978-3-032-36417-3}
+}</pre>
+<button class="copy" id="copy" type="button">Copy BibTeX</button>
+</section>
 
 <footer>
-<p>Cite the book: Sargiotis, D. (2027). <i>AI for Resilient Cities: Predicting, Protecting, and Thriving in a Changing Climate</i>. Springer Nature Switzerland AG. <a href="https://doi.org/10.1007/978-3-032-36417-3">https://doi.org/10.1007/978-3-032-36417-3</a></p>
-<p>Code and design under the MIT licence at <a href="https://github.com/uomoathens/thrive">github.com/uomoathens/thrive</a>.</p>
+<p>THRIVE · Trustworthy Hazard-to-Recovery Intelligence for Vulnerability-aware Equity. Code and design under the MIT licence at <a href="https://github.com/uomoathens/thrive">github.com/uomoathens/thrive</a>.</p>
 </footer>
 </main>
 <script>
 (function(){
-var NS="http://www.w3.org/2000/svg";
-var tip=document.getElementById("tip");
+var NS="http://www.w3.org/2000/svg",root=document.documentElement,tip=document.getElementById("tip");
+var reduce=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 function el(t,a,p){var e=document.createElementNS(NS,t);for(var k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e}
 function txt(s,a,p){var e=el("text",a,p);e.textContent=s;return e}
 function clear(s){while(s.firstChild)s.removeChild(s.firstChild)}
-function showTip(ev,html){tip.innerHTML=html;tip.style.opacity=1;var x=ev.clientX+14,y=ev.clientY-10;var w=tip.offsetWidth;if(x+w>window.innerWidth-8)x=ev.clientX-w-14;tip.style.left=x+"px";tip.style.top=y+"px"}
+function showTip(ev,html){tip.innerHTML=html;tip.style.opacity=1;var x=ev.clientX+16,y=ev.clientY-12,w=tip.offsetWidth,h=tip.offsetHeight;if(x+w>innerWidth-8)x=ev.clientX-w-16;if(y+h>innerHeight-8)y=innerHeight-h-8;tip.style.left=x+"px";tip.style.top=y+"px"}
 function hideTip(){tip.style.opacity=0}
-function barPath(x,y,w,h){var r=Math.min(4,h);return "M"+x+","+(y+h)+" V"+(y+r)+" Q"+x+","+y+" "+(x+r)+","+y+" H"+(x+w-r)+" Q"+(x+w)+","+y+" "+(x+w)+","+(y+r)+" V"+(y+h)+" Z"}
-function yGrid(svg,L,R,T,ph,W,min,max,step,fmt){for(var v=min;v<=max+1e-9;v+=step){var y=T+ph-(v-min)/(max-min)*ph;el("line",{"class":"grid",x1:L,x2:W-R,y1:y,y2:y},svg);txt(fmt(v),{"class":"tick",x:L-8,y:y+4,"text-anchor":"end"},svg)}}
-function table(id,head,rows){var t=document.getElementById(id);var h="<tr>"+head.map(function(c){return"<th>"+c+"</th>"}).join("")+"</tr>";rows.forEach(function(r){h+="<tr>"+r.map(function(c){return"<td>"+c+"</td>"}).join("")+"</tr>"});t.innerHTML=h}
-function bars(svgId,data,max,step,fmt,valFmt,tipFmt){
-var svg=document.getElementById(svgId);clear(svg);
-var W=720,H=+svg.getAttribute("viewBox").split(" ")[3],L=64,R=16,T=24,B=36,ph=H-T-B,pw=W-L-R;
-yGrid(svg,L,R,T,ph,W,0,max,step,fmt);
-var band=pw/data.length,bw=24;
+function barPath(x,y,w,h){if(h<=0)return"M"+x+","+y+"Z";var r=Math.min(4,h);return"M"+x+","+(y+h)+"V"+(y+r)+"Q"+x+","+y+" "+(x+r)+","+y+"H"+(x+w-r)+"Q"+(x+w)+","+y+" "+(x+w)+","+(y+r)+"V"+(y+h)+"Z"}
+function ease(t){return 1-Math.pow(1-t,3)}
+function tween(dur,fn){if(reduce){fn(1);return}var s=performance.now();function f(n){var t=Math.min(1,(n-s)/dur);fn(ease(t));if(t<1)requestAnimationFrame(f)}requestAnimationFrame(f)}
+function yGrid(svg,L,R,T,ph,W,min,max,step,fmt){for(var v=min;v<=max+1e-9;v+=step){var y=T+ph-(v-min)/(max-min)*ph;el("line",{"class":"grid",x1:L,x2:W-R,y1:y,y2:y},svg);txt(fmt(v),{"class":"tick",x:L-10,y:y+4,"text-anchor":"end"},svg)}}
+function table(id,head,rows){var t=document.getElementById(id),h="<tr>"+head.map(function(c){return"<th>"+c+"</th>"}).join("")+"</tr>";rows.forEach(function(r){h+="<tr>"+r.map(function(c){return"<td>"+c+"</td>"}).join("")+"</tr>"});t.innerHTML=h}
+function setFill(r){var p=(r.value-r.min)/(r.max-r.min)*100;r.style.setProperty("--p",p+"%")}
+var theme=document.getElementById("theme");
+function isDark(){var t=root.getAttribute("data-theme");if(t)return t==="dark";return matchMedia("(prefers-color-scheme: dark)").matches}
+function syncTheme(){theme.textContent=isDark()?"Light":"Dark"}
+try{var saved=localStorage.getItem("thrive-theme");if(saved)root.setAttribute("data-theme",saved)}catch(e){}
+syncTheme();
+theme.addEventListener("click",function(){var n=isDark()?"light":"dark";root.setAttribute("data-theme",n);try{localStorage.setItem("thrive-theme",n)}catch(e){}syncTheme()});
+function barChart(svgId,data,max,step,fmt,valFmt,tipFmt){
+var svg=document.getElementById(svgId),W=720,H=+svg.getAttribute("viewBox").split(" ")[3],L=66,R=16,T=26,B=38,ph=H-T-B,pw=W-L-R,band=pw/data.length,bw=26,items=[];
+clear(svg);yGrid(svg,L,R,T,ph,W,0,max,step,fmt);
+var g=el("g",{},svg);
 data.forEach(function(d,i){
-var x=L+band*i+(band-bw)/2,h=d.v/max*ph,y=T+ph-h;
-el("path",{"class":d.c||"s1",d:barPath(x,y,bw,h)},svg);
-txt(valFmt(d.v),{"class":"val",x:x+bw/2,y:y-8,"text-anchor":"middle"},svg);
-txt(d.l,{"class":"tick",x:x+bw/2,y:T+ph+20,"text-anchor":"middle"},svg);
-var hit=el("rect",{"class":"hit",x:L+band*i,y:T,width:band,height:ph},svg);
-hit.addEventListener("mousemove",function(ev){showTip(ev,tipFmt(d))});
-hit.addEventListener("mouseleave",hideTip);
+var x=L+band*i+(band-bw)/2;
+var p=el("path",{"class":"bar "+(d.c||"f1"),d:barPath(x,T+ph,bw,0)},g);
+var lab=txt(valFmt(d.v),{"class":"val",x:x+bw/2,y:T+ph-8,"text-anchor":"middle",opacity:0},svg);
+txt(d.l,{"class":"tick",x:x+bw/2,y:T+ph+22,"text-anchor":"middle"},svg);
+var hit=el("rect",{"class":"hit",x:L+band*i,y:T,width:band,height:ph+30},svg);
+hit.addEventListener("mousemove",function(ev){g.classList.add("dim");p.classList.add("hot");showTip(ev,tipFmt(d))});
+hit.addEventListener("mouseleave",function(){g.classList.remove("dim");p.classList.remove("hot");hideTip()});
+items.push({p:p,lab:lab,x:x,h:d.v/max*ph});
 });
 el("line",{"class":"base",x1:L,x2:W-R,y1:T+ph,y2:T+ph},svg);
+return function(){tween(900,function(t){items.forEach(function(it,i){var k=Math.max(0,Math.min(1,t*1.25-i*0.06));var h=it.h*ease(k);it.p.setAttribute("d",barPath(it.x,T+ph-h,bw,h));it.lab.setAttribute("y",T+ph-h-8);it.lab.setAttribute("opacity",k)})})};
 }
 var eu=[{l:"1980s",v:8.5},{l:"1990s",v:14.0},{l:"2000s",v:15.8},{l:"2010s",v:17.8},{l:"2020–2023",v:44.5}];
-bars("c1",eu,50,10,function(v){return"€"+v+"bn"},function(v){return"€"+v.toFixed(1)+"bn"},function(d){return"<b>"+d.l+"</b><br>€"+d.v.toFixed(1)+" billion a year on average"});
+var grow1=barChart("c1",eu,50,10,function(v){return"€"+v+"bn"},function(v){return"€"+v.toFixed(1)+"bn"},function(d){return"<b>"+d.l+"</b><br>€"+d.v.toFixed(1)+" billion a year on average"+(d.l==="1980s"?"":"<br>"+(d.v/8.5).toFixed(1)+"× the 1980s")});
 table("t1",["Period","Average yearly loss"],eu.map(function(d){return[d.l,"€"+d.v.toFixed(1)+" billion"]}));
-var yb=(50*210+100*90)/150;
-function levees(){
-var e=+document.getElementById("eta").value;
-document.getElementById("etaout").textContent=e.toFixed(2);
-var a=10.5*Math.pow(yb/210,e),b=9*Math.pow(yb/90,e);
-var svg=document.getElementById("c2");clear(svg);
-var W=720,H=280,L=64,R=16,T=24,B=36,ph=H-T-B,pw=W-L-R,max=24;
-yGrid(svg,L,R,T,ph,W,0,max,4,function(v){return"$"+v+"m"});
-var yc=T+ph-10/max*ph;
-el("line",{"class":"base",x1:L,x2:W-R,y1:yc,y2:yc},svg);
-txt("cost of each levee: $10m",{"class":"tick",x:W-R,y:yc-6,"text-anchor":"end"},svg);
-[{n:"Levee A",v:a,c:"s1",d:"50 homes worth $210,000"},{n:"Levee B",v:b,c:"s2",d:"100 homes worth $90,000"}].forEach(function(d,i){
-var bw=24,x=L+pw*(i===0?0.3:0.6)-bw/2,h=d.v/max*ph,y=T+ph-h;
-el("path",{"class":d.c,d:barPath(x,y,bw,h)},svg);
-txt("$"+d.v.toFixed(1)+"m",{"class":"val",x:x+bw/2,y:y-8,"text-anchor":"middle"},svg);
-txt(d.n,{"class":"tick",x:x+bw/2,y:T+ph+20,"text-anchor":"middle"},svg);
-var hit=el("rect",{"class":"hit",x:x-40,y:T,width:bw+80,height:ph},svg);
-hit.addEventListener("mousemove",function(ev){showTip(ev,"<b>"+d.n+"</b>, "+d.d+"<br>Benefit: $"+d.v.toFixed(2)+" million<br>"+(d.v>=10?"Passes":"Fails")+" the $10 million cost test")});
-hit.addEventListener("mouseleave",hideTip);
-});
-el("line",{"class":"base",x1:L,x2:W-R,y1:T+ph,y2:T+ph},svg);
+var rule=[{l:"Meltemi 7B",v:0.0723,n:899},{l:"Apertus 8B",v:0.2933,n:733},{l:"Qwen 2.5 7B",v:0.3681,n:891},{l:"Llama 3.1 8B",v:0.4641,n:849},{l:"Krikri 8B",v:0.4692,n:878}];
+var grow4=barChart("c4",rule,1,0.25,function(v){return Math.round(v*100)+"%"},function(v){return Math.round(v*100)+"%"},function(d){return"<b>"+d.l+"</b><br>"+(d.v*100).toFixed(1)+"% of "+d.n+" triage rankings kept the rule"});
+table("t4",["Model","Kept the rule","Triage answers"],rule.map(function(d){return[d.l,(d.v*100).toFixed(1)+"%",d.n]}));
+var yb=(50*210+100*90)/150,c2=document.getElementById("c2"),eta=document.getElementById("eta"),cur={a:10.5,b:9},lv={};
+(function(){var W=720,H=280,L=66,R=16,T=26,B=38,ph=H-T-B,pw=W-L-R,max=24;lv={W:W,H:H,L:L,R:R,T:T,ph:ph,pw:pw,max:max};
+yGrid(c2,L,R,T,ph,W,0,max,4,function(v){return"$"+v+"m"});
+var yc=T+ph-10/max*ph;el("line",{"class":"base",x1:L,x2:W-R,y1:yc,y2:yc,"stroke-dasharray":"0"},c2);
+txt("cost of each levee: $10m",{"class":"tick",x:W-R,y:yc-7,"text-anchor":"end"},c2);
+lv.bars=[{n:"Levee A",c:"f1",d:"50 homes worth $210,000",x:L+pw*0.3},{n:"Levee B",c:"f2",d:"100 homes worth $90,000",x:L+pw*0.6}];
+lv.bars.forEach(function(b,i){b.p=el("path",{"class":"bar "+b.c},c2);b.t=txt("",{"class":"val","text-anchor":"middle",x:b.x},c2);txt(b.n,{"class":"tick",x:b.x,y:T+ph+22,"text-anchor":"middle"},c2);
+var hit=el("rect",{"class":"hit",x:b.x-70,y:T,width:140,height:ph+30},c2);
+hit.addEventListener("mousemove",function(ev){var v=i===0?cur.a:cur.b;showTip(ev,"<b>"+b.n+"</b> · "+b.d+"<br>Benefit $"+v.toFixed(2)+" million<br>"+(v>=10?"Passes":"Fails")+" the $10 million cost test")});
+hit.addEventListener("mouseleave",hideTip)});
+el("line",{"class":"base",x1:L,x2:W-R,y1:T+ph,y2:T+ph},c2)})();
+function drawLevees(a,b){[a,b].forEach(function(v,i){var bw=30,bar=lv.bars[i],h=v/lv.max*lv.ph,y=lv.T+lv.ph-h;bar.p.setAttribute("d",barPath(bar.x-bw/2,y,bw,h));bar.t.setAttribute("y",y-9);bar.t.textContent="$"+v.toFixed(1)+"m"})}
+function levees(animate){
+var e=+eta.value;setFill(eta);document.getElementById("etaout").textContent=e.toFixed(2);
+document.querySelectorAll("#etap button").forEach(function(btn){btn.classList.toggle("on",Math.abs(+btn.dataset.v-e)<1e-9)});
+var a=10.5*Math.pow(yb/210,e),b=9*Math.pow(yb/90,e),a0=cur.a,b0=cur.b;cur={a:a,b:b};
+if(animate)tween(380,function(t){drawLevees(a0+(a-a0)*t,b0+(b-b0)*t)});else drawLevees(a,b);
+var badge=a>b?'<span class="badge a">A wins</span>':(b>a?'<span class="badge b">B wins</span>':'<span class="badge n">Tie</span>');
 var win=a>b?"Levee A, on the richer side, comes out ahead.":(b>a?"Levee B, which protects twice as many homes, comes out ahead.":"The two levees are level.");
-var pass=b>=10?"Levee B now passes the cost test.":"Levee B still fails the cost test.";
-document.getElementById("r2").textContent="At η = "+e.toFixed(2)+", A is worth $"+a.toFixed(1)+"m and B $"+b.toFixed(1)+"m. "+win+" "+pass;
+var pass=b>=10?" B also passes the $10 million cost test.":" B still fails the $10 million cost test.";
+document.getElementById("r2").innerHTML=badge+"<span>At η = "+e.toFixed(2)+", A is worth $"+a.toFixed(1)+"m and B $"+b.toFixed(1)+"m. "+win+pass+"</span>";
 }
-document.getElementById("eta").addEventListener("input",levees);levees();
+eta.addEventListener("input",function(){levees(false)});
+document.querySelectorAll("#etap button").forEach(function(btn){btn.addEventListener("click",function(){eta.value=btn.dataset.v;levees(true)})});
+levees(false);
 function fA(t){return 0.92*(1-Math.exp(-t/4))+0.08*(1-Math.exp(-t/60))}
 function fB(t){return 1/(1+Math.exp(-(t-20)/3))}
 function dayOf(f,a){for(var t=0;t<=400;t++){if(f(t)>=a)return t}return null}
+var c3=document.getElementById("c3"),alpha=document.getElementById("alpha"),rc={W:720,H:300,L:66,R:62,T:20,B:38,days:90,lo:0.6};
+rc.ph=rc.H-rc.T-rc.B;rc.pw=rc.W-rc.L-rc.R;
+function X(t){return rc.L+t/rc.days*rc.pw}
+function Y(v){return rc.T+rc.ph-(Math.max(v,rc.lo)-rc.lo)/(1-rc.lo)*rc.ph}
+(function(){
+yGrid(c3,rc.L,rc.R,rc.T,rc.ph,rc.W,rc.lo,1,0.1,function(v){return Math.round(v*100)+"%"});
+for(var t=0;t<=rc.days;t+=15)txt("day "+t,{"class":"tick",x:X(t),y:rc.T+rc.ph+22,"text-anchor":"middle"},c3);
+[[fA,"st1","Area A"],[fB,"st2","Area B"]].forEach(function(s){var pts=[];for(var t=0;t<=rc.days;t+=0.5){if(s[0](t)>=rc.lo)pts.push(X(t).toFixed(1)+","+Y(s[0](t)).toFixed(1))}
+var pl=el("polyline",{"class":"ln "+s[1],points:pts.join(" ")},c3);
+if(!reduce){var len=pl.getTotalLength?pl.getTotalLength():1500;pl.style.strokeDasharray=len;pl.style.strokeDashoffset=len;rc.lines=(rc.lines||[]).concat([pl])}
+txt(s[2],{"class":"val",x:X(rc.days)+8,y:Y(s[0](rc.days))+(s[2]==="Area B"?-4:13)},c3)});
+el("line",{"class":"base",x1:rc.L,x2:X(rc.days),y1:rc.T+rc.ph,y2:rc.T+rc.ph},c3);
+rc.th=el("line",{"class":"base",x1:rc.L,x2:X(rc.days),"stroke-width":1.5},c3);
+rc.thl=txt("",{"class":"tick",x:X(rc.days)-6,"text-anchor":"end"},c3);
+rc.mA=el("circle",{"class":"f1 ring",r:6},c3);rc.mB=el("circle",{"class":"f2 ring",r:6},c3);
+rc.xh=el("line",{"class":"xh",y1:rc.T,y2:rc.T+rc.ph},c3);
+rc.hA=el("circle",{"class":"f1 ring",r:4.5,opacity:0},c3);rc.hB=el("circle",{"class":"f2 ring",r:4.5,opacity:0},c3);
+var hit=el("rect",{"class":"hit",x:rc.L,y:rc.T,width:rc.pw,height:rc.ph},c3);
+function move(ev){var pt=c3.createSVGPoint();pt.x=ev.clientX;pt.y=ev.clientY;var p=pt.matrixTransform(c3.getScreenCTM().inverse());var d=Math.round(Math.max(0,Math.min(rc.days,(p.x-rc.L)/rc.pw*rc.days)));
+var a=fA(d),b=fB(d);rc.xh.setAttribute("x1",X(d));rc.xh.setAttribute("x2",X(d));rc.xh.style.opacity=1;
+rc.hA.setAttribute("cx",X(d));rc.hA.setAttribute("cy",Y(a));rc.hA.setAttribute("opacity",a>=rc.lo?1:0);rc.hB.setAttribute("cx",X(d));rc.hB.setAttribute("cy",Y(b));rc.hB.setAttribute("opacity",b>=rc.lo?1:0);
+showTip(ev,"<b>Day "+d+"</b><br>Area A: "+(a*100).toFixed(1)+"% of normal<br>Area B: "+(b*100).toFixed(1)+"% of normal")}
+hit.addEventListener("mousemove",move);hit.addEventListener("touchmove",function(ev){if(ev.touches[0])move(ev.touches[0])},{passive:true});
+hit.addEventListener("mouseleave",function(){rc.xh.style.opacity=0;rc.hA.setAttribute("opacity",0);rc.hB.setAttribute("opacity",0);hideTip()});
+})();
 function recovery(){
-var a=+document.getElementById("alpha").value;
-document.getElementById("alphaout").textContent=Math.round(a*100)+"%";
-var svg=document.getElementById("c3");clear(svg);
-var W=720,H=300,L=64,R=60,T=20,B=36,ph=H-T-B,pw=W-L-R,days=90,lo=0.6;
-function X(t){return L+t/days*pw}
-function Y(v){return T+ph-(Math.max(v,lo)-lo)/(1-lo)*ph}
-yGrid(svg,L,R,T,ph,W,lo,1,0.1,function(v){return Math.round(v*100)+"%"});
-for(var t=0;t<=days;t+=15)txt("day "+t,{"class":"tick",x:X(t),y:T+ph+20,"text-anchor":"middle"},svg);
-[[fA,"ln1","Area A"],[fB,"ln2","Area B"]].forEach(function(s){
-var pts=[];for(var t=0;t<=days;t++){if(s[0](t)>=lo)pts.push(X(t).toFixed(1)+","+Y(s[0](t)).toFixed(1))}
-el("polyline",{"class":"ln "+s[1],points:pts.join(" ")},svg);
-txt(s[2],{"class":"val",x:X(days)+8,y:Y(s[0](days))+(s[2]==="Area B"?-4:12)},svg);
-});
-el("line",{"class":"base",x1:L,x2:X(days),y1:Y(a),y2:Y(a)},svg);
+var a=+alpha.value;setFill(alpha);document.getElementById("alphaout").textContent=Math.round(a*100)+"%";
+rc.th.setAttribute("y1",Y(a));rc.th.setAttribute("y2",Y(a));rc.thl.setAttribute("y",Y(a)+17);rc.thl.textContent="“recovered” = "+Math.round(a*100)+"% of normal";
 var dA=dayOf(fA,a),dB=dayOf(fB,a);
-[[dA,"s1","Area A"],[dB,"s2","Area B"]].forEach(function(s){
-if(s[0]===null||s[0]>days)return;
-var c=el("circle",{"class":s[1]+" ring",cx:X(s[0]),cy:Y(a),r:5},svg);
-var hit=el("circle",{"class":"hit",cx:X(s[0]),cy:Y(a),r:14},svg);
-hit.addEventListener("mousemove",function(ev){showTip(ev,"<b>"+s[2]+"</b><br>back to "+Math.round(a*100)+"% of normal on day "+s[0])});
-hit.addEventListener("mouseleave",hideTip);
-});
-el("line",{"class":"base",x1:L,x2:X(days),y1:T+ph,y2:T+ph},svg);
-var first=dA<dB?"Area A recovers first.":(dB<dA?"Area B recovers first.":"Both recover on the same day.");
-document.getElementById("r3").textContent="With “recovered” set at "+Math.round(a*100)+"%, Area A is back on day "+dA+" and Area B on day "+dB+". "+first;
+[[rc.mA,dA],[rc.mB,dB]].forEach(function(m){if(m[1]===null||m[1]>rc.days){m[0].setAttribute("opacity",0)}else{m[0].setAttribute("opacity",1);m[0].setAttribute("cx",X(m[1]));m[0].setAttribute("cy",Y(a))}});
+var badge=dA<dB?'<span class="badge a">A first</span>':(dB<dA?'<span class="badge b">B first</span>':'<span class="badge n">Tie</span>');
+document.getElementById("r3").innerHTML=badge+"<span>With “recovered” set at "+Math.round(a*100)+"%, Area A is back on day "+dA+" and Area B on day "+dB+". The gap is "+Math.abs(dA-dB)+" days.</span>";
 }
-document.getElementById("alpha").addEventListener("input",recovery);recovery();
-var rule=[{l:"Meltemi 7B",v:0.0723,n:899},{l:"Apertus 8B",v:0.2933,n:733},{l:"Qwen 2.5 7B",v:0.3681,n:891},{l:"Llama 3.1 8B",v:0.4641,n:849},{l:"Krikri 8B",v:0.4692,n:878}];
-bars("c4",rule,1,0.25,function(v){return Math.round(v*100)+"%"},function(v){return Math.round(v*100)+"%"},function(d){return"<b>"+d.l+"</b><br>"+(d.v*100).toFixed(1)+"% of "+d.n+" triage rankings kept the rule"});
-table("t4",["Model","Kept the rule","Triage answers"],rule.map(function(d){return[d.l,(d.v*100).toFixed(1)+"%",d.n]}));
-var info=[
-"<b>Predicting.</b> Flood forecasts tell us where the water will go. THRIVE adds who lives there and how exposed they are, using the 2021 census on a grid of 1 km squares. The forecasting models come from Chapter 1 of the book (HEFF-RC, LSTM-AFFUW, AIF-EWS) and the vulnerability map from Chapter 4 (VAE-LVM).",
-"<b>Protecting.</b> With a fixed budget, THRIVE proposes which works to fund. A euro saved counts more for a poorer household, and need may move a household up the list while a name or a postcode may not. Small towns learn from larger ones without sharing their data. This builds on EA-CURA (Chapter 3), FCFL (Chapter 5) and DPFL-EDA (Chapter 1).",
-"<b>Fairness check.</b> Before a plan is used, THRIVE runs it again and again with one detail changed each time: a name, a neighbourhood, a residence status. If any of those moves the plan more than chance would, the plan fails. If a real need, such as a person over 80, does not move it, the plan fails too. The method comes from the Who Gets Help First? audit.",
-"<b>Thriving.</b> After a flood, satellites show when lights come back in towns and when fields turn green again. THRIVE compares how fast each area recovers, under several definitions of recovered, and feeds what it learns into the next round of Predicting."];
-var steps=document.querySelectorAll(".step"),si=document.getElementById("stepinfo");
-function pick(k){steps.forEach(function(s){s.setAttribute("aria-pressed",s.dataset.k==k?"true":"false")});si.innerHTML=info[k]}
-steps.forEach(function(s){s.addEventListener("click",function(){pick(s.dataset.k)})});pick(0);
+alpha.addEventListener("input",recovery);recovery();
+var steps=[
+{k:"Predicting",s:"where the water goes, and who lives there",b:"Flood forecasts say where the water will go. THRIVE adds who lives there and how exposed they are, using the 2021 census on a grid of 1 km squares.",t:"Builds on HEFF-RC, LSTM-AFFUW and AIF-EWS (Chapter 1) and VAE-LVM (Chapter 4)"},
+{k:"Protecting",s:"a fair share of a limited budget",b:"With a fixed budget, THRIVE proposes which works to fund. A euro saved counts for more in a poorer household. Need may move a household up the list, while a name or a postcode may not. Small towns learn from larger ones without sharing their data.",t:"Builds on EA-CURA (Chapter 3), FCFL (Chapter 5) and DPFL-EDA (Chapter 1)"},
+{k:"Fairness check",s:"before anything is built",b:"Before a plan is used, THRIVE runs it again many times with one detail changed each time: a name, a neighbourhood, a residence status. If any of those moves the plan more than chance does, the plan fails. If a real need, such as a person over 80, does not move it, the plan fails too.",t:"Uses the audit method of Who Gets Help First? (2026)"},
+{k:"Thriving",s:"recovery, measured from space",b:"After a flood, satellites show when lights come back in towns and when fields turn green again. THRIVE compares how fast each area recovers, under several definitions of recovered, and feeds what it learns into the next round of Predicting.",t:"Extends the social-impact feedback layer of EA-CURA (Chapter 3)"}];
+var ring=document.getElementById("ring"),panel=document.getElementById("panel"),cx=200,cy=200,rr=140,nodes=[],sel=0;
+var defs=el("defs",{},ring),mk=el("marker",{id:"ah",viewBox:"0 0 10 10",refX:"8",refY:"5",markerWidth:"7",markerHeight:"7",orient:"auto-start-reverse"},defs);el("path",{d:"M0,0L10,5L0,10z",fill:"var(--axis)"},mk);
+var ang=[-90,0,90,180];
+ang.forEach(function(a,i){var a0=(a+22)*Math.PI/180,a1=(ang[(i+1)%4]+(i===3?360:0)-22)*Math.PI/180;
+el("path",{"class":"arc",d:"M"+(cx+rr*Math.cos(a0))+","+(cy+rr*Math.sin(a0))+" A"+rr+","+rr+" 0 0 1 "+(cx+rr*Math.cos(a1))+","+(cy+rr*Math.sin(a1)),"marker-end":"url(#ah)"},ring)});
+txt("THRIVE",{x:cx,y:cy-4,"text-anchor":"middle","font-size":"22","font-weight":"760","fill":"var(--text)","letter-spacing":"2"},ring);
+txt("one loop, every flood",{x:cx,y:cy+18,"text-anchor":"middle","font-size":"12","fill":"var(--text-2)"},ring);
+ang.forEach(function(a,i){var r=a*Math.PI/180,x=cx+rr*Math.cos(r),y=cy+rr*Math.sin(r);
+var g=el("g",{"class":"node",tabindex:"0",role:"button","aria-label":steps[i].k},ring);
+el("circle",{cx:x,cy:y,r:46},g);
+txt(String(i+1),{x:x,y:y-6,"text-anchor":"middle","font-size":"15"},g);
+var lbl=steps[i].k.split(" ");lbl.forEach(function(w,j){txt(w,{x:x,y:y+12+j*14,"text-anchor":"middle","font-size":"12"},g)});
+g.addEventListener("click",function(){pick(i)});
+g.addEventListener("keydown",function(ev){if(ev.key==="Enter"||ev.key===" "){ev.preventDefault();pick(i)}if(ev.key==="ArrowRight"||ev.key==="ArrowDown"){ev.preventDefault();pick((sel+1)%4,true)}if(ev.key==="ArrowLeft"||ev.key==="ArrowUp"){ev.preventDefault();pick((sel+3)%4,true)}});
+nodes.push(g)});
+function pick(i,focus){sel=i;nodes.forEach(function(n,j){n.classList.toggle("on",j===i);n.setAttribute("aria-pressed",j===i?"true":"false")});if(focus)nodes[i].focus();var s=steps[i];panel.innerHTML="<h3>"+(i+1)+". "+s.k+"</h3><p><b>"+s.s.charAt(0).toUpperCase()+s.s.slice(1)+".</b> "+s.b+"</p><p class='tag'>"+s.t+"</p>"}
+pick(0);
+document.getElementById("copy").addEventListener("click",function(){var b=this,t=document.getElementById("bib").textContent;function done(){b.textContent="Copied";setTimeout(function(){b.textContent="Copy BibTeX"},1600)}
+if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(done,function(){})}else{var r=document.createRange();r.selectNodeContents(document.getElementById("bib"));var s=getSelection();s.removeAllRanges();s.addRange(r);try{document.execCommand("copy");done()}catch(e){}}});
+function countUp(elm){var to=+elm.dataset.count,pre=elm.dataset.pre||"",suf=elm.dataset.suf||"",dec=+elm.dataset.dec||0;tween(1100,function(t){elm.textContent=pre+(to*t).toFixed(dec)+suf})}
+var done={};
+var io="IntersectionObserver" in window?new IntersectionObserver(function(es){es.forEach(function(e){if(!e.isIntersecting)return;var t=e.target;t.classList.add("in");
+if(t.classList.contains("stats")&&!done.s){done.s=1;t.querySelectorAll("[data-count]").forEach(countUp)}
+if(t.id==="problem"&&!done.p){done.p=1;grow1()}
+if(t.id==="decide"&&!done.d){done.d=1;grow4()}
+if(t.id==="recover"&&!done.r){done.r=1;(rc.lines||[]).forEach(function(pl){pl.style.transition="stroke-dashoffset 1.4s ease";requestAnimationFrame(function(){pl.style.strokeDashoffset=0})})}
+io.unobserve(t)})},{threshold:0.18}):null;
+document.querySelectorAll(".reveal").forEach(function(s){if(io)io.observe(s);else{s.classList.add("in")}});
+if(!io){grow1();grow4();(rc.lines||[]).forEach(function(pl){pl.style.strokeDashoffset=0})}
+var links=[].slice.call(document.querySelectorAll(".links a")),secs=links.map(function(a){return document.querySelector(a.getAttribute("href"))});
+function spy(){var y=scrollY+120,on=-1;secs.forEach(function(s,i){if(s&&s.offsetTop<=y)on=i});links.forEach(function(a,i){a.classList.toggle("on",i===on)})}
+addEventListener("scroll",spy,{passive:true});spy();
 })();
 </script>
 </body>

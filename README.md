@@ -20,13 +20,19 @@ THRIVE is at the design stage. There is no code yet and no result. The charts be
 
 Disasters are getting more expensive. In the EU, floods, storms, heatwaves and droughts cost €8.5 billion a year on average in the 1980s. Between 2020 and 2023 the yearly average was €44.5 billion.
 
-![Average yearly losses from weather and climate extremes in the EU, by decade](docs/figures/eu-losses.svg)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/figures/eu-losses-dark.svg">
+  <img src="docs/figures/eu-losses.svg" alt="Average yearly losses from weather and climate extremes in the EU, by decade" width="720">
+</picture>
 
 The money for protection is also shared out in a way that tends to favour the richer side of town. Most flood works are approved with one test: does the project save more property value than it costs? Zachary Liscow of Yale gives a simple example. Two levees cost $10 million each. Levee A protects 50 homes worth $210,000, so it saves $10.5 million and passes. Levee B protects 100 homes worth $90,000. It saves $9 million and fails, though it protects twice as many homes.
 
 Economists have a fix called equity weights: a dollar saved counts for more when the household that saves it has less. In our illustration, which assumes income follows home value, the weights turn the result around.
 
-![Benefits of two levees, counted in property value and with equity weights](docs/figures/two-levees.svg)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/figures/two-levees-dark.svg">
+  <img src="docs/figures/two-levees.svg" alt="Benefits of two levees, counted in property value and with equity weights" width="720">
+</picture>
 
 Europe has noticed the problem. The proposed European Climate Resilience Law (COM(2026) 730, 27 October 2026) defines *just resilience* and asks every national climate-resilience plan to take into consideration people in vulnerable situations and the regions hit hardest. It does not say how anyone should check that a plan does this. THRIVE is meant to give a public authority that check. If a system like it is classed as high-risk under the AI Act, the same check also documents the examination for possible bias that Article 10 requires.
 
@@ -59,7 +65,10 @@ Satellites can see a town come back to life. Lights return at night (NASA Black 
 
 The invented curves below show how that can happen.
 
-![Two recovery curves whose order flips with the threshold](docs/figures/recovery-definition.svg)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/figures/recovery-definition-dark.svg">
+  <img src="docs/figures/recovery-definition.svg" alt="Two recovery curves whose order flips with the threshold" width="720">
+</picture>
 
 THRIVE therefore checks every finding about unequal recovery under a range of thresholds, and keeps it only if it holds under all of them.
 
@@ -83,7 +92,10 @@ A village of 2,000 people has too little data to train a model on its own. With 
 
 A language model may help explain a decision to residents. It should not take one. In our earlier study, five open models were given a clear priority rule for flood calls, and most of the time they did not keep it.
 
-![Share of triage rankings in which each model kept the stated rule](docs/figures/priority-rule.svg)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/figures/priority-rule-dark.svg">
+  <img src="docs/figures/priority-rule.svg" alt="Share of triage rankings in which each model kept the stated rule" width="720">
+</picture>
 
 ## How we will test it
 
@@ -136,7 +148,8 @@ $\mathrm{FR}$ is the share of runs in which the plan changes, $\mathrm{UB}_{95}$
 ```
 README.md          this page
 docs/index.html    the interactive version, published with GitHub Pages
-docs/figures/      the charts on this page
+docs/figures/      the charts on this page, in light and dark versions
+docs/og.png        the preview image shown when the page is shared
 CITATION.cff       how to cite this repository and the book
 LICENSE            MIT
 ```
