@@ -1,0 +1,20 @@
+[
+  {
+    "check": "Copernicus EMS activation",
+    "url": "https://rapidmapping.emergency.copernicus.eu/backend/dashboard-api/public-activations/?code=EMSR692",
+    "ok": true,
+    "error": null
+  },
+  {
+    "check": "GISCO regions",
+    "url": "https://gisco-services.ec.europa.eu/distribution/v2/nuts/geojson/NUTS_RG_01M_2021_4326_LEVL_3.geojson",
+    "ok": true,
+    "error": null
+  },
+  {
+    "check": "GISCO 1 km grid",
+    "url": "https://gisco-services.ec.europa.eu/distribution/v2/grid/grid_1km_point.gpkg",
+    "ok": false,
+    "error": "could not download https://gisco-services.ec.europa.eu/distribution/v2/grid/grid_1km_point.gpkg: HTTP Error 404: Not Found"
+  }
+]
