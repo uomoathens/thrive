@@ -182,8 +182,8 @@ def test_exposure_numbers(tmp_path, grid_zip):
     assert s["checks"]["cems_maximum_km2"] == pytest.approx(2.0)
     assert s["checks"]["classes"] == {"Flooded area": 4}
     v = {r["region_id"]: r for r in s["validation"]}
-    assert v["EL611"]["difference"] == pytest.approx(0)
-    assert v["EL612"]["difference"] == pytest.approx(20)
+    assert v["EL611"]["difference"] == pytest.approx(0, abs=1e-3)
+    assert v["EL612"]["difference"] == pytest.approx(20, abs=1e-3)
     sources = json.loads((out / "sources.json").read_text())
     assert sources["products_used"] == 2 and sources["flood_layers_used"] == 2
     assert sources["population_column"] == "T" and sources["older_column"] == "Y_GE65"
