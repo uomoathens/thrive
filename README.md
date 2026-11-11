@@ -16,7 +16,7 @@ THRIVE answers the three in a loop, so that what we learn after one flood change
 
 ![tests](https://github.com/uomoathens/thrive/actions/workflows/ci.yml/badge.svg)
 
-Version 0.3.0 holds the four core calculations, each with its own tests, and the first pipeline for real data (Phase A, below). The calculations are checked on worked examples, which give exactly the numbers on the interactive page. Phase A runs by itself on GitHub once a month and stores what it finds in `results/phase-a`; until its first run there are no results on real data. The charts below show published figures or simple examples, and each caption says which.
+Version 0.4.0 holds the four core calculations, each with its own tests, and two pipelines for real data. Phase A, on US flood grants, has run on GitHub and its results are in `results/phase-a` (summary below). Phase B, on Storm Daniel in Thessaly, is new in this version; it runs on GitHub and writes to `results/phase-b`. The calculations are checked on worked examples, which give exactly the numbers on the interactive page. The charts below show published figures or simple examples, and each caption says which.
 
 To try it:
 
@@ -37,6 +37,7 @@ thrive demo
 | `thrive.allocate` | Chooses which works to fund within a budget, with equity weights, and reports how unevenly protection falls across groups. One plan per value of η, so a council can compare them | “People count” below, with the group-fairness measure of FCFL (Table 5.8) |
 | `thrive.fairness` | The group-fairness measure of FCFL | FCFL (Table 5.8) |
 | `thrive.data.phase_a` | Phase A: downloads FEMA's hazard-mitigation grants and the National Risk Index, and compares flood money with flood risk across five groups of counties, from least to most socially vulnerable | “How we will test it”, phase A |
+| `thrive.data.phase_b` | Phase B: downloads the Copernicus flood maps of Storm Daniel and the 2021 census on the 1 km grid, and counts how many residents, and how many aged 65 and over, lived inside the mapped flood in each regional unit of Thessaly | “How we will test it”, phase B |
 | `thrive.audit` | The fairness check: changes one detail at a time, compares with a placebo run, and passes a plan only if, after Holm correction across all checks, no identity change moves it and every need change raises it | “Need may count” and “Nothing is built before a fairness check” below, method of Who Gets Help First? |
 
 Still to come: the forecasting and vulnerability models of the Predicting step, the satellite data for recovery, learning the allocation policy with Proximal Policy Optimization, federated learning across towns, and the validation phases.
@@ -126,8 +127,8 @@ A language model may help explain a decision to residents. It should not take on
 
 | Phase | Where | Data | Status |
 | --- | --- | --- | --- |
-| A | United States, fully open | OpenFEMA HMA Subapplications (which replaced the Hazard Mitigation Assistance Projects dataset on 15 October 2026), FEMA National Risk Index v1.20 (flood risk, population, social vulnerability) | Pipeline in place, runs monthly on GitHub |
-| B | Thessaly, Storm Daniel (September 2023) | Copernicus EMS maps EMSR692 and EMSN184, 2021 census on the 1 km grid, Sentinel-2, NASA Black Marble | Next |
+| A | United States, fully open | OpenFEMA HMA Subapplications (which replaced the Hazard Mitigation Assistance Projects dataset on 15 October 2026), FEMA National Risk Index v1.20 (flood risk, population, social vulnerability) | First results below, rerun monthly |
+| B | Thessaly, Storm Daniel (September 2023) | Copernicus EMS maps EMSR692 and EMSN184, 2021 census on the 1 km grid, Sentinel-2, NASA Black Marble | Exposure pipeline in place (EMSR692 and the census grid); recovery from satellites comes next |
 | C | Thessaly, who actually received aid | Anonymised state-aid records by community, requested from the General Secretariat for Natural Disaster Recovery and State Aid | Needs a data request |
 | D | Attica, looking ahead | The current plan for flood and wildfire works, assessed before the next event | Later |
 
@@ -136,6 +137,31 @@ A language model may help explain a decision to residents. It should not take on
 For every US county, Phase A adds up the federal money FEMA has obligated to flood-related hazard-mitigation grants since 2000 and divides it by the county's expected yearly flood loss, inland and coastal, from the National Risk Index. It then sorts the counties into five equal groups by social vulnerability and compares the groups. If protection followed risk alone, every group would get about the same money per dollar of expected loss. The main number is the coverage ratio: money per dollar of risk in the most vulnerable fifth, divided by the same in the least vulnerable fifth. Below 1, the most vulnerable counties get less protection for the same risk. A few very large counties can dominate the totals, so Phase A also computes the ratio without the 20 counties that received the most, and the ratio of the median county. Following THRIVE's own rule, a direction is reported as a finding only when all these measures agree.
 
 Every run first checks that each source answers (`preflight.json`), then records what it downloaded and when (`sources.json`, with a fingerprint of each page), a small sample of the raw records (`sample.json`), the results (`summary.json`, `report.md`, and an Excel file with every county, every activity and every county name it could not match), and its own log. Only grants with a funded status count (closed, approved, obligated, awarded, completed, closeout initiated, subaward accepted), with the obligated amount, or the federal share where an older grant has no obligated amount. A grant counts as flood-related when one of its hazards mentions flooding, it comes from the Flood Mitigation Assistance programme, or its main activity is a flood measure (acquisition, elevation, flood control, floodproofing, drainage), because many flood works are recorded under hurricanes or storms. FEMA names the counties a grant benefits by name, so Phase A matches the names to the National Risk Index; if more than a quarter of the money cannot be matched, the run stops and lists the names.
+
+### What Phase A found
+
+The first run counted 63,635 FEMA records, kept 16,439 flood-related grants with a funded status, and placed $13.72 billion of them in 3,140 counties. Another $1.90 billion went to statewide grants, which have no county, and $0.51 billion (3.5 % of the money meant for named counties) carried a county name that could not be matched.
+
+| Measure | Coverage ratio, most vulnerable fifth against least vulnerable |
+| --- | --- |
+| All money | 2.38 |
+| Without the 20 counties that received the most (36 % of the money) | 1.53 |
+| Median county | 0.85 |
+| Median county, among those that received any flood money | 1.11 |
+
+Taken as totals, the most vulnerable counties received more flood money per dollar of risk, not less. The picture is less clear county by county. The typical county in the most vulnerable fifth received a little less than the typical county in the least vulnerable one, and it was more likely to have received nothing at all (14 % of counties against 8 %). The measures do not agree, so by THRIVE's own rule there is **no robust direction** to report. A few places such as New Orleans, Harris County and the New York area, all hit by very large storms, carry the totals.
+
+One record needs checking with FEMA before it is used in any argument: a single Hurricane Sandy grant of $507 million (DR-4085-0018-R) is attributed to Greene County, New York, which makes it the second-largest county in the table.
+
+What we take from this is narrower than a headline. In the United States, the gap does not seem to lie in the national totals, which large disasters dominate; it may lie in which smaller counties never receive any grant. That question needs data on applications as well as awards, and it is where Phase A will go next.
+
+### Phase B in plain words
+
+Phase B asks who was in the water when Storm Daniel hit Thessaly in September 2023. It reads the activation EMSR692 of the Copernicus Emergency Management Service through its public API, downloads every delineation and grading product that can be downloaded, and keeps the layers that map the observed flood. It then lays the flood over the 2021 census on Eurostat's 1 km grid. A square that is 40 % under water counts 40 % of its residents as exposed, since the census does not say where in the square people live. The results are added up for each regional unit of Thessaly (NUTS 3, EL61): residents, residents exposed, square kilometres flooded, and the share of the exposed who are 65 or over, if the grid carries that column.
+
+Like Phase A, every run first checks that each source answers, then records each product it found (`inventory.json`), the sources and their fingerprints (`sources.json`), the results (`summary.json`, `report.md`, an Excel file with every regional unit and every flooded square) and the flood extent itself (`flood-extent.gpkg`), so anyone can open it in QGIS. If no flood layer is found, the run stops and the inventory shows what was there.
+
+The limits: the Copernicus maps show the flood the satellites saw on the dates they passed, not the peak; people are assumed to be spread evenly within each square; and being inside the flood is not the same as losing a home.
 
 The limits, stated now: a grant that names several counties is split equally between them, statewide grants are left out, money obligated is not always money spent, and expected loss is a model estimate. We cannot rerun history, so Phase B can show whether the real allocation after Daniel was unequal; comparing it with what THRIVE would have done rests on stated assumptions; and showing that a fairer allocation would also have reduced the damage needs hydraulic models of the floods with and without the works.
 
@@ -153,7 +179,7 @@ The limits, stated now: a grant that names several counties is split equally bet
 P\left(\hat{Y}_{A\leftarrow a}=y \mid X=x,\ N=n\right)=P\left(\hat{Y}_{A\leftarrow a'}=y \mid X=x,\ N=n\right)\quad \forall\, a,a'
 ```
 
-**People, not property.** The reward of the allocation policy counts avoided expected annual loss $\Delta\mathrm{EAL}_i$ with an income weight $\omega_i$, and subtracts the recovery penalty. In version 0.2.0 the allocation is found by exact search over the possible sets of works. Learning it with Proximal Policy Optimization and the group-fairness penalty of FCFL comes in a later step:
+**People, not property.** The reward of the allocation policy counts avoided expected annual loss $\Delta\mathrm{EAL}_i$ with an income weight $\omega_i$, and subtracts the recovery penalty. In the current version the allocation is found by exact search over the possible sets of works. Learning it with Proximal Policy Optimization and the group-fairness penalty of FCFL comes in a later step:
 
 ```math
 R_t=\sum_{i}\omega_i\,\Delta\mathrm{EAL}_i(a_t)-\kappa\,\Phi_{\tau},\qquad \omega_i=\left(\frac{\bar{y}}{y_i}\right)^{\eta}
@@ -184,12 +210,13 @@ README.md          this page
 pyproject.toml     package definition
 src/thrive/        the THRIVE package: recovery, weights, allocate, fairness, audit, examples, data
 tests/             tests, run on every push by GitHub Actions
-.github/workflows/ the automatic checks and the monthly Phase A run
+.github/workflows/ the automatic checks and the Phase A and Phase B runs
 docs/index.html    the interactive version, published with GitHub Pages
 docs/figures/      the charts on this page, in light and dark versions
 docs/og.png        the preview image shown when the page is shared
 config/            settings of the data pipelines
 results/phase-a/   Phase A results, written by GitHub Actions
+results/phase-b/   Phase B results, written by GitHub Actions
 CITATION.cff       how to cite this repository and the book
 LICENSE            MIT
 ```

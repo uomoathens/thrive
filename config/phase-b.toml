@@ -1,0 +1,18 @@
+[cems]
+activation = "EMSR692"
+detail = "https://rapidmapping.emergency.copernicus.eu/backend/dashboard-api/public-activations/?code={code}"
+product_types = ["DEL", "GRA"]
+flood_layer_words = ["observedevent"]
+
+[grid]
+url = "https://gisco-services.ec.europa.eu/distribution/v2/grid/grid_1km_point.gpkg"
+population = ["TOT_P_2021", "T", "TOT_P"]
+older = ["Y_GE65_2021", "Y_GE65"]
+cell_size_m = 1000
+
+[regions]
+url = "https://gisco-services.ec.europa.eu/distribution/v2/nuts/geojson/NUTS_RG_01M_2021_4326_LEVL_3.geojson"
+prefix = "EL61"
+
+[analysis]
+crs = 3035

@@ -66,6 +66,9 @@ def main(argv: list[str] | None = None) -> int:
     pa = sub.add_parser("phase-a", help="download open US data and compare flood funding with social vulnerability")
     pa.add_argument("--config", default="config/phase-a.toml")
     pa.add_argument("--out", default="results/phase-a")
+    pb = sub.add_parser("phase-b", help="who was in the water of Storm Daniel: Copernicus flood extent against the 1 km population grid")
+    pb.add_argument("--config", default="config/phase-b.toml")
+    pb.add_argument("--out", default="results/phase-b")
     args = parser.parse_args(argv)
     if args.command == "info":
         print(_info())
@@ -81,6 +84,13 @@ def main(argv: list[str] | None = None) -> int:
         summary = run(Path(args.config), Path(args.out))
         r = summary["r_cov_most_vs_least_vulnerable"]
         print(f"Phase A done: {summary['counties']} counties, coverage ratio {r:.2f}" if r is not None else "Phase A done: coverage ratio not defined")
+    elif args.command == "phase-b":
+        from pathlib import Path
+
+        from thrive.data.phase_b import run as run_b
+
+        summary = run_b(Path(args.config), Path(args.out))
+        print(f"Phase B done: {summary['population_exposed']:,.0f} residents in flooded cells, {summary['flooded_km2']:,.0f} km2 flooded")
     else:
         parser.print_help()
     return 0

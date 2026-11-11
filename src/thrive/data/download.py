@@ -1,5 +1,6 @@
 import hashlib
 import json
+import shutil
 import time
 import urllib.parse
 import urllib.request
@@ -17,6 +18,26 @@ def fetch(url: str, retries: int = 4, timeout: int = 180) -> bytes:
             req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
             with urllib.request.urlopen(req, timeout=timeout) as resp:
                 return resp.read()
+        except Exception as exc:
+            last = exc
+            time.sleep(2 ** attempt)
+    raise RuntimeError(f"could not download {url}: {last}")
+
+
+def fetch_to_file(url: str, path, retries: int = 4, timeout: int = 900) -> str:
+    last: Exception | None = None
+    for attempt in range(retries):
+        try:
+            req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
+            digest = hashlib.sha256()
+            with urllib.request.urlopen(req, timeout=timeout) as resp, open(path, "wb") as out:
+                while True:
+                    chunk = resp.read(1 << 20)
+                    if not chunk:
+                        break
+                    digest.update(chunk)
+                    out.write(chunk)
+            return digest.hexdigest()
         except Exception as exc:
             last = exc
             time.sleep(2 ** attempt)
