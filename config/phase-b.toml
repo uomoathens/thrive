@@ -5,7 +5,7 @@ product_types = ["DEL", "GRA"]
 flood_layer_words = ["observedevent"]
 
 [grid]
-url = "https://gisco-services.ec.europa.eu/distribution/v2/grid/grid_1km_point.gpkg"
+url = "https://gisco-services.ec.europa.eu/grid/grid_1km_point.gpkg"
 population = ["TOT_P_2021", "T", "TOT_P"]
 older = ["Y_GE65_2021", "Y_GE65"]
 cell_size_m = 1000

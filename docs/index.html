@@ -131,6 +131,7 @@ footer{margin-top:72px;padding-top:24px;border-top:1px solid var(--border);font-
 <div class="links">
 <a href="#problem">The bill</a>
 <a href="#protect">Protecting</a>
+<a href="#results">First results</a>
 <a href="#recover">Thriving</a>
 <a href="#decide">Who decides</a>
 <a href="#loop">How it works</a>
@@ -148,7 +149,7 @@ footer{margin-top:72px;padding-top:24px;border-top:1px solid var(--border);font-
 <a class="btn primary" href="https://link.springer.com/book/9783032364166">AI for Resilient Cities · Springer, 2027</a>
 <a class="btn" href="https://github.com/uomoathens/thrive">Code on GitHub</a>
 </div>
-<span class="chip"><i class="dot"></i>Design stage. Nothing here is a THRIVE result yet.</span>
+<span class="chip"><i class="dot"></i><span>First results on real data: <a href="#results">Phase A, United States</a>. Thessaly is next.</span></span>
 <p class="src" style="margin-top:14px">Dimitrios Sargiotis, National Technical University of Athens</p>
 </header>
 
@@ -188,6 +189,29 @@ footer{margin-top:72px;padding-top:24px;border-top:1px solid var(--border);font-
 <details><summary>How the weights are computed</summary><p>Each dollar saved by a household is multiplied by (average income ÷ household income)<sup>η</sup>. With income following home value, the average across the 150 homes is $130,000, so a home in A is weighted (130/210)<sup>η</sup> and a home in B (130/90)<sup>η</sup>. B overtakes A at η ≈ 0.18 and passes the $10 million cost at η ≈ 0.29.</p></details>
 </div>
 <div class="prose"><p>THRIVE builds this idea into the allocation from the start. Choosing η is a political decision, so THRIVE never fixes it. It shows an elected council what each value would mean and leaves the choice to them.</p></div>
+</section>
+
+<section id="results" class="reveal">
+<h2>First results: who got the flood money in the United States?</h2>
+<div class="prose"><p>Phase A is the first time THRIVE runs on real data. It adds up the flood-related FEMA hazard-mitigation grants since 2000, $13.72 billion placed in 3,140 counties, and divides each county's money by its expected yearly flood loss from the National Risk Index. The counties are then split into five equal groups by social vulnerability.</p><p>Each bar compares a group with the least vulnerable fifth. Above the line, the group received more money per dollar of risk; below it, less. Switch the measure and watch the answer move.</p></div>
+<div class="card">
+<p class="ctitle">Flood money per dollar of flood risk, against the least vulnerable fifth</p>
+<p class="csub">US counties in five groups by social vulnerability. 1 means the same as the least vulnerable fifth.</p>
+<div class="presets" id="msel"></div>
+<div class="legend"><span><i class="sw" style="background:var(--c1)"></i>Money per dollar of risk, against group 1</span><span><i class="swl" style="background:none;border-top:2px dashed var(--axis);height:0"></i>Same as the least vulnerable group</span></div>
+<svg class="chart" id="c5" viewBox="0 0 720 290" role="img" aria-label="Bar chart of flood money per dollar of risk in five vulnerability groups, against the least vulnerable group"></svg>
+<div class="result" id="r5" aria-live="polite"></div>
+<p class="src">Source: OpenFEMA Hazard Mitigation Assistance Subapplications v2 and FEMA National Risk Index v1.20, THRIVE Phase A, <a href="https://github.com/uomoathens/thrive/tree/main/results/phase-a">results/phase-a</a>.</p>
+<details><summary>Show the numbers</summary><table id="t5"></table></details>
+</div>
+<div class="prose"><p>The four measures do not agree, so by THRIVE's own rule there is no robust direction to report. That is a finding in itself. A few places hit by very large storms, such as New Orleans, Harris County and the New York area, carry the totals and hide what happens to the typical county.</p></div>
+<div class="card">
+<p class="ctitle">Counties that received no flood money at all</p>
+<p class="csub">Share of the counties in each group, 2000 onwards</p>
+<svg class="chart" id="c6" viewBox="0 0 720 260" role="img" aria-label="Bar chart of the share of counties with no flood money in each vulnerability group"></svg>
+<p class="src">Same source. Grants that name several counties are split equally between them, statewide grants ($1.90 billion) are left out, and money obligated is not always money spent. One grant of $507 million recorded for Greene County, New York, still needs to be confirmed with FEMA.</p>
+</div>
+<div class="prose"><p>Here the direction holds at every step: the more vulnerable the group, the larger the share of counties with nothing. Whether those counties never applied, or applied and were turned down, cannot be seen in the awards alone. FEMA's application data is where Phase A goes next.</p></div>
 </section>
 
 <section id="recover" class="reveal">
@@ -350,6 +374,35 @@ var badge=dA<dB?'<span class="badge a">A first</span>':(dB<dA?'<span class="badg
 document.getElementById("r3").innerHTML=badge+"<span>With “recovered” set at "+Math.round(a*100)+"%, Area A is back on day "+dA+" and Area B on day "+dB+". The gap is "+Math.abs(dA-dB)+" days.</span>";
 }
 alpha.addEventListener("input",recovery);recovery();
+var Q=["1 · least","2","3","4","5 · most"],MS=[{k:"all",l:"All money",raw:[0.1405,0.1584,0.1877,0.3705,0.3349],r:2.38,t:"Counting all the money, the most vulnerable fifth received 2.38 times as much per dollar of flood risk as the least vulnerable fifth."},{k:"big",l:"Without the 20 largest",raw:[0.1405,0.1074,0.1476,0.1910,0.2151],r:1.53,t:"Leave out the 20 counties that received the most, 36% of all the money, and the ratio falls to 1.53."},{k:"med",l:"Median county",raw:[0.0328,0.0308,0.0286,0.0259,0.0279],r:0.85,t:"The typical county tells another story. In the most vulnerable fifth it received 0.85 times as much as the typical county in the least vulnerable fifth."},{k:"fun",l:"Median funded county",raw:[0.0426,0.0413,0.0390,0.0407,0.0473],r:1.11,t:"Among counties that received any flood money at all, the typical one in the most vulnerable fifth received 1.11 times as much as its counterpart in the least vulnerable fifth."}];
+var c5=document.getElementById("c5"),msel=document.getElementById("msel"),mi=0,g5={W:720,H:290,L:66,R:16,T:26,B:38,max:3};
+g5.ph=g5.H-g5.T-g5.B;g5.pw=g5.W-g5.L-g5.R;g5.band=g5.pw/5;g5.bw=30;
+function Y5(v){return g5.T+g5.ph-v/g5.max*g5.ph}
+(function(){yGrid(c5,g5.L,g5.R,g5.T,g5.ph,g5.W,0,g5.max,0.5,function(v){return v.toFixed(1)+"×"});
+g5.g=el("g",{},c5);g5.items=[];
+for(var i=0;i<5;i++){(function(i){var x=g5.L+g5.band*i+(g5.band-g5.bw)/2;
+var p=el("path",{"class":"bar f1",d:barPath(x,g5.T+g5.ph,g5.bw,0)},g5.g);
+var lab=txt("",{"class":"val",x:x+g5.bw/2,"text-anchor":"middle"},c5);
+txt(Q[i],{"class":"tick",x:x+g5.bw/2,y:g5.T+g5.ph+22,"text-anchor":"middle"},c5);
+var hit=el("rect",{"class":"hit",x:g5.L+g5.band*i,y:g5.T,width:g5.band,height:g5.ph+30},c5);
+hit.addEventListener("mousemove",function(ev){var m=MS[mi],v=m.raw[i]/m.raw[0];g5.g.classList.add("dim");p.classList.add("hot");showTip(ev,"<b>Group "+(i+1)+(i===0?", least vulnerable":(i===4?", most vulnerable":""))+"</b><br>"+m.l+": $"+m.raw[i].toFixed(3)+" per dollar of expected yearly flood loss<br>"+v.toFixed(2)+"× the least vulnerable group")});
+hit.addEventListener("mouseleave",function(){g5.g.classList.remove("dim");p.classList.remove("hot");hideTip()});
+g5.items.push({p:p,lab:lab,x:x,v:0})})(i)}
+el("line",{"class":"base",x1:g5.L,x2:g5.W-g5.R,y1:g5.T+g5.ph,y2:g5.T+g5.ph},c5);
+var y1=Y5(1);el("line",{"class":"base",x1:g5.L,x2:g5.W-g5.R,y1:y1,y2:y1,"stroke-dasharray":"5 4"},c5);
+MS.forEach(function(m,k){var b=document.createElement("button");b.type="button";b.textContent=m.l;b.addEventListener("click",function(){show5(k,true)});msel.appendChild(b)});
+table("t5",["Group"].concat(MS.map(function(m){return m.l})),Q.map(function(q,i){return[q].concat(MS.map(function(m){return"$"+m.raw[i].toFixed(3)}))}).concat([["Most ÷ least"].concat(MS.map(function(m){return m.r.toFixed(2)}))]));
+})();
+function draw5(vals){g5.items.forEach(function(it,i){var v=vals[i],h=Math.min(v,g5.max)/g5.max*g5.ph,y=g5.T+g5.ph-h;it.p.setAttribute("d",barPath(it.x,y,g5.bw,h));it.lab.setAttribute("y",y-8);it.lab.textContent=v.toFixed(2)+"×"})}
+function show5(k,animate){mi=k;var m=MS[k],to=m.raw.map(function(x){return x/m.raw[0]}),from=g5.items.map(function(it){return it.v});
+g5.items.forEach(function(it,i){it.v=to[i]});
+[].forEach.call(msel.children,function(b,j){b.classList.toggle("on",j===k)});
+if(animate)tween(animate===2?900:420,function(t){draw5(to.map(function(v,i){return from[i]+(v-from[i])*t}))});else draw5(to);
+var badge=m.r>1.02?'<span class="badge a">More</span>':(m.r<0.98?'<span class="badge b">Less</span>':'<span class="badge n">Same</span>');
+document.getElementById("r5").innerHTML=badge+"<span>"+m.t+"</span>"}
+show5(0,false);draw5([0,0,0,0,0]);g5.items.forEach(function(it){it.v=0});
+var none=[0.0844,0.0987,0.1035,0.1226,0.1401].map(function(v,i){return{l:Q[i],v:v}});
+var grow6=barChart("c6",none,0.16,0.04,function(v){return Math.round(v*100)+"%"},function(v){return Math.round(v*100)+"%"},function(d){return"<b>Group "+d.l+"</b><br>"+(d.v*100).toFixed(1)+"% of its counties received no flood money"});
 var steps=[
 {k:"Predicting",s:"where the water goes, and who lives there",b:"Flood forecasts say where the water will go. THRIVE adds who lives there and how exposed they are, using the 2021 census on a grid of 1 km squares.",t:"Builds on HEFF-RC, LSTM-AFFUW and AIF-EWS (Chapter 1) and VAE-LVM (Chapter 4)"},
 {k:"Protecting",s:"a fair share of a limited budget",b:"With a fixed budget, THRIVE proposes which works to fund. A euro saved counts for more in a poorer household. Need may move a household up the list, while a name or a postcode may not. Small towns learn from larger ones without sharing their data.",t:"Builds on EA-CURA (Chapter 3), FCFL (Chapter 5) and DPFL-EDA (Chapter 1)"},
@@ -380,10 +433,11 @@ var io="IntersectionObserver" in window?new IntersectionObserver(function(es){es
 if(t.classList.contains("stats")&&!done.s){done.s=1;t.querySelectorAll("[data-count]").forEach(countUp)}
 if(t.id==="problem"&&!done.p){done.p=1;grow1()}
 if(t.id==="decide"&&!done.d){done.d=1;grow4()}
+if(t.id==="results"&&!done.q){done.q=1;show5(mi,2);grow6()}
 if(t.id==="recover"&&!done.r){done.r=1;(rc.lines||[]).forEach(function(pl){pl.style.transition="stroke-dashoffset 1.4s ease";requestAnimationFrame(function(){pl.style.strokeDashoffset=0})})}
 io.unobserve(t)})},{threshold:0.18}):null;
 document.querySelectorAll(".reveal").forEach(function(s){if(io)io.observe(s);else{s.classList.add("in")}});
-if(!io){grow1();grow4();(rc.lines||[]).forEach(function(pl){pl.style.strokeDashoffset=0})}
+if(!io){grow1();grow4();show5(0,false);grow6();(rc.lines||[]).forEach(function(pl){pl.style.strokeDashoffset=0})}
 var links=[].slice.call(document.querySelectorAll(".links a")),secs=links.map(function(a){return document.querySelector(a.getAttribute("href"))});
 function spy(){var y=scrollY+120,on=-1;secs.forEach(function(s,i){if(s&&s.offsetTop<=y)on=i});links.forEach(function(a,i){a.classList.toggle("on",i===on)})}
 addEventListener("scroll",spy,{passive:true});spy();

@@ -155,3 +155,15 @@ def test_preflight_names_failures(config, grid, tmp_path):
     checks = json.loads((out / "preflight.json").read_text())
     assert [c["check"] for c in checks] == ["Copernicus EMS activation", "GISCO regions", "GISCO 1 km grid"]
     assert [c["ok"] for c in checks] == [False, False, True]
+
+
+def test_grid_without_age_column(config, tmp_path):
+    pts = [Point(5250500 + 1000 * i, 1950500 + 1000 * j) for i in range(5) for j in range(2)]
+    path = tmp_path / "grid-total.gpkg"
+    gpd.GeoDataFrame({"TOT_P_2021": [100] * 10}, geometry=pts, crs=3035).to_file(path, driver="GPKG")
+    p1 = product_zip([box(5250000, 1950000, 5251000, 1951000)])
+    out = tmp_path / "out"
+    summary = run(config, out, fetcher(p1, p1), grid_path=path)
+    assert summary["population_exposed"] == pytest.approx(100, rel=1e-3)
+    assert summary["older_exposed"] is None
+    assert "no age column" in (out / "report.md").read_text()
