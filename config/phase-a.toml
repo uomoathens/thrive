@@ -1,0 +1,19 @@
+[openfema]
+endpoint = "https://www.fema.gov/api/open/v4/HazardMitigationAssistanceProjects"
+page_size = 10000
+first_fiscal_year = 2000
+excluded_status = ["Void", "Withdrawn"]
+
+[nri]
+urls = ["https://hazards.fema.gov/nri/Content/StaticDocuments/DataDownload//NRI_Table_Counties/NRI_Table_Counties.zip"]
+member = "NRI_Table_Counties.csv"
+fips = ["STCOFIPS"]
+population = ["POPULATION"]
+riverine_eal = ["RFLD_EALT"]
+coastal_eal = ["CFLD_EALT"]
+vulnerability = ["SOVI_SCORE", "SVI_SCORE"]
+vulnerability_rating = ["SOVI_RATNG", "SVI_RATNG"]
+
+[flood]
+program_areas = ["FMA"]
+words = ["flood", "riverine", "coastal", "drainage", "stormwater", "storm water", "acquisition", "elevation", "relocation"]

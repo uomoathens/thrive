@@ -63,6 +63,9 @@ def main(argv: list[str] | None = None) -> int:
     sub.add_parser("info", help="show the book and the frameworks each phase builds on")
     sub.add_parser("cite", help="print the citation of the book")
     sub.add_parser("demo", help="run the worked examples of the README")
+    pa = sub.add_parser("phase-a", help="download open US data and compare flood funding with social vulnerability")
+    pa.add_argument("--config", default="config/phase-a.toml")
+    pa.add_argument("--out", default="results/phase-a")
     args = parser.parse_args(argv)
     if args.command == "info":
         print(_info())
@@ -70,6 +73,14 @@ def main(argv: list[str] | None = None) -> int:
         print(BOOK.citation())
     elif args.command == "demo":
         print(_demo())
+    elif args.command == "phase-a":
+        from pathlib import Path
+
+        from thrive.data.phase_a import run
+
+        summary = run(Path(args.config), Path(args.out))
+        r = summary["r_cov_most_vs_least_vulnerable"]
+        print(f"Phase A done: {summary['counties']} counties, coverage ratio {r:.2f}" if r is not None else "Phase A done: coverage ratio not defined")
     else:
         parser.print_help()
     return 0

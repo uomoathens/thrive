@@ -16,7 +16,7 @@ THRIVE answers the three in a loop, so that what we learn after one flood change
 
 ![tests](https://github.com/uomoathens/thrive/actions/workflows/ci.yml/badge.svg)
 
-Version 0.2.0 holds the first working code: the four core calculations, each with its own tests, run on every push. They are checked on worked examples, and the examples give exactly the numbers on the interactive page. There are no results on real data yet. The charts below show published figures or simple examples, and each caption says which.
+Version 0.3.0 holds the four core calculations, each with its own tests, and the first pipeline for real data (Phase A, below). The calculations are checked on worked examples, which give exactly the numbers on the interactive page. Phase A runs by itself on GitHub once a month and stores what it finds in `results/phase-a`; until its first run there are no results on real data. The charts below show published figures or simple examples, and each caption says which.
 
 To try it:
 
@@ -36,6 +36,7 @@ thrive demo
 | `thrive.weights` | Equity weights and the point where a decision changes | “People count” below |
 | `thrive.allocate` | Chooses which works to fund within a budget, with equity weights, and reports how unevenly protection falls across groups. One plan per value of η, so a council can compare them | “People count” below, with the group-fairness measure of FCFL (Table 5.8) |
 | `thrive.fairness` | The group-fairness measure of FCFL | FCFL (Table 5.8) |
+| `thrive.data.phase_a` | Phase A: downloads FEMA flood-mitigation projects and the National Risk Index, and compares flood funding with flood risk across five groups of counties, from least to most socially vulnerable | “How we will test it”, phase A |
 | `thrive.audit` | The fairness check: changes one detail at a time, compares with a placebo run, and passes a plan only if, after Holm correction across all checks, no identity change moves it and every need change raises it | “Need may count” and “Nothing is built before a fairness check” below, method of Who Gets Help First? |
 
 Still to come: the forecasting and vulnerability models of the Predicting step, the satellite data for recovery, learning the allocation policy with Proximal Policy Optimization, federated learning across towns, and the validation phases.
@@ -123,14 +124,20 @@ A language model may help explain a decision to residents. It should not take on
 
 ## How we will test it
 
-| Phase | Where | Data |
-| --- | --- | --- |
-| A | United States, fully open | OpenFEMA Hazard Mitigation Assistance projects, CDC Social Vulnerability Index, NASA Black Marble |
-| B | Thessaly, Storm Daniel (September 2023) | Copernicus EMS maps EMSR692 and EMSN184, 2021 census on the 1 km grid, Sentinel-2, NASA Black Marble |
-| C | Thessaly, who actually received aid | Anonymised state-aid records by community, requested from the General Secretariat for Natural Disaster Recovery and State Aid |
-| D | Attica, looking ahead | The current plan for flood and wildfire works, assessed before the next event |
+| Phase | Where | Data | Status |
+| --- | --- | --- | --- |
+| A | United States, fully open | OpenFEMA Hazard Mitigation Assistance projects, FEMA National Risk Index (flood risk, population, social vulnerability) | Pipeline in place, runs monthly on GitHub |
+| B | Thessaly, Storm Daniel (September 2023) | Copernicus EMS maps EMSR692 and EMSN184, 2021 census on the 1 km grid, Sentinel-2, NASA Black Marble | Next |
+| C | Thessaly, who actually received aid | Anonymised state-aid records by community, requested from the General Secretariat for Natural Disaster Recovery and State Aid | Needs a data request |
+| D | Attica, looking ahead | The current plan for flood and wildfire works, assessed before the next event | Later |
 
-We cannot rerun history, so some limits should be stated now. Phase B can show whether the real allocation after Daniel was unequal. Comparing it with what THRIVE would have done rests on assumptions, which we will state. Showing that a fairer allocation would also have reduced the damage needs hydraulic models of the floods with and without the works.
+### Phase A in plain words
+
+For every US county, Phase A adds up the federal money FEMA has committed to flood-mitigation projects since 2000 and divides it by the county's expected yearly flood loss from the National Risk Index. It then sorts the counties into five equal groups by social vulnerability and compares the groups. If protection followed risk alone, every group would get about the same money per dollar of expected loss. The main number is the coverage ratio: money per dollar of risk in the most vulnerable fifth, divided by the same in the least vulnerable fifth. Below 1, the most vulnerable counties get less protection for the same risk.
+
+Every run records what it downloaded and when (`sources.json`, with a fingerprint of each file), the results (`summary.json`, `report.md`, and an Excel file with every county and every project type), and its own log. A project counts as flood-related by a rule written in `config/phase-a.toml`, and the Excel file lists every project type with how it was classified, so the rule can be checked.
+
+The limits, stated now: money is counted in the main county of each project, statewide projects are left out, money committed is not always money spent, and expected loss is a model estimate. We cannot rerun history, so Phase B can show whether the real allocation after Daniel was unequal; comparing it with what THRIVE would have done rests on stated assumptions; and showing that a fairer allocation would also have reduced the damage needs hydraulic models of the floods with and without the works.
 
 ## The maths, for those who want it
 
@@ -175,12 +182,14 @@ $\mathrm{FR}$ is the share of runs in which the plan changes and $\mathrm{Sens}$
 ```
 README.md          this page
 pyproject.toml     package definition
-src/thrive/        the THRIVE package: recovery, weights, allocate, fairness, audit, examples
+src/thrive/        the THRIVE package: recovery, weights, allocate, fairness, audit, examples, data
 tests/             tests, run on every push by GitHub Actions
-.github/workflows/ the automatic checks
+.github/workflows/ the automatic checks and the monthly Phase A run
 docs/index.html    the interactive version, published with GitHub Pages
 docs/figures/      the charts on this page, in light and dark versions
 docs/og.png        the preview image shown when the page is shared
+config/            settings of the data pipelines
+results/phase-a/   Phase A results, written by GitHub Actions
 CITATION.cff       how to cite this repository and the book
 LICENSE            MIT
 ```
