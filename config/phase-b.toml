@@ -20,6 +20,24 @@ prefix = "EL61"
 
 [analysis]
 crs = 3035
+min_exposed_for_ratio = 1000
+
+[[extent]]
+key = "observed_all"
+name = "Observed flood, including flood traces"
+source = "observed"
+exclude = []
+
+[[extent]]
+key = "observed_water"
+name = "Observed standing water, without flood traces"
+source = "observed"
+exclude = ["Flood trace"]
+
+[[extent]]
+key = "cems_maximum"
+name = "Copernicus maximum water extent"
+source = "maximum"
 
 [validation]
 source = "ELSTAT, Census 2021, permanent population by regional unit (EL611 = Karditsa 106,305 + Trikala 122,081; EL612 = Larisa 268,963; EL613 = Magnesia 177,448 + Sporades 13,458)"

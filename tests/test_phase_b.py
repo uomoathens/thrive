@@ -25,9 +25,9 @@ def geojson(geoms, **cols):
     return gpd.GeoDataFrame(cols, geometry=geoms, crs=3035).to_crs(4326).to_json().encode()
 
 
-def product_zip(flood_geoms, maximum=None, both_formats=True):
+def product_zip(flood_geoms, maximum=None, both_formats=True, classes=None):
     buf = io.BytesIO()
-    obs = geojson(flood_geoms, notation=["Flooded area"] * len(flood_geoms))
+    obs = geojson(flood_geoms, notation=classes or ["Flooded area"] * len(flood_geoms))
     with zipfile.ZipFile(buf, "w") as zf:
         zf.writestr("EMSR692_AOI01_DEL_PRODUCT_observedEventA_v1.json", obs)
         if both_formats:
@@ -102,6 +102,24 @@ prefix = "EL61"
 
 [analysis]
 crs = 3035
+min_exposed_for_ratio = 10
+
+[[extent]]
+key = "observed_all"
+name = "All observed"
+source = "observed"
+exclude = []
+
+[[extent]]
+key = "observed_water"
+name = "Water only"
+source = "observed"
+exclude = ["Flood trace"]
+
+[[extent]]
+key = "cems_maximum"
+name = "Copernicus maximum"
+source = "maximum"
 
 [validation]
 source = "test"
@@ -130,6 +148,7 @@ def fetcher(p1, p2):
 P1 = [box(5250000, 1950000, 5251000, 1951000)]
 P2 = [box(5253000, 1950000, 5253500, 1951000), box(5254000, 1951000, 5255000, 1952000), box(5255000, 1950000, 5256000, 1951000)]
 MAX1 = [box(5250000, 1950000, 5252000, 1951000)]
+C2 = ["Flooded area", "Flood trace", "Flooded area"]
 
 
 def test_products_keep_only_downloadable_flood_types():
@@ -153,7 +172,7 @@ def test_each_layer_is_read_once_and_classes_recorded():
 
 def test_exposure_numbers(tmp_path, grid_zip):
     out = tmp_path / "out"
-    s = run(make_config(tmp_path), out, fetcher(product_zip(P1, MAX1), product_zip(P2)), grid_path=grid_zip)
+    s = run(make_config(tmp_path), out, fetcher(product_zip(P1, MAX1), product_zip(P2, classes=C2)), grid_path=grid_zip)
     reg = {r["region_id"]: r for r in s["regions"]}
     assert set(reg) == {"EL611", "EL612"}
     a, b = reg["EL611"], reg["EL612"]
@@ -179,8 +198,21 @@ def test_exposure_numbers(tmp_path, grid_zip):
     assert s["older_exposure_ratio"] == pytest.approx((45 / 150) / (210 / 900))
     assert s["checks"]["unplaced_population"] == pytest.approx(30)
     assert s["checks"]["unplaced_cells"] == 1
-    assert s["checks"]["cems_maximum_km2"] == pytest.approx(2.0)
-    assert s["checks"]["classes"] == {"Flooded area": 4}
+    assert s["checks"]["class_km2"]["Flooded area"] == pytest.approx(1.5)
+    assert s["checks"]["class_km2"]["Flood trace"] == pytest.approx(0.5)
+    e = {x["key"]: x for x in s["extents"]}
+    assert set(e) == {"observed_all", "observed_water", "cems_maximum"}
+    assert e["observed_water"]["population_exposed"] == pytest.approx(150)
+    assert e["observed_water"]["flooded_km2"] == pytest.approx(1.5)
+    assert e["observed_water"]["older_exposure_ratio"] == pytest.approx((45 / 150) / (210 / 900))
+    assert e["cems_maximum"]["population_exposed"] == pytest.approx(200)
+    assert e["cems_maximum"]["flooded_km2"] == pytest.approx(2.0)
+    assert e["cems_maximum"]["older_exposure_ratio"] == pytest.approx(0.2 / (210 / 900))
+    assert e["observed_all"]["region_ratios"]["EL611"] == pytest.approx(1.0)
+    assert e["observed_all"]["region_ratios"]["EL612"] == pytest.approx(0.5 / 0.3)
+    assert e["cems_maximum"]["region_ratios"]["EL612"] is None
+    assert s["direction_thessaly"] == "not robust"
+    assert s["direction_within_units"] == "not robust"
     v = {r["region_id"]: r for r in s["validation"]}
     assert v["EL611"]["difference"] == pytest.approx(0, abs=1e-3)
     assert v["EL612"]["difference"] == pytest.approx(20, abs=1e-3)
@@ -191,7 +223,7 @@ def test_exposure_numbers(tmp_path, grid_zip):
     for name in ("report.md", "phase-b.xlsx", "inventory.json", "preflight.json", "grid.json", "flood-extent.gpkg"):
         assert (out / name).is_file(), name
     text = (out / "report.md").read_text()
-    assert "Unit A" in text and "Volos" in text and "ratio of 1.29" in text
+    assert "Unit A" in text and "Volos" in text and "**not robust**" in text and "| 1.29 |" in text
 
 
 def test_missing_age_column_stops_when_required(tmp_path):
@@ -231,3 +263,13 @@ def test_preflight_names_failures(tmp_path, grid_zip):
     checks = json.loads((out / "preflight.json").read_text())
     assert [c["check"] for c in checks] == ["Copernicus EMS activation", "GISCO regions", "test grid"]
     assert [c["ok"] for c in checks] == [False, False, True]
+
+
+def test_direction_rule():
+    from thrive.data.phase_b import direction
+
+    assert direction([1.1, 1.3]) == "older people more exposed"
+    assert direction([0.8, None, 0.9]) == "older people less exposed"
+    assert direction([0.9, 1.2]) == "not robust"
+    assert direction([None]) == "no data"
+    assert direction([1.0000000001, 1.4]) == "not robust"

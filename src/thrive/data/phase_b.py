@@ -60,7 +60,7 @@ def _classes(gdf) -> dict:
     return out
 
 
-def _polygons(path: Path, crs: int):
+def _polygons(path: Path, crs: int, class_columns=()):
     import geopandas as gpd
 
     gdf = gpd.read_file(path)
@@ -69,10 +69,12 @@ def _polygons(path: Path, crs: int):
     gdf = gdf[gdf.geometry.notna() & gdf.geometry.geom_type.isin(["Polygon", "MultiPolygon"])]
     if gdf.empty:
         return None
+    col = _find(gdf.columns, class_columns) if class_columns else None
+    gdf = gdf.assign(flood_class=gdf[col].fillna("").astype(str) if col else "")
     return gdf.to_crs(crs)
 
 
-def flood_polygons(zip_bytes: bytes, words, crs: int, check_words=()):
+def flood_polygons(zip_bytes: bytes, words, crs: int, check_words=(), class_columns=()):
     found, layers, details, check = [], [], [], []
     with tempfile.TemporaryDirectory() as tmp:
         with zipfile.ZipFile(io.BytesIO(zip_bytes)) as zf:
@@ -82,9 +84,9 @@ def flood_polygons(zip_bytes: bytes, words, crs: int, check_words=()):
             name = path.name.lower()
             layers.append(path.name)
             if any(w in name for w in words):
-                gdf = _polygons(path, crs)
+                gdf = _polygons(path, crs, class_columns)
                 if gdf is not None:
-                    found.append(gdf[["geometry"]])
+                    found.append(gdf[["flood_class", "geometry"]])
                     details.append({"layer": path.name, "features": len(gdf), "classes": _classes(gdf)})
             elif any(w in name for w in check_words):
                 gdf = _polygons(path, crs)
@@ -273,29 +275,74 @@ def _pct(x, digits=1):
     return "n/a" if x is None or pd.isna(x) else f"{x:.{digits}%}"
 
 
+def direction(ratios, tolerance: float = 1e-6) -> str:
+    vals = [r for r in ratios if r is not None and not pd.isna(r)]
+    if not vals:
+        return "no data"
+    if all(r > 1 + tolerance for r in vals):
+        return "older people more exposed"
+    if all(r < 1 - tolerance for r in vals):
+        return "older people less exposed"
+    return "not robust"
+
+
+def extent_summary(by_region: pd.DataFrame, min_exposed: float) -> dict:
+    sums = ["population", "population_exposed", "population_with_age", "population_exposed_with_age", "older", "older_exposed", "land_km2", "flooded_km2"]
+    total = add_shares(pd.DataFrame([by_region[sums].sum()])).iloc[0]
+    out = {k: float(total[k]) for k in sums}
+    for k in ("share_exposed", "age_coverage", "older_share_of_population", "older_share_of_exposed", "older_exposure_ratio"):
+        out[k] = None if pd.isna(total[k]) else float(total[k])
+    out["region_ratios"] = {
+        r.region_id: (None if r.population_exposed_with_age < min_exposed or pd.isna(r.older_exposure_ratio) else float(r.older_exposure_ratio))
+        for r in by_region.itertuples()
+    }
+    return out
+
+
 def report(summary: dict, by_region: pd.DataFrame, check: pd.DataFrame, sources: dict, notes: dict) -> str:
     age = sources["older_column"]
+    ext = summary["extents"]
+    main = ext[0]
     lines = [
         "# Phase B: who was in the water of Storm Daniel?",
         "",
         "Generated automatically by `thrive phase-b`. `sources.json` records what was downloaded and when.",
         "",
-        f"Flood extent: union of the observed-flood polygons in the Copernicus EMS {sources['activation']} products ({sources['products_used']} products, {sources['flood_layers_used']} flood layers, each read once). This is the largest extent the satellites saw over all dates, not the depth of the water.",
+        f"Flood extent: the Copernicus EMS {sources['activation']} products ({sources['products_used']} products, {sources['flood_layers_used']} flood layers, each read once), merged over every date the satellites passed. The main table uses the first definition below; the others follow it.",
         f"Population: {sources['grid_name']}, column `{sources['population_column']}`" + (f"; people aged 65 and over from `{age}`." if age else "; the grid has no age column, so older people are not counted."),
         "",
-        "| Regional unit | Residents | Flooded area (km²) | Residents in flooded parts of cells | Share of residents | Aged 65+ among all residents | Aged 65+ among those exposed |",
-        "| --- | --- | --- | --- | --- | --- | --- |",
+        f"## Main result: {main['name']}",
+        "",
+        "| Regional unit | Residents | Flooded area (km²) | Residents in flooded parts of cells | Share of residents | Aged 65+ among all residents | Aged 65+ among those exposed | Ratio |",
+        "| --- | --- | --- | --- | --- | --- | --- | --- |",
     ]
     for r in by_region.itertuples():
-        lines.append(f"| {r.region_name} | {r.population:,.0f} | {r.flooded_km2:,.1f} | {r.population_exposed:,.0f} | {_pct(r.share_exposed)} | {_pct(r.older_share_of_population) if age else 'n/a'} | {_pct(r.older_share_of_exposed) if age else 'n/a'} |")
+        ratio = main["region_ratios"].get(r.region_id)
+        lines.append(f"| {r.region_name} | {r.population:,.0f} | {r.flooded_km2:,.1f} | {r.population_exposed:,.0f} | {_pct(r.share_exposed)} | {_pct(r.older_share_of_population) if age else 'n/a'} | {_pct(r.older_share_of_exposed) if age else 'n/a'} | {'too few exposed' if ratio is None else f'{ratio:.2f}'} |")
     lines += [
         "",
-        f"Thessaly in total: {summary['population_exposed']:,.0f} of {summary['population']:,.0f} residents ({_pct(summary['share_exposed'])}) lived in the parts of 1 km cells that satellites saw under water, over {summary['flooded_km2']:,.0f} km².",
+        f"Thessaly in total: {main['population_exposed']:,.0f} of {main['population']:,.0f} residents ({_pct(main['share_exposed'])}) lived in the parts of 1 km cells inside this extent, over {main['flooded_km2']:,.0f} km².",
     ]
     if age:
         lines += [
             "",
-            f"People aged 65 and over were {_pct(summary['older_share_of_population'])} of all residents and {_pct(summary['older_share_of_exposed'])} of those exposed, a ratio of {summary['older_exposure_ratio']:.2f}. Above 1, older people were more likely than the average resident to live where the water reached. The age count covers {_pct(summary['age_coverage'])} of the population; cells without an age figure are left out of these two shares.",
+            f"The ratio compares the share of people aged 65 and over among those exposed with their share among all residents. Above 1, older people were more likely than the average resident to live where the water reached. A regional unit with fewer than {notes['min_exposed']:,.0f} people exposed gets no ratio. The age count covers {_pct(main['age_coverage'])} of the population.",
+        ]
+    lines += [
+        "",
+        "## The same question under each flood definition",
+        "",
+        "| Flood definition | Flooded area in Thessaly (km²) | Residents exposed | Share of residents | Ratio, Thessaly | " + " | ".join(f"Ratio, {n}" for n in by_region["region_name"]) + " |",
+        "| --- | --- | --- | --- | --- | " + " | ".join("---" for _ in by_region["region_name"]) + " |",
+    ]
+    for e in ext:
+        cells = [("too few exposed" if e["region_ratios"].get(rid) is None else f"{e['region_ratios'][rid]:.2f}") for rid in by_region["region_id"]]
+        ratio = "n/a" if e["older_exposure_ratio"] is None else f"{e['older_exposure_ratio']:.2f}"
+        lines.append(f"| {e['name']} | {e['flooded_km2']:,.0f} | {e['population_exposed']:,.0f} | {_pct(e['share_exposed'])} | {ratio} | " + " | ".join(cells) + " |")
+    if age:
+        lines += [
+            "",
+            f"Direction for Thessaly as a whole, across all definitions: **{summary['direction_thessaly']}**. Direction inside the regional units, across all definitions and every unit with enough people exposed: **{summary['direction_within_units']}**. Following THRIVE's own rule, a direction is reported as a finding only when every measure agrees.",
         ]
     lines += ["", "## Checks", "", "| Regional unit | Residents on the grid | Census 2021 (ELSTAT) | Difference |", "| --- | --- | --- | --- |"]
     for r in check.itertuples():
@@ -306,15 +353,13 @@ def report(summary: dict, by_region: pd.DataFrame, check: pd.DataFrame, sources:
         "",
         f"Population on the grid near Thessaly that fell in no regional unit (cells at sea or on islets the 1:1 million boundaries leave out): {notes['unplaced_population']:,.0f} residents in {notes['unplaced_cells']} cells.",
     ]
-    if notes.get("cems_maximum_km2") is not None:
-        lines.append(f"Copernicus also publishes its own maximum water extent per product. Its union covers {notes['cems_maximum_km2']:,.0f} km² inside Thessaly, against {summary['flooded_km2']:,.0f} km² for the union of observed floods used here.")
-    if notes.get("classes"):
-        lines.append("Flood classes in the layers used, with the number of polygons: " + "; ".join(f"{k} {v:,}" for k, v in notes["classes"].items()) + ".")
+    if notes.get("class_km2"):
+        lines.append("Area of each flood class inside Thessaly, before merging (classes overlap between dates): " + "; ".join(f"{k or 'no class'} {v:,.0f} km²" for k, v in notes["class_km2"].items()) + ".")
     lines += [
         "",
         "## Limits",
         "",
-        "People are assumed to be spread evenly over the land part of each 1 km cell, so a cell whose land is half under water counts half its residents. Satellites miss water under cloud, in narrow streets and under trees, and the extent mixes several dates. Exposure is not harm: a household in a flooded cell may have stayed dry on an upper floor, and one outside may have lost everything.",
+        "People are assumed to be spread evenly over the land part of each 1 km cell, so a cell whose land is half under water counts half its residents. Satellites miss water under cloud, in narrow streets and under trees, and the extent mixes several dates. A flood trace marks ground where the water had already gone when the image was taken. Statistical offices may adjust small counts on the grid to protect confidentiality, and the grid flags each such figure, so single cells are approximate even where the totals match the census. Exposure is not harm: a household in a flooded cell may have stayed dry on an upper floor, and one outside may have lost everything.",
         "",
         "Magnesia and the town of Volos: the floods there were mostly flash floods in streets and streams that drained within hours, which satellites passing later rarely see. The low figure for Magnesia therefore says little about how hard it was hit.",
     ]
@@ -360,19 +405,15 @@ def run(config_path: Path, out_dir: Path, fetcher: Fetcher = fetch, grid_path: P
         raise ValueError(f"{c['activation']} lists no downloadable products of type {c['product_types']}")
     words = [w.lower() for w in c["flood_layer_words"]]
     check_words = [w.lower() for w in c.get("check_layer_words", [])]
-    inventory, parts, extra, digests, classes = [], [], [], {}, {}
+    class_columns = c.get("class_columns", [])
+    inventory, parts, extra, digests = [], [], [], {}
     for p in products:
         try:
             data = fetcher(p["url"])
             digests[p["url"]] = sha256(data)
-            found, layers, details, chk = flood_polygons(data, words, crs, check_words)
+            found, layers, details, chk = flood_polygons(data, words, crs, check_words, class_columns)
             parts.extend(found)
             extra.extend(chk)
-            for d in details:
-                for col, counts in d["classes"].items():
-                    if col.lower() in {w.lower() for w in c.get("class_columns", [])}:
-                        for k, v in counts.items():
-                            classes[k] = classes.get(k, 0) + v
             inventory.append({**p, "ok": True, "layers": layers, "flood_layers": len(found), "flood_layer_details": details, "error": None})
         except Exception as exc:
             inventory.append({**p, "ok": False, "layers": [], "flood_layers": 0, "flood_layer_details": [], "error": str(exc)})
@@ -381,25 +422,47 @@ def run(config_path: Path, out_dir: Path, fetcher: Fetcher = fetch, grid_path: P
         raise ValueError("no flood polygons found in any product; see inventory.json for the layers each product holds")
     flood = gpd.GeoDataFrame(pd.concat(parts, ignore_index=True), crs=crs)
     flood["geometry"] = flood.geometry.buffer(0)
+    maximum = None
+    if extra:
+        maximum = gpd.GeoDataFrame(pd.concat(extra, ignore_index=True), crs=crs)
+        maximum["geometry"] = maximum.geometry.buffer(0)
     target, near = regions(nuts_bytes, r["prefix"], crs)
     src_path, layer, grid_info = grid_source(gp, g, work)
     (out_dir / "grid.json").write_text(json.dumps(grid_info, indent=2) + "\n", encoding="utf-8")
     cells, pop_col, older_col, grid_columns = grid_cells(src_path, layer, near[near.intersects(target.buffer(2000).union_all())], g, crs)
-    by_region, wet_cells, unplaced_pop, unplaced_cells = exposure(cells, flood, target, near)
-    cems_max = None
-    if extra:
-        mx = gpd.GeoDataFrame(pd.concat(extra, ignore_index=True), crs=crs)
-        mx["geometry"] = mx.geometry.buffer(0)
-        cems_max = float(gpd.overlay(gpd.GeoDataFrame(geometry=[mx.union_all()], crs=crs), target[["geometry"]], how="intersection").area.sum() / 1e6)
-    sums = ["population", "population_exposed", "population_with_age", "population_exposed_with_age", "older", "older_exposed", "land_km2", "flooded_km2"]
-    total = add_shares(pd.DataFrame([by_region[sums].sum()])).iloc[0]
-    summary = {k: float(total[k]) for k in sums}
-    for k in ("share_exposed", "age_coverage", "older_share_of_population", "older_share_of_exposed", "older_exposure_ratio"):
-        summary[k] = None if not older_col and k != "share_exposed" else (None if pd.isna(total[k]) else float(total[k]))
+    min_exposed = float(a.get("min_exposed_for_ratio", 1000))
+    defs = cfg.get("extent") or [{"key": "observed_all", "name": "Observed flood", "source": "observed", "exclude": []}]
+    extents, main = [], None
+    for d in defs:
+        if d.get("source", "observed") == "observed":
+            f = flood[~flood["flood_class"].isin(d.get("exclude", []))]
+        else:
+            f = maximum
+        if f is None or f.empty:
+            extents.append({"key": d["key"], "name": d["name"], "available": False})
+            continue
+        res = exposure(cells, f, target, near)
+        if main is None:
+            main = res
+        extents.append({"key": d["key"], "name": d["name"], "available": True, **extent_summary(res[0], min_exposed)})
+    by_region, wet_cells, unplaced_pop, unplaced_cells = main
+    usable = [e for e in extents if e["available"]]
+    class_km2 = {}
+    land = target[["geometry"]].union_all()
+    for k, grp in flood.groupby("flood_class"):
+        class_km2[k] = float(grp.union_all().intersection(land).area / 1e6)
+    summary = {k: v for k, v in usable[0].items() if k not in ("key", "name", "available")}
+    if not older_col:
+        for k in ("age_coverage", "older_share_of_population", "older_share_of_exposed", "older_exposure_ratio"):
+            summary[k] = None
+    summary["extents"] = usable
+    summary["extents_missing"] = [e["name"] for e in extents if not e["available"]]
+    summary["direction_thessaly"] = direction([e["older_exposure_ratio"] for e in usable]) if older_col else "no data"
+    summary["direction_within_units"] = direction([v for e in usable for v in e["region_ratios"].values()]) if older_col else "no data"
     summary["regions"] = json.loads(by_region.to_json(orient="records"))
     check_df = validation(by_region, cfg.get("validation", {}))
     summary["validation"] = json.loads(check_df.to_json(orient="records"))
-    notes = {"unplaced_population": unplaced_pop, "unplaced_cells": unplaced_cells, "cems_maximum_km2": cems_max, "classes": dict(sorted(classes.items(), key=lambda x: -x[1]))}
+    notes = {"unplaced_population": unplaced_pop, "unplaced_cells": unplaced_cells, "min_exposed": min_exposed, "class_km2": dict(sorted(class_km2.items(), key=lambda x: -x[1]))}
     summary["checks"] = notes
     sources = {
         "retrieved_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
@@ -429,12 +492,15 @@ def run(config_path: Path, out_dir: Path, fetcher: Fetcher = fetch, grid_path: P
     with pd.ExcelWriter(out_dir / "phase-b.xlsx", engine="openpyxl") as xl:
         by_region.to_excel(xl, sheet_name="Regional units", index=False)
         check_df.to_excel(xl, sheet_name="Checks", index=False)
+        pd.DataFrame([{**{k: v for k, v in e.items() if k != "region_ratios"}, **{f"ratio {k}": v for k, v in e["region_ratios"].items()}} for e in usable]).to_excel(xl, sheet_name="Flood definitions", index=False)
         wet_cells.to_excel(xl, sheet_name="Flooded cells", index=False)
         pd.DataFrame(inventory).assign(
             layers=lambda d: d["layers"].map(lambda x: "; ".join(x)),
             flood_layer_details=lambda d: d["flood_layer_details"].map(json.dumps),
         ).to_excel(xl, sheet_name="Products", index=False)
         pd.DataFrame([{"field": k, "value": json.dumps(v) if isinstance(v, (list, dict)) else v} for k, v in sources.items()]).to_excel(xl, sheet_name="Sources", index=False)
-    flood.dissolve().to_file(out_dir / "flood-extent.gpkg", driver="GPKG")
+    flood.dissolve(by="flood_class").reset_index().to_file(out_dir / "flood-extent.gpkg", layer="observed-by-class", driver="GPKG")
+    if maximum is not None:
+        maximum[["geometry"]].dissolve().to_file(out_dir / "flood-extent.gpkg", layer="cems-maximum-water-extent", driver="GPKG")
     shutil.rmtree(work, ignore_errors=True)
     return summary
