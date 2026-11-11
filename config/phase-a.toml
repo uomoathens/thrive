@@ -4,15 +4,19 @@ catalog = "https://www.fema.gov/api/open/v1/DataSets"
 endpoint = "https://www.fema.gov/api/open/v2/HmaSubapplications"
 page_size = 1000
 first_fiscal_year = 2000
-excluded_status = ["void", "withdrawn", "ineligible", "notselected"]
+funded_status = ["closed", "approved", "obligated", "awarded", "completed", "closeoutinitiated", "subawardaccepted"]
 fiscal_year = ["fiscalYear", "programFy"]
 state = ["subapplicantState", "state"]
 counties = ["benefitingCounties", "projectCounties"]
-amount = ["totalObligatedAmount", "federalShareObligated", "federalShareAmount"]
+amount = ["totalObligatedAmount", "federalShareObligated"]
+fallback_amount = ["federalShareAmount"]
+identifier = ["subapplicationIdentifier", "projectIdentifier"]
+title = ["subapplicationTitle"]
 hazards = ["primaryHazard", "secondaryHazard", "tertiaryHazard"]
 program = ["program", "programArea"]
 status = ["status"]
 activity = ["primaryActivity", "projectType", "subapplicationType"]
+largest_counties_left_out = 20
 max_unmatched_share = 0.25
 
 [nri]
@@ -32,3 +36,4 @@ version = ["NRI_VER"]
 [flood]
 program_names = ["FMA", "Flood Mitigation Assistance"]
 hazard_word = "flood"
+activity_words = ["acquisition", "elevation", "flood control", "floodproofing", "drainage", "stormwater"]

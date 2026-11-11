@@ -37,8 +37,9 @@ def nri_attrs(rows, inland="IFLD_EALT"):
     return [{**dict(zip(keys, r)), "OBJECTID": i + 1, "NRI_VER": "December 2025"} for i, r in enumerate(rows)]
 
 
-def sub(state, counties, amount, hazard="Flooding", program="Hazard Mitigation Grant Program", status="Closed", fy=2018, activity="Acquisition"):
-    return {"fiscalYear": fy, "subapplicantState": state, "benefitingCounties": counties, "totalObligatedAmount": amount, "primaryHazard": hazard, "secondaryHazard": None, "tertiaryHazard": None, "program": program, "status": status, "primaryActivity": activity}
+def sub(state, counties, amount, hazard="Flooding", program="Hazard Mitigation Grant Program", status="Closed", fy=2018, activity="Other", share=None, ident=None):
+    sub.n = getattr(sub, "n", 0) + 1
+    return {"subapplicationIdentifier": ident or f"DR-{sub.n:04d}", "subapplicationTitle": "t", "fiscalYear": fy, "subapplicantState": state, "benefitingCounties": counties, "totalObligatedAmount": amount, "federalShareAmount": share, "primaryHazard": hazard, "secondaryHazard": None, "tertiaryHazard": None, "program": program, "status": status, "primaryActivity": activity}
 
 
 def fetcher(records, nri, catalog=True):
@@ -68,15 +69,19 @@ catalog = "https://example.test/catalog"
 endpoint = "https://example.test/hma"
 page_size = 2
 first_fiscal_year = 2000
-excluded_status = ["void", "withdrawn", "ineligible", "notselected"]
+funded_status = ["closed", "approved", "obligated", "awarded", "completed", "closeoutinitiated", "subawardaccepted"]
 fiscal_year = ["fiscalYear", "programFy"]
 state = ["subapplicantState", "state"]
 counties = ["benefitingCounties", "projectCounties"]
-amount = ["totalObligatedAmount", "federalShareObligated", "federalShareAmount"]
+amount = ["totalObligatedAmount", "federalShareObligated"]
+fallback_amount = ["federalShareAmount"]
+identifier = ["subapplicationIdentifier", "projectIdentifier"]
+title = ["subapplicationTitle"]
 hazards = ["primaryHazard", "secondaryHazard", "tertiaryHazard"]
 program = ["program", "programArea"]
 status = ["status"]
 activity = ["primaryActivity", "projectType", "subapplicationType"]
+largest_counties_left_out = 1
 max_unmatched_share = 0.25
 
 [nri]
@@ -96,6 +101,7 @@ version = ["NRI_VER"]
 [flood]
 program_names = ["FMA", "Flood Mitigation Assistance"]
 hazard_word = "flood"
+activity_words = ["acquisition", "elevation", "flood control", "floodproofing", "drainage", "stormwater"]
 ''', encoding="utf-8")
     return p
 
@@ -170,6 +176,7 @@ def test_run_simple_numbers(config, tmp_path):
         sub("Arkansas", "C9", 999.0, status="Withdrawn"),
         sub("Arkansas", "C9", 999.0, status="notSelected"),
         sub("Arkansas", "C9", 999.0, fy=1995),
+        sub("Arkansas", "C9", 999.0, status="Pending"),
         sub("Arkansas", "Statewide", 777.0),
     ]
     out = tmp_path / "out"
@@ -178,6 +185,11 @@ def test_run_simple_numbers(config, tmp_path):
     assert summary["total_funding"] == pytest.approx(650.0)
     assert summary["funding_per_eal_dollar_by_quintile"] == pytest.approx([3.0, 0.0, 0.0, 0.0, 0.25])
     assert summary["r_cov_most_vs_least_vulnerable"] == pytest.approx(0.25 / 3.0)
+    rb = summary["robustness"]
+    assert rb["r_cov_without_largest"] == pytest.approx(0.25 / 3.0)
+    assert rb["r_cov_median_county"] == pytest.approx(0.25 / 3.0)
+    assert rb["r_cov_median_funded_county"] == pytest.approx(0.5 / 3.0)
+    assert summary["robust_direction"] == "less for the most vulnerable"
     sources = json.loads((out / "sources.json").read_text())
     assert sources["openfema_endpoint"] == HMA_URL
     assert sources["subgrants_in_scope"] == 4
@@ -186,7 +198,7 @@ def test_run_simple_numbers(config, tmp_path):
     assert sources["amount_field"] == "totalObligatedAmount"
     assert [c["ok"] for c in json.loads((out / "preflight.json").read_text())] == [True, True, True]
     assert len(json.loads((out / "sample.json").read_text())["openfema"]) == len(records)
-    assert pd.ExcelFile(out / "phase-a.xlsx").sheet_names == ["Quintiles", "Counties", "Activities", "Unmatched counties", "Sources"]
+    assert pd.ExcelFile(out / "phase-a.xlsx").sheet_names == ["Quintiles", "Counties", "Activities", "Largest grants", "Unmatched counties", "Sources"]
     assert "most vulnerable" in (out / "report.md").read_text()
 
 
@@ -238,3 +250,25 @@ def test_reversed_vulnerability_is_refused(config, tmp_path):
     flipped = [(s, c, t, f, p, i, co, -v, r) for s, c, t, f, p, i, co, v, r in SIMPLE]
     with pytest.raises(ValueError, match="vulnerability"):
         run(config, tmp_path / "out", fetcher([sub("Arkansas", "C0", 10.0)], nri_attrs(flipped)))
+
+
+def test_flood_by_activity_and_fallback_amount(config, tmp_path):
+    out = tmp_path / "out"
+    records = [
+        sub("Arkansas", "C0", None, hazard="Hurricane", activity="Elevation", share=400.0),
+        sub("Arkansas", "C9", 100.0, hazard="Severe Storm(s)", activity="Flood control"),
+        sub("Arkansas", "C9", 100.0, hazard="Tornado", activity="Saferoom/shelter"),
+    ]
+    summary = run(config, out, fetcher(records, nri_attrs(SIMPLE)))
+    assert summary["total_funding"] == pytest.approx(500.0)
+    sources = json.loads((out / "sources.json").read_text())
+    assert sources["money_from_fallback"] == pytest.approx(400.0)
+    assert sources["flood_reason_money"] == {"activity": pytest.approx(500.0)}
+
+
+def test_duplicate_identifiers_are_counted_once(config, tmp_path):
+    out = tmp_path / "out"
+    records = [sub("Arkansas", "C0", 100.0, ident="DR-1"), sub("Arkansas", "C0", 300.0, ident="DR-1"), sub("Arkansas", "C9", 50.0)]
+    summary = run(config, out, fetcher(records, nri_attrs(SIMPLE)))
+    assert summary["total_funding"] == pytest.approx(350.0)
+    assert json.loads((out / "sources.json").read_text())["duplicate_identifier_rows"] == 2
