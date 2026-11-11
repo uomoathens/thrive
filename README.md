@@ -14,7 +14,20 @@ THRIVE answers the three in a loop, so that what we learn after one flood change
 
 ## Status
 
-THRIVE is at the design stage. There is no code yet and no result. The charts below show published figures or simple examples, and each caption says which. Code, data and the validation study will be added in small steps, and every number will be reproducible.
+![tests](https://github.com/uomoathens/thrive/actions/workflows/ci.yml/badge.svg)
+
+The package skeleton, the tests and the automatic checks on GitHub are in place (version 0.1.0). The methods themselves are not written yet, so there are no results. The charts below show published figures or simple examples, and each caption says which. Every new step adds code with its own tests, and every number will be reproducible.
+
+To try what exists so far:
+
+```
+pip install -e ".[dev]"
+pytest
+thrive info
+thrive cite
+```
+
+`thrive info` lists the four steps of the loop and the frameworks of the book each one builds on. `thrive cite` prints the citation of the book.
 
 ## The problem
 
@@ -150,6 +163,10 @@ $\mathrm{FR}$ is the share of runs in which the plan changes, $\mathrm{UB}_{95}$
 
 ```
 README.md          this page
+pyproject.toml     package definition
+src/thrive/        the THRIVE package
+tests/             tests, run on every push by GitHub Actions
+.github/workflows/ the automatic checks
 docs/index.html    the interactive version, published with GitHub Pages
 docs/figures/      the charts on this page, in light and dark versions
 docs/og.png        the preview image shown when the page is shared

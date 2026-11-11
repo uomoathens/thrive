@@ -1,0 +1,37 @@
+[build-system]
+requires = ["hatchling>=1.21"]
+build-backend = "hatchling.build"
+
+[project]
+name = "thrive"
+version = "0.1.0"
+description = "THRIVE: Trustworthy Hazard-to-Recovery Intelligence for Vulnerability-aware Equity. Companion software to the book AI for Resilient Cities (Springer, 2027)."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.11"
+authors = [{ name = "Dimitrios Sargiotis" }]
+keywords = ["just resilience", "climate adaptation", "algorithmic fairness", "disaster recovery", "federated learning"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Intended Audience :: Science/Research",
+  "Topic :: Scientific/Engineering",
+]
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "pyyaml>=6"]
+
+[project.scripts]
+thrive = "thrive.cli:main"
+
+[project.urls]
+Homepage = "https://uomoathens.github.io/thrive/"
+Repository = "https://github.com/uomoathens/thrive"
+Book = "https://link.springer.com/book/9783032364166"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/thrive"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
