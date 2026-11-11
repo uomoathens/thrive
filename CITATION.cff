@@ -1,0 +1,43 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it and the book it builds on, as below."
+title: "THRIVE: Trustworthy Hazard-to-Recovery Intelligence for Vulnerability-aware Equity"
+type: software
+authors:
+  - family-names: Sargiotis
+    given-names: Dimitrios
+    affiliation: "National Technical University of Athens"
+    orcid: "https://orcid.org/0009-0006-3644-4561"
+license: MIT
+version: 0.0.1
+repository-code: "https://github.com/uomoathens/thrive"
+keywords:
+  - just resilience
+  - climate adaptation
+  - algorithmic fairness
+  - counterfactual fairness
+  - reinforcement learning
+  - federated learning
+  - disaster recovery
+  - nighttime lights
+preferred-citation:
+  type: book
+  title: "AI for Resilient Cities: Predicting, Protecting, and Thriving in a Changing Climate"
+  authors:
+    - family-names: Sargiotis
+      given-names: Dimitrios
+      affiliation: "National Technical University of Athens"
+      orcid: "https://orcid.org/0009-0006-3644-4561"
+  publisher:
+    name: "Springer Nature Switzerland AG"
+  year: 2027
+  doi: 10.1007/978-3-032-36417-3
+  isbn: "978-3-032-36416-6"
+references:
+  - type: software
+    title: "Who Gets Help First? A counterfactual audit of large language model decisions in flood response"
+    authors:
+      - family-names: Sargiotis
+        given-names: Dimitrios
+    version: 1.0.0
+    doi: 10.5281/zenodo.23684889
+    repository-code: "https://github.com/uomoathens/who-gets-help-first"
