@@ -343,6 +343,8 @@ def report(summary: dict, by_region: pd.DataFrame, check: pd.DataFrame, sources:
         lines += [
             "",
             f"Direction for Thessaly as a whole, across all definitions: **{summary['direction_thessaly']}**. Direction inside the regional units, across all definitions and every unit with enough people exposed: **{summary['direction_within_units']}**. Following THRIVE's own rule, a direction is reported as a finding only when every measure agrees.",
+            "",
+            "Direction in each regional unit, across all definitions: " + "; ".join(f"{n}: **{summary['direction_by_unit'][rid]}**" for rid, n in zip(by_region["region_id"], by_region["region_name"])) + ".",
         ]
     lines += ["", "## Checks", "", "| Regional unit | Residents on the grid | Census 2021 (ELSTAT) | Difference |", "| --- | --- | --- | --- |"]
     for r in check.itertuples():
@@ -459,6 +461,7 @@ def run(config_path: Path, out_dir: Path, fetcher: Fetcher = fetch, grid_path: P
     summary["extents_missing"] = [e["name"] for e in extents if not e["available"]]
     summary["direction_thessaly"] = direction([e["older_exposure_ratio"] for e in usable]) if older_col else "no data"
     summary["direction_within_units"] = direction([v for e in usable for v in e["region_ratios"].values()]) if older_col else "no data"
+    summary["direction_by_unit"] = {rid: (direction([e["region_ratios"].get(rid) for e in usable]) if older_col else "no data") for rid in by_region["region_id"]}
     summary["regions"] = json.loads(by_region.to_json(orient="records"))
     check_df = validation(by_region, cfg.get("validation", {}))
     summary["validation"] = json.loads(check_df.to_json(orient="records"))

@@ -213,6 +213,7 @@ def test_exposure_numbers(tmp_path, grid_zip):
     assert e["cems_maximum"]["region_ratios"]["EL612"] is None
     assert s["direction_thessaly"] == "not robust"
     assert s["direction_within_units"] == "not robust"
+    assert s["direction_by_unit"] == {"EL611": "not robust", "EL612": "older people more exposed"}
     v = {r["region_id"]: r for r in s["validation"]}
     assert v["EL611"]["difference"] == pytest.approx(0, abs=1e-3)
     assert v["EL612"]["difference"] == pytest.approx(20, abs=1e-3)

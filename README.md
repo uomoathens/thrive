@@ -16,7 +16,7 @@ THRIVE answers the three in a loop, so that what we learn after one flood change
 
 ![tests](https://github.com/uomoathens/thrive/actions/workflows/ci.yml/badge.svg)
 
-Version 0.4.1 holds the four core calculations, each with its own tests, and two pipelines for real data. Phase A, on US flood grants, has run on GitHub and its results are in `results/phase-a` (summary below). Phase B, on Storm Daniel in Thessaly, is new in this version; it runs on GitHub and writes to `results/phase-b`. The calculations are checked on worked examples, which give exactly the numbers on the interactive page. The charts below show published figures or simple examples, and each caption says which.
+Version 0.4.1 holds the four core calculations, each with its own tests, and two pipelines for real data. Phase A, on US flood grants, has run on GitHub and its results are in `results/phase-a` (summary below). Phase B, on Storm Daniel in Thessaly, has run on GitHub as well, with its results in `results/phase-b` (summary below). The calculations are checked on worked examples, which give exactly the numbers on the interactive page. The charts below show published figures or simple examples, and each caption says which.
 
 To try it:
 
@@ -168,6 +168,18 @@ Three checks are written next to the results. The residents on the grid are comp
 Like Phase A, every run first checks that each source answers, then records each product it found (`inventory.json`), the sources and their fingerprints (`sources.json`), the results (`summary.json`, `report.md`, an Excel file with every regional unit and every flooded square) and the flood extent itself (`flood-extent.gpkg`), so anyone can open it in QGIS. If no flood layer is found, the run stops and the inventory shows what was there.
 
 The limits: the Copernicus maps show the flood the satellites saw on the dates they passed, not the peak; people are assumed to be spread evenly within each square; and being inside the flood is not the same as losing a home. Flash floods that drained within hours, as in Volos and the villages of Pelion, are mostly missing from the satellite maps, so the low figure for Magnesia says little about how hard it was hit.
+
+### What Phase B found
+
+The grid counts 687,327 residents in Thessaly, within 0.2 % of the 2021 census of ELSTAT in every regional unit (Karditsa and Trikala −318, Larisa −519, Magnesia and Sporades −92).
+
+| Flood definition | km² flooded | Residents in the flood | Share of residents | Ratio, Thessaly | Ratio, Karditsa & Trikala | Ratio, Larisa |
+| --- | --- | --- | --- | --- | --- | --- |
+| Every observed flood polygon, with flood traces | 1,475 | 58,071 | 8.4 % | 1.04 | 1.07 | 0.87 |
+| Standing water only | 913 | 33,919 | 4.9 % | 0.95 | 1.19 | 0.79 |
+| Copernicus maximum water extent | 999 | 35,824 | 5.2 % | 0.95 | 1.18 | 0.79 |
+
+The ratio compares the share of people aged 65 and over among those in the flood with their share among all residents. Under every definition, older people in Karditsa and Trikala were more likely than their neighbours to live where the water reached, and in Larisa less likely. For Thessaly as a whole the answer flips with the definition, so there is no robust direction for the region. Magnesia had 99 residents in the mapped flood, too few for a ratio, for the reason given above.
 
 ## The maths, for those who want it
 
