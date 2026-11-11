@@ -1,0 +1,16 @@
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.12.16/x64/bin/thrive", line 6, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/home/runner/work/thrive/thrive/src/thrive/cli.py", line 81, in main
+    summary = run(Path(args.config), Path(args.out))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/thrive/thrive/src/thrive/data/phase_a.py", line 169, in run
+    records, digests = openfema_records(cfg.endpoint, cfg.page_size, fetcher)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/thrive/thrive/src/thrive/data/download.py", line 40, in openfema_records
+    raw = fetcher(f"{endpoint}?{query}")
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/thrive/thrive/src/thrive/data/download.py", line 25, in fetch
+    raise RuntimeError(f"could not download {url}: {last}")
+RuntimeError: could not download https://www.fema.gov/api/open/v4/HazardMitigationAssistanceProjects?$top=10000&$skip=0&$format=json: HTTP Error 404: Not Found
