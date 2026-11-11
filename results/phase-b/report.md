@@ -27,6 +27,8 @@ The ratio compares the share of people aged 65 and over among those exposed with
 
 Direction for Thessaly as a whole, across all definitions: **not robust**. Direction inside the regional units, across all definitions and every unit with enough people exposed: **not robust**. Following THRIVE's own rule, a direction is reported as a finding only when every measure agrees.
 
+Direction in each regional unit, across all definitions: Karditsa, Trikala: **older people more exposed**; Larisa: **older people less exposed**; Magnisia, Sporades: **no data**.
+
 ## Checks
 
 | Regional unit | Residents on the grid | Census 2021 (ELSTAT) | Difference |

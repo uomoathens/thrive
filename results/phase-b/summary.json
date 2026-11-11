@@ -91,6 +91,11 @@
   "extents_missing": [],
   "direction_thessaly": "not robust",
   "direction_within_units": "not robust",
+  "direction_by_unit": {
+    "EL611": "older people more exposed",
+    "EL612": "older people less exposed",
+    "EL613": "no data"
+  },
   "regions": [
     {
       "region_id": "EL611",
