@@ -12,6 +12,85 @@
   "older_share_of_population": 0.2519460380529326,
   "older_share_of_exposed": 0.2629987612288446,
   "older_exposure_ratio": 1.0438694065655039,
+  "region_ratios": {
+    "EL611": 1.0659703556547109,
+    "EL612": 0.8697483160060975,
+    "EL613": null
+  },
+  "extents": [
+    {
+      "key": "observed_all",
+      "name": "Observed flood, including flood traces",
+      "available": true,
+      "population": 687326.6244637389,
+      "population_exposed": 58071.31469375135,
+      "population_with_age": 687326.6244637389,
+      "population_exposed_with_age": 58071.31469375135,
+      "older": 173169.21988193484,
+      "older_exposed": 15272.683827387005,
+      "land_km2": 14054.871971718569,
+      "flooded_km2": 1475.0465909453535,
+      "share_exposed": 0.08448867340045112,
+      "age_coverage": 1.0,
+      "older_share_of_population": 0.2519460380529326,
+      "older_share_of_exposed": 0.2629987612288446,
+      "older_exposure_ratio": 1.0438694065655039,
+      "region_ratios": {
+        "EL611": 1.0659703556547109,
+        "EL612": 0.8697483160060975,
+        "EL613": null
+      }
+    },
+    {
+      "key": "observed_water",
+      "name": "Observed standing water, without flood traces",
+      "available": true,
+      "population": 687326.6244637389,
+      "population_exposed": 33918.5941735038,
+      "population_with_age": 687326.6244637389,
+      "population_exposed_with_age": 33918.5941735038,
+      "older": 173169.21988193484,
+      "older_exposed": 8152.576617378705,
+      "land_km2": 14054.871971718569,
+      "flooded_km2": 912.8150915788138,
+      "share_exposed": 0.04934858183322598,
+      "age_coverage": 1.0,
+      "older_share_of_population": 0.2519460380529326,
+      "older_share_of_exposed": 0.24035714970012692,
+      "older_exposure_ratio": 0.9540024981445793,
+      "region_ratios": {
+        "EL611": 1.187833787236994,
+        "EL612": 0.794701085058868,
+        "EL613": null
+      }
+    },
+    {
+      "key": "cems_maximum",
+      "name": "Copernicus maximum water extent",
+      "available": true,
+      "population": 687326.6244637389,
+      "population_exposed": 35824.01326048502,
+      "population_with_age": 687326.6244637389,
+      "population_exposed_with_age": 35824.01326048502,
+      "older": 173169.21988193484,
+      "older_exposed": 8535.592338784683,
+      "land_km2": 14054.871971718569,
+      "flooded_km2": 998.6651189998888,
+      "share_exposed": 0.052120799610280454,
+      "age_coverage": 1.0,
+      "older_share_of_population": 0.2519460380529326,
+      "older_share_of_exposed": 0.23826454832741203,
+      "older_exposure_ratio": 0.9456967458934753,
+      "region_ratios": {
+        "EL611": 1.1765052300649224,
+        "EL612": 0.7946479942111937,
+        "EL613": null
+      }
+    }
+  ],
+  "extents_missing": [],
+  "direction_thessaly": "not robust",
+  "direction_within_units": "not robust",
   "regions": [
     {
       "region_id": "EL611",
@@ -103,11 +182,10 @@
   "checks": {
     "unplaced_population": 0.0,
     "unplaced_cells": 63,
-    "cems_maximum_km2": 998.6651189998815,
-    "classes": {
-      "Riverine flood": 32030,
-      "Flood trace": 16758,
-      "Flooded area": 15272
+    "min_exposed": 1000.0,
+    "class_km2": {
+      "Flood trace": 1235.8234435112288,
+      "Flooded area": 912.8150915788119
     }
   }
 }

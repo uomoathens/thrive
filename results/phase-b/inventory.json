@@ -32,6 +32,10 @@
           "notation": {
             "Flooded area": 1513,
             "Flood trace": 292
+          },
+          "flood_class": {
+            "Flooded area": 1513,
+            "Flood trace": 292
           }
         }
       }
@@ -70,6 +74,9 @@
           },
           "notation": {
             "Flooded area": 3578
+          },
+          "flood_class": {
+            "Flooded area": 3578
           }
         }
       }
@@ -107,6 +114,9 @@
             "Semi-automatic extraction": 2698
           },
           "notation": {
+            "Flooded area": 2698
+          },
+          "flood_class": {
             "Flooded area": 2698
           }
         }
@@ -147,6 +157,10 @@
           "notation": {
             "Flooded area": 292,
             "Flood trace": 23
+          },
+          "flood_class": {
+            "Flooded area": 292,
+            "Flood trace": 23
           }
         }
       }
@@ -184,6 +198,10 @@
             "Semi-automatic extraction": 295
           },
           "notation": {
+            "Flood trace": 380,
+            "Flooded area": 295
+          },
+          "flood_class": {
             "Flood trace": 380,
             "Flooded area": 295
           }
@@ -226,6 +244,10 @@
           "notation": {
             "Flood trace": 435,
             "Flooded area": 303
+          },
+          "flood_class": {
+            "Flood trace": 435,
+            "Flooded area": 303
           }
         }
       }
@@ -264,6 +286,10 @@
             "Semi-automatic extraction": 134
           },
           "notation": {
+            "Flood trace": 170,
+            "Flooded area": 134
+          },
+          "flood_class": {
             "Flood trace": 170,
             "Flooded area": 134
           }
@@ -306,6 +332,10 @@
           "notation": {
             "Flooded area": 270,
             "Flood trace": 18
+          },
+          "flood_class": {
+            "Flooded area": 270,
+            "Flood trace": 18
           }
         }
       }
@@ -346,6 +376,10 @@
           "notation": {
             "Flooded area": 122,
             "Flood trace": 51
+          },
+          "flood_class": {
+            "Flooded area": 122,
+            "Flood trace": 51
           }
         }
       }
@@ -383,6 +417,10 @@
             "Semi-automatic extraction": 669
           },
           "notation": {
+            "Flood trace": 543,
+            "Flooded area": 126
+          },
+          "flood_class": {
             "Flood trace": 543,
             "Flooded area": 126
           }
@@ -425,6 +463,10 @@
           "notation": {
             "Flood trace": 455,
             "Flooded area": 407
+          },
+          "flood_class": {
+            "Flood trace": 455,
+            "Flooded area": 407
           }
         }
       }
@@ -461,6 +503,10 @@
             "Semi-automatic extraction": 234
           },
           "notation": {
+            "Flooded area": 221,
+            "Flood trace": 13
+          },
+          "flood_class": {
             "Flooded area": 221,
             "Flood trace": 13
           }
@@ -503,6 +549,10 @@
           "notation": {
             "Flood trace": 476,
             "Flooded area": 270
+          },
+          "flood_class": {
+            "Flood trace": 476,
+            "Flooded area": 270
           }
         }
       }
@@ -540,6 +590,10 @@
             "Semi-automatic extraction": 639
           },
           "notation": {
+            "Flood trace": 484,
+            "Flooded area": 155
+          },
+          "flood_class": {
             "Flood trace": 484,
             "Flooded area": 155
           }
@@ -582,6 +636,10 @@
           "notation": {
             "Flood trace": 494,
             "Flooded area": 104
+          },
+          "flood_class": {
+            "Flood trace": 494,
+            "Flooded area": 104
           }
         }
       }
@@ -620,6 +678,10 @@
             "Semi-automatic extraction": 104
           },
           "notation": {
+            "Flood trace": 54,
+            "Flooded area": 50
+          },
+          "flood_class": {
             "Flood trace": 54,
             "Flooded area": 50
           }
@@ -662,6 +724,10 @@
           "notation": {
             "Flood trace": 81,
             "Flooded area": 53
+          },
+          "flood_class": {
+            "Flood trace": 81,
+            "Flooded area": 53
           }
         }
       }
@@ -701,6 +767,10 @@
           },
           "obj_desc": {
             "Riverine flood": 188
+          },
+          "flood_class": {
+            "Flooded area": 144,
+            "Flood trace": 44
           }
         }
       }
@@ -739,6 +809,10 @@
             "Photo-interpretation": 98
           },
           "notation": {
+            "Flooded area": 57,
+            "Flood trace": 41
+          },
+          "flood_class": {
             "Flooded area": 57,
             "Flood trace": 41
           }
@@ -781,6 +855,10 @@
           "notation": {
             "Flooded area": 69,
             "Flood trace": 53
+          },
+          "flood_class": {
+            "Flooded area": 69,
+            "Flood trace": 53
           }
         }
       }
@@ -820,6 +898,10 @@
           },
           "obj_desc": {
             "Riverine flood": 11202
+          },
+          "flood_class": {
+            "Flood trace": 10138,
+            "Flooded area": 1064
           }
         }
       }
@@ -857,6 +939,10 @@
             "Semi-automatic extraction": 1290
           },
           "notation": {
+            "Flooded area": 946,
+            "Flood trace": 344
+          },
+          "flood_class": {
             "Flooded area": 946,
             "Flood trace": 344
           }
@@ -898,6 +984,10 @@
           "notation": {
             "Flood trace": 812,
             "Flooded area": 735
+          },
+          "flood_class": {
+            "Flood trace": 812,
+            "Flooded area": 735
           }
         }
       }
@@ -935,6 +1025,10 @@
             "Semi-automatic extraction": 384
           },
           "notation": {
+            "Flooded area": 323,
+            "Flood trace": 61
+          },
+          "flood_class": {
             "Flooded area": 323,
             "Flood trace": 61
           }
@@ -976,6 +1070,10 @@
           "notation": {
             "Flooded area": 198,
             "Flood trace": 58
+          },
+          "flood_class": {
+            "Flooded area": 198,
+            "Flood trace": 58
           }
         }
       }
@@ -1014,6 +1112,10 @@
           },
           "obj_desc": {
             "Riverine flood": 2038
+          },
+          "flood_class": {
+            "Flood trace": 1238,
+            "Flooded area": 800
           }
         }
       }
@@ -1053,6 +1155,9 @@
           },
           "notation": {
             "Flooded area": 146
+          },
+          "flood_class": {
+            "Flooded area": 146
           }
         }
       }
@@ -1091,6 +1196,9 @@
           },
           "obj_desc": {
             "Riverine flood": 199
+          },
+          "flood_class": {
+            "Flooded area": 199
           }
         }
       }
