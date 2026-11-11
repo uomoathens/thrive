@@ -13,8 +13,8 @@
   },
   {
     "check": "GISCO 1 km grid",
-    "url": "https://gisco-services.ec.europa.eu/distribution/v2/grid/grid_1km_point.gpkg",
-    "ok": false,
-    "error": "could not download https://gisco-services.ec.europa.eu/distribution/v2/grid/grid_1km_point.gpkg: HTTP Error 404: Not Found"
+    "url": "https://gisco-services.ec.europa.eu/grid/grid_1km_point.gpkg",
+    "ok": true,
+    "error": null
   }
 ]

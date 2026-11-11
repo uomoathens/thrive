@@ -1,10 +1,1 @@
-Traceback (most recent call last):
-  File "/opt/hostedtoolcache/Python/3.12.16/x64/bin/thrive", line 6, in <module>
-    sys.exit(main())
-             ^^^^^^
-  File "/home/runner/work/thrive/thrive/src/thrive/cli.py", line 92, in main
-    summary = run_b(Path(args.config), Path(args.out))
-              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/runner/work/thrive/thrive/src/thrive/data/phase_b.py", line 192, in run
-    raise RuntimeError("preflight failed: " + " | ".join(f"{x['check']} {x['url']}: {x['error']}" for x in checks if not x["ok"]))
-RuntimeError: preflight failed: GISCO 1 km grid https://gisco-services.ec.europa.eu/distribution/v2/grid/grid_1km_point.gpkg: could not download https://gisco-services.ec.europa.eu/distribution/v2/grid/grid_1km_point.gpkg: HTTP Error 404: Not Found
+Phase B done: 58,060 residents in flooded cells, 1,475 km2 flooded

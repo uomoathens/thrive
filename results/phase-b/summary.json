@@ -1,0 +1,50 @@
+{
+  "population": 676182.9065712532,
+  "population_exposed": 58060.10758923965,
+  "share_exposed": 0.08586450060331646,
+  "flooded_km2": 1475.046591161063,
+  "older_exposed": null,
+  "older_share_of_exposed": null,
+  "older_share_of_population": null,
+  "regions": [
+    {
+      "region_id": "EL611",
+      "region_name": "Karditsa, Trikala",
+      "population": 228067.8266797079,
+      "older": 0.0,
+      "flooded_km2": 877.0092241074087,
+      "population_exposed": 33788.300467374385,
+      "older_exposed": 0.0,
+      "cells_touched": 1427,
+      "share_exposed": 0.14815022776020806,
+      "older_share_of_exposed": 0.0,
+      "older_share_of_population": 0.0
+    },
+    {
+      "region_id": "EL612",
+      "region_name": "Larisa",
+      "population": 267944.8252919014,
+      "older": 0.0,
+      "flooded_km2": 560.2121285222962,
+      "population_exposed": 24172.336263270707,
+      "older_exposed": 0.0,
+      "cells_touched": 1145,
+      "share_exposed": 0.09021385741238762,
+      "older_share_of_exposed": 0.0,
+      "older_share_of_population": 0.0
+    },
+    {
+      "region_id": "EL613",
+      "region_name": "Magnisia, Sporades",
+      "population": 180170.25459964387,
+      "older": 0.0,
+      "flooded_km2": 37.82523853135786,
+      "population_exposed": 99.47085859455521,
+      "older_exposed": 0.0,
+      "cells_touched": 95,
+      "share_exposed": 0.0005520936783687701,
+      "older_share_of_exposed": 0.0,
+      "older_share_of_population": 0.0
+    }
+  ]
+}
