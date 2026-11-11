@@ -1,11 +1,9 @@
 import hashlib
-import io
 import json
 import time
 import urllib.parse
 import urllib.request
-import zipfile
-from typing import Callable, Sequence
+from typing import Callable
 
 USER_AGENT = "thrive-research (+https://github.com/uomoathens/thrive)"
 
@@ -29,7 +27,15 @@ def sha256(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
 
 
-def openfema_records(endpoint: str, page_size: int = 10000, fetcher: Fetcher = fetch, max_pages: int = 500) -> tuple[list[dict], list[str]]:
+def payload_rows(raw: bytes) -> list[dict]:
+    payload = json.loads(raw)
+    keys = [k for k in payload if k != "metadata"]
+    if len(keys) != 1:
+        raise ValueError(f"unexpected OpenFEMA response keys: {sorted(payload)}")
+    return payload[keys[0]]
+
+
+def openfema_records(endpoint: str, page_size: int = 1000, fetcher: Fetcher = fetch, max_pages: int = 2000) -> tuple[list[dict], list[str]]:
     rows: list[dict] = []
     digests: list[str] = []
     skip = 0
@@ -42,42 +48,11 @@ def openfema_records(endpoint: str, page_size: int = 10000, fetcher: Fetcher = f
         if digests and digest == digests[-1]:
             raise RuntimeError("the same page came back twice; the source may be ignoring $skip")
         digests.append(digest)
-        payload = json.loads(raw)
-        keys = [k for k in payload if k != "metadata"]
-        if len(keys) != 1:
-            raise ValueError(f"unexpected OpenFEMA response keys: {sorted(payload)}")
-        page = payload[keys[0]]
+        page = payload_rows(raw)
         rows.extend(page)
         if len(page) < page_size:
             return rows, digests
         skip += page_size
-
-
-def first_working(urls: Sequence[str], fetcher: Fetcher = fetch) -> tuple[str, bytes]:
-    errors = []
-    for url in urls:
-        try:
-            return url, fetcher(url)
-        except Exception as exc:
-            errors.append(f"{url}: {exc}")
-    raise RuntimeError("no source could be downloaded: " + " | ".join(errors))
-
-
-def zip_member(data: bytes, name: str) -> bytes:
-    with zipfile.ZipFile(io.BytesIO(data)) as zf:
-        names = zf.namelist()
-        match = [n for n in names if n.rsplit("/", 1)[-1].lower() == name.lower()]
-        if not match:
-            raise ValueError(f"{name} not found in archive, which holds: {names}")
-        return zf.read(match[0])
-
-
-def payload_rows(raw: bytes) -> list[dict]:
-    payload = json.loads(raw)
-    keys = [k for k in payload if k != "metadata"]
-    if len(keys) != 1:
-        raise ValueError(f"unexpected OpenFEMA response keys: {sorted(payload)}")
-    return payload[keys[0]]
 
 
 def discover_openfema_endpoint(name: str, catalog_url: str, fetcher: Fetcher = fetch) -> str:
@@ -92,6 +67,37 @@ def discover_openfema_endpoint(name: str, catalog_url: str, fetcher: Fetcher = f
     if not versions:
         raise ValueError(f"{name} not listed in the OpenFEMA catalog")
     return f"https://www.fema.gov/api/open/v{max(versions)}/{name}"
+
+
+def arcgis_records(query_url: str, page_size: int = 2000, fetcher: Fetcher = fetch, max_pages: int = 500) -> tuple[list[dict], list[str]]:
+    rows: list[dict] = []
+    digests: list[str] = []
+    offset = 0
+    while True:
+        if len(digests) >= max_pages:
+            raise RuntimeError(f"stopped after {max_pages} pages of {query_url}")
+        params = {
+            "where": "1=1",
+            "outFields": "*",
+            "resultOffset": offset,
+            "resultRecordCount": page_size,
+            "orderByFields": "OBJECTID ASC",
+            "returnGeometry": "false",
+            "f": "json",
+        }
+        raw = fetcher(f"{query_url}?{urllib.parse.urlencode(params)}")
+        digest = sha256(raw)
+        if digests and digest == digests[-1]:
+            raise RuntimeError("the same page came back twice from the ArcGIS service")
+        digests.append(digest)
+        payload = json.loads(raw)
+        if "error" in payload:
+            raise RuntimeError(f"ArcGIS service error: {payload['error']}")
+        features = payload.get("features", [])
+        rows.extend(f.get("attributes", {}) for f in features)
+        if not features or (len(features) < page_size and not payload.get("exceededTransferLimit")):
+            return rows, digests
+        offset += len(features)
 
 
 def probe(url: str, fetcher: Fetcher = fetch) -> dict:

@@ -36,7 +36,7 @@ thrive demo
 | `thrive.weights` | Equity weights and the point where a decision changes | “People count” below |
 | `thrive.allocate` | Chooses which works to fund within a budget, with equity weights, and reports how unevenly protection falls across groups. One plan per value of η, so a council can compare them | “People count” below, with the group-fairness measure of FCFL (Table 5.8) |
 | `thrive.fairness` | The group-fairness measure of FCFL | FCFL (Table 5.8) |
-| `thrive.data.phase_a` | Phase A: downloads FEMA flood-mitigation projects and the National Risk Index, and compares flood funding with flood risk across five groups of counties, from least to most socially vulnerable | “How we will test it”, phase A |
+| `thrive.data.phase_a` | Phase A: downloads FEMA's hazard-mitigation grants and the National Risk Index, and compares flood money with flood risk across five groups of counties, from least to most socially vulnerable | “How we will test it”, phase A |
 | `thrive.audit` | The fairness check: changes one detail at a time, compares with a placebo run, and passes a plan only if, after Holm correction across all checks, no identity change moves it and every need change raises it | “Need may count” and “Nothing is built before a fairness check” below, method of Who Gets Help First? |
 
 Still to come: the forecasting and vulnerability models of the Predicting step, the satellite data for recovery, learning the allocation policy with Proximal Policy Optimization, federated learning across towns, and the validation phases.
@@ -126,18 +126,18 @@ A language model may help explain a decision to residents. It should not take on
 
 | Phase | Where | Data | Status |
 | --- | --- | --- | --- |
-| A | United States, fully open | OpenFEMA Hazard Mitigation Assistance projects, FEMA National Risk Index (flood risk, population, social vulnerability) | Pipeline in place, runs monthly on GitHub |
+| A | United States, fully open | OpenFEMA HMA Subapplications (which replaced the Hazard Mitigation Assistance Projects dataset on 15 October 2026), FEMA National Risk Index v1.20 (flood risk, population, social vulnerability) | Pipeline in place, runs monthly on GitHub |
 | B | Thessaly, Storm Daniel (September 2023) | Copernicus EMS maps EMSR692 and EMSN184, 2021 census on the 1 km grid, Sentinel-2, NASA Black Marble | Next |
 | C | Thessaly, who actually received aid | Anonymised state-aid records by community, requested from the General Secretariat for Natural Disaster Recovery and State Aid | Needs a data request |
 | D | Attica, looking ahead | The current plan for flood and wildfire works, assessed before the next event | Later |
 
 ### Phase A in plain words
 
-For every US county, Phase A adds up the federal money FEMA has committed to flood-mitigation projects since 2000 and divides it by the county's expected yearly flood loss from the National Risk Index. It then sorts the counties into five equal groups by social vulnerability and compares the groups. If protection followed risk alone, every group would get about the same money per dollar of expected loss. The main number is the coverage ratio: money per dollar of risk in the most vulnerable fifth, divided by the same in the least vulnerable fifth. Below 1, the most vulnerable counties get less protection for the same risk.
+For every US county, Phase A adds up the federal money FEMA has obligated to flood-related hazard-mitigation grants since 2000 and divides it by the county's expected yearly flood loss, inland and coastal, from the National Risk Index. It then sorts the counties into five equal groups by social vulnerability and compares the groups. If protection followed risk alone, every group would get about the same money per dollar of expected loss. The main number is the coverage ratio: money per dollar of risk in the most vulnerable fifth, divided by the same in the least vulnerable fifth. Below 1, the most vulnerable counties get less protection for the same risk.
 
-Every run records what it downloaded and when (`sources.json`, with a fingerprint of each file), the results (`summary.json`, `report.md`, and an Excel file with every county and every project type), and its own log. A project counts as flood-related by a rule written in `config/phase-a.toml`, and the Excel file lists every project type with how it was classified, so the rule can be checked.
+Every run first checks that each source answers (`preflight.json`), then records what it downloaded and when (`sources.json`, with a fingerprint of each page), a small sample of the raw records (`sample.json`), the results (`summary.json`, `report.md`, and an Excel file with every county, every activity and every county name it could not match), and its own log. A grant counts as flood-related when one of its hazards mentions flooding or it comes from the Flood Mitigation Assistance programme. FEMA names the counties a grant benefits by name, so Phase A matches the names to the National Risk Index; if more than a quarter of the money cannot be matched, the run stops and lists the names.
 
-The limits, stated now: money is counted in the main county of each project, statewide projects are left out, money committed is not always money spent, and expected loss is a model estimate. We cannot rerun history, so Phase B can show whether the real allocation after Daniel was unequal; comparing it with what THRIVE would have done rests on stated assumptions; and showing that a fairer allocation would also have reduced the damage needs hydraulic models of the floods with and without the works.
+The limits, stated now: a grant that names several counties is split equally between them, statewide grants are left out, money obligated is not always money spent, and expected loss is a model estimate. We cannot rerun history, so Phase B can show whether the real allocation after Daniel was unequal; comparing it with what THRIVE would have done rests on stated assumptions; and showing that a fairer allocation would also have reduced the damage needs hydraulic models of the floods with and without the works.
 
 ## The maths, for those who want it
 

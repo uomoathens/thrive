@@ -1,24 +1,34 @@
 [openfema]
-dataset = "HazardMitigationAssistanceProjects"
+dataset = "HmaSubapplications"
 catalog = "https://www.fema.gov/api/open/v1/DataSets"
-endpoint = "https://www.fema.gov/api/open/v4/HazardMitigationAssistanceProjects"
+endpoint = "https://www.fema.gov/api/open/v2/HmaSubapplications"
 page_size = 1000
 first_fiscal_year = 2000
-excluded_status = ["Void", "Withdrawn"]
+excluded_status = ["void", "withdrawn", "ineligible", "notselected"]
+fiscal_year = ["fiscalYear", "programFy"]
+state = ["subapplicantState", "state"]
+counties = ["benefitingCounties", "projectCounties"]
+amount = ["totalObligatedAmount", "federalShareObligated", "federalShareAmount"]
+hazards = ["primaryHazard", "secondaryHazard", "tertiaryHazard"]
+program = ["program", "programArea"]
+status = ["status"]
+activity = ["primaryActivity", "projectType", "subapplicationType"]
+max_unmatched_share = 0.25
 
 [nri]
-urls = [
-  "https://hazards.fema.gov/nri/Content/StaticDocuments/DataDownload//NRI_Table_Counties/NRI_Table_Counties.zip",
-  "https://hazards.fema.gov/nri/Content/StaticDocuments/DataDownload/NRI_Table_Counties/NRI_Table_Counties.zip",
-]
-member = "NRI_Table_Counties.csv"
+arcgis_query = "https://services.arcgis.com/XG15cJAlne2vxtgt/arcgis/rest/services/National_Risk_Index_Counties/FeatureServer/0/query"
+page_size = 2000
 fips = ["STCOFIPS"]
+state = ["STATE"]
+county = ["COUNTY"]
+county_type = ["COUNTYTYPE"]
 population = ["POPULATION"]
-riverine_eal = ["RFLD_EALT"]
+inland_eal = ["IFLD_EALT", "RFLD_EALT"]
 coastal_eal = ["CFLD_EALT"]
 vulnerability = ["SOVI_SCORE", "SVI_SCORE"]
 vulnerability_rating = ["SOVI_RATNG", "SVI_RATNG"]
+version = ["NRI_VER"]
 
 [flood]
-program_areas = ["FMA"]
-words = ["flood", "riverine", "coastal", "drainage", "stormwater", "storm water", "acquisition", "elevation", "relocation"]
+program_names = ["FMA", "Flood Mitigation Assistance"]
+hazard_word = "flood"
