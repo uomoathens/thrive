@@ -283,3 +283,18 @@ def test_direction_rule():
     assert direction([0.9, 1.2]) == "not robust"
     assert direction([None]) == "no data"
     assert direction([1.0000000001, 1.4]) == "not robust"
+
+
+def test_sliver_of_a_neighbouring_cell_is_not_counted_as_inside():
+    from thrive.data.phase_b import exposure
+
+    cells = gpd.GeoDataFrame({"population": [100.0, 100.0], "population_missing": [False, False], "older": [20.0, 20.0], "older_known": [True, True]},
+                             geometry=[box(0, 0, 1000, 1000), box(1000, 0, 2000, 1000)], crs=3035)
+    near = gpd.GeoDataFrame({"region_id": ["EL611", "EL642"], "region_name": ["In", "Out"]},
+                            geometry=[box(0, 0, 1000.001, 1000), box(1000.001, 0, 3000, 1000)], crs=3035)
+    flood = gpd.GeoDataFrame(geometry=[box(0, 0, 2000, 1000)], crs=3035)
+    by_region, _, _, _, per_cell = exposure(cells, flood, near[near["region_id"] == "EL611"], near)
+    assert by_region["population"].sum() == pytest.approx(100, abs=1e-3)
+    assert per_cell.loc[0, "share_in_target"] == pytest.approx(1.0)
+    assert per_cell.loc[1, "share_in_target"] < 1e-5
+    assert per_cell.loc[1, "flooded_share"] < 1e-5

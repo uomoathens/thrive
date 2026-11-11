@@ -245,8 +245,11 @@ def exposure(cells, flood, target, near):
         region_name=("region_name", "first"),
         land_km2=("land_km2", "sum"),
         flooded_km2=("flooded_km2", "sum"),
+        cell_land_km2=("land_area", "first"),
     )
-    per_cell["flooded_share"] = (per_cell["flooded_km2"] / per_cell["land_km2"].where(per_cell["land_km2"] > 0)).fillna(0.0).clip(upper=1.0)
+    per_cell["cell_land_km2"] = per_cell["cell_land_km2"] / 1e6
+    per_cell["share_in_target"] = (per_cell["land_km2"] / per_cell["cell_land_km2"]).clip(upper=1.0)
+    per_cell["flooded_share"] = (per_cell["flooded_km2"] / per_cell["cell_land_km2"]).fillna(0.0).clip(upper=1.0)
     return by_region, cells_out, float(unplaced["population"].sum()), int(len(unplaced)), per_cell
 
 
@@ -456,7 +459,8 @@ def run(config_path: Path, out_dir: Path, fetcher: Fetcher = fetch, grid_path: P
             main = res
         extents.append({"key": d["key"], "name": d["name"], "available": True, **extent_summary(res[0], min_exposed)})
     by_region, wet_cells, unplaced_pop, unplaced_cells, first_cells = main
-    cell_table = cells.assign(cell_id=range(len(cells))).set_index("cell_id").join(first_cells[["region_id", "region_name", "land_km2"]], how="inner")
+    majority = first_cells[first_cells["share_in_target"] >= 0.5]
+    cell_table = cells.assign(cell_id=range(len(cells))).set_index("cell_id").join(majority[["region_id", "region_name", "land_km2", "share_in_target"]], how="inner")
     for key, pc in shares.items():
         cell_table[f"flooded_share_{key}"] = pc["flooded_share"].reindex(cell_table.index).fillna(0.0)
     usable = [e for e in extents if e["available"]]
