@@ -3,11 +3,15 @@ activation = "EMSR692"
 detail = "https://rapidmapping.emergency.copernicus.eu/backend/dashboard-api/public-activations/?code={code}"
 product_types = ["DEL", "GRA"]
 flood_layer_words = ["observedevent"]
+check_layer_words = ["maximumwaterextent"]
+class_columns = ["notation", "obj_desc"]
 
 [grid]
-url = "https://gisco-services.ec.europa.eu/grid/grid_1km_point.gpkg"
-population = ["TOT_P_2021", "T", "TOT_P"]
-older = ["Y_GE65_2021", "Y_GE65"]
+name = "Eurostat census grid 2021, version 2.2 (22 January 2025)"
+url = "https://gisco-services.ec.europa.eu/census/2021/Eurostat_Census-GRID_2021_V2.2.zip"
+population = ["T", "TOT_P_2021", "TOT_P"]
+older = ["Y_GE65"]
+older_required = true
 cell_size_m = 1000
 
 [regions]
@@ -16,3 +20,11 @@ prefix = "EL61"
 
 [analysis]
 crs = 3035
+
+[validation]
+source = "ELSTAT, Census 2021, permanent population by regional unit (EL611 = Karditsa 106,305 + Trikala 122,081; EL612 = Larisa 268,963; EL613 = Magnesia 177,448 + Sporades 13,458)"
+
+[validation.population]
+EL611 = 228386
+EL612 = 268963
+EL613 = 190906

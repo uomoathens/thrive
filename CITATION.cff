@@ -8,7 +8,7 @@ authors:
     affiliation: "National Technical University of Athens"
     orcid: "https://orcid.org/0009-0006-3644-4561"
 license: MIT
-version: 0.4.0
+version: 0.4.1
 repository-code: "https://github.com/uomoathens/thrive"
 keywords:
   - just resilience
