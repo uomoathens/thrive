@@ -1,0 +1,30 @@
+[
+  {
+    "check": "OpenFEMA catalog",
+    "url": "https://www.fema.gov/api/open/v1/DataSets",
+    "ok": false,
+    "error": "HazardMitigationAssistanceProjects not listed in the OpenFEMA catalog",
+    "found": null
+  },
+  {
+    "check": "OpenFEMA first record",
+    "url": "https://www.fema.gov/api/open/v4/HazardMitigationAssistanceProjects?$top=1",
+    "ok": false,
+    "bytes": 0,
+    "error": "could not download https://www.fema.gov/api/open/v4/HazardMitigationAssistanceProjects?$top=1: HTTP Error 404: Not Found"
+  },
+  {
+    "check": "National Risk Index",
+    "url": "https://hazards.fema.gov/nri/Content/StaticDocuments/DataDownload//NRI_Table_Counties/NRI_Table_Counties.zip",
+    "ok": false,
+    "bytes": 0,
+    "error": "could not download https://hazards.fema.gov/nri/Content/StaticDocuments/DataDownload//NRI_Table_Counties/NRI_Table_Counties.zip: HTTP Error 403: Forbidden"
+  },
+  {
+    "check": "National Risk Index",
+    "url": "https://hazards.fema.gov/nri/Content/StaticDocuments/DataDownload/NRI_Table_Counties/NRI_Table_Counties.zip",
+    "ok": false,
+    "bytes": 0,
+    "error": "could not download https://hazards.fema.gov/nri/Content/StaticDocuments/DataDownload/NRI_Table_Counties/NRI_Table_Counties.zip: HTTP Error 403: Forbidden"
+  }
+]

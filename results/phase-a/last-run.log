@@ -5,12 +5,9 @@ Traceback (most recent call last):
   File "/home/runner/work/thrive/thrive/src/thrive/cli.py", line 81, in main
     summary = run(Path(args.config), Path(args.out))
               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/runner/work/thrive/thrive/src/thrive/data/phase_a.py", line 169, in run
-    records, digests = openfema_records(cfg.endpoint, cfg.page_size, fetcher)
-                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/runner/work/thrive/thrive/src/thrive/data/download.py", line 40, in openfema_records
-    raw = fetcher(f"{endpoint}?{query}")
-          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/runner/work/thrive/thrive/src/thrive/data/download.py", line 25, in fetch
-    raise RuntimeError(f"could not download {url}: {last}")
-RuntimeError: could not download https://www.fema.gov/api/open/v4/HazardMitigationAssistanceProjects?$top=10000&$skip=0&$format=json: HTTP Error 404: Not Found
+  File "/home/runner/work/thrive/thrive/src/thrive/data/phase_a.py", line 206, in run
+    endpoint, nri_url, nri_zip = preflight(cfg, out_dir, fetcher)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/thrive/thrive/src/thrive/data/phase_a.py", line 198, in preflight
+    raise RuntimeError("preflight failed: " + " | ".join(f"{c['check']} {c['url']}: {c['error']}" for c in problems))
+RuntimeError: preflight failed: OpenFEMA catalog https://www.fema.gov/api/open/v1/DataSets: HazardMitigationAssistanceProjects not listed in the OpenFEMA catalog | OpenFEMA first record https://www.fema.gov/api/open/v4/HazardMitigationAssistanceProjects?$top=1: could not download https://www.fema.gov/api/open/v4/HazardMitigationAssistanceProjects?$top=1: HTTP Error 404: Not Found | National Risk Index https://hazards.fema.gov/nri/Content/StaticDocuments/DataDownload//NRI_Table_Counties/NRI_Table_Counties.zip: could not download https://hazards.fema.gov/nri/Content/StaticDocuments/DataDownload//NRI_Table_Counties/NRI_Table_Counties.zip: HTTP Error 403: Forbidden | National Risk Index https://hazards.fema.gov/nri/Content/StaticDocuments/DataDownload/NRI_Table_Counties/NRI_Table_Counties.zip: could not download https://hazards.fema.gov/nri/Content/StaticDocuments/DataDownload/NRI_Table_Counties/NRI_Table_Counties.zip: HTTP Error 403: Forbidden
