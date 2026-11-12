@@ -23,7 +23,7 @@ Average over the ten-day periods of each season with a clear view; a season need
 | Group | Cells | Residents | Autumn 2023 | Spring 2024 | Summer 2024 |
 | --- | --- | --- | --- | --- | --- |
 | All flooded cells | 1,431 | 43,056 | 75% (72% to 78%) | 91% (89% to 93%) | 87% (86% to 88%) |
-| Flooded, Karditsa, Trikala | 868 | 29,635 | 89% (88% to 91%) | 102% (101% to 104%) | 90% (89% to 91%) |
+| Flooded, Karditsa, Trikala | 868 | 29,635 | 89% (88% to 91%) | 102% (101% to 104%) | 90% (90% to 91%) |
 | Flooded, Larisa | 528 | 13,340 | 60% (54% to 66%) | 83% (79% to 87%) | 82% (79% to 84%) |
 | Flooded, Magnisia, Sporades | 35 | 81 | below zero: mostly still under water | below zero: mostly still under water | n/a |
 | Flooded, more older residents | 77 | 12,049 | 97% (93% to 101%) | 98% (95% to 101%) | 92% (90% to 95%) |
@@ -46,7 +46,7 @@ Average over the ten-day periods of each season with a clear view; a season need
 | --- | --- | --- | --- | --- | --- |
 | All flooded cells | 841 | 20,770 | 54% (50% to 59%) | 81% (77% to 85%) | 85% (83% to 86%) |
 | Flooded, Karditsa, Trikala | 465 | 9,577 | 74% (72% to 76%) | 102% (100% to 104%) | 90% (89% to 91%) |
-| Flooded, Larisa | 340 | 11,112 | 44% (36% to 53%) | 74% (68% to 79%) | 78% (74% to 82%) |
+| Flooded, Larisa | 340 | 11,112 | 44% (36% to 53%) | 74% (68% to 80%) | 78% (74% to 82%) |
 | Flooded, Magnisia, Sporades | 36 | 81 | below zero: mostly still under water | below zero: mostly still under water | n/a |
 | Flooded, more older residents | 28 | 4,441 | 81% (74% to 88%) | 97% (91% to 103%) | 91% (86% to 96%) |
 | Flooded, fewer older residents | 29 | 15,563 | 83% (68% to 93%) | 92% (74% to 103%) | 90% (86% to 94%) |
@@ -60,13 +60,13 @@ Each comparison is repeated under all 3 flood definitions and with control squar
 | Control area | Flood definition | Difference | 95% interval |
 | --- | --- | --- | --- |
 | 3 to 15 km | Observed flood, including flood traces | -19.3 points | -23.5 to -15.1 |
-| 3 to 15 km | Observed standing water, without flood traces | -28.2 points | -34.3 to -22.4 |
-| 3 to 15 km | Copernicus maximum water extent | -28.2 points | -34.4 to -22.1 |
-| 5 to 20 km | Observed flood, including flood traces | -19.1 points | -23.4 to -15.0 |
+| 3 to 15 km | Observed standing water, without flood traces | -28.1 points | -34.2 to -22.4 |
+| 3 to 15 km | Copernicus maximum water extent | -28.2 points | -34.3 to -22.1 |
+| 5 to 20 km | Observed flood, including flood traces | -19.1 points | -23.3 to -15.0 |
 | 5 to 20 km | Observed standing water, without flood traces | -27.9 points | -33.9 to -22.2 |
-| 5 to 20 km | Copernicus maximum water extent | -28.0 points | -34.1 to -21.9 |
-| 10 to 30 km | Observed flood, including flood traces | -18.9 points | -23.0 to -14.8 |
-| 10 to 30 km | Observed standing water, without flood traces | -27.6 points | -33.5 to -22.0 |
+| 5 to 20 km | Copernicus maximum water extent | -27.9 points | -34.1 to -21.9 |
+| 10 to 30 km | Observed flood, including flood traces | -18.9 points | -23.0 to -14.7 |
+| 10 to 30 km | Observed standing water, without flood traces | -27.6 points | -33.5 to -21.9 |
 | 10 to 30 km | Copernicus maximum water extent | -27.6 points | -33.7 to -21.6 |
 
 **Flooded, Larisa against Flooded, Karditsa, Trikala, Summer 2024: Flooded, Larisa lower**
@@ -74,41 +74,41 @@ Each comparison is repeated under all 3 flood definitions and with control squar
 | Control area | Flood definition | Difference | 95% interval |
 | --- | --- | --- | --- |
 | 3 to 15 km | Observed flood, including flood traces | -8.7 points | -11.5 to -6.1 |
-| 3 to 15 km | Observed standing water, without flood traces | -12.1 points | -15.9 to -7.9 |
-| 3 to 15 km | Copernicus maximum water extent | -12.2 points | -16.0 to -8.3 |
-| 5 to 20 km | Observed flood, including flood traces | -8.7 points | -11.5 to -6.0 |
-| 5 to 20 km | Observed standing water, without flood traces | -12.1 points | -15.9 to -7.9 |
-| 5 to 20 km | Copernicus maximum water extent | -12.2 points | -16.0 to -8.3 |
-| 10 to 30 km | Observed flood, including flood traces | -8.7 points | -11.5 to -6.0 |
-| 10 to 30 km | Observed standing water, without flood traces | -12.1 points | -15.9 to -7.9 |
-| 10 to 30 km | Copernicus maximum water extent | -12.2 points | -16.0 to -8.3 |
+| 3 to 15 km | Observed standing water, without flood traces | -12.2 points | -16.0 to -8.0 |
+| 3 to 15 km | Copernicus maximum water extent | -12.2 points | -16.1 to -8.4 |
+| 5 to 20 km | Observed flood, including flood traces | -8.7 points | -11.5 to -6.1 |
+| 5 to 20 km | Observed standing water, without flood traces | -12.1 points | -16.0 to -8.0 |
+| 5 to 20 km | Copernicus maximum water extent | -12.2 points | -16.0 to -8.4 |
+| 10 to 30 km | Observed flood, including flood traces | -8.7 points | -11.5 to -6.1 |
+| 10 to 30 km | Observed standing water, without flood traces | -12.1 points | -16.0 to -8.0 |
+| 10 to 30 km | Copernicus maximum water extent | -12.2 points | -16.1 to -8.4 |
 
 **Flooded, more older residents against Flooded, fewer older residents, Spring 2024: no difference shown**
 
 | Control area | Flood definition | Difference | 95% interval |
 | --- | --- | --- | --- |
-| 3 to 15 km | Observed flood, including flood traces | -0.9 points | -6.0 to +6.0 |
+| 3 to 15 km | Observed flood, including flood traces | -0.8 points | -5.9 to +6.0 |
 | 3 to 15 km | Observed standing water, without flood traces | +5.2 points | -7.3 to +22.6 |
 | 3 to 15 km | Copernicus maximum water extent | +5.2 points | -7.7 to +24.3 |
-| 5 to 20 km | Observed flood, including flood traces | -0.9 points | -5.9 to +5.9 |
+| 5 to 20 km | Observed flood, including flood traces | -0.8 points | -5.9 to +5.9 |
 | 5 to 20 km | Observed standing water, without flood traces | +5.2 points | -7.2 to +22.5 |
 | 5 to 20 km | Copernicus maximum water extent | +5.2 points | -7.5 to +24.0 |
-| 10 to 30 km | Observed flood, including flood traces | -0.9 points | -5.8 to +5.7 |
-| 10 to 30 km | Observed standing water, without flood traces | +5.3 points | -6.9 to +22.1 |
-| 10 to 30 km | Copernicus maximum water extent | +5.3 points | -7.3 to +23.6 |
+| 10 to 30 km | Observed flood, including flood traces | -0.8 points | -5.8 to +5.8 |
+| 10 to 30 km | Observed standing water, without flood traces | +5.2 points | -6.9 to +22.1 |
+| 10 to 30 km | Copernicus maximum water extent | +5.2 points | -7.3 to +23.6 |
 
 **Flooded, more older residents against Flooded, fewer older residents, Summer 2024: no difference shown**
 
 | Control area | Flood definition | Difference | 95% interval |
 | --- | --- | --- | --- |
-| 3 to 15 km | Observed flood, including flood traces | +1.1 points | -1.8 to +4.4 |
+| 3 to 15 km | Observed flood, including flood traces | +1.2 points | -1.8 to +4.5 |
 | 3 to 15 km | Observed standing water, without flood traces | +0.9 points | -5.0 to +7.1 |
-| 3 to 15 km | Copernicus maximum water extent | +0.9 points | -5.4 to +7.4 |
-| 5 to 20 km | Observed flood, including flood traces | +1.1 points | -1.8 to +4.4 |
+| 3 to 15 km | Copernicus maximum water extent | +0.9 points | -5.4 to +7.5 |
+| 5 to 20 km | Observed flood, including flood traces | +1.2 points | -1.8 to +4.5 |
 | 5 to 20 km | Observed standing water, without flood traces | +0.9 points | -5.0 to +7.1 |
-| 5 to 20 km | Copernicus maximum water extent | +0.9 points | -5.4 to +7.4 |
-| 10 to 30 km | Observed flood, including flood traces | +1.1 points | -1.8 to +4.4 |
-| 10 to 30 km | Observed standing water, without flood traces | +0.9 points | -5.1 to +7.1 |
+| 5 to 20 km | Copernicus maximum water extent | +0.9 points | -5.4 to +7.5 |
+| 10 to 30 km | Observed flood, including flood traces | +1.2 points | -1.8 to +4.5 |
+| 10 to 30 km | Observed standing water, without flood traces | +0.9 points | -5.0 to +7.1 |
 | 10 to 30 km | Copernicus maximum water extent | +0.9 points | -5.4 to +7.5 |
 
 ## When did each group come back (counted from 2024-03-01)
@@ -148,7 +148,7 @@ Days by which the cells with more older residents recovered later (positive) or 
 | Group | Lowest point | Recovered at 80% | Recovered at 85% | Recovered at 90% | Recovered at 95% |
 | --- | --- | --- | --- | --- | --- |
 | All flooded cells | 16% (2023-09-11) | 2024-05-01 (day 237) | 2024-05-01 (day 237) | 2024-08-21 (day 349) | 2024-09-11 (day 370) |
-| Flooded, Karditsa, Trikala | 30% (2023-09-11) | 2024-03-01 (day 176) | 2024-03-01 (day 176) | 2024-03-01 (day 176) | 2024-03-01 (day 176) |
+| Flooded, Karditsa, Trikala | 31% (2023-09-11) | 2024-03-01 (day 176) | 2024-03-01 (day 176) | 2024-03-01 (day 176) | 2024-03-01 (day 176) |
 | Flooded, Larisa | 2% (2023-09-11) | 2024-04-11 (day 217) | 2024-04-11 (day 217) | 2024-09-21 (day 380) | 2024-10-11 (day 400) |
 | Flooded, Magnisia, Sporades | below zero (2023-11-11) | not within the period | not within the period | not within the period | not within the period |
 | Flooded, more older residents | 44% (2023-09-11) | 2024-03-01 (day 176) | 2024-03-01 (day 176) | 2024-03-01 (day 176) | 2024-03-01 (day 176) |

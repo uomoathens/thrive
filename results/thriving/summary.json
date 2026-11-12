@@ -21,10 +21,10 @@
       "definition": "Observed flood, including flood traces",
       "group": "All flooded cells",
       "season": "Autumn 2023",
-      "value": 0.7501903877679271,
+      "value": 0.7499604321780535,
       "interval": [
-        0.7189470380544662,
-        0.7803641438484192
+        0.7186103522777557,
+        0.7801308453083038
       ],
       "periods": 8
     },
@@ -33,10 +33,10 @@
       "definition": "Observed flood, including flood traces",
       "group": "All flooded cells",
       "season": "Spring 2024",
-      "value": 0.9076569271343894,
+      "value": 0.908473228116608,
       "interval": [
-        0.8855294942855835,
-        0.9283363476395607
+        0.8862806737422944,
+        0.9291996523737908
       ],
       "periods": 9
     },
@@ -45,10 +45,10 @@
       "definition": "Observed flood, including flood traces",
       "group": "All flooded cells",
       "season": "Summer 2024",
-      "value": 0.8678771325414311,
+      "value": 0.8681894203805768,
       "interval": [
-        0.8565275564789772,
-        0.8782799512147903
+        0.8568384975194931,
+        0.8785382524132729
       ],
       "periods": 8
     },
@@ -57,10 +57,10 @@
       "definition": "Observed flood, including flood traces",
       "group": "Flooded, Karditsa, Trikala",
       "season": "Autumn 2023",
-      "value": 0.8926633344956569,
+      "value": 0.893330826911456,
       "interval": [
-        0.8763079658150673,
-        0.9074728310108184
+        0.8769417956471444,
+        0.908117163181305
       ],
       "periods": 7
     },
@@ -69,10 +69,10 @@
       "definition": "Observed flood, including flood traces",
       "group": "Flooded, Karditsa, Trikala",
       "season": "Spring 2024",
-      "value": 1.0217077568180506,
+      "value": 1.0225085715425093,
       "interval": [
-        1.0080550342798233,
-        1.0359161466360092
+        1.0088094830513001,
+        1.0368227899074554
       ],
       "periods": 9
     },
@@ -81,10 +81,10 @@
       "definition": "Observed flood, including flood traces",
       "group": "Flooded, Karditsa, Trikala",
       "season": "Summer 2024",
-      "value": 0.9033890225460202,
+      "value": 0.9037403094550349,
       "interval": [
-        0.8949824914336204,
-        0.9120505467057228
+        0.8953768879175186,
+        0.9123210281133651
       ],
       "periods": 8
     },
@@ -93,10 +93,10 @@
       "definition": "Observed flood, including flood traces",
       "group": "Flooded, Larisa",
       "season": "Autumn 2023",
-      "value": 0.601931312883147,
+      "value": 0.6010733319233359,
       "interval": [
-        0.5410306110978127,
-        0.6604736432433128
+        0.5399392217397689,
+        0.6597377315163612
       ],
       "periods": 6
     },
@@ -105,10 +105,10 @@
       "definition": "Observed flood, including flood traces",
       "group": "Flooded, Larisa",
       "season": "Spring 2024",
-      "value": 0.8290145158743718,
+      "value": 0.8299026038163881,
       "interval": [
-        0.7895043268799782,
-        0.8680947303771972
+        0.7904701292514801,
+        0.8691114246845245
       ],
       "periods": 9
     },
@@ -117,10 +117,10 @@
       "definition": "Observed flood, including flood traces",
       "group": "Flooded, Larisa",
       "season": "Summer 2024",
-      "value": 0.8163172595685386,
+      "value": 0.8165049462081405,
       "interval": [
-        0.7906651601195336,
-        0.841970743238926
+        0.7906913578510284,
+        0.842344482243061
       ],
       "periods": 8
     },
@@ -129,10 +129,10 @@
       "definition": "Observed flood, including flood traces",
       "group": "Flooded, Magnisia, Sporades",
       "season": "Autumn 2023",
-      "value": -0.808672430311522,
+      "value": -0.8092934092782427,
       "interval": [
-        -0.9990603312849998,
-        -0.6129239633679391
+        -0.9998678669333457,
+        -0.6133565008640289
       ],
       "periods": 6
     },
@@ -141,10 +141,10 @@
       "definition": "Observed flood, including flood traces",
       "group": "Flooded, Magnisia, Sporades",
       "season": "Spring 2024",
-      "value": -0.3885278368616351,
+      "value": -0.3885668902218796,
       "interval": [
-        -0.5661153271794318,
-        -0.20499751120805748
+        -0.5662047371268272,
+        -0.2050042357295752
       ],
       "periods": 8
     },
@@ -162,10 +162,10 @@
       "definition": "Observed flood, including flood traces",
       "group": "Flooded, more older residents",
       "season": "Autumn 2023",
-      "value": 0.9717497316702174,
+      "value": 0.9723631866956558,
       "interval": [
-        0.9294387564063072,
-        1.0111915469169617
+        0.930031205713749,
+        1.0119679898023606
       ],
       "periods": 7
     },
@@ -174,10 +174,10 @@
       "definition": "Observed flood, including flood traces",
       "group": "Flooded, more older residents",
       "season": "Spring 2024",
-      "value": 0.9781850425944447,
+      "value": 0.9792121481282189,
       "interval": [
-        0.9502504512667656,
-        1.0067001461982727
+        0.9510874882340431,
+        1.0075804620981217
       ],
       "periods": 9
     },
@@ -186,10 +186,10 @@
       "definition": "Observed flood, including flood traces",
       "group": "Flooded, more older residents",
       "season": "Summer 2024",
-      "value": 0.9230619136409203,
+      "value": 0.923762127905775,
       "interval": [
-        0.9022070154547691,
-        0.9469581127166748
+        0.9025476589798928,
+        0.9478703767061234
       ],
       "periods": 8
     },
@@ -198,10 +198,10 @@
       "definition": "Observed flood, including flood traces",
       "group": "Flooded, fewer older residents",
       "season": "Autumn 2023",
-      "value": 0.9745199553446706,
+      "value": 0.9743104916340344,
       "interval": [
-        0.9048931866884231,
-        1.028696247935295
+        0.9046756669878959,
+        1.0283780246973038
       ],
       "periods": 8
     },
@@ -210,10 +210,10 @@
       "definition": "Observed flood, including flood traces",
       "group": "Flooded, fewer older residents",
       "season": "Spring 2024",
-      "value": 0.9872767208438579,
+      "value": 0.9876376630327586,
       "interval": [
-        0.9292400762438774,
-        1.0290820807218553
+        0.9295046240091324,
+        1.0294202595949173
       ],
       "periods": 9
     },
@@ -222,10 +222,10 @@
       "definition": "Observed flood, including flood traces",
       "group": "Flooded, fewer older residents",
       "season": "Summer 2024",
-      "value": 0.911687649794281,
+      "value": 0.9117346497702116,
       "interval": [
-        0.8889170363545418,
-        0.9324478089809418
+        0.8890210822224617,
+        0.9325616165995598
       ],
       "periods": 8
     },
@@ -234,10 +234,10 @@
       "definition": "Observed standing water, without flood traces",
       "group": "All flooded cells",
       "season": "Autumn 2023",
-      "value": 0.5402319771117368,
+      "value": 0.5396608328341084,
       "interval": [
-        0.49586528465151786,
-        0.5848074808716774
+        0.49524432644248007,
+        0.5841118857264519
       ],
       "periods": 8
     },
@@ -246,10 +246,10 @@
       "definition": "Observed standing water, without flood traces",
       "group": "All flooded cells",
       "season": "Spring 2024",
-      "value": 0.8117226988212045,
+      "value": 0.8123820812370885,
       "interval": [
-        0.7718447744846344,
-        0.8507033839821816
+        0.7726184397935868,
+        0.8514582380652428
       ],
       "periods": 9
     },
@@ -258,10 +258,10 @@
       "definition": "Observed standing water, without flood traces",
       "group": "All flooded cells",
       "season": "Summer 2024",
-      "value": 0.8461200606409193,
+      "value": 0.8463433247846361,
       "interval": [
-        0.8308636665344238,
-        0.862523403763771
+        0.8311512053012848,
+        0.862579521536827
       ],
       "periods": 8
     },
@@ -270,10 +270,10 @@
       "definition": "Observed standing water, without flood traces",
       "group": "Flooded, Karditsa, Trikala",
       "season": "Autumn 2023",
-      "value": 0.7372146624553384,
+      "value": 0.7377221140057333,
       "interval": [
-        0.7132321894168854,
-        0.7613162428140641
+        0.7136995270848274,
+        0.7617732629179954
       ],
       "periods": 7
     },
@@ -282,10 +282,10 @@
       "definition": "Observed standing water, without flood traces",
       "group": "Flooded, Karditsa, Trikala",
       "season": "Spring 2024",
-      "value": 1.021857766930136,
+      "value": 1.0224731272271552,
       "interval": [
-        1.0000987321138382,
-        1.0452528566122055
+        1.0007235258817673,
+        1.046028706431389
       ],
       "periods": 9
     },
@@ -294,10 +294,10 @@
       "definition": "Observed standing water, without flood traces",
       "group": "Flooded, Karditsa, Trikala",
       "season": "Summer 2024",
-      "value": 0.9000877439609033,
+      "value": 0.9004688261230749,
       "interval": [
-        0.8884652704000473,
-        0.9106336995959282
+        0.888759046792984,
+        0.9110194474458695
       ],
       "periods": 8
     },
@@ -306,10 +306,10 @@
       "definition": "Observed standing water, without flood traces",
       "group": "Flooded, Larisa",
       "season": "Autumn 2023",
-      "value": 0.43934868993704734,
+      "value": 0.43777649037278404,
       "interval": [
-        0.35727903842926023,
-        0.5233347609639167
+        0.3559809632599354,
+        0.5218450099229812
       ],
       "periods": 8
     },
@@ -318,10 +318,10 @@
       "definition": "Observed standing water, without flood traces",
       "group": "Flooded, Larisa",
       "season": "Spring 2024",
-      "value": 0.7401996332357276,
+      "value": 0.7410280133502646,
       "interval": [
-        0.6853372633457184,
-        0.7963128104805947
+        0.6861006796360016,
+        0.7971825361251831
       ],
       "periods": 8
     },
@@ -330,10 +330,10 @@
       "definition": "Observed standing water, without flood traces",
       "group": "Flooded, Larisa",
       "season": "Summer 2024",
-      "value": 0.7790788792131382,
+      "value": 0.7789228801716075,
       "interval": [
-        0.7411702245473861,
-        0.816783620417118
+        0.7407851368188858,
+        0.8165786370635033
       ],
       "periods": 8
     },
@@ -342,10 +342,10 @@
       "definition": "Observed standing water, without flood traces",
       "group": "Flooded, Magnisia, Sporades",
       "season": "Autumn 2023",
-      "value": -0.808672430311522,
+      "value": -0.8092934092782427,
       "interval": [
-        -0.9892015740275383,
-        -0.6048067450523377
+        -0.9900591343641281,
+        -0.6052245363593102
       ],
       "periods": 6
     },
@@ -354,10 +354,10 @@
       "definition": "Observed standing water, without flood traces",
       "group": "Flooded, Magnisia, Sporades",
       "season": "Spring 2024",
-      "value": -0.3885278368616351,
+      "value": -0.3885668902218796,
       "interval": [
-        -0.5664840266108513,
-        -0.20028866752982147
+        -0.5665373563766479,
+        -0.20027244724333293
       ],
       "periods": 8
     },
@@ -375,10 +375,10 @@
       "definition": "Observed standing water, without flood traces",
       "group": "Flooded, more older residents",
       "season": "Autumn 2023",
-      "value": 0.8106270943432227,
+      "value": 0.8113270509058107,
       "interval": [
-        0.7480657309293748,
-        0.8751718252897263
+        0.7487133175134659,
+        0.8759074300527573
       ],
       "periods": 7
     },
@@ -387,10 +387,10 @@
       "definition": "Observed standing water, without flood traces",
       "group": "Flooded, more older residents",
       "season": "Spring 2024",
-      "value": 0.97330736710273,
+      "value": 0.9734081714453732,
       "interval": [
-        0.9185300439596176,
-        1.0253464251756668
+        0.9187379121780396,
+        1.025448414683342
       ],
       "periods": 9
     },
@@ -399,10 +399,10 @@
       "definition": "Observed standing water, without flood traces",
       "group": "Flooded, more older residents",
       "season": "Summer 2024",
-      "value": 0.9111918514558779,
+      "value": 0.9117108977639818,
       "interval": [
-        0.8638270094990731,
-        0.9628452837467193
+        0.8647762268781662,
+        0.9633114516735076
       ],
       "periods": 8
     },
@@ -411,10 +411,10 @@
       "definition": "Observed standing water, without flood traces",
       "group": "Flooded, fewer older residents",
       "season": "Autumn 2023",
-      "value": 0.8281561671285943,
+      "value": 0.8271544097936625,
       "interval": [
-        0.6898178845643997,
-        0.9290846765041352
+        0.6881260931491852,
+        0.9275848016142845
       ],
       "periods": 8
     },
@@ -423,10 +423,10 @@
       "definition": "Observed standing water, without flood traces",
       "group": "Flooded, fewer older residents",
       "season": "Spring 2024",
-      "value": 0.9210219659175332,
+      "value": 0.9213278663577578,
       "interval": [
-        0.7467948406934738,
-        1.0288761138916016
+        0.7470856711268425,
+        1.029078221321106
       ],
       "periods": 8
     },
@@ -435,10 +435,10 @@
       "definition": "Observed standing water, without flood traces",
       "group": "Flooded, fewer older residents",
       "season": "Summer 2024",
-      "value": 0.9024822358898288,
+      "value": 0.9023847773453354,
       "interval": [
-        0.862261739373207,
-        0.9421486705541611
+        0.8618672907352447,
+        0.941972054541111
       ],
       "periods": 8
     },
@@ -447,10 +447,10 @@
       "definition": "Copernicus maximum water extent",
       "group": "All flooded cells",
       "season": "Autumn 2023",
-      "value": 0.5446452428580651,
+      "value": 0.5441004992128293,
       "interval": [
-        0.4984572134912014,
-        0.5912989541888237
+        0.4979490116238594,
+        0.5907413870096206
       ],
       "periods": 8
     },
@@ -459,10 +459,10 @@
       "definition": "Copernicus maximum water extent",
       "group": "All flooded cells",
       "season": "Spring 2024",
-      "value": 0.8106197062293523,
+      "value": 0.8112740482513011,
       "interval": [
-        0.7685461908578872,
-        0.8504361540079117
+        0.7692224204540252,
+        0.8511250525712967
       ],
       "periods": 9
     },
@@ -471,10 +471,10 @@
       "definition": "Copernicus maximum water extent",
       "group": "All flooded cells",
       "season": "Summer 2024",
-      "value": 0.8475537401746229,
+      "value": 0.8477911462992426,
       "interval": [
-        0.8294861644506455,
-        0.8633325278759003
+        0.8297259017825127,
+        0.863639460504055
       ],
       "periods": 8
     },
@@ -483,10 +483,10 @@
       "definition": "Copernicus maximum water extent",
       "group": "Flooded, Karditsa, Trikala",
       "season": "Autumn 2023",
-      "value": 0.7402107801834568,
+      "value": 0.7407274881885959,
       "interval": [
-        0.7167878866195678,
-        0.7621423065662384
+        0.7173089563846589,
+        0.7628014013171196
       ],
       "periods": 7
     },
@@ -495,10 +495,10 @@
       "definition": "Copernicus maximum water extent",
       "group": "Flooded, Karditsa, Trikala",
       "season": "Spring 2024",
-      "value": 1.0212808425421738,
+      "value": 1.0218921023988423,
       "interval": [
-        1.0013603538274765,
-        1.0426269710063933
+        1.0020056873559953,
+        1.043539372086525
       ],
       "periods": 9
     },
@@ -507,10 +507,10 @@
       "definition": "Copernicus maximum water extent",
       "group": "Flooded, Karditsa, Trikala",
       "season": "Summer 2024",
-      "value": 0.9019688339408608,
+      "value": 0.9023483121566451,
       "interval": [
-        0.8913608267903328,
-        0.9132349342107773
+        0.8918338432908058,
+        0.9136614292860031
       ],
       "periods": 8
     },
@@ -519,10 +519,10 @@
       "definition": "Copernicus maximum water extent",
       "group": "Flooded, Larisa",
       "season": "Autumn 2023",
-      "value": 0.44464618805105427,
+      "value": 0.4431315639412487,
       "interval": [
-        0.3643051840364933,
-        0.5330404654145241
+        0.36281026080250744,
+        0.5315496921539307
       ],
       "periods": 8
     },
@@ -531,10 +531,10 @@
       "definition": "Copernicus maximum water extent",
       "group": "Flooded, Larisa",
       "season": "Spring 2024",
-      "value": 0.7394805701949285,
+      "value": 0.740302157192418,
       "interval": [
-        0.678829374909401,
-        0.7949599251151085
+        0.6795692026615143,
+        0.7957979962229729
       ],
       "periods": 8
     },
@@ -543,10 +543,10 @@
       "definition": "Copernicus maximum water extent",
       "group": "Flooded, Larisa",
       "season": "Summer 2024",
-      "value": 0.7801966237523066,
+      "value": 0.7800943332179615,
       "interval": [
-        0.7432399109005928,
-        0.8171404600143433
+        0.7435577094554902,
+        0.8169481292366981
       ],
       "periods": 8
     },
@@ -555,10 +555,10 @@
       "definition": "Copernicus maximum water extent",
       "group": "Flooded, Magnisia, Sporades",
       "season": "Autumn 2023",
-      "value": -0.7757168785431415,
+      "value": -0.7763060100892741,
       "interval": [
-        -0.9583583310246467,
-        -0.5818071141839027
+        -0.9590051099658012,
+        -0.5821773469448089
       ],
       "periods": 6
     },
@@ -567,10 +567,10 @@
       "definition": "Copernicus maximum water extent",
       "group": "Flooded, Magnisia, Sporades",
       "season": "Spring 2024",
-      "value": -0.3822152907819768,
+      "value": -0.38225312663318317,
       "interval": [
-        -0.5441577538847923,
-        -0.20552873983979225
+        -0.5442046403884887,
+        -0.20552840866148472
       ],
       "periods": 8
     },
@@ -588,10 +588,10 @@
       "definition": "Copernicus maximum water extent",
       "group": "Flooded, more older residents",
       "season": "Autumn 2023",
-      "value": 0.8106270943432227,
+      "value": 0.8113270509058107,
       "interval": [
-        0.7437288299202919,
-        0.8796177551150322
+        0.7443517550826073,
+        0.8803654864430428
       ],
       "periods": 7
     },
@@ -600,10 +600,10 @@
       "definition": "Copernicus maximum water extent",
       "group": "Flooded, more older residents",
       "season": "Spring 2024",
-      "value": 0.97330736710273,
+      "value": 0.9734081714453732,
       "interval": [
-        0.9133152469992638,
-        1.0309619545936584
+        0.9132353365421295,
+        1.030994287133217
       ],
       "periods": 9
     },
@@ -612,10 +612,10 @@
       "definition": "Copernicus maximum water extent",
       "group": "Flooded, more older residents",
       "season": "Summer 2024",
-      "value": 0.9111918514558779,
+      "value": 0.9117108977639818,
       "interval": [
-        0.8629818901419639,
-        0.964010426402092
+        0.8630967244505883,
+        0.9645997315645218
       ],
       "periods": 8
     },
@@ -624,10 +624,10 @@
       "definition": "Copernicus maximum water extent",
       "group": "Flooded, fewer older residents",
       "season": "Autumn 2023",
-      "value": 0.8281561671285943,
+      "value": 0.8271544097936625,
       "interval": [
-        0.6771546199917793,
-        0.9302267596125603
+        0.6765080854296684,
+        0.9289437398314476
       ],
       "periods": 8
     },
@@ -636,10 +636,10 @@
       "definition": "Copernicus maximum water extent",
       "group": "Flooded, fewer older residents",
       "season": "Spring 2024",
-      "value": 0.9210219659175332,
+      "value": 0.9213278663577578,
       "interval": [
-        0.7398714303970338,
-        1.0342041701078415
+        0.7403417453169824,
+        1.0344667226076125
       ],
       "periods": 8
     },
@@ -648,10 +648,10 @@
       "definition": "Copernicus maximum water extent",
       "group": "Flooded, fewer older residents",
       "season": "Summer 2024",
-      "value": 0.9024822358898288,
+      "value": 0.9023847773453354,
       "interval": [
-        0.8573166266083717,
-        0.9441408142447472
+        0.8573219090700149,
+        0.9439685076475144
       ],
       "periods": 8
     },
@@ -660,10 +660,10 @@
       "definition": "Observed flood, including flood traces",
       "group": "All flooded cells",
       "season": "Autumn 2023",
-      "value": 0.7532609963400863,
+      "value": 0.752820271831917,
       "interval": [
-        0.7210641726851463,
-        0.7833398550748825
+        0.7207675129175186,
+        0.7829509809613228
       ],
       "periods": 8
     },
@@ -672,10 +672,10 @@
       "definition": "Observed flood, including flood traces",
       "group": "All flooded cells",
       "season": "Spring 2024",
-      "value": 0.8994773207859669,
+      "value": 0.9002244606592212,
       "interval": [
-        0.8777942836284638,
-        0.9198086053133011
+        0.8784517854452133,
+        0.9205650314688683
       ],
       "periods": 9
     },
@@ -684,10 +684,10 @@
       "definition": "Observed flood, including flood traces",
       "group": "All flooded cells",
       "season": "Summer 2024",
-      "value": 0.8674653857996601,
+      "value": 0.8675842801971562,
       "interval": [
-        0.8558364272117615,
-        0.8777320057153701
+        0.8558938845992088,
+        0.8779057160019874
       ],
       "periods": 8
     },
@@ -696,10 +696,10 @@
       "definition": "Observed flood, including flood traces",
       "group": "Flooded, Karditsa, Trikala",
       "season": "Autumn 2023",
-      "value": 0.8962165638608994,
+      "value": 0.8966521679403435,
       "interval": [
-        0.8796677172183991,
-        0.911066646873951
+        0.8801084488630295,
+        0.9115753635764122
       ],
       "periods": 7
     },
@@ -708,10 +708,10 @@
       "definition": "Observed flood, including flood traces",
       "group": "Flooded, Karditsa, Trikala",
       "season": "Spring 2024",
-      "value": 1.0125986967775285,
+      "value": 1.0133198008492355,
       "interval": [
-        0.9994124829769134,
-        1.026588961482048
+        1.0001142531633378,
+        1.027254295349121
       ],
       "periods": 9
     },
@@ -720,10 +720,10 @@
       "definition": "Observed flood, including flood traces",
       "group": "Flooded, Karditsa, Trikala",
       "season": "Summer 2024",
-      "value": 0.9029370565056039,
+      "value": 0.903083333337269,
       "interval": [
-        0.8943968743085862,
-        0.9113396793603897
+        0.8945301994681358,
+        0.911596292257309
       ],
       "periods": 8
     },
@@ -732,10 +732,10 @@
       "definition": "Observed flood, including flood traces",
       "group": "Flooded, Larisa",
       "season": "Autumn 2023",
-      "value": 0.6048217651555106,
+      "value": 0.6037431576090461,
       "interval": [
-        0.5438269421458244,
-        0.6629284054040909
+        0.5428423807024956,
+        0.6619447067379951
       ],
       "periods": 6
     },
@@ -744,10 +744,10 @@
       "definition": "Observed flood, including flood traces",
       "group": "Flooded, Larisa",
       "season": "Spring 2024",
-      "value": 0.8213303136205566,
+      "value": 0.8221579023759679,
       "interval": [
-        0.7825852990150451,
-        0.8599799990653991
+        0.783405901491642,
+        0.8607807978987694
       ],
       "periods": 9
     },
@@ -756,10 +756,10 @@
       "definition": "Observed flood, including flood traces",
       "group": "Flooded, Larisa",
       "season": "Summer 2024",
-      "value": 0.8159714767542142,
+      "value": 0.8159857755719236,
       "interval": [
-        0.7904832333326339,
-        0.8412774041295051
+        0.790527680516243,
+        0.8411932691931725
       ],
       "periods": 8
     },
@@ -768,10 +768,10 @@
       "definition": "Observed flood, including flood traces",
       "group": "Flooded, Magnisia, Sporades",
       "season": "Autumn 2023",
-      "value": -0.8125723493868776,
+      "value": -0.8129604233796098,
       "interval": [
-        -1.0024624645709992,
-        -0.6155104339122773
+        -1.003013899922371,
+        -0.6157707273960115
       ],
       "periods": 6
     },
@@ -780,10 +780,10 @@
       "definition": "Observed flood, including flood traces",
       "group": "Flooded, Magnisia, Sporades",
       "season": "Spring 2024",
-      "value": -0.38466760741806233,
+      "value": -0.3846692468210731,
       "interval": [
-        -0.5608295738697051,
-        -0.20317644625902181
+        -0.5608474373817444,
+        -0.20316210649907596
       ],
       "periods": 8
     },
@@ -801,10 +801,10 @@
       "definition": "Observed flood, including flood traces",
       "group": "Flooded, more older residents",
       "season": "Autumn 2023",
-      "value": 0.9753605614648188,
+      "value": 0.9757238032926364,
       "interval": [
-        0.9327633067965507,
-        1.0156198233366012
+        0.9333074077963829,
+        1.0161051750183105
       ],
       "periods": 7
     },
@@ -813,10 +813,10 @@
       "definition": "Observed flood, including flood traces",
       "group": "Flooded, more older residents",
       "season": "Spring 2024",
-      "value": 0.969369725474979,
+      "value": 0.9703250022598158,
       "interval": [
-        0.9423251897096634,
-        0.9975036755204201
+        0.943671740591526,
+        0.9982467249035836
       ],
       "periods": 9
     },
@@ -825,10 +825,10 @@
       "definition": "Observed flood, including flood traces",
       "group": "Flooded, more older residents",
       "season": "Summer 2024",
-      "value": 0.9226487894602394,
+      "value": 0.9231427882889481,
       "interval": [
-        0.9015776723623276,
-        0.9462799012660981
+        0.9022944495081902,
+        0.9466955617070199
       ],
       "periods": 8
     },
@@ -837,10 +837,10 @@
       "definition": "Observed flood, including flood traces",
       "group": "Flooded, fewer older residents",
       "season": "Autumn 2023",
-      "value": 0.9782203174163209,
+      "value": 0.97773338962693,
       "interval": [
-        0.9091152206063271,
-        1.0320403516292571
+        0.9089394241571427,
+        1.0314508348703384
       ],
       "periods": 8
     },
@@ -849,10 +849,10 @@
       "definition": "Observed flood, including flood traces",
       "group": "Flooded, fewer older residents",
       "season": "Spring 2024",
-      "value": 0.97843773109219,
+      "value": 0.9787274541277586,
       "interval": [
-        0.920776204764843,
-        1.0190932691097259
+        0.9210161030292511,
+        1.0193647027015686
       ],
       "periods": 9
     },
@@ -861,10 +861,10 @@
       "definition": "Observed flood, including flood traces",
       "group": "Flooded, fewer older residents",
       "season": "Summer 2024",
-      "value": 0.9112798553323005,
+      "value": 0.911124141149098,
       "interval": [
-        0.8890419512987137,
-        0.9317640170454979
+        0.8889040112495422,
+        0.9316901102662086
       ],
       "periods": 8
     },
@@ -873,10 +873,10 @@
       "definition": "Observed standing water, without flood traces",
       "group": "All flooded cells",
       "season": "Autumn 2023",
-      "value": 0.5427420567250201,
+      "value": 0.5420153484322905,
       "interval": [
-        0.4983284376561642,
-        0.5874938860535621
+        0.4976962558925152,
+        0.5866827368736267
       ],
       "periods": 8
     },
@@ -885,10 +885,10 @@
       "definition": "Observed standing water, without flood traces",
       "group": "All flooded cells",
       "season": "Spring 2024",
-      "value": 0.8043980920240272,
+      "value": 0.8049964778105392,
       "interval": [
-        0.7655186116695404,
-        0.84280366897583
+        0.7662027835845947,
+        0.8432859867811203
       ],
       "periods": 9
     },
@@ -897,10 +897,10 @@
       "definition": "Observed standing water, without flood traces",
       "group": "All flooded cells",
       "season": "Summer 2024",
-      "value": 0.8457103168341527,
+      "value": 0.8457424494916088,
       "interval": [
-        0.8304911375045776,
-        0.8622999981045723
+        0.8304507449269295,
+        0.8623988643288613
       ],
       "periods": 8
     },
@@ -909,10 +909,10 @@
       "definition": "Observed standing water, without flood traces",
       "group": "Flooded, Karditsa, Trikala",
       "season": "Autumn 2023",
-      "value": 0.7404314311865043,
+      "value": 0.7407453640339678,
       "interval": [
-        0.7164714053273201,
-        0.7646054640412331
+        0.7168096825480461,
+        0.76495411247015
       ],
       "periods": 7
     },
@@ -921,10 +921,10 @@
       "definition": "Observed standing water, without flood traces",
       "group": "Flooded, Karditsa, Trikala",
       "season": "Spring 2024",
-      "value": 1.0127857021752975,
+      "value": 1.0133210799962589,
       "interval": [
-        0.9914223551750183,
-        1.0358914405107498
+        0.9918589606881142,
+        1.0365456521511078
       ],
       "periods": 9
     },
@@ -933,10 +933,10 @@
       "definition": "Observed standing water, without flood traces",
       "group": "Flooded, Karditsa, Trikala",
       "season": "Summer 2024",
-      "value": 0.8996188495263886,
+      "value": 0.8997917229577548,
       "interval": [
-        0.8876422613859176,
-        0.9102373376488686
+        0.8877080604434013,
+        0.9104586407542229
       ],
       "periods": 8
     },
@@ -945,10 +945,10 @@
       "definition": "Observed standing water, without flood traces",
       "group": "Flooded, Larisa",
       "season": "Autumn 2023",
-      "value": 0.44158703948026656,
+      "value": 0.43988322687135234,
       "interval": [
-        0.3597576074302197,
-        0.524949549138546
+        0.3578873686492443,
+        0.5236354812979698
       ],
       "periods": 8
     },
@@ -957,10 +957,10 @@
       "definition": "Observed standing water, without flood traces",
       "group": "Flooded, Larisa",
       "season": "Spring 2024",
-      "value": 0.7334163778947071,
+      "value": 0.7341884512227783,
       "interval": [
-        0.6793320536613464,
-        0.7891319632530213
+        0.6800327971577644,
+        0.7900759756565094
       ],
       "periods": 8
     },
@@ -969,10 +969,10 @@
       "definition": "Observed standing water, without flood traces",
       "group": "Flooded, Larisa",
       "season": "Summer 2024",
-      "value": 0.7787521471876333,
+      "value": 0.7784301075265634,
       "interval": [
-        0.7414297640323639,
-        0.8167721450328826
+        0.740932559967041,
+        0.8164930865168571
       ],
       "periods": 8
     },
@@ -981,10 +981,10 @@
       "definition": "Observed standing water, without flood traces",
       "group": "Flooded, Magnisia, Sporades",
       "season": "Autumn 2023",
-      "value": -0.8125723493868776,
+      "value": -0.8129604233796098,
       "interval": [
-        -0.9937528923153877,
-        -0.60711038261652
+        -0.9941973567008972,
+        -0.6073939606547356
       ],
       "periods": 6
     },
@@ -993,10 +993,10 @@
       "definition": "Observed standing water, without flood traces",
       "group": "Flooded, Magnisia, Sporades",
       "season": "Spring 2024",
-      "value": -0.38466760741806233,
+      "value": -0.3846692468210731,
       "interval": [
-        -0.560825863480568,
-        -0.19790878817439087
+        -0.5608532607555389,
+        -0.19788361750543126
       ],
       "periods": 8
     },
@@ -1014,10 +1014,10 @@
       "definition": "Observed standing water, without flood traces",
       "group": "Flooded, more older residents",
       "season": "Autumn 2023",
-      "value": 0.8138996782879067,
+      "value": 0.8143865267363998,
       "interval": [
-        0.7499362453818321,
-        0.8797452643513679
+        0.7504227384924889,
+        0.8803107768297196
       ],
       "periods": 7
     },
@@ -1026,10 +1026,10 @@
       "definition": "Observed standing water, without flood traces",
       "group": "Flooded, more older residents",
       "season": "Spring 2024",
-      "value": 0.9645315327949189,
+      "value": 0.9645648483951089,
       "interval": [
-        0.9090352311730385,
-        1.0154570460319519
+        0.9091638550162315,
+        1.0154640793800354
       ],
       "periods": 9
     },
@@ -1038,10 +1038,10 @@
       "definition": "Observed standing water, without flood traces",
       "group": "Flooded, more older residents",
       "season": "Summer 2024",
-      "value": 0.9107880485893021,
+      "value": 0.911102883921399,
       "interval": [
-        0.8644365429878236,
-        0.962439239025116
+        0.8643831714987755,
+        0.9627209693193435
       ],
       "periods": 8
     },
@@ -1050,10 +1050,10 @@
       "definition": "Observed standing water, without flood traces",
       "group": "Flooded, fewer older residents",
       "season": "Autumn 2023",
-      "value": 0.8314791245571755,
+      "value": 0.8302318803140756,
       "interval": [
-        0.6943890675902368,
-        0.9335833624005317
+        0.692786267399788,
+        0.9310516268014908
       ],
       "periods": 8
     },
@@ -1062,10 +1062,10 @@
       "definition": "Observed standing water, without flood traces",
       "group": "Flooded, fewer older residents",
       "season": "Spring 2024",
-      "value": 0.9122254263812959,
+      "value": 0.9124532785388293,
       "interval": [
-        0.7401264354586602,
-        1.0196785897016525
+        0.7403235837817193,
+        1.0197489142417908
       ],
       "periods": 8
     },
@@ -1074,10 +1074,10 @@
       "definition": "Observed standing water, without flood traces",
       "group": "Flooded, fewer older residents",
       "season": "Summer 2024",
-      "value": 0.9020748687161699,
+      "value": 0.9017763130093779,
       "interval": [
-        0.8611341163516044,
-        0.9413526460528374
+        0.8607352316379547,
+        0.9412085831165313
       ],
       "periods": 8
     },
@@ -1086,10 +1086,10 @@
       "definition": "Copernicus maximum water extent",
       "group": "All flooded cells",
       "season": "Autumn 2023",
-      "value": 0.5471657936388443,
+      "value": 0.5464642591128335,
       "interval": [
-        0.5006915688514709,
-        0.5935380116105079
+        0.5000222645699978,
+        0.5929405599832535
       ],
       "periods": 8
     },
@@ -1098,10 +1098,10 @@
       "definition": "Copernicus maximum water extent",
       "group": "All flooded cells",
       "season": "Spring 2024",
-      "value": 0.8033031948719828,
+      "value": 0.8038966691884046,
       "interval": [
-        0.7630865052342415,
-        0.8431129768490792
+        0.7637690261006356,
+        0.8436111882328987
       ],
       "periods": 9
     },
@@ -1110,10 +1110,10 @@
       "definition": "Copernicus maximum water extent",
       "group": "All flooded cells",
       "season": "Summer 2024",
-      "value": 0.8471435804141382,
+      "value": 0.8471895132274865,
       "interval": [
-        0.8288579910993576,
-        0.8630417093634606
+        0.8289539694786072,
+        0.8631641328334808
       ],
       "periods": 8
     },
@@ -1122,10 +1122,10 @@
       "definition": "Copernicus maximum water extent",
       "group": "Flooded, Karditsa, Trikala",
       "season": "Autumn 2023",
-      "value": 0.7434347357167217,
+      "value": 0.7437570507456451,
       "interval": [
-        0.7203972056508064,
-        0.7652385592460632
+        0.7206582292914391,
+        0.7655652955174446
       ],
       "periods": 7
     },
@@ -1134,10 +1134,10 @@
       "definition": "Copernicus maximum water extent",
       "group": "Flooded, Karditsa, Trikala",
       "season": "Spring 2024",
-      "value": 1.012216108801978,
+      "value": 1.0127474293690941,
       "interval": [
-        0.9924704968929291,
-        1.033452820777893
+        0.993056982755661,
+        1.0339183509349823
       ],
       "periods": 9
     },
@@ -1146,10 +1146,10 @@
       "definition": "Copernicus maximum water extent",
       "group": "Flooded, Karditsa, Trikala",
       "season": "Summer 2024",
-      "value": 0.9014985561312078,
+      "value": 0.9016694063414168,
       "interval": [
-        0.8910317674279213,
-        0.9129577085375786
+        0.8912912532687187,
+        0.9129990547895431
       ],
       "periods": 8
     },
@@ -1158,10 +1158,10 @@
       "definition": "Copernicus maximum water extent",
       "group": "Flooded, Larisa",
       "season": "Autumn 2023",
-      "value": 0.446891851328597,
+      "value": 0.4452442770523688,
       "interval": [
-        0.3655798077583313,
-        0.5359211713075638
+        0.36391050815582277,
+        0.5342799767851829
       ],
       "periods": 8
     },
@@ -1170,10 +1170,10 @@
       "definition": "Copernicus maximum water extent",
       "group": "Flooded, Larisa",
       "season": "Spring 2024",
-      "value": 0.7327019446818297,
+      "value": 0.7334673057160996,
       "interval": [
-        0.6724920123815536,
-        0.787579196691513
+        0.6732364133000374,
+        0.7881573140621185
       ],
       "periods": 8
     },
@@ -1182,10 +1182,10 @@
       "definition": "Copernicus maximum water extent",
       "group": "Flooded, Larisa",
       "season": "Summer 2024",
-      "value": 0.7798707730249588,
+      "value": 0.7796020337781828,
       "interval": [
-        0.7418909683823586,
-        0.8174483135342598
+        0.7416407242417336,
+        0.8171423941850662
       ],
       "periods": 8
     },
@@ -1194,10 +1194,10 @@
       "definition": "Copernicus maximum water extent",
       "group": "Flooded, Magnisia, Sporades",
       "season": "Autumn 2023",
-      "value": -0.7794351557420954,
+      "value": -0.7798016709447418,
       "interval": [
-        -0.9622864052653312,
-        -0.5864339172840118
+        -0.9628341510891913,
+        -0.5866224825382234
       ],
       "periods": 6
     },
@@ -1206,10 +1206,10 @@
       "definition": "Copernicus maximum water extent",
       "group": "Flooded, Magnisia, Sporades",
       "season": "Spring 2024",
-      "value": -0.37842270351081553,
+      "value": -0.3784235380975225,
       "interval": [
-        -0.5388377398252486,
-        -0.20343614146113398
+        -0.5388579681515693,
+        -0.20341662093997004
       ],
       "periods": 8
     },
@@ -1227,10 +1227,10 @@
       "definition": "Copernicus maximum water extent",
       "group": "Flooded, more older residents",
       "season": "Autumn 2023",
-      "value": 0.8138996782879067,
+      "value": 0.8143865267363998,
       "interval": [
-        0.7474645271897316,
-        0.8815791666507721
+        0.7480376735329628,
+        0.8820556074380874
       ],
       "periods": 7
     },
@@ -1239,10 +1239,10 @@
       "definition": "Copernicus maximum water extent",
       "group": "Flooded, more older residents",
       "season": "Spring 2024",
-      "value": 0.9645315327949189,
+      "value": 0.9645648483951089,
       "interval": [
-        0.9050199761986732,
-        1.0214972913265228
+        0.9050794780254364,
+        1.021459898352623
       ],
       "periods": 9
     },
@@ -1251,10 +1251,10 @@
       "definition": "Copernicus maximum water extent",
       "group": "Flooded, more older residents",
       "season": "Summer 2024",
-      "value": 0.9107880485893021,
+      "value": 0.911102883921399,
       "interval": [
-        0.8615203946828842,
-        0.9638342335820198
+        0.8619106858968735,
+        0.9642507642507553
       ],
       "periods": 8
     },
@@ -1263,10 +1263,10 @@
       "definition": "Copernicus maximum water extent",
       "group": "Flooded, fewer older residents",
       "season": "Autumn 2023",
-      "value": 0.8314791245571755,
+      "value": 0.8302318803140756,
       "interval": [
-        0.6800094276666642,
-        0.9329767227172852
+        0.6793801352381706,
+        0.9311256125569344
       ],
       "periods": 8
     },
@@ -1275,10 +1275,10 @@
       "definition": "Copernicus maximum water extent",
       "group": "Flooded, fewer older residents",
       "season": "Spring 2024",
-      "value": 0.9122254263812959,
+      "value": 0.9124532785388293,
       "interval": [
-        0.7331718489527703,
-        1.0232673794031144
+        0.733565278351307,
+        1.023373582959175
       ],
       "periods": 8
     },
@@ -1287,10 +1287,10 @@
       "definition": "Copernicus maximum water extent",
       "group": "Flooded, fewer older residents",
       "season": "Summer 2024",
-      "value": 0.9020748687161699,
+      "value": 0.9017763130093779,
       "interval": [
-        0.8573322966694832,
-        0.9440577641129494
+        0.8570750042796135,
+        0.9436320409178733
       ],
       "periods": 8
     },
@@ -1299,10 +1299,10 @@
       "definition": "Observed flood, including flood traces",
       "group": "All flooded cells",
       "season": "Autumn 2023",
-      "value": 0.7510611753631486,
+      "value": 0.7505641463757395,
       "interval": [
-        0.7197695180773735,
-        0.7812399476766586
+        0.7190982192754746,
+        0.7807692125439644
       ],
       "periods": 8
     },
@@ -1311,10 +1311,10 @@
       "definition": "Observed flood, including flood traces",
       "group": "All flooded cells",
       "season": "Spring 2024",
-      "value": 0.8855560764832973,
+      "value": 0.8862207738658882,
       "interval": [
-        0.863636240363121,
-        0.9058099314570427
+        0.8641966626048088,
+        0.9064543813467025
       ],
       "periods": 9
     },
@@ -1323,10 +1323,10 @@
       "definition": "Observed flood, including flood traces",
       "group": "All flooded cells",
       "season": "Summer 2024",
-      "value": 0.8692487956448225,
+      "value": 0.8692564639400453,
       "interval": [
-        0.8577113509178161,
-        0.8798061445355415
+        0.8577290311455726,
+        0.8798175051808357
       ],
       "periods": 8
     },
@@ -1335,10 +1335,10 @@
       "definition": "Observed flood, including flood traces",
       "group": "Flooded, Karditsa, Trikala",
       "season": "Autumn 2023",
-      "value": 0.8939487760111888,
+      "value": 0.8943117862582993,
       "interval": [
-        0.8767772674560547,
-        0.9089020758867263
+        0.8771458476781845,
+        0.9092857331037522
       ],
       "periods": 7
     },
@@ -1347,10 +1347,10 @@
       "definition": "Observed flood, including flood traces",
       "group": "Flooded, Karditsa, Trikala",
       "season": "Spring 2024",
-      "value": 0.9970402379584338,
+      "value": 0.9976671590154069,
       "interval": [
-        0.9832363247871398,
-        1.0110836446285247
+        0.9839724048972129,
+        1.0118851721286775
       ],
       "periods": 9
     },
@@ -1359,10 +1359,10 @@
       "definition": "Observed flood, including flood traces",
       "group": "Flooded, Karditsa, Trikala",
       "season": "Summer 2024",
-      "value": 0.9047458398765325,
+      "value": 0.9047703791872521,
       "interval": [
-        0.8959640696644783,
-        0.9133619219064713
+        0.8961007103323937,
+        0.9133215472102165
       ],
       "periods": 8
     },
@@ -1371,10 +1371,10 @@
       "definition": "Observed flood, including flood traces",
       "group": "Flooded, Larisa",
       "season": "Autumn 2023",
-      "value": 0.6034474327026286,
+      "value": 0.6023028513518404,
       "interval": [
-        0.5423758357763291,
-        0.6604672357439995
+        0.5415498137474061,
+        0.6594519764184952
       ],
       "periods": 6
     },
@@ -1383,10 +1383,10 @@
       "definition": "Observed flood, including flood traces",
       "group": "Flooded, Larisa",
       "season": "Spring 2024",
-      "value": 0.8082886838489672,
+      "value": 0.8090443167331858,
       "interval": [
-        0.7701262682676315,
-        0.8467298984527588
+        0.7708977177739144,
+        0.8476785913109779
       ],
       "periods": 9
     },
@@ -1395,10 +1395,10 @@
       "definition": "Observed flood, including flood traces",
       "group": "Flooded, Larisa",
       "season": "Summer 2024",
-      "value": 0.8177289292759741,
+      "value": 0.8176481685578416,
       "interval": [
-        0.7919833287596703,
-        0.8431931138038635
+        0.7916991978883743,
+        0.8429635614156723
       ],
       "periods": 8
     },
@@ -1407,10 +1407,10 @@
       "definition": "Observed flood, including flood traces",
       "group": "Flooded, Magnisia, Sporades",
       "season": "Autumn 2023",
-      "value": -0.8113863776733284,
+      "value": -0.8117216256306916,
       "interval": [
-        -1.000806674361229,
-        -0.6136603340506553
+        -1.0011554777622222,
+        -0.6139613091945648
       ],
       "periods": 6
     },
@@ -1419,10 +1419,10 @@
       "definition": "Observed flood, including flood traces",
       "group": "Flooded, Magnisia, Sporades",
       "season": "Spring 2024",
-      "value": -0.37780135560290484,
+      "value": -0.37777020457633703,
       "interval": [
-        -0.5502825811505317,
-        -0.19904832877218728
+        -0.5502339005470275,
+        -0.19901668839156633
       ],
       "periods": 8
     },
@@ -1440,10 +1440,10 @@
       "definition": "Observed flood, including flood traces",
       "group": "Flooded, more older residents",
       "season": "Autumn 2023",
-      "value": 0.9724561429796558,
+      "value": 0.972741110228766,
       "interval": [
-        0.9304819598793983,
-        1.0119223058223725
+        0.9304490029811859,
+        1.0122118532657622
       ],
       "periods": 7
     },
@@ -1452,10 +1452,10 @@
       "definition": "Observed flood, including flood traces",
       "group": "Flooded, more older residents",
       "season": "Spring 2024",
-      "value": 0.9544192014018734,
+      "value": 0.9552896246425436,
       "interval": [
-        0.9274861991405488,
-        0.98272745013237
+        0.9284437820315361,
+        0.9835063755512238
       ],
       "periods": 9
     },
@@ -1464,10 +1464,10 @@
       "definition": "Observed flood, including flood traces",
       "group": "Flooded, more older residents",
       "season": "Summer 2024",
-      "value": 0.9245557712961012,
+      "value": 0.9249225768028715,
       "interval": [
-        0.903806209564209,
-        0.9483735844492912
+        0.9043552070856095,
+        0.9489455759525299
       ],
       "periods": 8
     },
@@ -1476,10 +1476,10 @@
       "definition": "Observed flood, including flood traces",
       "group": "Flooded, fewer older residents",
       "season": "Autumn 2023",
-      "value": 0.9747735963954433,
+      "value": 0.9742107480828264,
       "interval": [
-        0.9042227536439895,
-        1.0273779720067977
+        0.9038149386644364,
+        1.0272011011838913
       ],
       "periods": 8
     },
@@ -1488,10 +1488,10 @@
       "definition": "Observed flood, including flood traces",
       "group": "Flooded, fewer older residents",
       "season": "Spring 2024",
-      "value": 0.9634696908133679,
+      "value": 0.9636741714520318,
       "interval": [
-        0.9072094663977623,
-        1.003934633731842
+        0.9073624432086944,
+        1.0041761517524719
       ],
       "periods": 9
     },
@@ -1500,10 +1500,10 @@
       "definition": "Observed flood, including flood traces",
       "group": "Flooded, fewer older residents",
       "season": "Summer 2024",
-      "value": 0.9131467119643221,
+      "value": 0.9128655406245862,
       "interval": [
-        0.8900509968400001,
-        0.9337975561618805
+        0.8897539108991623,
+        0.9335274815559387
       ],
       "periods": 8
     },
@@ -1512,10 +1512,10 @@
       "definition": "Observed standing water, without flood traces",
       "group": "All flooded cells",
       "season": "Autumn 2023",
-      "value": 0.5416177785024261,
+      "value": 0.5408516191340602,
       "interval": [
-        0.49745801389217376,
-        0.5864993438124656
+        0.49659673795104026,
+        0.585564649105072
       ],
       "periods": 8
     },
@@ -1524,10 +1524,10 @@
       "definition": "Observed standing water, without flood traces",
       "group": "All flooded cells",
       "season": "Spring 2024",
-      "value": 0.7919003019279832,
+      "value": 0.7924268849440408,
       "interval": [
-        0.7533002138137818,
-        0.8295396879315377
+        0.753811138868332,
+        0.8303090289235115
       ],
       "periods": 9
     },
@@ -1536,10 +1536,10 @@
       "definition": "Observed standing water, without flood traces",
       "group": "All flooded cells",
       "season": "Summer 2024",
-      "value": 0.8474407396239013,
+      "value": 0.8473660832201452,
       "interval": [
-        0.8318944796919823,
-        0.8641916766762734
+        0.831820909678936,
+        0.8641727536916732
       ],
       "periods": 8
     },
@@ -1548,10 +1548,10 @@
       "definition": "Observed standing water, without flood traces",
       "group": "Flooded, Karditsa, Trikala",
       "season": "Autumn 2023",
-      "value": 0.7391717726882525,
+      "value": 0.7394267131010324,
       "interval": [
-        0.7150096654891968,
-        0.7629162490367889
+        0.7153487890958786,
+        0.7632162690162658
       ],
       "periods": 7
     },
@@ -1560,10 +1560,10 @@
       "definition": "Observed standing water, without flood traces",
       "group": "Flooded, Karditsa, Trikala",
       "season": "Spring 2024",
-      "value": 0.9972611731772497,
+      "value": 0.9977029842313255,
       "interval": [
-        0.9758661091327667,
-        1.0200282514095307
+        0.9763306751847267,
+        1.0204321026802063
       ],
       "periods": 9
     },
@@ -1572,10 +1572,10 @@
       "definition": "Observed standing water, without flood traces",
       "group": "Flooded, Karditsa, Trikala",
       "season": "Summer 2024",
-      "value": 0.9014117208367843,
+      "value": 0.9014616998117793,
       "interval": [
-        0.8898681938648224,
-        0.9120739042758942
+        0.8899025321006775,
+        0.9120861381292343
       ],
       "periods": 8
     },
@@ -1584,10 +1584,10 @@
       "definition": "Observed standing water, without flood traces",
       "group": "Flooded, Larisa",
       "season": "Autumn 2023",
-      "value": 0.44067666693514385,
+      "value": 0.43894267459102476,
       "interval": [
-        0.35937099754810337,
-        0.523997500538826
+        0.35791173502802853,
+        0.5226359412074089
       ],
       "periods": 8
     },
@@ -1596,10 +1596,10 @@
       "definition": "Observed standing water, without flood traces",
       "group": "Flooded, Larisa",
       "season": "Spring 2024",
-      "value": 0.7213955972871937,
+      "value": 0.7221113660961106,
       "interval": [
-        0.6688777834177018,
-        0.7758577406406403
+        0.6695840984582901,
+        0.7766368061304092
       ],
       "periods": 8
     },
@@ -1608,10 +1608,10 @@
       "definition": "Observed standing water, without flood traces",
       "group": "Flooded, Larisa",
       "season": "Summer 2024",
-      "value": 0.7804055167209945,
+      "value": 0.7799976430091434,
       "interval": [
-        0.74272301197052,
-        0.8192347005009651
+        0.7421234682202339,
+        0.8187390103936195
       ],
       "periods": 8
     },
@@ -1620,10 +1620,10 @@
       "definition": "Observed standing water, without flood traces",
       "group": "Flooded, Magnisia, Sporades",
       "season": "Autumn 2023",
-      "value": -0.8113863776733284,
+      "value": -0.8117216256306916,
       "interval": [
-        -0.9924014776945114,
-        -0.606024919450283
+        -0.9927145898342132,
+        -0.6062164783477784
       ],
       "periods": 6
     },
@@ -1632,10 +1632,10 @@
       "definition": "Observed standing water, without flood traces",
       "group": "Flooded, Magnisia, Sporades",
       "season": "Spring 2024",
-      "value": -0.37780135560290484,
+      "value": -0.37777020457633703,
       "interval": [
-        -0.550590668618679,
-        -0.1939255621284247
+        -0.550519098341465,
+        -0.1939001891762019
       ],
       "periods": 8
     },
@@ -1653,10 +1653,10 @@
       "definition": "Observed standing water, without flood traces",
       "group": "Flooded, more older residents",
       "season": "Autumn 2023",
-      "value": 0.8118976902547301,
+      "value": 0.8123165307291964,
       "interval": [
-        0.7479947090148926,
-        0.8772745296359062
+        0.748404148221016,
+        0.8778339818120002
       ],
       "periods": 7
     },
@@ -1665,10 +1665,10 @@
       "definition": "Observed standing water, without flood traces",
       "group": "Flooded, more older residents",
       "season": "Spring 2024",
-      "value": 0.9496396611216054,
+      "value": 0.9495954988888435,
       "interval": [
-        0.895526422560215,
-        0.9997610107064246
+        0.8954505518078804,
+        0.9997981861233711
       ],
       "periods": 9
     },
@@ -1677,10 +1677,10 @@
       "definition": "Observed standing water, without flood traces",
       "group": "Flooded, more older residents",
       "season": "Summer 2024",
-      "value": 0.91268908175213,
+      "value": 0.9128764983573681,
       "interval": [
-        0.8658781364560127,
-        0.9641066893935203
+        0.8659006014466286,
+        0.9646020874381065
       ],
       "periods": 8
     },
@@ -1689,10 +1689,10 @@
       "definition": "Observed standing water, without flood traces",
       "group": "Flooded, fewer older residents",
       "season": "Autumn 2023",
-      "value": 0.8287606453959093,
+      "value": 0.8274473122304467,
       "interval": [
-        0.6909684315323831,
-        0.9303713336586952
+        0.6892846956849099,
+        0.928710587322712
       ],
       "periods": 8
     },
@@ -1701,10 +1701,10 @@
       "definition": "Observed standing water, without flood traces",
       "group": "Flooded, fewer older residents",
       "season": "Spring 2024",
-      "value": 0.8971234385008913,
+      "value": 0.8972601845878001,
       "interval": [
-        0.7287651315331459,
-        1.0012104272842406
+        0.7289058700203895,
+        1.0013076305389403
       ],
       "periods": 8
     },
@@ -1713,10 +1713,10 @@
       "definition": "Observed standing water, without flood traces",
       "group": "Flooded, fewer older residents",
       "season": "Summer 2024",
-      "value": 0.9039211735596075,
+      "value": 0.9035027241440103,
       "interval": [
-        0.8635556861758232,
-        0.9436558425426483
+        0.863187900185585,
+        0.9432431191205979
       ],
       "periods": 8
     },
@@ -1725,10 +1725,10 @@
       "definition": "Copernicus maximum water extent",
       "group": "All flooded cells",
       "season": "Autumn 2023",
-      "value": 0.5460154121825054,
+      "value": 0.5452739376792038,
       "interval": [
-        0.49996848255395887,
-        0.5923850148916244
+        0.49930529594421386,
+        0.5914498418569565
       ],
       "periods": 8
     },
@@ -1737,10 +1737,10 @@
       "definition": "Copernicus maximum water extent",
       "group": "All flooded cells",
       "season": "Spring 2024",
-      "value": 0.7908209511888435,
+      "value": 0.7913427594356632,
       "interval": [
-        0.749962005019188,
-        0.8294322222471238
+        0.7506080836057664,
+        0.8300696194171906
       ],
       "periods": 9
     },
@@ -1749,10 +1749,10 @@
       "definition": "Copernicus maximum water extent",
       "group": "All flooded cells",
       "season": "Summer 2024",
-      "value": 0.8488774871937124,
+      "value": 0.8488160896218406,
       "interval": [
-        0.8307285025715828,
-        0.8644087761640549
+        0.8305408909916878,
+        0.8643511325120926
       ],
       "periods": 8
     },
@@ -1761,10 +1761,10 @@
       "definition": "Copernicus maximum water extent",
       "group": "Flooded, Karditsa, Trikala",
       "season": "Autumn 2023",
-      "value": 0.7421529253356579,
+      "value": 0.7424158470503478,
       "interval": [
-        0.7190743431448937,
-        0.7643043234944343
+        0.71925567984581,
+        0.764558507502079
       ],
       "periods": 7
     },
@@ -1773,10 +1773,10 @@
       "definition": "Copernicus maximum water extent",
       "group": "Flooded, Karditsa, Trikala",
       "season": "Spring 2024",
-      "value": 0.9967050026126127,
+      "value": 0.9971428618113077,
       "interval": [
-        0.9768210351467133,
-        1.0178830474615097
+        0.9771846428513526,
+        1.0184259295463562
       ],
       "periods": 9
     },
@@ -1785,10 +1785,10 @@
       "definition": "Copernicus maximum water extent",
       "group": "Flooded, Karditsa, Trikala",
       "season": "Summer 2024",
-      "value": 0.9032931230595088,
+      "value": 0.9033406402671138,
       "interval": [
-        0.8925153821706772,
-        0.9151569828391075
+        0.8925484657287598,
+        0.9149811789393425
       ],
       "periods": 8
     },
@@ -1797,10 +1797,10 @@
       "definition": "Copernicus maximum water extent",
       "group": "Flooded, Larisa",
       "season": "Autumn 2023",
-      "value": 0.44594858659550013,
+      "value": 0.4442702799290843,
       "interval": [
-        0.3653412595391274,
-        0.5342174500226974
+        0.3637054316699505,
+        0.532507635653019
       ],
       "periods": 8
     },
@@ -1809,10 +1809,10 @@
       "definition": "Copernicus maximum water extent",
       "group": "Flooded, Larisa",
       "season": "Spring 2024",
-      "value": 0.7206900862512798,
+      "value": 0.7213991942379823,
       "interval": [
-        0.6610940203070641,
-        0.7748980328440667
+        0.6616543486714364,
+        0.7756396561861038
       ],
       "periods": 8
     },
@@ -1821,10 +1821,10 @@
       "definition": "Copernicus maximum water extent",
       "group": "Flooded, Larisa",
       "season": "Summer 2024",
-      "value": 0.7815312832285413,
+      "value": 0.7811758386668542,
       "interval": [
-        0.7441233336925507,
-        0.818030858039856
+        0.7441146016120911,
+        0.8177448302507401
       ],
       "periods": 8
     },
@@ -1833,10 +1833,10 @@
       "definition": "Copernicus maximum water extent",
       "group": "Flooded, Magnisia, Sporades",
       "season": "Autumn 2023",
-      "value": -0.7782492349140542,
+      "value": -0.7785654571236099,
       "interval": [
-        -0.9594503730535506,
-        -0.5842162519693375
+        -0.9599300920963286,
+        -0.5843813449144364
       ],
       "periods": 6
     },
@@ -1845,10 +1845,10 @@
       "definition": "Copernicus maximum water extent",
       "group": "Flooded, Magnisia, Sporades",
       "season": "Spring 2024",
-      "value": -0.37167669620726795,
+      "value": -0.37164529602720575,
       "interval": [
-        -0.5295612320303916,
-        -0.19985991306602957
+        -0.5295500516891479,
+        -0.19983552768826485
       ],
       "periods": 8
     },
@@ -1866,10 +1866,10 @@
       "definition": "Copernicus maximum water extent",
       "group": "Flooded, more older residents",
       "season": "Autumn 2023",
-      "value": 0.8118976902547301,
+      "value": 0.8123165307291964,
       "interval": [
-        0.7445128455758095,
-        0.8817008480429649
+        0.7449500501155853,
+        0.8821291908621788
       ],
       "periods": 7
     },
@@ -1878,10 +1878,10 @@
       "definition": "Copernicus maximum water extent",
       "group": "Flooded, more older residents",
       "season": "Spring 2024",
-      "value": 0.9496396611216054,
+      "value": 0.9495954988888435,
       "interval": [
-        0.8917203724384308,
-        1.0051378428936004
+        0.8915189862251282,
+        1.0051690816879273
       ],
       "periods": 9
     },
@@ -1890,10 +1890,10 @@
       "definition": "Copernicus maximum water extent",
       "group": "Flooded, more older residents",
       "season": "Summer 2024",
-      "value": 0.91268908175213,
+      "value": 0.9128764983573681,
       "interval": [
-        0.8641682088375091,
-        0.9656252339482307
+        0.8642630994319915,
+        0.96610506772995
       ],
       "periods": 8
     },
@@ -1902,10 +1902,10 @@
       "definition": "Copernicus maximum water extent",
       "group": "Flooded, fewer older residents",
       "season": "Autumn 2023",
-      "value": 0.8287606453959093,
+      "value": 0.8274473122304467,
       "interval": [
-        0.6786120668053628,
-        0.9301752135157585
+        0.6769339755177498,
+        0.9290637284517288
       ],
       "periods": 8
     },
@@ -1914,10 +1914,10 @@
       "definition": "Copernicus maximum water extent",
       "group": "Flooded, fewer older residents",
       "season": "Spring 2024",
-      "value": 0.8971234385008913,
+      "value": 0.8972601845878001,
       "interval": [
-        0.7225379154086113,
-        1.0071251064538955
+        0.7228591188788415,
+        1.007130992412567
       ],
       "periods": 8
     },
@@ -1926,10 +1926,10 @@
       "definition": "Copernicus maximum water extent",
       "group": "Flooded, fewer older residents",
       "season": "Summer 2024",
-      "value": 0.9039211735596075,
+      "value": 0.9035027241440103,
       "interval": [
-        0.8583580791950226,
-        0.9457241028547287
+        0.857961143553257,
+        0.9451573431491852
       ],
       "periods": 8
     }
@@ -1959,91 +1959,91 @@
       "b": "Flooded, Karditsa, Trikala",
       "season": "Spring 2024",
       "differences": [
-        -0.19269326814260546,
-        -0.2816580977726144,
-        -0.28180028938562107
+        -0.1926059446497722,
+        -0.28144512746939776,
+        -0.2815900113355936
       ],
       "verdict_point": "lower",
       "detail": [
         {
           "ring": "3 to 15 km",
           "definition": "Observed flood, including flood traces",
-          "difference": -0.1926932409436788,
+          "difference": -0.19260596772612115,
           "interval": [
-            -0.23519524335861205,
-            -0.15091286897659303
+            -0.23521370887756346,
+            -0.15079882591962815
           ]
         },
         {
           "ring": "3 to 15 km",
           "definition": "Observed standing water, without flood traces",
-          "difference": -0.2816581336944085,
+          "difference": -0.28144511387689064,
           "interval": [
-            -0.34263850599527357,
-            -0.22391479313373566
+            -0.3424785628914833,
+            -0.22369754165410996
           ]
         },
         {
           "ring": "3 to 15 km",
           "definition": "Copernicus maximum water extent",
-          "difference": -0.28180027234724525,
+          "difference": -0.28158994520642433,
           "interval": [
-            -0.34358309954404825,
-            -0.22076740860939026
+            -0.34348641037940975,
+            -0.22060247510671616
           ]
         },
         {
           "ring": "5 to 20 km",
           "definition": "Observed flood, including flood traces",
-          "difference": -0.1912683831569718,
+          "difference": -0.1911618984732676,
           "interval": [
-            -0.23354459404945374,
-            -0.1497266232967377
+            -0.2333611398935318,
+            -0.14964753687381746
           ]
         },
         {
           "ring": "5 to 20 km",
           "definition": "Observed standing water, without flood traces",
-          "difference": -0.27936932428059036,
+          "difference": -0.27913262877348055,
           "interval": [
-            -0.339445649087429,
-            -0.22214200645685198
+            -0.33921012878417967,
+            -0.22159201502799988
           ]
         },
         {
           "ring": "5 to 20 km",
           "definition": "Copernicus maximum water extent",
-          "difference": -0.2795141641201484,
+          "difference": -0.2792801236529945,
           "interval": [
-            -0.34144462645053864,
-            -0.21889600902795792
+            -0.34090451449155806,
+            -0.21870714724063875
           ]
         },
         {
           "ring": "10 to 30 km",
           "definition": "Observed flood, including flood traces",
-          "difference": -0.18875155410946654,
+          "difference": -0.18862284228222115,
           "interval": [
-            -0.23046105057001115,
-            -0.1477869361639023
+            -0.23027143627405167,
+            -0.14748709350824357
           ]
         },
         {
           "ring": "10 to 30 km",
           "definition": "Observed standing water, without flood traces",
-          "difference": -0.275865575890056,
+          "difference": -0.27559161813521493,
           "interval": [
-            -0.3352999374270439,
-            -0.2196860894560814
+            -0.3352362930774689,
+            -0.21907274574041366
           ]
         },
         {
           "ring": "10 to 30 km",
           "definition": "Copernicus maximum water extent",
-          "difference": -0.2760149163613329,
+          "difference": -0.27574366757332547,
           "interval": [
-            -0.3373217284679413,
-            -0.216412590444088
+            -0.3367467030882835,
+            -0.21615297049283982
           ]
         }
       ],
@@ -2054,91 +2054,91 @@
       "b": "Flooded, Karditsa, Trikala",
       "season": "Summer 2024",
       "differences": [
-        -0.08707178538972893,
-        -0.12100884872492823,
-        -0.12177222360081708
+        -0.0872353979521463,
+        -0.12154595037537064,
+        -0.12225394800585776
       ],
       "verdict_point": "lower",
       "detail": [
         {
           "ring": "3 to 15 km",
           "definition": "Observed flood, including flood traces",
-          "difference": -0.08707176297748154,
+          "difference": -0.0872353632468944,
           "interval": [
-            -0.11472939848899841,
-            -0.06053502708673478
+            -0.11500665247440338,
+            -0.06066197603940964
           ]
         },
         {
           "ring": "3 to 15 km",
           "definition": "Observed standing water, without flood traces",
-          "difference": -0.12100886474776507,
+          "difference": -0.1215459459514674,
           "interval": [
-            -0.15917700678110122,
-            -0.0789948657155037
+            -0.1597755655646324,
+            -0.07970043271780014
           ]
         },
         {
           "ring": "3 to 15 km",
           "definition": "Copernicus maximum water extent",
-          "difference": -0.12177221018855422,
+          "difference": -0.12225397893868362,
           "interval": [
-            -0.16030863374471663,
-            -0.08315132707357407
+            -0.16064110398292542,
+            -0.08386803567409516
           ]
         },
         {
           "ring": "5 to 20 km",
           "definition": "Observed flood, including flood traces",
-          "difference": -0.08696557975138963,
+          "difference": -0.08709755776534533,
           "interval": [
-            -0.11455624550580978,
-            -0.06045501083135605
+            -0.11483410894870758,
+            -0.06054558902978898
           ]
         },
         {
           "ring": "5 to 20 km",
           "definition": "Observed standing water, without flood traces",
-          "difference": -0.1208667023387553,
+          "difference": -0.1213616154311914,
           "interval": [
-            -0.158993162214756,
-            -0.0788990154862404
+            -0.15973341166973115,
+            -0.0795354351401329
           ]
         },
         {
           "ring": "5 to 20 km",
           "definition": "Copernicus maximum water extent",
-          "difference": -0.121627783106249,
+          "difference": -0.12206737256323397,
           "interval": [
-            -0.16007357239723205,
-            -0.08310038149356842
+            -0.16042876839637757,
+            -0.08378788977861405
           ]
         },
         {
           "ring": "10 to 30 km",
           "definition": "Observed flood, including flood traces",
-          "difference": -0.08701691060055838,
+          "difference": -0.0871222106294105,
           "interval": [
-            -0.11469785273075103,
-            -0.060459427535533905
+            -0.11491783112287521,
+            -0.060531160235404974
           ]
         },
         {
           "ring": "10 to 30 km",
           "definition": "Observed standing water, without flood traces",
-          "difference": -0.12100620411578988,
+          "difference": -0.12146405680263583,
           "interval": [
-            -0.15919458866119385,
-            -0.07887246757745743
+            -0.15994281321763992,
+            -0.07957724928855897
           ]
         },
         {
           "ring": "10 to 30 km",
           "definition": "Copernicus maximum water extent",
-          "difference": -0.12176183983096756,
+          "difference": -0.12216480160025955,
           "interval": [
-            -0.16034423559904099,
-            -0.08307476490736009
+            -0.1606514349579811,
+            -0.08371600061655045
           ]
         }
       ],
@@ -2149,91 +2149,91 @@
       "b": "Flooded, fewer older residents",
       "season": "Spring 2024",
       "differences": [
-        -0.009091709077030719,
-        0.052285391836826345,
-        0.052285391836826345
+        -0.008425489534331532,
+        0.05208028886965843,
+        0.05208028886965843
       ],
       "verdict_point": "not robust",
       "detail": [
         {
           "ring": "3 to 15 km",
           "definition": "Observed flood, including flood traces",
-          "difference": -0.009091678249413149,
+          "difference": -0.008425514904539688,
           "interval": [
-            -0.059803998470306374,
-            0.05960375666618346
+            -0.0594078943133354,
+            0.06040576696395873
           ]
         },
         {
           "ring": "3 to 15 km",
           "definition": "Observed standing water, without flood traces",
-          "difference": 0.05228540118519687,
+          "difference": 0.05208030508761541,
           "interval": [
-            -0.07305020689964291,
-            0.22642509341239925
+            -0.07312572151422497,
+            0.22624593675136562
           ]
         },
         {
           "ring": "3 to 15 km",
           "definition": "Copernicus maximum water extent",
-          "difference": 0.05228540118519687,
+          "difference": 0.05208030508761541,
           "interval": [
-            -0.07677669078111647,
-            0.24268389195203777
+            -0.07677429020404813,
+            0.24251384437084192
           ]
         },
         {
           "ring": "5 to 20 km",
           "definition": "Observed flood, including flood traces",
-          "difference": -0.009068005617210995,
+          "difference": -0.008402451867942862,
           "interval": [
-            -0.0592393174767494,
-            0.058645062148571
+            -0.0588391840457916,
+            0.05944379568099974
           ]
         },
         {
           "ring": "5 to 20 km",
           "definition": "Observed standing water, without flood traces",
-          "difference": 0.05230610641362299,
+          "difference": 0.05211156985627963,
           "interval": [
-            -0.0715717941522598,
-            0.2248749345541
+            -0.07181211113929745,
+            0.22469185739755626
           ]
         },
         {
           "ring": "5 to 20 km",
           "definition": "Copernicus maximum water extent",
-          "difference": 0.05230610641362299,
+          "difference": 0.05211156985627963,
           "interval": [
-            -0.0754223734140396,
-            0.24008258432149882
+            -0.07539362460374831,
+            0.23967976719141
           ]
         },
         {
           "ring": "10 to 30 km",
           "definition": "Observed flood, including flood traces",
-          "difference": -0.009050489411494445,
+          "difference": -0.008384546809488191,
           "interval": [
-            -0.05829638540744779,
-            0.057467472553253164
+            -0.05788818746805189,
+            0.05826948881149291
           ]
         },
         {
           "ring": "10 to 30 km",
           "definition": "Observed standing water, without flood traces",
-          "difference": 0.05251622262071409,
+          "difference": 0.052335314301043434,
           "interval": [
-            -0.06923302561044692,
-            0.2212382838129997
+            -0.06920934766530988,
+            0.2210205167531967
           ]
         },
         {
           "ring": "10 to 30 km",
           "definition": "Copernicus maximum water extent",
-          "difference": 0.05251622262071409,
+          "difference": 0.052335314301043434,
           "interval": [
-            -0.07314209342002868,
-            0.23645849078893655
+            -0.0731039047241211,
+            0.23603039979934687
           ]
         }
       ],
@@ -2244,91 +2244,91 @@
       "b": "Flooded, fewer older residents",
       "season": "Summer 2024",
       "differences": [
-        0.011374213255212373,
-        0.00870963445911932,
-        0.00870963445911932
+        0.01202743315323107,
+        0.009326125127917195,
+        0.009326125127917195
       ],
       "verdict_point": "no clear difference",
       "detail": [
         {
           "ring": "3 to 15 km",
           "definition": "Observed flood, including flood traces",
-          "difference": 0.01137426384663931,
+          "difference": 0.012027478135563485,
           "interval": [
-            -0.018366965651512145,
-            0.044075329601764676
+            -0.017669992148876185,
+            0.044835227727890004
           ]
         },
         {
           "ring": "3 to 15 km",
           "definition": "Observed standing water, without flood traces",
-          "difference": 0.0087096155660491,
+          "difference": 0.009326120418646444,
           "interval": [
-            -0.050489675998687714,
-            0.07108191996812821
+            -0.04976729601621624,
+            0.0714303657412529
           ]
         },
         {
           "ring": "3 to 15 km",
           "definition": "Copernicus maximum water extent",
-          "difference": 0.0087096155660491,
+          "difference": 0.009326120418646444,
           "interval": [
-            -0.05394504517316818,
-            0.07426311075687408
+            -0.053624080121517176,
+            0.07492803782224655
           ]
         },
         {
           "ring": "5 to 20 km",
           "definition": "Observed flood, including flood traces",
-          "difference": 0.011368934127938934,
+          "difference": 0.012018647139850125,
           "interval": [
-            -0.018353001773357393,
-            0.04399604648351669
+            -0.017651772499084468,
+            0.044769182801246636
           ]
         },
         {
           "ring": "5 to 20 km",
           "definition": "Observed standing water, without flood traces",
-          "difference": 0.008713179873132137,
+          "difference": 0.00932657091202116,
           "interval": [
-            -0.05037407577037808,
-            0.07089368253946304
+            -0.04967742562294002,
+            0.07122887969017028
           ]
         },
         {
           "ring": "5 to 20 km",
           "definition": "Copernicus maximum water extent",
-          "difference": 0.008713179873132137,
+          "difference": 0.00932657091202116,
           "interval": [
-            -0.05394089370965957,
-            0.07409888505935669
+            -0.05361921191215514,
+            0.07487111538648605
           ]
         },
         {
           "ring": "10 to 30 km",
           "definition": "Observed flood, including flood traces",
-          "difference": 0.011409059331779159,
+          "difference": 0.012057036178285241,
           "interval": [
-            -0.018336111307144166,
-            0.044175395369529726
+            -0.017730638384819027,
+            0.04483744353055953
           ]
         },
         {
           "ring": "10 to 30 km",
           "definition": "Observed standing water, without flood traces",
-          "difference": 0.008767908192522489,
+          "difference": 0.009373774213357722,
           "interval": [
-            -0.050729191303253145,
-            0.07105190008878708
+            -0.05001672059297558,
+            0.07141693234443665
           ]
         },
         {
           "ring": "10 to 30 km",
           "definition": "Copernicus maximum water extent",
-          "difference": 0.008767908192522489,
+          "difference": 0.009373774213357722,
           "interval": [
-            -0.05393726378679275,
-            0.07451284676790237
+            -0.05374480932950973,
+            0.07515220195055007
           ]
         }
       ],
@@ -2409,11 +2409,11 @@
           "residents": 43056.0,
           "older_share": 0.2839093273875883,
           "seasons": {
-            "Autumn 2023": 0.7501903927279561,
-            "Spring 2024": 0.9076568862936258,
-            "Summer 2024": 0.8678771403978875
+            "Autumn 2023": 0.7499604506327927,
+            "Spring 2024": 0.9084732414529265,
+            "Summer 2024": 0.8681894248945504
           },
-          "lowest_ratio": 0.42571165636192543,
+          "lowest_ratio": 0.42614287406599866,
           "lowest_date": "2023-09-11",
           "recovered": {
             "0.8": "2024-03-01",
@@ -2434,11 +2434,11 @@
           "residents": 29635.0,
           "older_share": 0.3220516281423992,
           "seasons": {
-            "Autumn 2023": 0.8926633344138404,
-            "Spring 2024": 1.021707775687042,
-            "Summer 2024": 0.9033890340839585
+            "Autumn 2023": 0.8933308089028179,
+            "Spring 2024": 1.0225085551150255,
+            "Summer 2024": 0.9037403297774635
           },
-          "lowest_ratio": 0.5135514172549023,
+          "lowest_ratio": 0.5141071123712165,
           "lowest_date": "2023-09-11",
           "recovered": {
             "0.8": "2024-03-01",
@@ -2459,11 +2459,11 @@
           "residents": 13340.0,
           "older_share": 0.1990254872563718,
           "seasons": {
-            "Autumn 2023": 0.6019313204930429,
-            "Spring 2024": 0.8290145075444366,
-            "Summer 2024": 0.8163172486942296
+            "Autumn 2023": 0.601073294353573,
+            "Spring 2024": 0.8299026104652533,
+            "Summer 2024": 0.8165049318253172
           },
-          "lowest_ratio": 0.3134657875443454,
+          "lowest_ratio": 0.3137954436776507,
           "lowest_date": "2023-09-11",
           "recovered": {
             "0.8": "2024-03-01",
@@ -2484,11 +2484,11 @@
           "residents": 81.0,
           "older_share": 0.30864197530864196,
           "seasons": {
-            "Autumn 2023": -0.808672411275123,
-            "Spring 2024": -0.38852783971844496,
+            "Autumn 2023": -0.8092933548353463,
+            "Spring 2024": -0.3885668938469261,
             "Summer 2024": null
           },
-          "lowest_ratio": -1.2299938223627873,
+          "lowest_ratio": -1.231294961110988,
           "lowest_date": "2023-11-11",
           "recovered": {
             "0.8": null,
@@ -2509,11 +2509,11 @@
           "residents": 12049.0,
           "older_share": 0.4055938252137107,
           "seasons": {
-            "Autumn 2023": 0.9717497451024423,
-            "Spring 2024": 0.9781850194218062,
-            "Summer 2024": 0.9230619011718237
+            "Autumn 2023": 0.9723631840003547,
+            "Spring 2024": 0.9792121731172898,
+            "Summer 2024": 0.9237620505938265
           },
-          "lowest_ratio": 0.6797216823496286,
+          "lowest_ratio": 0.6797442767684553,
           "lowest_date": "2023-09-11",
           "recovered": {
             "0.8": "2024-03-01",
@@ -2534,11 +2534,11 @@
           "residents": 29355.0,
           "older_share": 0.23038664622721852,
           "seasons": {
-            "Autumn 2023": 0.9745199773437896,
-            "Spring 2024": 0.987276728498837,
-            "Summer 2024": 0.9116876879166114
+            "Autumn 2023": 0.9743104565627771,
+            "Spring 2024": 0.9876376626516213,
+            "Summer 2024": 0.9117346174405955
           },
-          "lowest_ratio": 0.6683941417935675,
+          "lowest_ratio": 0.6682770154561847,
           "lowest_date": "2023-09-11",
           "recovered": {
             "0.8": "2024-03-01",
@@ -2606,11 +2606,11 @@
           "residents": 20742.0,
           "older_share": 0.25002410567929806,
           "seasons": {
-            "Autumn 2023": 0.5402319668393997,
-            "Spring 2024": 0.811722684326714,
-            "Summer 2024": 0.8461200743509473
+            "Autumn 2023": 0.5396608046230509,
+            "Spring 2024": 0.8123820827482864,
+            "Summer 2024": 0.8463433167120711
           },
-          "lowest_ratio": 0.15809773445673703,
+          "lowest_ratio": 0.15823110762664389,
           "lowest_date": "2023-09-11",
           "recovered": {
             "0.8": "2024-05-01",
@@ -2631,11 +2631,11 @@
           "residents": 9572.0,
           "older_share": 0.3519640618470539,
           "seasons": {
-            "Autumn 2023": 0.7372146592032803,
-            "Spring 2024": 1.0218577300658342,
-            "Summer 2024": 0.9000877596054981
+            "Autumn 2023": 0.7377221046520402,
+            "Spring 2024": 1.022473147257542,
+            "Summer 2024": 0.9004688212744172
           },
-          "lowest_ratio": 0.3020199026975585,
+          "lowest_ratio": 0.3023325763561349,
           "lowest_date": "2023-09-11",
           "recovered": {
             "0.8": "2024-03-01",
@@ -2656,11 +2656,11 @@
           "residents": 11089.0,
           "older_share": 0.1616015871584453,
           "seasons": {
-            "Autumn 2023": 0.43934868624388135,
-            "Spring 2024": 0.7401996322932198,
-            "Summer 2024": 0.7790789108805699
+            "Autumn 2023": 0.4377764596542476,
+            "Spring 2024": 0.7410280197881441,
+            "Summer 2024": 0.7789228708990465
           },
-          "lowest_ratio": 0.005262256971650449,
+          "lowest_ratio": 0.00519821281309967,
           "lowest_date": "2023-09-11",
           "recovered": {
             "0.8": "2024-04-11",
@@ -2681,11 +2681,11 @@
           "residents": 81.0,
           "older_share": 0.30864197530864196,
           "seasons": {
-            "Autumn 2023": -0.808672411275123,
-            "Spring 2024": -0.38852783971844496,
+            "Autumn 2023": -0.8092933548353463,
+            "Spring 2024": -0.3885668938469261,
             "Summer 2024": null
           },
-          "lowest_ratio": -1.2299938223627873,
+          "lowest_ratio": -1.231294961110988,
           "lowest_date": "2023-11-11",
           "recovered": {
             "0.8": null,
@@ -2706,11 +2706,11 @@
           "residents": 4441.0,
           "older_share": 0.4039630713803197,
           "seasons": {
-            "Autumn 2023": 0.8106271282543037,
-            "Spring 2024": 0.9733073452788593,
-            "Summer 2024": 0.911191885740529
+            "Autumn 2023": 0.8113270377925845,
+            "Spring 2024": 0.9734081860428575,
+            "Summer 2024": 0.911710904574278
           },
-          "lowest_ratio": 0.44169106492402943,
+          "lowest_ratio": 0.44190965533185,
           "lowest_date": "2023-09-11",
           "recovered": {
             "0.8": "2024-03-01",
@@ -2731,11 +2731,11 @@
           "residents": 15563.0,
           "older_share": 0.20253164556962025,
           "seasons": {
-            "Autumn 2023": 0.8281561357027697,
-            "Spring 2024": 0.921021953442033,
-            "Summer 2024": 0.9024822512814097
+            "Autumn 2023": 0.8271543694222678,
+            "Spring 2024": 0.9213278971731991,
+            "Summer 2024": 0.9023847794463608
           },
-          "lowest_ratio": 0.4565428633061341,
+          "lowest_ratio": 0.4562310479855427,
           "lowest_date": "2023-09-11",
           "recovered": {
             "0.8": "2024-03-01",
@@ -2803,11 +2803,11 @@
           "residents": 20770.0,
           "older_share": 0.2498796340876264,
           "seasons": {
-            "Autumn 2023": 0.5446452360470133,
-            "Spring 2024": 0.8106197024028409,
-            "Summer 2024": 0.8475537614848754
+            "Autumn 2023": 0.5441004758974035,
+            "Spring 2024": 0.8112740430675012,
+            "Summer 2024": 0.8477911306540493
           },
-          "lowest_ratio": 0.16369323706904076,
+          "lowest_ratio": 0.1638280119371254,
           "lowest_date": "2023-09-11",
           "recovered": {
             "0.8": "2024-05-01",
@@ -2828,11 +2828,11 @@
           "residents": 9577.0,
           "older_share": 0.35219797431345934,
           "seasons": {
-            "Autumn 2023": 0.740210776156418,
-            "Spring 2024": 1.0212808759504712,
-            "Summer 2024": 0.9019688371057436
+            "Autumn 2023": 0.7407274262459975,
+            "Spring 2024": 1.0218921734946798,
+            "Summer 2024": 0.9023482779916936
           },
-          "lowest_ratio": 0.3049789200696802,
+          "lowest_ratio": 0.305291724076597,
           "lowest_date": "2023-09-11",
           "recovered": {
             "0.8": "2024-03-01",
@@ -2853,11 +2853,11 @@
           "residents": 11112.0,
           "older_share": 0.16126709863210942,
           "seasons": {
-            "Autumn 2023": 0.44464618753450275,
-            "Spring 2024": 0.7394805865648502,
-            "Summer 2024": 0.7801966135049265
+            "Autumn 2023": 0.4431315404130701,
+            "Spring 2024": 0.7403021621590862,
+            "Summer 2024": 0.7800943299858358
           },
-          "lowest_ratio": 0.01564814524324497,
+          "lowest_ratio": 0.015593451146380471,
           "lowest_date": "2023-09-11",
           "recovered": {
             "0.8": "2024-04-11",
@@ -2878,11 +2878,11 @@
           "residents": 81.0,
           "older_share": 0.30864197530864196,
           "seasons": {
-            "Autumn 2023": -0.775716898794736,
-            "Spring 2024": -0.3822152818200383,
+            "Autumn 2023": -0.776305996231225,
+            "Spring 2024": -0.3822531184710608,
             "Summer 2024": null
           },
-          "lowest_ratio": -1.1904138368701873,
+          "lowest_ratio": -1.1916731062595005,
           "lowest_date": "2023-11-11",
           "recovered": {
             "0.8": null,
@@ -2903,11 +2903,11 @@
           "residents": 4441.0,
           "older_share": 0.4039630713803197,
           "seasons": {
-            "Autumn 2023": 0.8106271282543037,
-            "Spring 2024": 0.9733073452788593,
-            "Summer 2024": 0.911191885740529
+            "Autumn 2023": 0.8113270377925845,
+            "Spring 2024": 0.9734081860428575,
+            "Summer 2024": 0.911710904574278
           },
-          "lowest_ratio": 0.44169106492402943,
+          "lowest_ratio": 0.44190965533185,
           "lowest_date": "2023-09-11",
           "recovered": {
             "0.8": "2024-03-01",
@@ -2928,11 +2928,11 @@
           "residents": 15563.0,
           "older_share": 0.20253164556962025,
           "seasons": {
-            "Autumn 2023": 0.8281561357027697,
-            "Spring 2024": 0.921021953442033,
-            "Summer 2024": 0.9024822512814097
+            "Autumn 2023": 0.8271543694222678,
+            "Spring 2024": 0.9213278971731991,
+            "Summer 2024": 0.9023847794463608
           },
-          "lowest_ratio": 0.4565428633061341,
+          "lowest_ratio": 0.4562310479855427,
           "lowest_date": "2023-09-11",
           "recovered": {
             "0.8": "2024-03-01",
