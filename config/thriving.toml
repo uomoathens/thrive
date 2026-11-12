@@ -2,7 +2,7 @@
 url = "https://earth-search.aws.element84.com/v1"
 collection = "sentinel-2-c1-l2a"
 max_cloud = 80
-min_items = 40
+min_items_per_year = 600
 max_failed_share = 0.1
 workers = 4
 
@@ -13,7 +13,7 @@ scl = "scl"
 
 [periods]
 flood_date = "2023-09-07"
-baseline = ["2021-01-01", "2022-12-31"]
+baseline = ["2019-01-01", "2021-12-31"]
 after = ["2023-09-11", "2024-12-31"]
 
 [pixels]
@@ -42,6 +42,8 @@ persistence = 3
 max_gap = 3
 min_coverage = 0.3
 baseline_window = 1
+min_baseline_ndvi = 0.3
+min_cell_ndvi = 0.15
 
 [[definitions]]
 key = "observed_all"

@@ -13,6 +13,7 @@ X0, Y0 = 5000000, 2000000
 OLD = {0, 1, 2}
 YOUNG = {3, 4, 5}
 CONTROL = {6, 7, 8, 9}
+LAKE = 10
 FEWER_BACK = date(2024, 3, 1)
 MORE_BACK = date(2024, 6, 1)
 
@@ -25,6 +26,8 @@ def cells_file(tmp_path):
     for i in range(4):
         geoms.append(box(X0 + 1000 * i, Y0 + 3000, X0 + 1000 * (i + 1), Y0 + 4000))
         rows.append({"region_id": "EL611", "region_name": "Unit A", "population": 20.0, "older": 5.0, "older_known": True, "land_km2": 1.0, "flooded_share_all": 0.0, "flooded_share_water": 0.0})
+    geoms.append(box(X0 + 6000, Y0, X0 + 7000, Y0 + 1000))
+    rows.append({"region_id": "EL611", "region_name": "Unit A", "population": 0.0, "older": 0.0, "older_known": True, "land_km2": 1.0, "flooded_share_all": 1.0, "flooded_share_water": 1.0})
     path = tmp_path / "cells.gpkg"
     gpd.GeoDataFrame(rows, geometry=geoms, crs=3035).to_file(path, layer="cells", driver="GPKG")
     return path
@@ -36,7 +39,7 @@ def config(tmp_path, persistence=1):
 url = "https://example.test/stac"
 collection = "test"
 max_cloud = 80
-min_items = 5
+min_items_per_year = 20
 max_failed_share = 0.1
 workers = 2
 
@@ -76,6 +79,8 @@ persistence = {persistence}
 max_gap = 3
 min_coverage = 0.3
 baseline_window = 1
+min_baseline_ndvi = 0.3
+min_cell_ndvi = 0.15
 
 [[definitions]]
 key = "all"
@@ -111,12 +116,18 @@ def searcher(a, b):
     return items
 
 
+def normal(d):
+    return 0.2 if d.month in (10, 11, 12, 1) else 0.6
+
+
 def ndvi_for(cell, d):
+    if cell == LAKE:
+        return -0.2
     if d.year < 2023 or cell in CONTROL:
-        return 0.6
+        return normal(d)
     if cell in YOUNG:
-        return 0.6 if d >= FEWER_BACK else 0.18
-    return 0.6 if d >= MORE_BACK else 0.18
+        return normal(d) if d >= FEWER_BACK else 0.18
+    return normal(d) if d >= MORE_BACK else 0.18
 
 
 def reader(it, grid, window):
@@ -162,6 +173,8 @@ def test_recovery_dates_are_exact(tmp_path):
     assert a["Flooded, more older residents"]["cells"] == 3
     assert d["all"]["older_gap_days"] == {"0.8": 92, "0.9": 92}
     assert d["all"]["stable"] is True
+    assert a["All flooded cells"]["cells"] == 6
+    assert a["All flooded cells"]["cells_left_out_not_green"] == 1
     w = d["water"]["groups"]
     assert w["All flooded cells"]["cells"] == 5
     assert s["direction"] == "slower where more older people live"
@@ -222,3 +235,27 @@ def test_read_item_from_tiled_tiffs_with_overviews(tmp_path):
     assert (bands["red"][inside] == 1500).all()
     assert (bands["nir"][inside] == 5500).all()
     assert (bands["scl"][inside] == 4).all()
+
+
+def test_bare_season_does_not_count_as_recovery(tmp_path):
+    from thrive.data.thriving import group_series
+
+    s = run(config(tmp_path), tmp_path / "out", searcher=searcher, reader=reader)
+    g = {x["key"]: x for x in s["definitions"]}["all"]["groups"]
+    assert g["Flooded, fewer older residents"]["recovered"]["0.8"] == "2024-03-01"
+    assert g["Flooded, more older residents"]["recovered"]["0.8"] == "2024-06-01"
+    import pandas as pd
+    dek = pd.DataFrame({"cell": [1, 1], "year": [2023, 2023], "k": [27, 28], "ndvi": [0.18, 0.18]})
+    base = pd.Series([0.2, 0.6], index=pd.MultiIndex.from_tuples([(1, 27), (1, 28)], names=["cell", "k"]))
+    out = group_series(dek, base, [1], [(2023, 27), (2023, 28)], 0.3, 0.3)
+    assert np.isnan(out["ratio"].iloc[0])
+    assert out["ratio"].iloc[1] == pytest.approx(0.3)
+
+
+def test_a_thin_year_stops_the_run(tmp_path):
+    def thin(a, b):
+        items = searcher(a, b)
+        return [i for i in items if not i["datetime"].startswith("2022")] if a.startswith("2021") else items
+
+    with pytest.raises(RuntimeError, match="too few scenes in 2022"):
+        run(config(tmp_path), tmp_path / "out", searcher=thin, reader=reader)

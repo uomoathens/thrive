@@ -38,7 +38,7 @@ thrive demo
 | `thrive.fairness` | The group-fairness measure of FCFL | FCFL (Table 5.8) |
 | `thrive.data.phase_a` | Phase A: downloads FEMA's hazard-mitigation grants and the National Risk Index, and compares flood money with flood risk across five groups of counties, from least to most socially vulnerable | “How we will test it”, phase A |
 | `thrive.data.phase_b` | Phase B: downloads the Copernicus flood maps of Storm Daniel and the 2021 census on the 1 km grid, and counts how many residents, and how many aged 65 and over, lived inside the mapped flood in each regional unit of Thessaly | “How we will test it”, phase B |
-| `thrive.data.thriving` | Thriving: reads every Sentinel-2 image of the flooded plain from 2021 to 2024 and finds, for each group of flooded 1 km cells, the ten-day period in which its greenness came back to normal, measured against unflooded cells nearby | “Recovery is measured” below |
+| `thrive.data.thriving` | Thriving: reads every Sentinel-2 image of the flooded plain from 2019 to 2024 and finds, for each group of flooded 1 km cells, the ten-day period in which its greenness came back to normal, measured against unflooded cells nearby | “Recovery is measured” below |
 | `thrive.audit` | The fairness check: changes one detail at a time, compares with a placebo run, and passes a plan only if, after Holm correction across all checks, no identity change moves it and every need change raises it | “Need may count” and “Nothing is built before a fairness check” below, method of Who Gets Help First? |
 
 Still to come: the forecasting and vulnerability models of the Predicting step, learning the allocation policy with Proximal Policy Optimization, federated learning across towns, and the validation phases.
@@ -130,7 +130,7 @@ A language model may help explain a decision to residents. It should not take on
 | --- | --- | --- | --- |
 | A | United States, fully open | OpenFEMA HMA Subapplications (which replaced the Hazard Mitigation Assistance Projects dataset on 15 October 2026), FEMA National Risk Index v1.20 (flood risk, population, social vulnerability) | First results below, rerun monthly |
 | B | Thessaly, Storm Daniel (September 2023): who was in the water | Copernicus EMS maps EMSR692, Eurostat census grid 2021 | Results below |
-| Thriving | Thessaly, Storm Daniel: when the flooded land came back | Sentinel-2 Collection 1, 2021 to 2024, read through the open Earth Search catalogue | Pipeline in place, runs after every Phase B run |
+| Thriving | Thessaly, Storm Daniel: when the flooded land came back | Sentinel-2 Collection 1, 2019 to 2024, read through the open Earth Search catalogue | Pipeline in place, runs after every Phase B run |
 
 ### Phase A in plain words
 
@@ -183,9 +183,9 @@ The ratio compares the share of people aged 65 and over among those in the flood
 
 ### Thriving in plain words
 
-Phase B says who was in the water. Thriving asks when the flooded land came back to life. It reads every Sentinel-2 image of the Thessalian plain from 2021 to the end of 2024, from the reprocessed Collection 1 of the European Space Agency, through the open Earth Search catalogue on Amazon Web Services. For each 1 km cell it keeps only the pixels that the image itself classes as vegetation, bare soil or water, so that clouds and their shadows are left out, and it measures greenness (NDVI) for every ten-day period.
+Phase B says who was in the water. Thriving asks when the flooded land came back to life. It reads every Sentinel-2 image of the Thessalian plain from 2019 to the end of 2024, from the reprocessed Collection 1 of the European Space Agency, through the open Earth Search catalogue on Amazon Web Services. For each 1 km cell it keeps only the pixels that the image itself classes as vegetation, bare soil or water, so that clouds and their shadows are left out, and it measures greenness (NDVI) for every ten-day period.
 
-A flooded field in October is not compared with a green field in May. Each cell is compared with the same ten-day period in 2021 and 2022, before the storm. And because a dry or a wet year changes the whole plain, every group is also divided by unflooded cells 3 to 15 km from the flood. A group counts as recovered on the first of three ten-day periods in a row in which its greenness is back to a chosen share of normal: 80, 85, 90 or 95 %. Following THRIVE's own rule, an answer about who recovered first is kept only if it holds under every one of these thresholds and every flood definition of Phase B.
+A flooded field in October is not compared with a green field in May. Each cell is compared with the same ten-day period in 2019, 2020 and 2021, before the storm. The reprocessed archive does not yet hold most of 2022, so that year is left out, and the run stops if any year has too few images. And because a dry or a wet year changes the whole plain, every group is also divided by unflooded cells 3 to 15 km from the flood. A group counts as recovered on the first of three ten-day periods in a row in which its greenness is back to a chosen share of normal: 80, 85, 90 or 95 %. Only periods in which the land is normally green count. In autumn and winter the fields are bare even in a normal year, so a bare flooded field would look recovered there; those periods are skipped, and cells that are never green, such as Lake Karla or a town centre, are left out. Following THRIVE's own rule, an answer about who recovered first is kept only if it holds under every one of these thresholds and every flood definition of Phase B.
 
 The groups are the flooded cells of each regional unit, and the flooded cells with more and with fewer older residents than the median. Every scene is listed in `items.json`, and any scene whose reflectance looks wrongly scaled is left out and counted. Greenness measures fields coming back, not households: a farm can be green while its owners still wait for help.
 

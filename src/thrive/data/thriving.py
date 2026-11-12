@@ -243,7 +243,7 @@ def baseline_table(dek: pd.DataFrame, years, window: int) -> pd.DataFrame:
     return allk.groupby(["cell", "k"])["ndvi"].median().rename("base")
 
 
-def group_series(dek: pd.DataFrame, base: pd.Series, cells_idx, post_dekads, min_coverage: float) -> pd.DataFrame:
+def group_series(dek: pd.DataFrame, base: pd.Series, cells_idx, post_dekads, min_coverage: float, min_base: float = 0.0) -> pd.DataFrame:
     cells_idx = list(cells_idx)
     sub = dek[dek["cell"].isin(cells_idx)].set_index(["cell", "year", "k"])["ndvi"]
     rows = []
@@ -257,9 +257,25 @@ def group_series(dek: pd.DataFrame, base: pd.Series, cells_idx, post_dekads, min
         n = int(ok.sum())
         cov = n / len(cells_idx) if cells_idx else 0.0
         sb = float(b[ok].sum()) if n else 0.0
-        ratio = float(post.to_numpy()[ok].sum() / sb) if n and cov >= min_coverage and sb > 0 else float("nan")
-        rows.append({"year": y, "k": k, "date": dekad_start(y, k), "cells_observed": n, "coverage": cov, "ratio": ratio})
+        mean_base = sb / n if n else float("nan")
+        ratio = float(post.to_numpy()[ok].sum() / sb) if n and cov >= min_coverage and sb > 0 and mean_base >= min_base else float("nan")
+        rows.append({"year": y, "k": k, "date": dekad_start(y, k), "cells_observed": n, "coverage": cov, "baseline_ndvi": mean_base, "ratio": ratio})
     return pd.DataFrame(rows)
+
+
+def year_counts(items, start: str, end: str, per_year: int) -> list[dict]:
+    a, b = date.fromisoformat(start), date.fromisoformat(end)
+    counts = {}
+    for i in items:
+        y = int(str(i["datetime"])[:4])
+        counts[y] = counts.get(y, 0) + 1
+    out = []
+    for y in range(a.year, b.year + 1):
+        m0 = a.month if y == a.year else 1
+        m1 = b.month if y == b.year else 12
+        need = math.ceil(per_year * (m1 - m0 + 1) / 12)
+        out.append({"year": y, "scenes": counts.get(y, 0), "needed": need, "ok": counts.get(y, 0) >= need})
+    return out
 
 
 def fill(series: pd.Series, max_gap: int) -> pd.Series:
@@ -315,8 +331,19 @@ def report(summary: dict) -> str:
         f"Measure: greenness (NDVI) from Sentinel-2 ({summary['collection']}), per 1 km cell and per ten-day period, compared with the same period of {', '.join(str(y) for y in summary['baseline_years'])} in the same cell. Each group is divided by unflooded cells {summary['control_ring_km'][0]:g} to {summary['control_ring_km'][1]:g} km from the flood, so that a dry or wet year does not count as damage or recovery.",
         f"Images: {summary['items_used']} of {summary['items_listed']} scenes used ({summary['items_failed']} could not be read, {summary['items_excluded']} failed the reflectance check). Control: {summary['control_cells']} cells.",
         f"A group counts as recovered at a threshold α on the first of {summary['persistence']} ten-day periods in a row in which its greenness, relative to the control, is at least α of normal. Gaps of up to {summary['max_gap']} periods are interpolated.",
+        f"Only ten-day periods in which the land is normally green count: the average greenness of the group in the years before must be at least {summary['min_baseline_ndvi']:.2f}. In autumn and winter the fields of the plain are bare even in a normal year, so a bare flooded field looks normal then and would count as recovered too early. Cells that are not green in a normal year at all (median below {summary['min_cell_ndvi']:.2f}: lakes, towns, bare ground) are left out.",
         "",
+        "| Period | Year | Scenes | Expected at least |",
+        "| --- | --- | --- | --- |",
     ]
+    for name, rows in summary["scenes_by_year"].items():
+        for y in rows:
+            lines.append(f"| {name.split(',')[1].strip().split(' period')[0]} | {y['year']} | {y['scenes']:,} | {y['needed']:,} |")
+    lines.append("")
+    for gl in summary["groups_left_out"]:
+        lines.append(f"Left out: {gl['group']} ({gl['definition']}), only {gl['green_cells']} of {gl['cells']} cells are green in a normal year.")
+    if summary["groups_left_out"]:
+        lines.append("")
     for d in summary["definitions"]:
         lines += [f"## {d['name']}", "", "| Group | Cells | Residents | Lowest point | " + " | ".join(f"Recovered at {int(a * 100)}%" for a in summary["alphas"]) + " |", "| --- | --- | --- | --- | " + " | ".join("---" for _ in summary["alphas"]) + " |"]
         for gname, gr in d["groups"].items():
@@ -368,8 +395,10 @@ def run(config_path: Path, out_dir: Path, searcher: Callable | None = None, read
         try:
             found = [i for i in search(a, b) if i.get("cloud") is None or float(i["cloud"]) <= st["max_cloud"]]
             lists[name] = found
-            ok = len(found) >= int(st["min_items"])
-            checks.append({"check": f"Sentinel-2 scenes, {name} period {a} to {b}", "url": st["url"], "ok": ok, "items": len(found), "error": None if ok else f"only {len(found)} scenes"})
+            years = year_counts(found, a, b, int(st["min_items_per_year"]))
+            thin = [f"{y['year']}: {y['scenes']} scenes, at least {y['needed']} expected" for y in years if not y["ok"]]
+            ok = not thin
+            checks.append({"check": f"Sentinel-2 scenes, {name} period {a} to {b}", "url": st["url"], "ok": ok, "items": len(found), "by_year": years, "error": None if ok else "too few scenes in " + "; ".join(thin)})
         except Exception as exc:
             checks.append({"check": f"Sentinel-2 scenes, {name} period {a} to {b}", "url": st["url"], "ok": False, "items": 0, "error": str(exc)})
     (out_dir / "preflight.json").write_text(json.dumps(checks, indent=2) + "\n", encoding="utf-8")
@@ -388,17 +417,25 @@ def run(config_path: Path, out_dir: Path, searcher: Callable | None = None, read
     flood_day = date.fromisoformat(per["flood_date"])
     post = dekads_between(date.fromisoformat(per["after"][0]), date.fromisoformat(per["after"][1]))
     alphas = [float(a) for a in rc["alphas"]]
-    ctrl = group_series(dek, base, control, post, float(rc["min_coverage"]))
-    series_rows, rec_rows, defs_out, gaps_all = [], [], [], []
+    min_base = float(rc["min_baseline_ndvi"])
+    level = base.groupby(level="cell").median()
+    green = set(level[level >= float(rc["min_cell_ndvi"])].index)
+    control = [c for c in control if c in green]
+    ctrl = group_series(dek, base, control, post, float(rc["min_coverage"]), min_base)
+    series_rows, rec_rows, defs_out, gaps_all, skipped_groups = [], [], [], [], []
     for d in cfg["definitions"]:
         k = d["key"]
         rel, info = {}, {}
-        for gname, idx in groups_by_def[k].items():
-            s = group_series(dek, base, idx, post, float(rc["min_coverage"]))
+        for gname, idx_all in groups_by_def[k].items():
+            idx = [c for c in idx_all if c in green]
+            if len(idx) < g["min_cells"]:
+                skipped_groups.append({"definition": d["name"], "group": gname, "cells": len(idx_all), "green_cells": len(idx)})
+                continue
+            s = group_series(dek, base, idx, post, float(rc["min_coverage"]), min_base)
             r = fill(pd.Series(s["ratio"].to_numpy() / ctrl["ratio"].to_numpy()), int(rc["max_gap"]))
             rel[gname] = r
             sub = cells.loc[idx]
-            info[gname] = {"cells": len(idx), "residents": float(sub["population"].sum()), "older_share": float(sub["older"].sum() / sub["population"].sum()) if sub["population"].sum() > 0 else None}
+            info[gname] = {"cells": len(idx), "cells_left_out_not_green": len(idx_all) - len(idx), "residents": float(sub["population"].sum()), "older_share": float(sub["older"].sum() / sub["population"].sum()) if sub["population"].sum() > 0 else None}
             for i, row in s.iterrows():
                 series_rows.append({"definition": d["name"], "group": gname, "date": row["date"], "group_ratio": row["ratio"], "control_ratio": ctrl["ratio"].iloc[i], "relative": r.iloc[i], "coverage": row["coverage"], "control_coverage": ctrl["coverage"].iloc[i]})
         finding = robust_recovery({gname: v.to_numpy() for gname, v in rel.items()}, {gname: 1.0 for gname in rel}, alphas, int(rc["persistence"]))
@@ -429,6 +466,10 @@ def run(config_path: Path, out_dir: Path, searcher: Callable | None = None, read
         "flood_date": per["flood_date"],
         "control_ring_km": [x / 1000 for x in g["control_ring_m"]],
         "control_cells": len(control),
+        "scenes_by_year": {c["check"]: c["by_year"] for c in checks},
+        "min_baseline_ndvi": min_base,
+        "min_cell_ndvi": float(rc["min_cell_ndvi"]),
+        "groups_left_out": skipped_groups,
         "items_listed": len(inventory),
         "items_used": int(obs["item"].nunique()) if len(obs) else 0,
         "items_failed": failed,
