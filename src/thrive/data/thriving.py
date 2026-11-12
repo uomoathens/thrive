@@ -495,7 +495,7 @@ def report(summary: dict) -> str:
         "",
         "## Limits",
         "",
-        "In the first weeks after the flood the flooded fields often look greener than normal. The storm struck a few weeks before the cotton harvest, and in a normal year the harvested fields of the plain are bare by October; fields left unharvested and wet kept some green cover. Greenness alone cannot tell crop from weeds, so greenness right after the flood does not mean the land was working again. That is why the recovery count starts with the next growing season.",
+        "Autumn greenness after the flood is hard to read. The storm struck a few weeks before the cotton harvest, and in a normal year the harvested fields of the plain are bare by October, so a field that was never harvested, or that later grew weeds or another crop, can look as green as normal or greener while yielding nothing. Greenness alone cannot tell crop from weeds, so greenness right after the flood does not mean the land was working again. That is why the recovery count starts with the next growing season.",
         "",
         "Greenness measures fields and gardens coming back, not households: a farm can be green again while its owners are still waiting for help, and a village can be rebuilt on land that stays bare. Clouds remove many autumn and winter images, crops rotate between years, and farmers may have left fields fallow on purpose. Greenness below zero means the ground is mostly water. The cells with more older residents are compared with those with fewer within the flooded area only, and both include the fields around each village.",
     ]
