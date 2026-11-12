@@ -29,10 +29,10 @@ Days by which the cells with more older residents recovered later (positive) or 
 | Flooded, Larisa | 333 | 11,089 | 1% (2023-09-11) | 2024-04-11 (day 217) | 2024-09-11 (day 370) | not within the period | not within the period |
 | Flooded, Magnisia, Sporades | 35 | 81 | -179% (2023-11-01) | not within the period | not within the period | not within the period | not within the period |
 | Flooded, more older residents | 28 | 4,441 | 46% (2023-09-11) | 2023-10-11 (day 34) | 2023-10-11 (day 34) | 2024-03-01 (day 176) | 2024-04-21 (day 227) |
-| Flooded, fewer older residents | 29 | 15,563 | 47% (2023-09-11) | 2023-09-21 (day 14) | 2024-03-01 (day 176) | 2024-05-11 (day 247) | 2024-09-01 (day 360) |
+| Flooded, fewer older residents | 29 | 15,563 | 47% (2023-09-11) | 2023-09-21 (day 14) | 2024-03-01 (day 176) | 2024-05-01 (day 237) | 2024-09-01 (day 360) |
 
 Order of recovery the same under every threshold: **no**.
-Days by which the cells with more older residents recovered later (positive) or earlier (negative) than those with fewer: α 80%: +20; α 85%: -142; α 90%: -71; α 95%: -133.
+Days by which the cells with more older residents recovered later (positive) or earlier (negative) than those with fewer: α 80%: +20; α 85%: -142; α 90%: -61; α 95%: -133.
 
 ## Copernicus maximum water extent
 
@@ -41,12 +41,12 @@ Days by which the cells with more older residents recovered later (positive) or 
 | All flooded cells | 903 | 20,797 | 10% (2023-09-11) | 2024-05-01 (day 237) | 2024-08-01 (day 329) | 2024-09-01 (day 360) | 2024-09-11 (day 370) |
 | Flooded, Karditsa, Trikala | 489 | 9,604 | 27% (2023-09-11) | 2023-10-21 (day 44) | 2023-11-21 (day 75) | 2023-12-11 (day 95) | 2024-01-21 (day 136) |
 | Flooded, Larisa | 344 | 11,112 | 0% (2023-09-11) | 2024-04-11 (day 217) | 2024-09-11 (day 370) | not within the period | not within the period |
-| Flooded, Magnisia, Sporades | 70 | 81 | -11244% (2024-05-21) | not within the period | not within the period | not within the period | not within the period |
+| Flooded, Magnisia, Sporades | 70 | 81 | -11248% (2024-05-21) | not within the period | not within the period | not within the period | not within the period |
 | Flooded, more older residents | 28 | 4,441 | 46% (2023-09-11) | 2023-10-11 (day 34) | 2023-10-11 (day 34) | 2024-03-01 (day 176) | 2024-04-21 (day 227) |
-| Flooded, fewer older residents | 29 | 15,563 | 47% (2023-09-11) | 2023-09-21 (day 14) | 2024-03-01 (day 176) | 2024-05-11 (day 247) | 2024-09-01 (day 360) |
+| Flooded, fewer older residents | 29 | 15,563 | 47% (2023-09-11) | 2023-09-21 (day 14) | 2024-03-01 (day 176) | 2024-05-01 (day 237) | 2024-09-01 (day 360) |
 
 Order of recovery the same under every threshold: **no**.
-Days by which the cells with more older residents recovered later (positive) or earlier (negative) than those with fewer: α 80%: +20; α 85%: -142; α 90%: -71; α 95%: -133.
+Days by which the cells with more older residents recovered later (positive) or earlier (negative) than those with fewer: α 80%: +20; α 85%: -142; α 90%: -61; α 95%: -133.
 
 Across every flood definition and threshold: **not robust**. Following THRIVE's own rule, a direction is reported as a finding only when every measure agrees.
 
