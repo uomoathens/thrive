@@ -159,6 +159,8 @@ def thriving(f: Facts):
     cfg = tomllib.loads((f.root / "config" / "thriving.toml").read_text(encoding="utf-8"))
     f.set("t_scenes", f"{s['items_used']:,}")
     f.set("t_excluded", f"{s['items_excluded']:,}")
+    f.set("t_listed", f"{s['items_listed']:,}")
+    f.claim(float(cfg["stac"]["max_cloud"]) == 80, "Thriving: the images are no longer limited to at most 80% cloud cover.")
     f.claim(s["items_failed"] == 0, "Thriving: some images could not be read, so 'none failed to read' is no longer true.")
     f.claim([r["ring"] for r in s["control_rings"]] == ["3 to 15 km", "5 to 20 km", "10 to 30 km"], "Thriving: the control areas are no longer 3 to 15, 5 to 20 and 10 to 30 km.")
     f.claim(s["replicates"] == 1000, "Thriving: the intervals no longer come from 1,000 resamplings.")
