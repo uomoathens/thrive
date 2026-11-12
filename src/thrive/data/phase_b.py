@@ -250,7 +250,8 @@ def exposure(cells, flood, target, near):
     per_cell["cell_land_km2"] = per_cell["cell_land_km2"] / 1e6
     per_cell["share_in_target"] = (per_cell["land_km2"] / per_cell["cell_land_km2"]).clip(upper=1.0)
     per_cell["flooded_share"] = (per_cell["flooded_km2"] / per_cell["cell_land_km2"]).fillna(0.0).clip(upper=1.0)
-    return by_region, cells_out, float(unplaced["population"].sum()), int(len(unplaced)), per_cell
+    age_cells = pieces.groupby(["region_id", "cell_id"], as_index=False)[["population_with_age", "population_exposed_with_age", "older_in_region", "older_exposed"]].sum()
+    return by_region, cells_out, float(unplaced["population"].sum()), int(len(unplaced)), per_cell, age_cells
 
 
 def add_shares(df):
@@ -281,6 +282,10 @@ def validation(by_region: pd.DataFrame, cfg: dict) -> pd.DataFrame:
     return pd.DataFrame(rows)
 
 
+def _iv(iv) -> str:
+    return "" if iv is None else f" ({iv[0]:.2f} to {iv[1]:.2f})"
+
+
 def _pct(x, digits=1):
     return "n/a" if x is None or pd.isna(x) else f"{x:.{digits}%}"
 
@@ -292,6 +297,48 @@ def direction(ratios, tolerance: float = 1e-6) -> str:
     if all(r > 1 + tolerance for r in vals):
         return "older people more exposed"
     if all(r < 1 - tolerance for r in vals):
+        return "older people less exposed"
+    return "not robust"
+
+
+def ratio_replicates(cells: pd.DataFrame, weights) -> "np.ndarray":
+    import numpy as np
+
+    pa = weights @ cells["population_with_age"].to_numpy()
+    pe = weights @ cells["population_exposed_with_age"].to_numpy()
+    o = weights @ cells["older_in_region"].to_numpy()
+    oe = weights @ cells["older_exposed"].to_numpy()
+    with np.errstate(invalid="ignore", divide="ignore"):
+        return (oe / pe) / (o / pa)
+
+
+def ratio_intervals(age_cells: pd.DataFrame, reps: int, seed: int, min_exposed: float) -> dict:
+    import numpy as np
+
+    rng = np.random.default_rng(seed)
+    w = rng.poisson(1.0, size=(reps, len(age_cells))).astype(float)
+    out = {}
+    groups = {"Thessaly": np.ones(len(age_cells), dtype=bool)}
+    for rid in sorted(age_cells["region_id"].unique()):
+        groups[rid] = (age_cells["region_id"] == rid).to_numpy()
+    for name, m in groups.items():
+        sub = age_cells[m]
+        if sub["population_exposed_with_age"].sum() < min_exposed:
+            out[name] = None
+            continue
+        r = ratio_replicates(sub, w[:, m])
+        r = r[np.isfinite(r)]
+        out[name] = [float(np.percentile(r, 2.5)), float(np.percentile(r, 97.5))] if len(r) else None
+    return out
+
+
+def direction_ci(intervals) -> str:
+    vals = [i for i in intervals if i is not None]
+    if not vals:
+        return "no data"
+    if all(i[0] > 1 for i in vals):
+        return "older people more exposed"
+    if all(i[1] < 1 for i in vals):
         return "older people less exposed"
     return "not robust"
 
@@ -346,11 +393,13 @@ def report(summary: dict, by_region: pd.DataFrame, check: pd.DataFrame, sources:
         "| --- | --- | --- | --- | --- | " + " | ".join("---" for _ in by_region["region_name"]) + " |",
     ]
     for e in ext:
-        cells = [("too few exposed" if e["region_ratios"].get(rid) is None else f"{e['region_ratios'][rid]:.2f}") for rid in by_region["region_id"]]
-        ratio = "n/a" if e["older_exposure_ratio"] is None else f"{e['older_exposure_ratio']:.2f}"
+        cells = [("too few exposed" if e["region_ratios"].get(rid) is None else f"{e['region_ratios'][rid]:.2f}{_iv(e['intervals'].get(rid))}") for rid in by_region["region_id"]]
+        ratio = "n/a" if e["older_exposure_ratio"] is None else f"{e['older_exposure_ratio']:.2f}{_iv(e['intervals'].get('Thessaly'))}"
         lines.append(f"| {e['name']} | {e['flooded_km2']:,.0f} | {e['population_exposed']:,.0f} | {_pct(e['share_exposed'])} | {ratio} | " + " | ".join(cells) + " |")
     if age:
         lines += [
+            "",
+            f"In brackets, the 95% interval from {summary['replicates']:,} resamplings of the 1 km squares (Poisson bootstrap). It shows how much a ratio depends on which squares the water happened to reach. A direction counts only if the interval stays on one side of 1 under every flood definition.",
             "",
             f"Direction for Thessaly as a whole, across all definitions: **{summary['direction_thessaly']}**. Direction inside the regional units, across all definitions and every unit with enough people exposed: **{summary['direction_within_units']}**. Following THRIVE's own rule, a direction is reported as a finding only when every measure agrees.",
             "",
@@ -443,6 +492,8 @@ def run(config_path: Path, out_dir: Path, fetcher: Fetcher = fetch, grid_path: P
     (out_dir / "grid.json").write_text(json.dumps(grid_info, indent=2) + "\n", encoding="utf-8")
     cells, pop_col, older_col, grid_columns = grid_cells(src_path, layer, near[near.intersects(target.buffer(2000).union_all())], g, crs)
     min_exposed = float(a.get("min_exposed_for_ratio", 1000))
+    unc = cfg.get("uncertainty", {})
+    reps, seed = int(unc.get("replicates", 1000)), int(unc.get("seed", 20230907))
     defs = cfg.get("extent") or [{"key": "observed_all", "name": "Observed flood", "source": "observed", "exclude": []}]
     extents, main, shares = [], None, {}
     for d in defs:
@@ -457,8 +508,8 @@ def run(config_path: Path, out_dir: Path, fetcher: Fetcher = fetch, grid_path: P
         shares[d["key"]] = res[4]
         if main is None:
             main = res
-        extents.append({"key": d["key"], "name": d["name"], "available": True, **extent_summary(res[0], min_exposed)})
-    by_region, wet_cells, unplaced_pop, unplaced_cells, first_cells = main
+        extents.append({"key": d["key"], "name": d["name"], "available": True, **extent_summary(res[0], min_exposed), "intervals": ratio_intervals(res[5], reps, seed, min_exposed)})
+    by_region, wet_cells, unplaced_pop, unplaced_cells, first_cells, _ = main
     majority = first_cells[first_cells["share_in_target"] >= 0.5]
     cell_table = cells.assign(cell_id=range(len(cells))).set_index("cell_id").join(majority[["region_id", "region_name", "land_km2", "share_in_target"]], how="inner")
     for key, pc in shares.items():
@@ -474,9 +525,12 @@ def run(config_path: Path, out_dir: Path, fetcher: Fetcher = fetch, grid_path: P
             summary[k] = None
     summary["extents"] = usable
     summary["extents_missing"] = [e["name"] for e in extents if not e["available"]]
-    summary["direction_thessaly"] = direction([e["older_exposure_ratio"] for e in usable]) if older_col else "no data"
+    summary["direction_thessaly_point"] = direction([e["older_exposure_ratio"] for e in usable]) if older_col else "no data"
     summary["direction_within_units"] = direction([v for e in usable for v in e["region_ratios"].values()]) if older_col else "no data"
-    summary["direction_by_unit"] = {rid: (direction([e["region_ratios"].get(rid) for e in usable]) if older_col else "no data") for rid in by_region["region_id"]}
+    summary["direction_by_unit_point"] = {rid: (direction([e["region_ratios"].get(rid) for e in usable]) if older_col else "no data") for rid in by_region["region_id"]}
+    summary["direction_thessaly"] = direction_ci([e["intervals"].get("Thessaly") for e in usable]) if older_col else "no data"
+    summary["direction_by_unit"] = {rid: (direction_ci([e["intervals"].get(rid) if e["region_ratios"].get(rid) is not None else None for e in usable]) if older_col else "no data") for rid in by_region["region_id"]}
+    summary["replicates"] = reps
     summary["regions"] = json.loads(by_region.to_json(orient="records"))
     check_df = validation(by_region, cfg.get("validation", {}))
     summary["validation"] = json.loads(check_df.to_json(orient="records"))

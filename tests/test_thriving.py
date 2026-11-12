@@ -72,6 +72,7 @@ flooded_share_min = 0.5
 min_cells = 2
 min_residents = 10
 control_ring_m = [1000, 5000]
+control_rings = [[1000, 5000], [1500, 6000]]
 
 [recovery]
 alphas = [0.8, 0.9]
@@ -82,6 +83,10 @@ baseline_window = 1
 min_baseline_ndvi = 0.3
 min_cell_ndvi = 0.15
 recovery_start = "2024-03-01"
+
+[uncertainty]
+replicates = 200
+seed = 1
 
 [seasons]
 min_periods = 3
@@ -208,7 +213,10 @@ def test_recovery_dates_are_exact(tmp_path):
     cmp_ = {(c["a"], c["season"]): c for c in s["comparisons"]}
     assert cmp_[("Flooded, more older residents", "Spring 2024")]["verdict"] == "lower"
     assert cmp_[("Flooded, more older residents", "Spring 2024")]["differences"] == [pytest.approx(-0.7, abs=2e-3), pytest.approx(-0.7, abs=2e-3)]
-    assert cmp_[("Flooded, more older residents", "Summer 2024")]["verdict"] == "no clear difference"
+    assert cmp_[("Flooded, more older residents", "Summer 2024")]["verdict"] == "no difference shown"
+    assert cmp_[("Flooded, more older residents", "Summer 2024")]["verdict_point"] == "no clear difference"
+    assert len(cmp_[("Flooded, more older residents", "Spring 2024")]["detail"]) == 4
+    assert s["control_rings"][0]["ring"] == "1 to 5 km" and len(s["control_rings"]) == 2
     assert cmp_[("Flooded, Larisa", "Summer 2024")]["verdict"] == "no data"
     inv = json.loads((out / "items.json").read_text())
     assert any(i["excluded_offset_check"] for i in inv)
@@ -324,3 +332,32 @@ def test_weeds_right_after_the_flood_do_not_count_as_recovery(tmp_path):
     g = {x["key"]: x for x in s["definitions"]}["all"]["groups"]
     assert g["Flooded, fewer older residents"]["recovered"]["0.8"] == "2024-03-01"
     assert g["Flooded, more older residents"]["recovered"]["0.9"] == "2024-06-01"
+
+
+def test_verdict_rule():
+    from thrive.data.thriving import verdict
+
+    assert verdict([-0.08, -0.05], [[-0.1, -0.06], [-0.07, -0.02]], 0.03) == "lower"
+    assert verdict([-0.08, -0.05], [[-0.1, 0.01], [-0.07, -0.02]], 0.03) == "not robust"
+    assert verdict([0.01, -0.02], [[-0.03, 0.04], [-0.05, 0.02]], 0.03) == "no difference shown"
+    assert verdict([0.05, 0.04], [[0.02, 0.08], [0.01, 0.07]], 0.03) == "higher"
+    assert verdict([0.05, None], [[0.02, 0.08], None], 0.03) == "no data"
+
+
+def test_matrix_ratio_matches_the_series_and_intervals_cover_the_point():
+    import pandas as pd
+    from thrive.data.thriving import group_series, interval, matrices, point_ratio, poisson_weights, replicate_ratio
+
+    rng = np.random.default_rng(3)
+    post = [(2024, k) for k in range(6, 15)]
+    rows = [{"cell": c, "year": y, "k": k, "ndvi": float(rng.uniform(0.2, 0.8))} for c in range(40) for (y, k) in post if rng.random() > 0.2]
+    dek = pd.DataFrame(rows)
+    base = pd.Series([float(rng.uniform(0.3, 0.8)) for c in range(40) for k in range(36)], index=pd.MultiIndex.from_product([range(40), range(36)], names=["cell", "k"]))
+    old = group_series(dek, base, list(range(40)), post, 0.3, 0.3)["ratio"].to_numpy()
+    P, B = matrices(dek, base, list(range(40)), post)
+    new, valid = point_ratio(P, B, 0.3, 0.3)
+    assert np.allclose(old, new, equal_nan=True)
+    rep = replicate_ratio(P, valid, B, poisson_weights(np.random.default_rng(1), 500, 40))
+    for t in range(len(post)):
+        lo, hi = interval(rep[:, t])
+        assert lo <= new[t] <= hi

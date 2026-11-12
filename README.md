@@ -16,7 +16,7 @@ THRIVE answers the three in a loop, so that what we learn after one flood change
 
 ![tests](https://github.com/uomoathens/thrive/actions/workflows/ci.yml/badge.svg)
 
-Version 0.5.0 holds the four core calculations, each with its own tests, and two pipelines for real data. Phase A, on US flood grants, has run on GitHub and its results are in `results/phase-a` (summary below). Phase B, on Storm Daniel in Thessaly, has run on GitHub as well, with its results in `results/phase-b` (summary below). The calculations are checked on worked examples, which give exactly the numbers on the interactive page. The charts below show published figures or simple examples, and each caption says which.
+Version 0.6.0 holds the four core calculations, each with its own tests, and two pipelines for real data. Phase A, on US flood grants, has run on GitHub and its results are in `results/phase-a` (summary below). Phase B, on Storm Daniel in Thessaly, has run on GitHub as well, with its results in `results/phase-b` (summary below). The calculations are checked on worked examples, which give exactly the numbers on the interactive page. The charts below show published figures or simple examples, and each caption says which.
 
 To try it:
 

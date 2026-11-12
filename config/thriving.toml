@@ -35,6 +35,7 @@ flooded_share_min = 0.5
 min_cells = 20
 min_residents = 50
 control_ring_m = [3000, 15000]
+control_rings = [[3000, 15000], [5000, 20000], [10000, 30000]]
 
 [recovery]
 alphas = [0.80, 0.85, 0.90, 0.95]
@@ -45,6 +46,10 @@ baseline_window = 1
 min_baseline_ndvi = 0.3
 min_cell_ndvi = 0.15
 recovery_start = "2024-03-01"
+
+[uncertainty]
+replicates = 1000
+seed = 20230907
 
 [seasons]
 min_periods = 5

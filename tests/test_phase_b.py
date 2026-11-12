@@ -213,7 +213,12 @@ def test_exposure_numbers(tmp_path, grid_zip):
     assert e["cems_maximum"]["region_ratios"]["EL612"] is None
     assert s["direction_thessaly"] == "not robust"
     assert s["direction_within_units"] == "not robust"
-    assert s["direction_by_unit"] == {"EL611": "not robust", "EL612": "older people more exposed"}
+    assert s["direction_by_unit_point"] == {"EL611": "not robust", "EL612": "older people more exposed"}
+    for e_ in s["extents"]:
+        for rid, iv in e_["intervals"].items():
+            point = e_["older_exposure_ratio"] if rid == "Thessaly" else e_["region_ratios"].get(rid)
+            if iv is not None and point is not None:
+                assert iv[0] - 1e-9 <= point <= iv[1] + 1e-9
     v = {r["region_id"]: r for r in s["validation"]}
     assert v["EL611"]["difference"] == pytest.approx(0, abs=1e-3)
     assert v["EL612"]["difference"] == pytest.approx(20, abs=1e-3)
@@ -233,7 +238,7 @@ def test_exposure_numbers(tmp_path, grid_zip):
     for name in ("report.md", "phase-b.xlsx", "inventory.json", "preflight.json", "grid.json", "flood-extent.gpkg", "cells.gpkg"):
         assert (out / name).is_file(), name
     text = (out / "report.md").read_text()
-    assert "Unit A" in text and "Volos" in text and "**not robust**" in text and "| 1.29 |" in text
+    assert "Unit A" in text and "Volos" in text and "**not robust**" in text and "| 1.29" in text
 
 
 def test_missing_age_column_stops_when_required(tmp_path):
@@ -293,8 +298,30 @@ def test_sliver_of_a_neighbouring_cell_is_not_counted_as_inside():
     near = gpd.GeoDataFrame({"region_id": ["EL611", "EL642"], "region_name": ["In", "Out"]},
                             geometry=[box(0, 0, 1000.001, 1000), box(1000.001, 0, 3000, 1000)], crs=3035)
     flood = gpd.GeoDataFrame(geometry=[box(0, 0, 2000, 1000)], crs=3035)
-    by_region, _, _, _, per_cell = exposure(cells, flood, near[near["region_id"] == "EL611"], near)
+    by_region, _, _, _, per_cell, _ = exposure(cells, flood, near[near["region_id"] == "EL611"], near)
     assert by_region["population"].sum() == pytest.approx(100, abs=1e-3)
     assert per_cell.loc[0, "share_in_target"] == pytest.approx(1.0)
     assert per_cell.loc[1, "share_in_target"] < 1e-5
     assert per_cell.loc[1, "flooded_share"] < 1e-5
+
+
+def test_ratio_intervals_and_direction():
+    import numpy as np
+    import pandas as pd
+    from thrive.data.phase_b import direction_ci, ratio_intervals
+
+    rng = np.random.default_rng(0)
+    n = 400
+    pa = rng.uniform(50, 150, n)
+    pe = pa * rng.uniform(0, 0.5, n)
+    cells = pd.DataFrame({"region_id": ["A"] * n, "cell_id": range(n), "population_with_age": pa, "population_exposed_with_age": pe, "older_in_region": 0.2 * pa, "older_exposed": 0.3 * pe})
+    iv = ratio_intervals(cells, 300, 1, 10)
+    assert iv["A"] == pytest.approx([1.5, 1.5]) and iv["Thessaly"] == pytest.approx([1.5, 1.5])
+    noisy = cells.assign(older_exposed=pe * rng.uniform(0.1, 0.3, n))
+    iv2 = ratio_intervals(noisy, 300, 1, 10)["A"]
+    assert iv2[0] < iv2[1]
+    assert direction_ci([[1.1, 1.3], [1.05, 1.2]]) == "older people more exposed"
+    assert direction_ci([[0.8, 0.95], None]) == "older people less exposed"
+    assert direction_ci([[0.9, 1.1]]) == "not robust"
+    assert direction_ci([None]) == "no data"
+    assert ratio_intervals(cells.assign(population_exposed_with_age=0.0), 50, 1, 10)["A"] is None

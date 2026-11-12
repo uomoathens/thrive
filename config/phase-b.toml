@@ -22,6 +22,10 @@ prefix = "EL61"
 crs = 3035
 min_exposed_for_ratio = 1000
 
+[uncertainty]
+replicates = 1000
+seed = 20230907
+
 [[extent]]
 key = "observed_all"
 name = "Observed flood, including flood traces"

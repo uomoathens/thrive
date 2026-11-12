@@ -80,7 +80,7 @@ def make_grid(cells, res: float) -> Grid:
     x0, y0 = math.floor(minx / 1000) * 1000, math.floor(miny / 1000) * 1000
     x1, y1 = math.ceil(maxx / 1000) * 1000, math.ceil(maxy / 1000) * 1000
     cols, rows = int((x1 - x0) // 1000), int((y1 - y0) // 1000)
-    lookup = np.full((rows, cols), -1, dtype=np.int64)
+    lookup = np.full((rows, cols), -1, dtype=np.int32)
     cx, cy = cells.geometry.centroid.x.to_numpy(), cells.geometry.centroid.y.to_numpy()
     col = ((cx - x0) // 1000).astype(int)
     row = ((y1 - cy) // 1000).astype(int)
@@ -312,6 +312,89 @@ def compare(diffs, tolerance: float) -> str:
     return "not robust"
 
 
+def matrices(dek: pd.DataFrame, base: pd.Series, cells_idx, post_dekads):
+    idx = list(cells_idx)
+    pos = {c: i for i, c in enumerate(idx)}
+    tpos = {p: i for i, p in enumerate(post_dekads)}
+    P = np.full((len(idx), len(post_dekads)), np.nan)
+    sub = dek[dek["cell"].isin(idx)]
+    for c, y, k, v in zip(sub["cell"].to_numpy(), sub["year"].to_numpy(), sub["k"].to_numpy(), sub["ndvi"].to_numpy()):
+        t = tpos.get((int(y), int(k)))
+        if t is not None:
+            P[pos[c], t] = v
+    ks = [k for (_, k) in post_dekads]
+    mi = pd.MultiIndex.from_product([idx, sorted(set(ks))], names=["cell", "k"])
+    b = base.reindex(mi)
+    B = np.full_like(P, np.nan)
+    kpos = {k: j for j, k in enumerate(sorted(set(ks)))}
+    bm = b.to_numpy().reshape(len(idx), len(kpos)) if len(idx) else np.zeros((0, len(kpos)))
+    for t, k in enumerate(ks):
+        B[:, t] = bm[:, kpos[k]]
+    return P, B
+
+
+def point_ratio(P, B, min_coverage: float, min_base: float):
+    valid = ~np.isnan(P) & ~np.isnan(B)
+    n = P.shape[0]
+    cnt = valid.sum(axis=0)
+    num = np.where(valid, P, 0.0).sum(axis=0)
+    den = np.where(valid, B, 0.0).sum(axis=0)
+    with np.errstate(invalid="ignore", divide="ignore"):
+        mean_base = np.where(cnt > 0, den / np.maximum(cnt, 1), np.nan)
+        ok = (cnt > 0) & (cnt / max(n, 1) >= min_coverage) & (den > 0) & (mean_base >= min_base)
+        ratio = np.where(ok, num / np.where(den > 0, den, 1.0), np.nan)
+    return ratio, valid
+
+
+def replicate_ratio(P, valid, B, W):
+    Pz = np.where(valid, P, 0.0).astype(np.float32)
+    Bz = np.where(valid, B, 0.0).astype(np.float32)
+    num = W @ Pz
+    den = W @ Bz
+    with np.errstate(invalid="ignore", divide="ignore"):
+        return np.where(den > 0, num / den, np.nan)
+
+
+def poisson_weights(rng, reps: int, n: int):
+    return rng.poisson(1.0, size=(reps, n)).astype(np.float32)
+
+
+def season_with_interval(g_point, g_rep, c_point, c_rep, dates, start: str, end: str, min_periods: int):
+    a, b = date.fromisoformat(start), date.fromisoformat(end)
+    t = np.array([a <= d <= b for d in dates]) & np.isfinite(g_point) & np.isfinite(c_point) & (c_point > 0)
+    if t.sum() < min_periods:
+        return None, None, int(t.sum())
+    point = float(np.mean(g_point[t] / c_point[t]))
+    import warnings
+
+    with np.errstate(invalid="ignore", divide="ignore"), warnings.catch_warnings():
+        warnings.simplefilter("ignore", RuntimeWarning)
+        rep = np.nanmean(g_rep[:, t] / c_rep[:, t], axis=1)
+    return point, rep, int(t.sum())
+
+
+def interval(rep, level: float = 0.95):
+    if rep is None:
+        return None
+    r = rep[np.isfinite(rep)]
+    if len(r) == 0:
+        return None
+    lo, hi = np.percentile(r, [(1 - level) / 2 * 100, (1 + level) / 2 * 100])
+    return [float(lo), float(hi)]
+
+
+def verdict(points, intervals, tolerance: float) -> str:
+    if not points or any(p is None for p in points) or any(i is None for i in intervals):
+        return "no data"
+    if all(p <= -tolerance and i[1] < 0 for p, i in zip(points, intervals)):
+        return "lower"
+    if all(p >= tolerance and i[0] > 0 for p, i in zip(points, intervals)):
+        return "higher"
+    if all(i[0] <= 0 <= i[1] for i in intervals):
+        return "no difference shown"
+    return "not robust"
+
+
 def select_groups(cells, key: str, g: dict) -> dict[str, list[int]]:
     share = cells[f"flooded_share_{key}"]
     flooded = cells[share >= g["flooded_share_min"]]
@@ -328,25 +411,33 @@ def select_groups(cells, key: str, g: dict) -> dict[str, list[int]]:
     return out
 
 
-def control_cells(cells, g: dict) -> list[int]:
+def control_cells(cells, g: dict, ring=None) -> list[int]:
+    ring = ring or g["control_ring_m"]
     widest = cells[[c for c in cells.columns if c.startswith("flooded_share_")]].max(axis=1)
     wet = cells[widest > 0]
     dry = cells[widest == 0]
     if wet.empty:
         return []
     zone = wet.geometry.union_all()
-    outer, inner = zone.buffer(g["control_ring_m"][1]), zone.buffer(g["control_ring_m"][0])
+    outer, inner = zone.buffer(ring[1]), zone.buffer(ring[0])
     cent = dry.geometry.centroid
     keep = cent.within(outer) & ~cent.within(inner)
     return dry.index[keep].tolist()
 
 
-def _season_cell(v) -> str:
+def _season_cell(v, iv=None) -> str:
     if v is None:
         return "n/a"
     if v < 0:
         return "below zero: mostly still under water"
-    return f"{v:.0%}"
+    return f"{v:.0%}" if iv is None else f"{v:.0%} ({iv[0]:.0%} to {iv[1]:.0%})"
+
+
+def _iv_lookup(summary, ring, dname, gname, season):
+    for r in summary.get("season_intervals", []):
+        if r["ring"] == ring and r["definition"] == dname and r["group"] == gname and r["season"] == season:
+            return r["interval"]
+    return None
 
 
 def report(summary: dict) -> str:
@@ -371,16 +462,21 @@ def report(summary: dict) -> str:
         lines.append(f"Left out: {gl['group']} ({gl['definition']}), only {gl['green_cells']} of {gl['cells']} cells are green in a normal year.")
     if summary["groups_left_out"]:
         lines.append("")
-    lines += ["## Greenness season by season", "", f"Average over the ten-day periods of each season with a clear view; a season needs at least {summary['season_min_periods']} such periods."]
+    main_ring = summary["control_rings"][0]["ring"]
+    lines += ["## Greenness season by season", "", f"Average over the ten-day periods of each season with a clear view; a season needs at least {summary['season_min_periods']} such periods. In brackets, the 95% interval from {summary['replicates']:,} resamplings of the squares (Poisson bootstrap), with control squares {main_ring} from the flood. It shows how much a figure depends on which squares happen to be in a group."]
     for d in summary["definitions"]:
         lines += ["", f"### {d['name']}", "", "| Group | Cells | Residents | " + " | ".join(x["name"] for x in seasons) + " |", "| --- | --- | --- | " + " | ".join("---" for _ in seasons) + " |"]
         for gname, gr in d["groups"].items():
-            lines.append(f"| {gname} | {gr['cells']:,} | {gr['residents']:,.0f} | " + " | ".join(_season_cell(gr["seasons"][x["name"]]) for x in seasons) + " |")
-    lines += ["", "## What holds under every flood definition", "", f"A difference counts only if it has the same sign under all {len(summary['definitions'])} flood definitions and is at least {summary['season_tolerance'] * 100:.0f} points each time; if it is smaller than that every time, there is no clear difference.", "", "| Comparison | Season | Differences | Verdict |", "| --- | --- | --- | --- |"]
+            lines.append(f"| {gname} | {gr['cells']:,} | {gr['residents']:,.0f} | " + " | ".join(_season_cell(gr["seasons"][x["name"]], _iv_lookup(summary, main_ring, d["name"], gname, x["name"])) for x in seasons) + " |")
+    rings_txt = ", ".join(f"{r['ring']} ({r['control_cells']:,} squares)" for r in summary["control_rings"])
+    lines += ["", "## What holds under every flood definition and every control area", "", f"Each comparison is repeated under all {len(summary['definitions'])} flood definitions and with control squares at {len(summary['control_rings'])} distances from the flood: {rings_txt}. A difference counts as a finding only if, every time, it is at least {summary['season_tolerance'] * 100:.0f} points and its 95% interval stays on one side of zero. If the interval includes zero every time, no difference is shown. Anything else is not robust."]
     for c in summary["comparisons"]:
-        diffs = ", ".join("n/a" if x is None else f"{x * 100:+.1f} points" for x in c["differences"])
-        verdict = {"lower": f"{c['a']} lower", "higher": f"{c['a']} higher"}.get(c["verdict"], c["verdict"])
-        lines.append(f"| {c['a']} against {c['b']} | {c['season']} | {diffs} | **{verdict}** |")
+        verdict_txt = {"lower": f"{c['a']} lower", "higher": f"{c['a']} higher"}.get(c["verdict"], c["verdict"])
+        lines += ["", f"**{c['a']} against {c['b']}, {c['season']}: {verdict_txt}**", "", "| Control area | Flood definition | Difference | 95% interval |", "| --- | --- | --- | --- |"]
+        for dt in c["detail"]:
+            dtxt = "n/a" if dt["difference"] is None else f"{dt['difference'] * 100:+.1f} points"
+            itxt = "n/a" if dt["interval"] is None else f"{dt['interval'][0] * 100:+.1f} to {dt['interval'][1] * 100:+.1f}"
+            lines.append(f"| {dt['ring']} | {dt['definition']} | {dtxt} | {itxt} |")
     lines += ["", f"## When did each group come back (counted from {summary['recovery_start']})", "", f"A group counts as recovered at a threshold α on the first of {summary['persistence']} ten-day periods in a row in which its greenness, relative to the control, is at least α of normal. Gaps of up to {summary['max_gap']} periods are interpolated. The count starts with the first growing season after the flood, for the reason given under Limits."]
     for d in summary["definitions"]:
         lines += ["", f"### {d['name']}", "", "| Group | Lowest point | " + " | ".join(f"Recovered at {int(a * 100)}%" for a in summary["alphas"]) + " |", "| --- | --- | " + " | ".join("---" for _ in summary["alphas"]) + " |"]
@@ -399,7 +495,7 @@ def report(summary: dict) -> str:
         "",
         "## Limits",
         "",
-        "In the first weeks after the flood the flooded fields often look greener than normal. In a normal year the cotton of the plain is defoliated and picked in September and October; after Daniel many fields were left unharvested and wet, and weeds grew on them. A satellite sees green either way, so greenness right after the flood does not mean the land was working again. That is why the recovery count starts with the next growing season.",
+        "In the first weeks after the flood the flooded fields often look greener than normal. The storm struck a few weeks before the cotton harvest, and in a normal year the harvested fields of the plain are bare by October; fields left unharvested and wet kept some green cover. Greenness alone cannot tell crop from weeds, so greenness right after the flood does not mean the land was working again. That is why the recovery count starts with the next growing season.",
         "",
         "Greenness measures fields and gardens coming back, not households: a farm can be green again while its owners are still waiting for help, and a village can be rebuilt on land that stays bare. Clouds remove many autumn and winter images, crops rotate between years, and farmers may have left fields fallow on purpose. Greenness below zero means the ground is mostly water. The cells with more older residents are compared with those with fewer within the flooded area only, and both include the fields around each village.",
     ]
@@ -419,10 +515,13 @@ def run(config_path: Path, out_dir: Path, searcher: Callable | None = None, read
     if missing:
         raise KeyError(f"cells file lacks flood shares for {missing}; columns: {list(cells.columns)}")
     groups_by_def = {k: select_groups(cells, k, g) for k in keys}
-    control = control_cells(cells, g)
-    if len(control) < g["min_cells"]:
-        raise ValueError(f"only {len(control)} control cells found")
-    needed = sorted(set(control).union(*[set(i) for gs in groups_by_def.values() for i in gs.values()]))
+    rings = [list(r) for r in g.get("control_rings", [g["control_ring_m"]])]
+    controls = {tuple(r): control_cells(cells, g, r) for r in rings}
+    control = controls[tuple(rings[0])]
+    for r, cc in controls.items():
+        if len(cc) < g["min_cells"]:
+            raise ValueError(f"only {len(cc)} control cells found for the ring {r}")
+    needed = sorted(set().union(*[set(c) for c in controls.values()]).union(*[set(i) for gs in groups_by_def.values() for i in gs.values()]))
     study = cells.loc[needed].reset_index().rename(columns={"index": "row"})
     grid = make_grid(study, float(px["resolution_m"]))
     from pyproj import Transformer
@@ -511,6 +610,36 @@ def run(config_path: Path, out_dir: Path, searcher: Callable | None = None, read
                 gaps[str(a)] = None if da is None and db is None else (horizon if da is None else da) - (horizon if db is None else db)
             gaps_all.extend(gaps.values())
         defs_out.append({"key": k, "name": d["name"], "groups": groups_out, "stable": finding.stable, "orders": [list(o) for o in finding.orders], "older_gap_days": gaps})
+    unc = cfg["uncertainty"]
+    reps = int(unc["replicates"])
+    rng = np.random.default_rng(int(unc["seed"]))
+    green_groups = {d["key"]: {gn: [c for c in idx if c in green] for gn, idx in groups_by_def[d["key"]].items() if len([c for c in idx if c in green]) >= g["min_cells"]} for d in cfg["definitions"]}
+    gmats, gweights = {}, {}
+    for kd, gs in green_groups.items():
+        for gn, idx in gs.items():
+            P, B = matrices(dek, base, idx, post)
+            pr, valid = point_ratio(P, B, float(rc["min_coverage"]), min_base)
+            W = poisson_weights(rng, reps, len(idx))
+            gmats[(kd, gn)] = (pr, replicate_ratio(P, valid, B, W))
+    ring_rows, sens = [], []
+    for r in rings:
+        cc = [c for c in controls[tuple(r)] if c in green]
+        P, B = matrices(dek, base, cc, post)
+        cpr, cvalid = point_ratio(P, B, float(rc["min_coverage"]), min_base)
+        crep = replicate_ratio(P, cvalid, B, poisson_weights(rng, reps, len(cc)))
+        ring_name = f"{r[0] / 1000:g} to {r[1] / 1000:g} km"
+        for dd in cfg["definitions"]:
+            for gn in green_groups[dd["key"]]:
+                gp, grep_ = gmats[(dd["key"], gn)]
+                for x in season_list:
+                    pt, rp, nper = season_with_interval(gp, grep_, cpr, crep, post_dates, x["start"], x["end"], int(se["min_periods"]))
+                    ring_rows.append({"ring": ring_name, "definition": dd["name"], "group": gn, "season": x["name"], "value": pt, "interval": interval(rp), "periods": nper, "_rep": rp})
+        sens.append({"ring": ring_name, "control_cells": len(cc)})
+    def find(ring, dname, gn, season):
+        for row in ring_rows:
+            if row["ring"] == ring and row["definition"] == dname and row["group"] == gn and row["season"] == season:
+                return row
+        return None
     comparisons = []
     tol = float(se["tolerance"])
     for cmp_ in cfg.get("comparisons", []):
@@ -521,9 +650,28 @@ def run(config_path: Path, out_dir: Path, searcher: Callable | None = None, read
                 va = None if ga is None else ga["seasons"].get(x)
                 vb = None if gb is None else gb["seasons"].get(x)
                 diffs.append(None if va is None or vb is None else va - vb)
-            comparisons.append({"a": cmp_["a"], "b": cmp_["b"], "season": x, "differences": diffs, "verdict": compare(diffs, tol)})
+            cells_out, pts, ivs = [], [], []
+            for sr in sens:
+                for dd in cfg["definitions"]:
+                    ra, rb = find(sr["ring"], dd["name"], cmp_["a"], x), find(sr["ring"], dd["name"], cmp_["b"], x)
+                    if ra is None or rb is None or ra["value"] is None or rb["value"] is None:
+                        pts.append(None)
+                        ivs.append(None)
+                        cells_out.append({"ring": sr["ring"], "definition": dd["name"], "difference": None, "interval": None})
+                        continue
+                    dp = ra["value"] - rb["value"]
+                    iv = interval(ra["_rep"] - rb["_rep"])
+                    pts.append(dp)
+                    ivs.append(iv)
+                    cells_out.append({"ring": sr["ring"], "definition": dd["name"], "difference": dp, "interval": iv})
+            comparisons.append({"a": cmp_["a"], "b": cmp_["b"], "season": x, "differences": diffs, "verdict_point": compare(diffs, tol), "detail": cells_out, "verdict": verdict(pts, ivs, tol)})
+    for row in ring_rows:
+        row.pop("_rep", None)
     summary = {
         "collection": st["collection"],
+        "control_rings": sens,
+        "replicates": reps,
+        "season_intervals": ring_rows,
         "seasons": season_list,
         "season_min_periods": int(se["min_periods"]),
         "season_tolerance": tol,
@@ -563,7 +711,9 @@ def run(config_path: Path, out_dir: Path, searcher: Callable | None = None, read
     (out_dir / "report.md").write_text(report(summary), encoding="utf-8")
     with pd.ExcelWriter(out_dir / "thriving.xlsx", engine="openpyxl") as xl:
         pd.DataFrame(season_rows).to_excel(xl, sheet_name="Seasons", index=False)
-        pd.DataFrame([{**{k2: v2 for k2, v2 in c.items() if k2 != "differences"}, **{f"difference, {dd['name']}": v for dd, v in zip(defs_out, c["differences"])}} for c in comparisons]).to_excel(xl, sheet_name="Comparisons", index=False)
+        pd.DataFrame([{**{k2: v2 for k2, v2 in r_.items() if k2 != "interval"}, "low": None if r_["interval"] is None else r_["interval"][0], "high": None if r_["interval"] is None else r_["interval"][1]} for r_ in ring_rows]).to_excel(xl, sheet_name="Seasons with intervals", index=False)
+        pd.DataFrame([{"comparison": f"{c['a']} against {c['b']}", "season": c["season"], "verdict": c["verdict"], **{k2: v2 for k2, v2 in dt.items() if k2 != "interval"}, "low": None if dt["interval"] is None else dt["interval"][0], "high": None if dt["interval"] is None else dt["interval"][1]} for c in comparisons for dt in c["detail"]]).to_excel(xl, sheet_name="Comparisons in detail", index=False)
+        pd.DataFrame([{**{k2: v2 for k2, v2 in c.items() if k2 not in ("differences", "detail")}, **{f"difference, {dd['name']}": v for dd, v in zip(defs_out, c["differences"])}} for c in comparisons]).to_excel(xl, sheet_name="Comparisons", index=False)
         pd.DataFrame(rec_rows).to_excel(xl, sheet_name="Recovery", index=False)
         pd.DataFrame(series_rows).to_excel(xl, sheet_name="Ten-day series", index=False)
         pd.DataFrame([{"definition": d["name"], "group": gn, **{k2: v2 for k2, v2 in gr.items() if k2 not in ("recovered", "days")}} for d in defs_out for gn, gr in d["groups"].items()]).to_excel(xl, sheet_name="Groups", index=False)

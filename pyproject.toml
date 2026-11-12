@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "thrive"
-version = "0.5.0"
+version = "0.6.0"
 description = "THRIVE: Trustworthy Hazard-to-Recovery Intelligence for Vulnerability-aware Equity. Companion software to the book AI for Resilient Cities (Springer, 2027)."
 readme = "README.md"
 license = "MIT"
