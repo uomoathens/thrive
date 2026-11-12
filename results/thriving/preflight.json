@@ -3,23 +3,23 @@
     "check": "Sentinel-2 scenes, baseline period 2019-01-01 to 2021-12-31",
     "url": "https://earth-search.aws.element84.com/v1",
     "ok": true,
-    "items": 3266,
+    "items": 3717,
     "by_year": [
       {
         "year": 2019,
-        "scenes": 911,
+        "scenes": 1040,
         "needed": 600,
         "ok": true
       },
       {
         "year": 2020,
-        "scenes": 1187,
+        "scenes": 1348,
         "needed": 600,
         "ok": true
       },
       {
         "year": 2021,
-        "scenes": 1168,
+        "scenes": 1329,
         "needed": 600,
         "ok": true
       }
@@ -30,17 +30,17 @@
     "check": "Sentinel-2 scenes, after period 2023-09-11 to 2024-12-31",
     "url": "https://earth-search.aws.element84.com/v1",
     "ok": true,
-    "items": 1634,
+    "items": 1867,
     "by_year": [
       {
         "year": 2023,
-        "scenes": 368,
+        "scenes": 420,
         "needed": 200,
         "ok": true
       },
       {
         "year": 2024,
-        "scenes": 1266,
+        "scenes": 1447,
         "needed": 600,
         "ok": true
       }
