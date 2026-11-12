@@ -9,6 +9,8 @@ authors:
     orcid: "https://orcid.org/0009-0006-3644-4561"
 license: MIT
 version: 0.7.0
+doi: 10.5281/zenodo.24170980
+date-released: 2026-11-12
 repository-code: "https://github.com/uomoathens/thrive"
 keywords:
   - just resilience
