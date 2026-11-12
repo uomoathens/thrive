@@ -1,19 +1,59 @@
 {
   "collection": "sentinel-2-c1-l2a",
   "baseline_years": [
-    2021,
-    2022
+    2019,
+    2020,
+    2021
   ],
   "flood_date": "2023-09-07",
   "control_ring_km": [
     3.0,
     15.0
   ],
-  "control_cells": 4989,
-  "items_listed": 2885,
-  "items_used": 1426,
+  "control_cells": 4822,
+  "scenes_by_year": {
+    "Sentinel-2 scenes, baseline period 2019-01-01 to 2021-12-31": [
+      {
+        "year": 2019,
+        "scenes": 911,
+        "needed": 600,
+        "ok": true
+      },
+      {
+        "year": 2020,
+        "scenes": 1187,
+        "needed": 600,
+        "ok": true
+      },
+      {
+        "year": 2021,
+        "scenes": 1168,
+        "needed": 600,
+        "ok": true
+      }
+    ],
+    "Sentinel-2 scenes, after period 2023-09-11 to 2024-12-31": [
+      {
+        "year": 2023,
+        "scenes": 368,
+        "needed": 200,
+        "ok": true
+      },
+      {
+        "year": 2024,
+        "scenes": 1266,
+        "needed": 600,
+        "ok": true
+      }
+    ]
+  },
+  "min_baseline_ndvi": 0.3,
+  "min_cell_ndvi": 0.15,
+  "groups_left_out": [],
+  "items_listed": 4900,
+  "items_used": 2448,
   "items_failed": 0,
-  "items_excluded": 4,
+  "items_excluded": 7,
   "persistence": 3,
   "max_gap": 3,
   "alphas": [
@@ -29,67 +69,71 @@
       "groups": {
         "All flooded cells": {
           "cells": 1431,
+          "cells_left_out_not_green": 0,
           "residents": 43056.0,
           "older_share": 0.2839093273875883,
-          "lowest_ratio": 0.4330530719779631,
+          "lowest_ratio": 0.42618948028677406,
           "lowest_date": "2023-09-11",
           "recovered": {
-            "0.8": "2024-03-01",
-            "0.85": "2024-03-01",
-            "0.9": "2024-05-01",
+            "0.8": "2023-10-11",
+            "0.85": "2024-01-21",
+            "0.9": "2024-03-01",
             "0.95": "2024-09-11"
           },
           "days": {
-            "0.8": 176,
-            "0.85": 176,
-            "0.9": 237,
+            "0.8": 34,
+            "0.85": 136,
+            "0.9": 176,
             "0.95": 370
           }
         },
         "Flooded, Karditsa, Trikala": {
           "cells": 868,
+          "cells_left_out_not_green": 0,
           "residents": 29635.0,
           "older_share": 0.3220516281423992,
-          "lowest_ratio": 0.528340704785229,
+          "lowest_ratio": 0.5142729547752958,
           "lowest_date": "2023-09-11",
           "recovered": {
             "0.8": "2023-09-21",
             "0.85": "2023-10-11",
-            "0.9": "2023-10-21",
-            "0.95": "2024-03-01"
+            "0.9": "2023-10-11",
+            "0.95": "2023-10-21"
           },
           "days": {
             "0.8": 14,
             "0.85": 34,
-            "0.9": 44,
-            "0.95": 176
+            "0.9": 34,
+            "0.95": 44
           }
         },
         "Flooded, Larisa": {
           "cells": 528,
+          "cells_left_out_not_green": 0,
           "residents": 13340.0,
           "older_share": 0.1990254872563718,
-          "lowest_ratio": 0.31092535348368444,
+          "lowest_ratio": 0.3135995293798317,
           "lowest_date": "2023-09-11",
           "recovered": {
-            "0.8": "2024-05-01",
-            "0.85": "2024-09-01",
-            "0.9": "2024-09-21",
-            "0.95": null
+            "0.8": "2024-03-01",
+            "0.85": "2024-05-01",
+            "0.9": "2024-09-11",
+            "0.95": "2024-09-21"
           },
           "days": {
-            "0.8": 237,
-            "0.85": 360,
-            "0.9": 380,
-            "0.95": null
+            "0.8": 176,
+            "0.85": 237,
+            "0.9": 370,
+            "0.95": 380
           }
         },
         "Flooded, Magnisia, Sporades": {
           "cells": 35,
+          "cells_left_out_not_green": 0,
           "residents": 81.0,
           "older_share": 0.30864197530864196,
-          "lowest_ratio": -1.7863684292865434,
-          "lowest_date": "2023-11-01",
+          "lowest_ratio": -1.2297864213628542,
+          "lowest_date": "2023-11-11",
           "recovered": {
             "0.8": null,
             "0.85": null,
@@ -105,9 +149,10 @@
         },
         "Flooded, more older residents": {
           "cells": 77,
+          "cells_left_out_not_green": 0,
           "residents": 12049.0,
           "older_share": 0.4055938252137107,
-          "lowest_ratio": 0.6906820737615177,
+          "lowest_ratio": 0.6797409596708893,
           "lowest_date": "2023-09-11",
           "recovered": {
             "0.8": "2023-09-21",
@@ -124,9 +169,10 @@
         },
         "Flooded, fewer older residents": {
           "cells": 78,
+          "cells_left_out_not_green": 0,
           "residents": 29355.0,
           "older_share": 0.23038664622721852,
-          "lowest_ratio": 0.6804448783312559,
+          "lowest_ratio": 0.6678852716256332,
           "lowest_date": "2023-09-11",
           "recovered": {
             "0.8": "2023-09-21",
@@ -190,67 +236,71 @@
       "groups": {
         "All flooded cells": {
           "cells": 827,
+          "cells_left_out_not_green": 0,
           "residents": 20742.0,
           "older_share": 0.25002410567929806,
-          "lowest_ratio": 0.1599427981070201,
+          "lowest_ratio": 0.15826088643153394,
           "lowest_date": "2023-09-11",
           "recovered": {
             "0.8": "2024-05-01",
-            "0.85": "2024-07-11",
+            "0.85": "2024-05-01",
             "0.9": "2024-08-21",
             "0.95": "2024-09-11"
           },
           "days": {
             "0.8": 237,
-            "0.85": 308,
+            "0.85": 237,
             "0.9": 349,
             "0.95": 370
           }
         },
         "Flooded, Karditsa, Trikala": {
           "cells": 459,
+          "cells_left_out_not_green": 0,
           "residents": 9572.0,
           "older_share": 0.3519640618470539,
-          "lowest_ratio": 0.30998285410938453,
+          "lowest_ratio": 0.30238462123549864,
           "lowest_date": "2023-09-11",
           "recovered": {
             "0.8": "2023-10-21",
             "0.85": "2023-10-21",
-            "0.9": "2023-12-11",
-            "0.95": "2024-03-01"
+            "0.9": "2023-10-21",
+            "0.95": "2023-10-21"
           },
           "days": {
             "0.8": 44,
             "0.85": 44,
-            "0.9": 95,
-            "0.95": 176
+            "0.9": 44,
+            "0.95": 44
           }
         },
         "Flooded, Larisa": {
           "cells": 333,
+          "cells_left_out_not_green": 0,
           "residents": 11089.0,
           "older_share": 0.1616015871584453,
-          "lowest_ratio": 0.005122497748747156,
+          "lowest_ratio": 0.005248619067306911,
           "lowest_date": "2023-09-11",
           "recovered": {
             "0.8": "2024-04-11",
-            "0.85": "2024-09-11",
-            "0.9": null,
-            "0.95": null
+            "0.85": "2024-04-11",
+            "0.9": "2024-09-21",
+            "0.95": "2024-10-11"
           },
           "days": {
             "0.8": 217,
-            "0.85": 370,
-            "0.9": null,
-            "0.95": null
+            "0.85": 217,
+            "0.9": 380,
+            "0.95": 400
           }
         },
         "Flooded, Magnisia, Sporades": {
           "cells": 35,
+          "cells_left_out_not_green": 0,
           "residents": 81.0,
           "older_share": 0.30864197530864196,
-          "lowest_ratio": -1.7863684292865434,
-          "lowest_date": "2023-11-01",
+          "lowest_ratio": -1.2297864213628542,
+          "lowest_date": "2023-11-11",
           "recovered": {
             "0.8": null,
             "0.85": null,
@@ -266,39 +316,41 @@
         },
         "Flooded, more older residents": {
           "cells": 28,
+          "cells_left_out_not_green": 0,
           "residents": 4441.0,
           "older_share": 0.4039630713803197,
-          "lowest_ratio": 0.4564490959562742,
+          "lowest_ratio": 0.44181352255961304,
           "lowest_date": "2023-09-11",
           "recovered": {
-            "0.8": "2023-10-11",
+            "0.8": "2023-10-01",
             "0.85": "2023-10-11",
-            "0.9": "2024-03-01",
-            "0.95": "2024-04-21"
+            "0.9": "2023-10-21",
+            "0.95": "2024-01-21"
           },
           "days": {
-            "0.8": 34,
+            "0.8": 24,
             "0.85": 34,
-            "0.9": 176,
-            "0.95": 227
+            "0.9": 44,
+            "0.95": 136
           }
         },
         "Flooded, fewer older residents": {
           "cells": 29,
+          "cells_left_out_not_green": 0,
           "residents": 15563.0,
           "older_share": 0.20253164556962025,
-          "lowest_ratio": 0.470625077586216,
+          "lowest_ratio": 0.4562248588379751,
           "lowest_date": "2023-09-11",
           "recovered": {
             "0.8": "2023-09-21",
-            "0.85": "2024-03-01",
-            "0.9": "2024-05-01",
+            "0.85": "2023-10-11",
+            "0.9": "2023-10-21",
             "0.95": "2024-09-01"
           },
           "days": {
             "0.8": 14,
-            "0.85": 176,
-            "0.9": 237,
+            "0.85": 34,
+            "0.9": 44,
             "0.95": 360
           }
         }
@@ -314,17 +366,17 @@
           "Flooded, Magnisia, Sporades"
         ],
         [
+          "Flooded, fewer older residents",
           "Flooded, more older residents",
           "Flooded, Karditsa, Trikala",
-          "Flooded, fewer older residents",
-          "All flooded cells",
           "Flooded, Larisa",
+          "All flooded cells",
           "Flooded, Magnisia, Sporades"
         ],
         [
           "Flooded, Karditsa, Trikala",
-          "Flooded, more older residents",
           "Flooded, fewer older residents",
+          "Flooded, more older residents",
           "All flooded cells",
           "Flooded, Larisa",
           "Flooded, Magnisia, Sporades"
@@ -339,10 +391,10 @@
         ]
       ],
       "older_gap_days": {
-        "0.8": 20,
-        "0.85": -142,
-        "0.9": -61,
-        "0.95": -133
+        "0.8": 10,
+        "0.85": 0,
+        "0.9": 0,
+        "0.95": -224
       }
     },
     {
@@ -350,68 +402,72 @@
       "name": "Copernicus maximum water extent",
       "groups": {
         "All flooded cells": {
-          "cells": 903,
-          "residents": 20797.0,
-          "older_share": 0.2496994758859451,
-          "lowest_ratio": 0.09737372942808481,
+          "cells": 841,
+          "cells_left_out_not_green": 62,
+          "residents": 20770.0,
+          "older_share": 0.2498796340876264,
+          "lowest_ratio": 0.16383287346803208,
           "lowest_date": "2023-09-11",
           "recovered": {
             "0.8": "2024-05-01",
-            "0.85": "2024-08-01",
-            "0.9": "2024-09-01",
+            "0.85": "2024-05-01",
+            "0.9": "2024-08-21",
             "0.95": "2024-09-11"
           },
           "days": {
             "0.8": 237,
-            "0.85": 329,
-            "0.9": 360,
+            "0.85": 237,
+            "0.9": 349,
             "0.95": 370
           }
         },
         "Flooded, Karditsa, Trikala": {
-          "cells": 489,
-          "residents": 9604.0,
-          "older_share": 0.35152019991670136,
-          "lowest_ratio": 0.26787076544306104,
+          "cells": 465,
+          "cells_left_out_not_green": 24,
+          "residents": 9577.0,
+          "older_share": 0.35219797431345934,
+          "lowest_ratio": 0.3053011806171903,
           "lowest_date": "2023-09-11",
           "recovered": {
             "0.8": "2023-10-21",
-            "0.85": "2023-11-21",
-            "0.9": "2023-12-11",
-            "0.95": "2024-01-21"
+            "0.85": "2023-10-21",
+            "0.9": "2023-10-21",
+            "0.95": "2023-10-21"
           },
           "days": {
             "0.8": 44,
-            "0.85": 75,
-            "0.9": 95,
-            "0.95": 136
+            "0.85": 44,
+            "0.9": 44,
+            "0.95": 44
           }
         },
         "Flooded, Larisa": {
-          "cells": 344,
+          "cells": 340,
+          "cells_left_out_not_green": 4,
           "residents": 11112.0,
           "older_share": 0.16126709863210942,
-          "lowest_ratio": 0.0009873418171416819,
+          "lowest_ratio": 0.015640310816048292,
           "lowest_date": "2023-09-11",
           "recovered": {
             "0.8": "2024-04-11",
-            "0.85": "2024-09-11",
-            "0.9": null,
-            "0.95": null
+            "0.85": "2024-04-11",
+            "0.9": "2024-09-21",
+            "0.95": "2024-10-11"
           },
           "days": {
             "0.8": 217,
-            "0.85": 370,
-            "0.9": null,
-            "0.95": null
+            "0.85": 217,
+            "0.9": 380,
+            "0.95": 400
           }
         },
         "Flooded, Magnisia, Sporades": {
-          "cells": 70,
+          "cells": 36,
+          "cells_left_out_not_green": 34,
           "residents": 81.0,
           "older_share": 0.30864197530864196,
-          "lowest_ratio": -112.47659029233951,
-          "lowest_date": "2024-05-21",
+          "lowest_ratio": -1.1902131098294393,
+          "lowest_date": "2023-11-11",
           "recovered": {
             "0.8": null,
             "0.85": null,
@@ -427,39 +483,41 @@
         },
         "Flooded, more older residents": {
           "cells": 28,
+          "cells_left_out_not_green": 0,
           "residents": 4441.0,
           "older_share": 0.4039630713803197,
-          "lowest_ratio": 0.4564490959562742,
+          "lowest_ratio": 0.44181352255961304,
           "lowest_date": "2023-09-11",
           "recovered": {
-            "0.8": "2023-10-11",
+            "0.8": "2023-10-01",
             "0.85": "2023-10-11",
-            "0.9": "2024-03-01",
-            "0.95": "2024-04-21"
+            "0.9": "2023-10-21",
+            "0.95": "2024-01-21"
           },
           "days": {
-            "0.8": 34,
+            "0.8": 24,
             "0.85": 34,
-            "0.9": 176,
-            "0.95": 227
+            "0.9": 44,
+            "0.95": 136
           }
         },
         "Flooded, fewer older residents": {
           "cells": 29,
+          "cells_left_out_not_green": 0,
           "residents": 15563.0,
           "older_share": 0.20253164556962025,
-          "lowest_ratio": 0.470625077586216,
+          "lowest_ratio": 0.4562248588379751,
           "lowest_date": "2023-09-11",
           "recovered": {
             "0.8": "2023-09-21",
-            "0.85": "2024-03-01",
-            "0.9": "2024-05-01",
+            "0.85": "2023-10-11",
+            "0.9": "2023-10-21",
             "0.95": "2024-09-01"
           },
           "days": {
             "0.8": 14,
-            "0.85": 176,
-            "0.9": 237,
+            "0.85": 34,
+            "0.9": 44,
             "0.95": 360
           }
         }
@@ -475,17 +533,17 @@
           "Flooded, Magnisia, Sporades"
         ],
         [
+          "Flooded, fewer older residents",
           "Flooded, more older residents",
           "Flooded, Karditsa, Trikala",
-          "Flooded, fewer older residents",
-          "All flooded cells",
           "Flooded, Larisa",
+          "All flooded cells",
           "Flooded, Magnisia, Sporades"
         ],
         [
           "Flooded, Karditsa, Trikala",
-          "Flooded, more older residents",
           "Flooded, fewer older residents",
+          "Flooded, more older residents",
           "All flooded cells",
           "Flooded, Larisa",
           "Flooded, Magnisia, Sporades"
@@ -500,10 +558,10 @@
         ]
       ],
       "older_gap_days": {
-        "0.8": 20,
-        "0.85": -142,
-        "0.9": -61,
-        "0.95": -133
+        "0.8": 10,
+        "0.85": 0,
+        "0.9": 0,
+        "0.95": -224
       }
     }
   ],

@@ -1,5 +1,5 @@
 {
-  "retrieved_at": "2026-11-12T08:09:19+00:00",
+  "retrieved_at": "2026-11-12T10:10:01+00:00",
   "stac": "https://earth-search.aws.element84.com/v1",
   "collection": "sentinel-2-c1-l2a",
   "bbox": [
@@ -11,8 +11,8 @@
   "periods": {
     "flood_date": "2023-09-07",
     "baseline": [
-      "2021-01-01",
-      "2022-12-31"
+      "2019-01-01",
+      "2021-12-31"
     ],
     "after": [
       "2023-09-11",

@@ -1,9 +1,29 @@
 [
   {
-    "check": "Sentinel-2 scenes, baseline period 2021-01-01 to 2022-12-31",
+    "check": "Sentinel-2 scenes, baseline period 2019-01-01 to 2021-12-31",
     "url": "https://earth-search.aws.element84.com/v1",
     "ok": true,
-    "items": 1251,
+    "items": 3266,
+    "by_year": [
+      {
+        "year": 2019,
+        "scenes": 911,
+        "needed": 600,
+        "ok": true
+      },
+      {
+        "year": 2020,
+        "scenes": 1187,
+        "needed": 600,
+        "ok": true
+      },
+      {
+        "year": 2021,
+        "scenes": 1168,
+        "needed": 600,
+        "ok": true
+      }
+    ],
     "error": null
   },
   {
@@ -11,6 +31,20 @@
     "url": "https://earth-search.aws.element84.com/v1",
     "ok": true,
     "items": 1634,
+    "by_year": [
+      {
+        "year": 2023,
+        "scenes": 368,
+        "needed": 200,
+        "ok": true
+      },
+      {
+        "year": 2024,
+        "scenes": 1266,
+        "needed": 600,
+        "ok": true
+      }
+    ],
     "error": null
   }
 ]
