@@ -58,14 +58,27 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add results/thriving
-          if git diff --cached --quiet; then
-            echo "No change in results"
-          else
+          rm -rf "$RUNNER_TEMP/out"
+          cp -r results/thriving "$RUNNER_TEMP/out"
+          for attempt in 1 2 3 4 5; do
+            git fetch --depth 1 origin main
+            git reset --hard origin/main
+            rm -rf results/thriving
+            mkdir -p results
+            cp -r "$RUNNER_TEMP/out" results/thriving
+            git add -A results/thriving
+            if git diff --cached --quiet; then
+              echo "No change in results"
+              exit 0
+            fi
             git commit -m "Thriving results"
-            git pull --rebase
-            git push
-          fi
+            if git push origin HEAD:main; then
+              exit 0
+            fi
+            sleep $((attempt * 15))
+          done
+          echo "Could not push the results after 5 attempts"
+          exit 1
       - name: Fail if Thriving failed
         if: steps.ready.outputs.go == 'yes' && steps.phase.outputs.code != '0'
         run: exit 1

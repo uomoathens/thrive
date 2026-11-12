@@ -40,17 +40,31 @@ jobs:
           cat results/phase-a/last-run.log
           echo "code=$code" >> "$GITHUB_OUTPUT"
       - name: Commit results and the run log
+        if: always()
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add results/phase-a
-          if git diff --cached --quiet; then
-            echo "No change in results"
-          else
+          rm -rf "$RUNNER_TEMP/out"
+          cp -r results/phase-a "$RUNNER_TEMP/out"
+          for attempt in 1 2 3 4 5; do
+            git fetch --depth 1 origin main
+            git reset --hard origin/main
+            rm -rf results/phase-a
+            mkdir -p results
+            cp -r "$RUNNER_TEMP/out" results/phase-a
+            git add -A results/phase-a
+            if git diff --cached --quiet; then
+              echo "No change in results"
+              exit 0
+            fi
             git commit -m "Phase A results"
-            git pull --rebase
-            git push
-          fi
+            if git push origin HEAD:main; then
+              exit 0
+            fi
+            sleep $((attempt * 15))
+          done
+          echo "Could not push the results after 5 attempts"
+          exit 1
       - name: Fail if Phase A failed
         if: steps.phase.outputs.code != '0'
         run: exit 1
