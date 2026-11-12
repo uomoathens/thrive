@@ -21,13 +21,15 @@ The ratio compares the share of people aged 65 and over among those exposed with
 
 | Flood definition | Flooded area in Thessaly (km²) | Residents exposed | Share of residents | Ratio, Thessaly | Ratio, Karditsa, Trikala | Ratio, Larisa | Ratio, Magnisia, Sporades |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| Observed flood, including flood traces | 1,475 | 58,071 | 8.4% | 1.04 | 1.07 | 0.87 | too few exposed |
-| Observed standing water, without flood traces | 913 | 33,919 | 4.9% | 0.95 | 1.19 | 0.79 | too few exposed |
-| Copernicus maximum water extent | 999 | 35,824 | 5.2% | 0.95 | 1.18 | 0.79 | too few exposed |
+| Observed flood, including flood traces | 1,475 | 58,071 | 8.4% | 1.04 (0.97 to 1.14) | 1.07 (0.99 to 1.14) | 0.87 (0.78 to 0.98) | too few exposed |
+| Observed standing water, without flood traces | 913 | 33,919 | 4.9% | 0.95 (0.87 to 1.07) | 1.19 (1.10 to 1.27) | 0.79 (0.71 to 0.88) | too few exposed |
+| Copernicus maximum water extent | 999 | 35,824 | 5.2% | 0.95 (0.86 to 1.06) | 1.18 (1.09 to 1.25) | 0.79 (0.71 to 0.87) | too few exposed |
+
+In brackets, the 95% interval from 1,000 resamplings of the 1 km squares (Poisson bootstrap). It shows how much a ratio depends on which squares the water happened to reach. A direction counts only if the interval stays on one side of 1 under every flood definition.
 
 Direction for Thessaly as a whole, across all definitions: **not robust**. Direction inside the regional units, across all definitions and every unit with enough people exposed: **not robust**. Following THRIVE's own rule, a direction is reported as a finding only when every measure agrees.
 
-Direction in each regional unit, across all definitions: Karditsa, Trikala: **older people more exposed**; Larisa: **older people less exposed**; Magnisia, Sporades: **no data**.
+Direction in each regional unit, across all definitions: Karditsa, Trikala: **not robust**; Larisa: **older people less exposed**; Magnisia, Sporades: **no data**.
 
 ## Checks
 

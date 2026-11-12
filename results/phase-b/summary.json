@@ -17,6 +17,21 @@
     "EL612": 0.8697483160060975,
     "EL613": null
   },
+  "intervals": {
+    "Thessaly": [
+      0.9667522501967026,
+      1.140608904452792
+    ],
+    "EL611": [
+      0.986159922313207,
+      1.144829373723861
+    ],
+    "EL612": [
+      0.778349767881435,
+      0.9828362536539884
+    ],
+    "EL613": null
+  },
   "extents": [
     {
       "key": "observed_all",
@@ -38,6 +53,21 @@
       "region_ratios": {
         "EL611": 1.0659703556547109,
         "EL612": 0.8697483160060975,
+        "EL613": null
+      },
+      "intervals": {
+        "Thessaly": [
+          0.9667522501967026,
+          1.140608904452792
+        ],
+        "EL611": [
+          0.986159922313207,
+          1.144829373723861
+        ],
+        "EL612": [
+          0.778349767881435,
+          0.9828362536539884
+        ],
         "EL613": null
       }
     },
@@ -62,6 +92,21 @@
         "EL611": 1.187833787236994,
         "EL612": 0.794701085058868,
         "EL613": null
+      },
+      "intervals": {
+        "Thessaly": [
+          0.8652212192010912,
+          1.0727177129244572
+        ],
+        "EL611": [
+          1.1029065812272063,
+          1.2708744640657
+        ],
+        "EL612": [
+          0.7050087470803905,
+          0.8784174855683854
+        ],
+        "EL613": null
       }
     },
     {
@@ -85,17 +130,39 @@
         "EL611": 1.1765052300649224,
         "EL612": 0.7946479942111937,
         "EL613": null
+      },
+      "intervals": {
+        "Thessaly": [
+          0.8608901776201978,
+          1.061590716775298
+        ],
+        "EL611": [
+          1.0937750653277434,
+          1.2534903498510115
+        ],
+        "EL612": [
+          0.7081544962843979,
+          0.8747866474072526
+        ],
+        "EL613": null
       }
     }
   ],
   "extents_missing": [],
-  "direction_thessaly": "not robust",
+  "direction_thessaly_point": "not robust",
   "direction_within_units": "not robust",
-  "direction_by_unit": {
+  "direction_by_unit_point": {
     "EL611": "older people more exposed",
     "EL612": "older people less exposed",
     "EL613": "no data"
   },
+  "direction_thessaly": "not robust",
+  "direction_by_unit": {
+    "EL611": "not robust",
+    "EL612": "older people less exposed",
+    "EL613": "no data"
+  },
+  "replicates": 1000,
   "regions": [
     {
       "region_id": "EL611",
