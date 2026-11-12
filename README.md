@@ -130,7 +130,9 @@ A language model may help explain a decision to residents. It should not take on
 | --- | --- | --- | --- |
 | A | United States, fully open | OpenFEMA HMA Subapplications (which replaced the Hazard Mitigation Assistance Projects dataset on 15 October 2026), FEMA National Risk Index v1.20 (flood risk, population, social vulnerability) | First results below, rerun monthly |
 | B | Thessaly, Storm Daniel (September 2023): who was in the water | Copernicus EMS maps EMSR692, Eurostat census grid 2021 | Results below |
-| Thriving | Thessaly, Storm Daniel: when the flooded land came back | Sentinel-2 Collection 1, 2019 to 2024, read through the open Earth Search catalogue | Pipeline in place, runs after every Phase B run |
+| Thriving | Thessaly, Storm Daniel: when the flooded land came back | Sentinel-2 Collection 1, 2019 to 2024, read through the open Earth Search catalogue | Results below, rerun after every Phase B run |
+
+After every run the `site` workflow copies the new figures into this README and onto the interactive page. Before it does, it checks that each finding stated in the text still holds; if one does not, it changes nothing and opens an issue, so a sentence is never left saying more than the results show.
 
 ### Phase A in plain words
 
@@ -142,18 +144,18 @@ The limits, stated now: a grant that names several counties is split equally bet
 
 ### What Phase A found
 
-The first run counted 63,635 FEMA records, kept 16,439 flood-related grants with a funded status, and placed $13.72 billion of them in 3,140 counties. Another $1.90 billion went to statewide grants, which have no county, and $0.51 billion (3.5 % of the money meant for named counties) carried a county name that could not be matched.
+The latest run counted <span data-v="a_records">63,637</span> FEMA records, kept <span data-v="a_grants">16,443</span> flood-related grants with a funded status, and placed $<span data-v="a_total">13.72</span> billion of them in <span data-v="a_counties">3,140</span> counties. Another $<span data-v="a_statewide">1.90</span> billion went to statewide grants, which have no county, and $<span data-v="a_unmatched">0.51</span> billion (<span data-v="a_unmatched_share">3.5</span> % of the money meant for named counties) carried a county name that could not be matched.
 
 | Measure | Coverage ratio, most vulnerable fifth against least vulnerable |
 | --- | --- |
-| All money | 2.38 |
-| Without the 20 counties that received the most (36 % of the money) | 1.53 |
-| Median county | 0.85 |
-| Median county, among those that received any flood money | 1.11 |
+| All money | <span data-v="a_r_all">2.38</span> |
+| Without the <span data-v="a_n_big">20</span> counties that received the most (<span data-v="a_big_share">36</span> % of the money) | <span data-v="a_r_big">1.53</span> |
+| Median county | <span data-v="a_r_med">0.85</span> |
+| Median county, among those that received any flood money | <span data-v="a_r_fun">1.11</span> |
 
-Taken as totals, the most vulnerable counties received more flood money per dollar of risk, not less. The picture is less clear county by county. The typical county in the most vulnerable fifth received a little less than the typical county in the least vulnerable one, and it was more likely to have received nothing at all (14 % of counties against 8 %). The measures do not agree, so by THRIVE's own rule there is **no robust direction** to report. A few places such as New Orleans, Harris County and the New York area, all hit by very large storms, carry the totals.
+Taken as totals, the most vulnerable counties received more flood money per dollar of risk, not less. The picture is less clear county by county. The typical county in the most vulnerable fifth received a little less than the typical county in the least vulnerable one, and it was more likely to have received nothing at all (<span data-v="a_none_most">14</span> % of counties against <span data-v="a_none_least">8</span> %). The measures do not agree, so by THRIVE's own rule there is **no robust direction** to report. A few places such as New Orleans, Harris County and the New York area, all hit by very large storms, carry the totals.
 
-One record needs checking with FEMA before it is used in any argument: a single Hurricane Sandy grant of $507 million (DR-4085-0018-R) is attributed to Greene County, New York, which makes it the second-largest county in the table. Greene sits in the middle vulnerability group, so the record does not change the comparison between the most and the least vulnerable fifth.
+One record needs checking with FEMA before it is used in any argument: a single Hurricane Sandy grant of $<span data-v="a_greene">507</span> million (DR-4085-0018-R) is attributed to Greene County, New York, which makes it the second-largest county in the table. Greene sits in the middle vulnerability group, so the record does not change the comparison between the most and the least vulnerable fifth.
 
 What we take from this is narrower than a headline. In the United States, the gap does not seem to lie in the national totals, which large disasters dominate; it may lie in which smaller counties never receive any grant. That question needs data on applications as well as awards, and it is where Phase A will go next.
 
@@ -171,7 +173,7 @@ The limits: the Copernicus maps show the flood the satellites saw on the dates t
 
 ### What Phase B found
 
-The grid counts 687,327 residents in Thessaly, within 0.2 % of the 2021 census of ELSTAT in every regional unit (Karditsa and Trikala −318, Larisa −519, Magnesia and Sporades −92).
+The grid counts <span data-v="b_pop">687,327</span> residents in Thessaly, within 0.2 % of the 2021 census of ELSTAT in every regional unit (Karditsa and Trikala <span data-v="b_diff_el611">−318</span>, Larisa <span data-v="b_diff_el612">−519</span>, Magnesia and Sporades <span data-v="b_diff_el613">−92</span>).
 
 | Flood definition | km² flooded | Residents in the flood | Share of residents | Ratio, Thessaly | Ratio, Karditsa & Trikala | Ratio, Larisa |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -181,13 +183,13 @@ The grid counts 687,327 residents in Thessaly, within 0.2 % of the 2021 census o
 
 The ratio compares the share of people aged 65 and over among those in the flood with their share among all residents. In brackets is the 95 % interval from 1,000 resamplings of the 1 km squares; it shows how much a ratio depends on which squares the water happened to reach. A direction counts only if the interval stays on one side of 1 under every flood definition.
 
-Larisa is the one clear case: under every definition, older people there were less likely than their neighbours to live where the water reached. In Karditsa and Trikala the ratio is above 1 every time, but with flood traces counted its interval comes down to 0.99, so that pattern is not firm enough to report. For Thessaly as a whole the ratio lands above 1 with flood traces counted and below 1 without them, and every interval includes 1. Magnesia had 99 to 123 residents in the mapped flood, depending on the definition, too few for a ratio, for the reason given above.
+Larisa is the one clear case: under every definition, older people there were less likely than their neighbours to live where the water reached. In Karditsa and Trikala the ratio is above 1 every time, but with flood traces counted its interval comes down to <span data-v="b_kt_low">0.99</span>, so that pattern is not firm enough to report. For Thessaly as a whole the ratio lands above 1 with flood traces counted and below 1 without them, and every interval includes 1. Magnesia had <span data-v="b_mag">99 to 123</span> residents in the mapped flood, depending on the definition, too few for a ratio, for the reason given above.
 
 ### Thriving in plain words
 
 Phase B says who was in the water. Thriving asks when the flooded land came back to life. It reads every Sentinel-2 image of the Thessalian plain from 2019 to the end of 2024, from the reprocessed Collection 1 of the European Space Agency, through the open Earth Search catalogue on Amazon Web Services. For each 1 km cell it keeps only the pixels that the image itself classes as vegetation, bare soil or water, so that clouds and their shadows are left out, and it measures greenness (NDVI) for every ten-day period.
 
-A flooded field in October is not compared with a green field in May. Each cell is compared with the same ten-day period in 2019, 2020 and 2021, before the storm. The reprocessed archive does not yet hold most of 2022, so that year is left out, and the run stops if any year has too few images. And because a dry or a wet year changes the whole plain, every group is also divided by unflooded cells 3 to 15 km from the flood. In case the land nearest the flood was hurt too, every comparison is repeated with unflooded cells 5 to 20 and 10 to 30 km away. A group counts as recovered on the first of three ten-day periods in a row in which its greenness is back to a chosen share of normal: 80, 85, 90 or 95 %. Periods in which the land is not normally green are skipped, and cells that are never green, such as a lake or a town centre, are left out. The count starts with the first growing season after the flood, in March 2024. Some autumn readings look too good. In Karditsa and Trikala the flooded land was close to normal by late October 2023 and at times greener than normal during the winter, and from late September to late October 2024 the flooded land as a whole was 9 to 24 % greener than in a normal autumn. Daniel struck a few weeks before the cotton harvest, cotton was the crop hit hardest (more than 282 km² flooded, about 30 % of the cotton of central Greece, according to a 2024 study in Natural Hazards and Earth System Sciences), and in a normal year those fields are picked and bare by October. A field that was never harvested, or that later grew weeds or another crop, can therefore look greener than normal while yielding nothing. Greenness cannot tell a ruined crop from weeds, so the findings rest on the spring and summer of 2024.
+A flooded field in October is not compared with a green field in May. Each cell is compared with the same ten-day period in 2019, 2020 and 2021, before the storm. The reprocessed archive does not yet hold most of 2022, so that year is left out, and the run stops if any year has too few images. And because a dry or a wet year changes the whole plain, every group is also divided by unflooded cells 3 to 15 km from the flood. In case the land nearest the flood was hurt too, every comparison is repeated with unflooded cells 5 to 20 and 10 to 30 km away. A group counts as recovered on the first of three ten-day periods in a row in which its greenness is back to a chosen share of normal: 80, 85, 90 or 95 %. Periods in which the land is not normally green are skipped, and cells that are never green, such as a lake or a town centre, are left out. The count starts with the first growing season after the flood, in March 2024. Some autumn readings look too good. In Karditsa and Trikala the flooded land was close to normal by late October 2023 and at times greener than normal during the winter, and from late September to late October 2024 the flooded land as a whole was <span data-v="t_aut24">9 to 23</span> % greener than in a normal autumn. Daniel struck a few weeks before the cotton harvest, cotton was the crop hit hardest (more than 282 km² flooded, about 30 % of the cotton of central Greece, according to a 2024 study in Natural Hazards and Earth System Sciences), and in a normal year those fields are picked and bare by October. A field that was never harvested, or that later grew weeds or another crop, can therefore look greener than normal while yielding nothing. Greenness cannot tell a ruined crop from weeds, so the findings rest on the spring and summer of 2024.
 
 The main result is simpler than a date: how green the flooded land was in the spring and in the summer of 2024, against normal and against unflooded neighbours. Every figure comes with a 95 % interval from 1,000 resamplings of the squares. A difference between two groups is reported only if, under all three flood definitions of Phase B and all three control distances, it is at least 3 points and its interval stays on one side of zero. If the interval includes zero every time, no difference is shown; anything else is not robust.
 
@@ -195,7 +197,7 @@ The groups are the flooded cells of each regional unit, and the flooded cells wi
 
 ### What Thriving found
 
-The run used 2,511 Sentinel-2 images (none failed to read; 7 were left out because their reflectance looked wrongly scaled). Greenness against normal and against unflooded neighbours 3 to 15 km away, with 95 % intervals:
+The run used <span data-v="t_scenes">2,511</span> Sentinel-2 images (none failed to read; <span data-v="t_excluded">7</span> were left out because their reflectance looked wrongly scaled). Greenness against normal and against unflooded neighbours 3 to 15 km away, with 95 % intervals:
 
 | Summer 2024 | With flood traces | Standing water only | Copernicus maximum |
 | --- | --- | --- | --- |
@@ -203,7 +205,7 @@ The run used 2,511 Sentinel-2 images (none failed to read; 7 were left out becau
 | Karditsa and Trikala | 90 % (89 to 91) | 90 % (89 to 91) | 90 % (89 to 91) |
 | Larisa | 82 % (79 to 84) | 78 % (74 to 82) | 78 % (74 to 82) |
 
-Three things hold under every flood definition and every control distance. In the summer of 2024, almost a year after Daniel, the flooded land was still 13 to 15 % less green than normal, with 95 % intervals from 12 to 17 %. Larisa fared worse than Karditsa and Trikala, by 19 to 28 points in the spring of 2024 and 9 to 12 in the summer, and none of the nine intervals comes near zero. Between flooded squares with more and with fewer residents aged 65 and over no difference shows. In the summer the squares with more older residents were about 1 point greener, but each group holds only 28 to 78 squares, so the intervals run from about 5 points less to 7 points more, and in the spring they are wider still. A modest gap either way cannot be ruled out.
+Three things hold under every flood definition and every control distance. In the summer of 2024, almost a year after Daniel, the flooded land was still <span data-v="t_less">13 to 15</span> % less green than normal, with 95 % intervals from <span data-v="t_less_iv">12 to 17</span> %. Larisa fared worse than Karditsa and Trikala, by <span data-v="t_la_sp">19 to 28</span> points in the spring of 2024 and <span data-v="t_la_su">9 to 12</span> in the summer, and none of the nine intervals comes near zero. Between flooded squares with more and with fewer residents aged 65 and over no difference shows. In the summer the squares with more older residents were about 1 point greener, but each group holds only <span data-v="t_old_sq">28 to 78</span> squares, so the intervals run from about <span data-v="t_old_lo">5</span> points less to <span data-v="t_old_hi">7</span> points more, and in the spring they are wider still. A modest gap either way cannot be ruled out.
 
 ## The maths, for those who want it
 

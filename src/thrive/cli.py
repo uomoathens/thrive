@@ -72,6 +72,9 @@ def main(argv: list[str] | None = None) -> int:
     pt = sub.add_parser("thriving", help="when did the flooded land of Thessaly come back: Sentinel-2 greenness after Storm Daniel")
     pt.add_argument("--config", default="config/thriving.toml")
     pt.add_argument("--out", default="results/thriving")
+    ps = sub.add_parser("site", help="update the page and the README from the latest results, or stop if a stated finding no longer holds")
+    ps.add_argument("--root", default=".")
+    ps.add_argument("--report", default=None)
     args = parser.parse_args(argv)
     if args.command == "info":
         print(_info())
@@ -101,6 +104,21 @@ def main(argv: list[str] | None = None) -> int:
 
         summary = run_t(Path(args.config), Path(args.out))
         print(f"Thriving done: {summary['items_used']} scenes used, direction: {summary['direction']}")
+    elif args.command == "site":
+        from pathlib import Path
+
+        from thrive.site import SiteError, build
+
+        try:
+            out = build(Path(args.root))
+        except SiteError as exc:
+            lines = ["The page and the README were not changed, because these statements no longer match the latest results:", ""] + [f"- {p}" for p in exc.problems]
+            text = "\n".join(lines)
+            print(text)
+            if args.report:
+                Path(args.report).write_text(text + "\n", encoding="utf-8")
+            return 2
+        print("Updated: " + ", ".join(out["changed"]) if out["changed"] else "Page and README already match the latest results")
     else:
         parser.print_help()
     return 0

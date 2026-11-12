@@ -1,0 +1,83 @@
+name: site
+
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows: [phase-a, phase-b, thriving]
+    types: [completed]
+  push:
+    branches: [main]
+    paths:
+      - src/thrive/site.py
+      - docs/index.html
+      - README.md
+      - .github/workflows/site.yml
+
+permissions:
+  contents: write
+  issues: write
+  pages: write
+
+concurrency:
+  group: site
+  cancel-in-progress: false
+
+jobs:
+  update:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      GH_TOKEN: ${{ github.token }}
+      TITLE: The page needs a check after new results
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install --upgrade pip
+      - run: pip install -e ".[geo]"
+      - name: Update the page and the README from the results
+        id: site
+        run: |
+          set +e
+          thrive site --report "$RUNNER_TEMP/site-report.md"
+          code=$?
+          set -e
+          echo "code=$code" >> "$GITHUB_OUTPUT"
+          if [ "$code" != "0" ] && [ "$code" != "2" ]; then exit "$code"; fi
+      - name: Commit the updated page
+        if: steps.site.outputs.code == '0'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          for attempt in 1 2 3 4 5; do
+            git fetch --depth 1 origin main
+            git reset --hard origin/main
+            thrive site
+            git add docs/index.html README.md
+            if git diff --cached --quiet; then
+              echo "Page and README already match the latest results"
+              exit 0
+            fi
+            git commit -m "Page and README updated from the latest results"
+            if git push origin HEAD:main; then
+              gh api -X POST "repos/$GITHUB_REPOSITORY/pages/builds" > /dev/null || echo "GitHub Pages will publish on its own"
+              exit 0
+            fi
+            sleep $((attempt * 15))
+          done
+          echo "Could not push the page after 5 attempts"
+          exit 1
+      - name: Open an issue when a stated finding no longer holds
+        if: steps.site.outputs.code == '2'
+        run: |
+          body="$RUNNER_TEMP/site-report.md"
+          printf '\nRun: %s/%s/actions/runs/%s\n' "$GITHUB_SERVER_URL" "$GITHUB_REPOSITORY" "$GITHUB_RUN_ID" >> "$body"
+          number=$(gh issue list --state open --search "in:title \"$TITLE\"" --json number --jq '.[0].number // empty')
+          if [ -n "$number" ]; then
+            gh issue comment "$number" --body-file "$body"
+          else
+            gh issue create --title "$TITLE" --body-file "$body"
+          fi
+          exit 1
