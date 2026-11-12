@@ -2,12 +2,13 @@ import json
 from datetime import date, timedelta
 
 import numpy as np
+import pandas as pd
 import pytest
 
 gpd = pytest.importorskip("geopandas")
 from shapely.geometry import box
 
-from thrive.data.thriving import dekad_of, dekad_start, dekads_between, direction, overview_level, run
+from thrive.data.thriving import dekad_table, dekad_of, dekad_start, dekads_between, direction, overview_level, run
 
 X0, Y0 = 5000000, 2000000
 OLD = {0, 1, 2}
@@ -361,3 +362,17 @@ def test_matrix_ratio_matches_the_series_and_intervals_cover_the_point():
     for t in range(len(post)):
         lo, hi = interval(rep[:, t])
         assert lo <= new[t] <= hi
+
+
+def test_dekad_table_does_not_depend_on_scene_order():
+    rng = np.random.default_rng(7)
+    rows = []
+    for item in ["S2A_x", "S2B_y", "S2C_z"]:
+        for cell in range(30):
+            for day in (date(2024, 6, 2), date(2024, 6, 5)):
+                rows.append({"cell": cell, "ndvi": float(rng.random()), "valid_share": 1.0 if cell % 2 else float(rng.choice([0.8, 0.9])), "date": day, "item": item})
+    obs = pd.DataFrame(rows)
+    first = dekad_table(obs)
+    for seed in range(5):
+        shuffled = obs.sample(frac=1, random_state=seed).reset_index(drop=True)
+        assert dekad_table(shuffled).equals(first)

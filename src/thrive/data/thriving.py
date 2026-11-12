@@ -221,14 +221,14 @@ def collect(items, grid: Grid, px: dict, reader, workers: int, default_scale: fl
             if vals is not None and not flagged and len(vals):
                 d = datetime.fromisoformat(str(item["datetime"]).replace("Z", "+00:00")).date()
                 rows.append(vals.assign(date=d, item=item["id"]))
-    obs = pd.concat(rows, ignore_index=True) if rows else pd.DataFrame(columns=["cell", "ndvi", "valid_share", "date", "item"])
+    obs = pd.concat(sorted(rows, key=lambda r: str(r["item"].iloc[0])), ignore_index=True).sort_values(["item", "cell"], kind="mergesort", ignore_index=True) if rows else pd.DataFrame(columns=["cell", "ndvi", "valid_share", "date", "item"])
     return obs, sorted(inventory, key=lambda x: (str(x["datetime"]), x["id"]))
 
 
 def dekad_table(obs: pd.DataFrame) -> pd.DataFrame:
     if obs.empty:
         return pd.DataFrame(columns=["cell", "year", "k", "ndvi"])
-    best = obs.sort_values("valid_share", ascending=False).drop_duplicates(["cell", "date"])
+    best = obs.sort_values(["cell", "date", "valid_share", "item"], ascending=[True, True, False, True], kind="mergesort").drop_duplicates(["cell", "date"])
     dk = best["date"].map(dekad_of)
     best = best.assign(year=[x[0] for x in dk], k=[x[1] for x in dk])
     return best.groupby(["cell", "year", "k"], as_index=False)["ndvi"].median()
