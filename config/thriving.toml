@@ -44,6 +44,35 @@ min_coverage = 0.3
 baseline_window = 1
 min_baseline_ndvi = 0.3
 min_cell_ndvi = 0.15
+recovery_start = "2024-03-01"
+
+[seasons]
+min_periods = 5
+tolerance = 0.03
+compare = ["Spring 2024", "Summer 2024"]
+
+[[seasons.list]]
+name = "Autumn 2023"
+start = "2023-09-11"
+end = "2023-11-30"
+
+[[seasons.list]]
+name = "Spring 2024"
+start = "2024-03-01"
+end = "2024-05-31"
+
+[[seasons.list]]
+name = "Summer 2024"
+start = "2024-06-01"
+end = "2024-08-31"
+
+[[comparisons]]
+a = "Flooded, Larisa"
+b = "Flooded, Karditsa, Trikala"
+
+[[comparisons]]
+a = "Flooded, more older residents"
+b = "Flooded, fewer older residents"
 
 [[definitions]]
 key = "observed_all"

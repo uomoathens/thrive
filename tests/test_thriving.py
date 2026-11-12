@@ -22,7 +22,7 @@ def cells_file(tmp_path):
     geoms, rows = [], []
     for i in range(6):
         geoms.append(box(X0 + 1000 * i, Y0, X0 + 1000 * (i + 1), Y0 + 1000))
-        rows.append({"region_id": "EL611", "region_name": "Unit A", "population": 100.0, "older": 50.0 if i in OLD else 10.0, "older_known": True, "land_km2": 1.0, "flooded_share_all": 1.0, "flooded_share_water": 1.0 if i < 5 else 0.0})
+        rows.append({"region_id": "EL611", "region_name": "Unit A", "population": 100.0, "older": 50.0 if i in OLD else 10.0, "older_known": True, "land_km2": 1.0, "flooded_share_all": 1.0, "flooded_share_water": 0.0 if i == 2 else 1.0})
     for i in range(4):
         geoms.append(box(X0 + 1000 * i, Y0 + 3000, X0 + 1000 * (i + 1), Y0 + 4000))
         rows.append({"region_id": "EL611", "region_name": "Unit A", "population": 20.0, "older": 5.0, "older_known": True, "land_km2": 1.0, "flooded_share_all": 0.0, "flooded_share_water": 0.0})
@@ -81,6 +81,30 @@ min_coverage = 0.3
 baseline_window = 1
 min_baseline_ndvi = 0.3
 min_cell_ndvi = 0.15
+recovery_start = "2024-03-01"
+
+[seasons]
+min_periods = 3
+tolerance = 0.03
+compare = ["Spring 2024", "Summer 2024"]
+
+[[seasons.list]]
+name = "Spring 2024"
+start = "2024-03-01"
+end = "2024-05-31"
+
+[[seasons.list]]
+name = "Summer 2024"
+start = "2024-06-01"
+end = "2024-08-31"
+
+[[comparisons]]
+a = "Flooded, more older residents"
+b = "Flooded, fewer older residents"
+
+[[comparisons]]
+a = "Flooded, Larisa"
+b = "Flooded, Karditsa, Trikala"
 
 [[definitions]]
 key = "all"
@@ -178,6 +202,14 @@ def test_recovery_dates_are_exact(tmp_path):
     w = d["water"]["groups"]
     assert w["All flooded cells"]["cells"] == 5
     assert s["direction"] == "slower where more older people live"
+    assert a["Flooded, fewer older residents"]["seasons"]["Spring 2024"] == pytest.approx(1.0, abs=2e-3)
+    assert a["Flooded, more older residents"]["seasons"]["Spring 2024"] == pytest.approx(0.3, abs=2e-3)
+    assert a["Flooded, more older residents"]["seasons"]["Summer 2024"] == pytest.approx(1.0, abs=2e-3)
+    cmp_ = {(c["a"], c["season"]): c for c in s["comparisons"]}
+    assert cmp_[("Flooded, more older residents", "Spring 2024")]["verdict"] == "lower"
+    assert cmp_[("Flooded, more older residents", "Spring 2024")]["differences"] == [pytest.approx(-0.7, abs=2e-3), pytest.approx(-0.7, abs=2e-3)]
+    assert cmp_[("Flooded, more older residents", "Summer 2024")]["verdict"] == "no clear difference"
+    assert cmp_[("Flooded, Larisa", "Summer 2024")]["verdict"] == "no data"
     inv = json.loads((out / "items.json").read_text())
     assert any(i["excluded_offset_check"] for i in inv)
     for name in ("report.md", "thriving.xlsx", "summary.json", "sources.json", "preflight.json", "items.json"):
@@ -259,3 +291,36 @@ def test_a_thin_year_stops_the_run(tmp_path):
 
     with pytest.raises(RuntimeError, match="too few scenes in 2022"):
         run(config(tmp_path), tmp_path / "out", searcher=thin, reader=reader)
+
+
+def test_compare_rule():
+    from thrive.data.thriving import compare
+
+    assert compare([-0.08, -0.05, -0.04], 0.03) == "lower"
+    assert compare([0.05, 0.04], 0.03) == "higher"
+    assert compare([0.01, -0.02, 0.0], 0.03) == "no clear difference"
+    assert compare([0.05, 0.01], 0.03) == "not robust"
+    assert compare([0.05, None], 0.03) == "no data"
+
+
+def test_weeds_right_after_the_flood_do_not_count_as_recovery(tmp_path):
+    def weedy(cell, d):
+        if cell in OLD | YOUNG and date(2023, 9, 21) <= d < date(2023, 12, 1):
+            return 0.7
+        return ndvi_for(cell, d)
+
+    def rdr(it, grid, window):
+        r0, r1, c0, c1 = window
+        idx = grid.pixel_cell[r0:r1, c0:c1]
+        d = date.fromisoformat(it["datetime"][:10])
+        v = np.vectorize(lambda c: weedy(int(c), d) if c >= 0 else 0.0)(idx)
+        red_refl = np.full(idx.shape, 0.05)
+        nir_refl = red_refl * (1 + v) / (1 - v)
+        off = 0.0 if it["kind"] == "nooffset" else 0.1
+        scl = np.full(idx.shape, 9 if it["kind"] == "cloud" else 4, dtype=np.uint16)
+        return {"red": np.round((red_refl + off) / 0.0001).astype(np.uint16), "nir": np.round((nir_refl + off) / 0.0001).astype(np.uint16), "scl": scl}
+
+    s = run(config(tmp_path), tmp_path / "out", searcher=searcher, reader=rdr)
+    g = {x["key"]: x for x in s["definitions"]}["all"]["groups"]
+    assert g["Flooded, fewer older residents"]["recovered"]["0.8"] == "2024-03-01"
+    assert g["Flooded, more older residents"]["recovered"]["0.9"] == "2024-06-01"
