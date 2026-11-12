@@ -48,13 +48,13 @@ jobs:
         run: |
           mkdir -p results/thriving
           set +e
-          thrive thriving --config config/thriving.toml --out results/thriving > results/thriving/last-run.log 2>&1
+          timeout --signal=INT --kill-after=2m 310m thrive thriving --config config/thriving.toml --out results/thriving > results/thriving/last-run.log 2>&1
           code=$?
           set -e
           cat results/thriving/last-run.log
           echo "code=$code" >> "$GITHUB_OUTPUT"
       - name: Commit results and the run log
-        if: steps.ready.outputs.go == 'yes'
+        if: always() && steps.ready.outputs.go == 'yes'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
