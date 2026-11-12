@@ -23,6 +23,6 @@ Coverage ratio, most vulnerable fifth against least vulnerable fifth:
 
 Direction across all four measures: **not robust**. Following THRIVE's own rule, a direction is reported as a finding only when every measure agrees.
 
-Money that could not be placed in a county: statewide $1,899.3 million, county name not matched $506.1 million (3.5% of the money meant for named counties).
+Money that could not be placed in a county: statewide $1,899.5 million, county name not matched $506.1 million (3.5% of the money meant for named counties).
 
 Limits: a grant that names several counties is split equally between them, statewide grants are left out, money obligated is not always money spent, and expected annual loss is a model estimate. A grant counts as flood-related when one of its hazards mentions flooding, it comes from the Flood Mitigation Assistance programme, or its main activity is a flood measure (acquisition, elevation, flood control, floodproofing, drainage). The Excel file lists the largest grants so that any of them can be checked by hand.

@@ -1,15 +1,15 @@
 {
   "counties": 3140,
-  "total_funding": 13717231381.322243,
+  "total_funding": 13718082754.232243,
   "total_flood_eal": 65929980628.106735,
   "funding_per_eal_dollar_by_quintile": [
-    0.14054316829738514,
-    0.15843928851034073,
-    0.18772939727112398,
-    0.37052252950592757,
-    0.33488820160413835
+    0.14054701250210172,
+    0.15844120984908186,
+    0.1877303012663317,
+    0.3705922538293796,
+    0.334890976568942
   ],
-  "r_cov_most_vs_least_vulnerable": 2.3828138049053007,
+  "r_cov_most_vs_least_vulnerable": 2.382768374844923,
   "share_without_funding_by_quintile": [
     0.08439490445859872,
     0.09872611464968153,
@@ -19,7 +19,7 @@
   ],
   "disparity_in_any_funding": 0.0859872611464968,
   "robustness": {
-    "share_of_money_in_largest_counties": 0.36383709674827297,
+    "share_of_money_in_largest_counties": 0.3638145162570065,
     "largest_counties_left_out": 20,
     "largest_counties": [
       "Harris, Texas",
@@ -44,13 +44,13 @@
       "Calcasieu, Louisiana"
     ],
     "funding_per_eal_dollar_by_quintile_without_largest": [
-      0.14054316829738514,
-      0.10742097115669448,
-      0.14764288613671667,
-      0.19100950644006368,
-      0.21514022574598066
+      0.14054701250210172,
+      0.10742295727513644,
+      0.14764380349104472,
+      0.1911091448127415,
+      0.21514338677540773
     ],
-    "r_cov_without_largest": 1.5307768307225746,
+    "r_cov_without_largest": 1.5307574522239702,
     "median_county_ratio_by_quintile": [
       0.0328440571934792,
       0.030847409272777744,
