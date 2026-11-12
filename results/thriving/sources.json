@@ -1,0 +1,30 @@
+{
+  "retrieved_at": "2026-11-12T07:35:57+00:00",
+  "stac": "https://earth-search.aws.element84.com/v1",
+  "collection": "sentinel-2-c1-l2a",
+  "bbox": [
+    21.308240188597388,
+    38.80938883683567,
+    23.83108449548573,
+    40.13761444160507
+  ],
+  "periods": {
+    "flood_date": "2023-09-07",
+    "baseline": [
+      "2021-01-01",
+      "2022-12-31"
+    ],
+    "after": [
+      "2023-09-11",
+      "2024-12-31"
+    ]
+  },
+  "cells_file": "results/phase-b/cells.gpkg",
+  "study_cells": 6494,
+  "pixel_size_m": 40,
+  "valid_scene_classes": [
+    4,
+    5,
+    6
+  ]
+}

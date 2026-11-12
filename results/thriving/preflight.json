@@ -1,0 +1,16 @@
+[
+  {
+    "check": "Sentinel-2 scenes, baseline period 2021-01-01 to 2022-12-31",
+    "url": "https://earth-search.aws.element84.com/v1",
+    "ok": true,
+    "items": 1251,
+    "error": null
+  },
+  {
+    "check": "Sentinel-2 scenes, after period 2023-09-11 to 2024-12-31",
+    "url": "https://earth-search.aws.element84.com/v1",
+    "ok": true,
+    "items": 1634,
+    "error": null
+  }
+]
