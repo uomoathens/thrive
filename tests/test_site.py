@@ -40,17 +40,46 @@ def test_second_run_changes_nothing(tmp_path):
 
 def test_changed_finding_stops_the_update(tmp_path):
     root = copy_repo(tmp_path)
+    p = root / "results" / "phase-b" / "summary.json"
+    s = json.loads(p.read_text(encoding="utf-8"))
+    s["validation"][0]["difference_share"] = 0.01
+    p.write_text(json.dumps(s), encoding="utf-8")
+    before = (root / "docs" / "index.html").read_text(encoding="utf-8")
+    with pytest.raises(SiteError) as exc:
+        build(root)
+    assert any("ELSTAT" in x for x in exc.value.problems)
+    assert (root / "docs" / "index.html").read_text(encoding="utf-8") == before
+
+
+def test_changed_verdict_rewrites_the_finding(tmp_path):
+    root = copy_repo(tmp_path)
     p = root / "results" / "thriving" / "summary.json"
     s = json.loads(p.read_text(encoding="utf-8"))
     for c in s["comparisons"]:
         if c["a"] == "Flooded, Larisa":
             c["verdict"] = "not robust"
     p.write_text(json.dumps(s), encoding="utf-8")
-    before = (root / "docs" / "index.html").read_text(encoding="utf-8")
-    with pytest.raises(SiteError) as exc:
-        build(root)
-    assert any("Larisa" in x for x in exc.value.problems)
-    assert (root / "docs" / "index.html").read_text(encoding="utf-8") == before
+    build(root)
+    text = (root / "README.md").read_text(encoding="utf-8")
+    assert "Larisa's shortfall against Karditsa and Trikala" in text
+    assert "not firm under every map and control area" in text
+    assert "Larisa fared worse" not in text
+
+
+def test_block_resampling_changes_the_phase_b_text(tmp_path):
+    root = copy_repo(tmp_path)
+    p = root / "results" / "phase-b" / "summary.json"
+    s = json.loads(p.read_text(encoding="utf-8"))
+    s["block_km"] = 10.0
+    for e in s["extents"]:
+        e["intervals"]["EL612"] = [0.7, 1.14]
+    s["direction_by_unit"]["EL612"] = "not robust"
+    p.write_text(json.dumps(s), encoding="utf-8")
+    build(root)
+    text = (root / "README.md").read_text(encoding="utf-8")
+    assert "blocks of 10 by 10 km, because neighbouring squares" in text
+    assert "In Larisa the ratio is below 1" in text and "not firm enough to report" in text
+    assert "treat every square as if it were independent" not in text
 
 
 def test_new_numbers_reach_the_page(tmp_path):

@@ -166,17 +166,25 @@ def drop_duplicates(df: pd.DataFrame) -> tuple[pd.DataFrame, int]:
     return pd.concat([best, df[~keyed]]).sort_index(), n
 
 
-def allocate_to_counties(projects: pd.DataFrame, index: CountyIndex) -> tuple[pd.DataFrame, pd.DataFrame, float]:
-    rows, unmatched = [], []
-    statewide = 0.0
-    for state, counties, amount in projects.loc[projects["in_scope"], ["state", "counties", "amount"]].itertuples(index=False):
+def allocate(projects: pd.DataFrame, index: CountyIndex, leave_out_states: Sequence[str] = ()) -> dict:
+    rows, unmatched, foreign = [], [], []
+    statewide, left_out = 0.0, 0.0
+    skip = {normalize_state(x) for x in leave_out_states}
+    for ident, state, counties, amount in projects.loc[projects["in_scope"], ["identifier", "state", "counties", "amount"]].itertuples(index=False):
         tokens = split_counties(counties)
+        if normalize_state(state) in skip:
+            left_out += amount
+            continue
         if not tokens or any(t.lower() == "statewide" for t in tokens):
             statewide += amount
             continue
         share = amount / len(tokens)
-        for t in tokens:
-            fips = index.resolve(state, t)
+        found = [index.resolve(state, t) for t in tokens]
+        if len(tokens) > 1 and 2 * sum(1 for f in found if f) < len(tokens):
+            foreign.append({"identifier": ident, "state": str(state), "counties": "; ".join(tokens), "amount": amount, "counties_found_in_state": sum(1 for f in found if f)})
+            unmatched.extend((str(state), t, share) for t in tokens)
+            continue
+        for t, fips in zip(tokens, found):
             if fips:
                 rows.append((fips, share))
             else:
@@ -185,7 +193,23 @@ def allocate_to_counties(projects: pd.DataFrame, index: CountyIndex) -> tuple[pd
     miss = pd.DataFrame(unmatched, columns=["state", "county as written", "funding"])
     if len(miss):
         miss = miss.groupby(["state", "county as written"], as_index=False)["funding"].sum().sort_values("funding", ascending=False)
-    return funding, miss, statewide
+    foreign_df = pd.DataFrame(foreign, columns=["identifier", "state", "counties", "amount", "counties_found_in_state"])
+    return {"funding": funding, "unmatched": miss, "statewide": statewide, "left_out": left_out, "foreign": foreign_df.sort_values("amount", ascending=False)}
+
+
+def allocate_to_counties(projects: pd.DataFrame, index: CountyIndex, leave_out_states: Sequence[str] = ()) -> tuple[pd.DataFrame, pd.DataFrame, float]:
+    a = allocate(projects, index, leave_out_states)
+    return a["funding"], a["unmatched"], a["statewide"]
+
+
+def possible_duplicates(projects: pd.DataFrame) -> pd.DataFrame:
+    p = projects[projects["in_scope"] & (projects["identifier"] != "")].copy()
+    p["county_set"] = p["counties"].map(lambda c: "; ".join(sorted({normalize_county(t)[0] for t in split_counties(c)})))
+    p["amount_cents"] = (p["amount"] * 100).round().astype("int64")
+    key = ["state", "county_set", "amount_cents"]
+    n = p.groupby(key)["identifier"].transform("nunique")
+    out = p[(n > 1) & (p["county_set"] != "")].sort_values(["amount", "identifier"], ascending=[False, True])
+    return out[["identifier", "fiscal_year", "state", "counties", "amount", "amount_from_fallback", "status", "program", "activity"]]
 
 
 def county_table(funding: pd.DataFrame, nri: pd.DataFrame) -> pd.DataFrame:
@@ -238,7 +262,7 @@ def robustness(counties: pd.DataFrame, leave_out: int) -> dict:
     }
 
 
-def summarise(counties: pd.DataFrame, quintiles: pd.DataFrame, leave_out: int = 20) -> dict:
+def summarise(counties: pd.DataFrame, quintiles: pd.DataFrame, leave_out: int = 20, obligated: pd.DataFrame | None = None) -> dict:
     q = quintiles["funding_per_eal_dollar"].tolist()
     funded = (counties["funding"] > 0).astype(float).tolist()
     out = {
@@ -252,6 +276,12 @@ def summarise(counties: pd.DataFrame, quintiles: pd.DataFrame, leave_out: int = 
     }
     out["robustness"] = robustness(counties, leave_out)
     measures = [out["r_cov_most_vs_least_vulnerable"], out["robustness"]["r_cov_without_largest"], out["robustness"]["r_cov_median_county"], out["robustness"]["r_cov_median_funded_county"]]
+    if obligated is not None:
+        g = counties[["fips", "quintile", "flood_eal"]].merge(obligated[["fips", "funding"]], on="fips", how="left").fillna({"funding": 0.0}).groupby("quintile")
+        qo = (g["funding"].sum() / g["flood_eal"].sum()).reindex([1, 2, 3, 4, 5]).tolist()
+        out["robustness"]["funding_per_eal_dollar_by_quintile_obligated_only"] = [float(x) for x in qo]
+        out["robustness"]["r_cov_obligated_only"] = float(qo[4] / qo[0]) if qo[0] and qo[0] > 0 else None
+        measures.append(out["robustness"]["r_cov_obligated_only"])
     known = [m for m in measures if m is not None]
     out["robust_direction"] = "more for the most vulnerable" if known and all(m > 1 for m in known) else ("less for the most vulnerable" if known and all(m < 1 for m in known) else "not robust")
     return out
@@ -286,12 +316,14 @@ def report(summary: dict, sources: dict) -> str:
         f"- without the {rb['largest_counties_left_out']} counties that received the most ({rb['share_of_money_in_largest_counties']:.0%} of all the money): {_ratio(rb['r_cov_without_largest'])}",
         f"- median county: {_ratio(rb['r_cov_median_county'])}",
         f"- median county among those that received any flood money: {_ratio(rb['r_cov_median_funded_county'])}",
+    ] + ([f"- obligated money only, without the federal share used for grants that record no obligated amount: {_ratio(rb['r_cov_obligated_only'])}"] if "r_cov_obligated_only" in rb else []) + [
         "",
-        f"Direction across all four measures: **{summary['robust_direction']}**. Following THRIVE's own rule, a direction is reported as a finding only when every measure agrees.",
+        f"Direction across all {5 if 'r_cov_obligated_only' in rb else 4} measures: **{summary['robust_direction']}**. Following THRIVE's own rule, a direction is reported as a finding only when every measure agrees.",
         "",
-        f"Money that could not be placed in a county: statewide ${sources['statewide_funding'] / 1e6:,.1f} million, county name not matched ${sources['unmatched_funding'] / 1e6:,.1f} million ({sources['unmatched_share']:.1%} of the money meant for named counties).",
+        f"Money that could not be placed in a county: statewide ${sources['statewide_funding'] / 1e6:,.1f} million, county name not matched ${sources['unmatched_funding'] / 1e6:,.1f} million ({sources['unmatched_share']:.1%} of the money meant for named counties)" + (f", of which ${sources['foreign_funding'] / 1e6:,.1f} million in {sources['foreign_grants']:,} grants whose counties mostly do not belong to the state recorded for them, which are left unplaced rather than given to a county of the same name in that state" if sources.get("foreign_grants") else "") + ".",
+    ] + ([f"Left out: {', '.join(sources['left_out_states'])} (${sources['left_out_funding'] / 1e6:,.1f} million). {sources['left_out_reason']}"] if sources.get("left_out_states") else []) + ([f"Possible duplicates: {sources['possible_duplicates']:,} grants share their state, their counties and their amount to the cent with another grant under a different identifier. They are counted as recorded and listed in the Excel file for checking with FEMA."] if sources.get("possible_duplicates") else []) + [
         "",
-        "Limits: a grant that names several counties is split equally between them, statewide grants are left out, money obligated is not always money spent, and expected annual loss is a model estimate. A grant counts as flood-related when one of its hazards mentions flooding, it comes from the Flood Mitigation Assistance programme, or its main activity is a flood measure (acquisition, elevation, flood control, floodproofing, drainage). The Excel file lists the largest grants so that any of them can be checked by hand.",
+        "Limits: a grant that names several counties is split equally between them, statewide grants are left out, money obligated is not always money spent, and expected annual loss is a model estimate. A grant counts as flood-related when one of its hazards mentions flooding, it comes from the Flood Mitigation Assistance programme, or its main activity is a flood measure (acquisition, elevation, flood control, floodproofing, drainage, stormwater). The Excel file lists the largest grants so that any of them can be checked by hand.",
     ]
     return "\n".join(lines) + "\n"
 
@@ -343,13 +375,20 @@ def run(config_path: Path, out_dir: Path, fetcher: Fetcher = fetch) -> dict:
         raise ValueError("vulnerability score does not rise with its rating; refusing to rank counties")
     projects, hma_cols = classify(hma, o, cfg["flood"])
     projects, duplicates = drop_duplicates(projects)
-    funding, unmatched, statewide = allocate_to_counties(projects, CountyIndex(nri))
+    leave = list(n.get("leave_out_states", []))
+    if leave:
+        nri = nri[~nri["state"].map(normalize_state).isin({normalize_state(x) for x in leave})].copy()
+    index = CountyIndex(nri)
+    placed = allocate(projects, index, leave)
+    funding, unmatched, statewide = placed["funding"], placed["unmatched"], placed["statewide"]
+    obligated = allocate(projects.assign(in_scope=projects["in_scope"] & ~projects["amount_from_fallback"]), index, leave)["funding"]
     counties = county_table(funding, nri)
     quintiles = quintile_table(counties)
-    summary = summarise(counties, quintiles, int(o.get("largest_counties_left_out", 20)))
+    summary = summarise(counties, quintiles, int(o.get("largest_counties_left_out", 20)), obligated)
+    dups = possible_duplicates(projects)
     in_scope_money = float(projects.loc[projects["in_scope"], "amount"].sum())
     unmatched_money = float(unmatched["funding"].sum()) if len(unmatched) else 0.0
-    county_money = in_scope_money - statewide
+    county_money = in_scope_money - statewide - placed["left_out"]
     unmatched_share = unmatched_money / county_money if county_money > 0 else 0.0
     sources = {
         "retrieved_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
@@ -374,6 +413,12 @@ def run(config_path: Path, out_dir: Path, fetcher: Fetcher = fetch) -> dict:
         "funded_status": list(o["funded_status"]),
         "duplicate_identifier_rows": duplicates,
         "money_from_fallback": float(projects.loc[projects["in_scope"] & projects["amount_from_fallback"], "amount"].sum()),
+        "left_out_states": leave,
+        "left_out_reason": n.get("leave_out_reason"),
+        "left_out_funding": float(placed["left_out"]),
+        "foreign_grants": int(len(placed["foreign"])),
+        "foreign_funding": float(placed["foreign"]["amount"].sum()) if len(placed["foreign"]) else 0.0,
+        "possible_duplicates": int(len(dups)),
         "flood_reason_money": {str(k): float(v) for k, v in projects[projects["in_scope"]].groupby("flood_reason")["amount"].sum().items()},
     }
     activities = projects.groupby(["activity", "flood", "flood_reason"], dropna=False).agg(subgrants=("amount", "size"), amount=("amount", "sum")).reset_index().sort_values("amount", ascending=False)
@@ -387,6 +432,8 @@ def run(config_path: Path, out_dir: Path, fetcher: Fetcher = fetch) -> dict:
         activities.to_excel(xl, sheet_name="Activities", index=False)
         largest.to_excel(xl, sheet_name="Largest grants", index=False)
         (unmatched if len(unmatched) else pd.DataFrame(columns=["state", "county as written", "funding"])).to_excel(xl, sheet_name="Unmatched counties", index=False)
+        placed["foreign"].to_excel(xl, sheet_name="Counties of another state", index=False)
+        dups.to_excel(xl, sheet_name="Possible duplicates", index=False)
         pd.DataFrame([{"field": k, "value": json.dumps(v) if isinstance(v, (list, dict)) else v} for k, v in sources.items()]).to_excel(xl, sheet_name="Sources", index=False)
     if unmatched_share > float(o["max_unmatched_share"]):
         raise ValueError(f"{unmatched_share:.0%} of the county money could not be matched to a county; see the 'Unmatched counties' sheet")

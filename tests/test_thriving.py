@@ -376,3 +376,62 @@ def test_dekad_table_does_not_depend_on_scene_order():
     for seed in range(5):
         shuffled = obs.sample(frac=1, random_state=seed).reset_index(drop=True)
         assert dekad_table(shuffled).equals(first)
+
+
+def extended_config(tmp_path):
+    from pyproj import Transformer
+
+    p = config(tmp_path)
+    lon, lat = Transformer.from_crs(3035, 4326, always_xy=True).transform(X0 + 500, Y0 + 500)
+    t = p.read_text(encoding="utf-8")
+    t = t.replace("control_rings = [[1000, 5000], [1500, 6000]]\n", f'control_rings = [[1000, 5000], [1500, 6000]]\nolder_split = "within_unit"\n\n[groups.basin]\nname = "Flooded, Unit A, outside the basin"\nregion_id = "EL611"\nlon = {lon}\nlat = {lat}\nradius_m = 2500\n')
+    t = t.replace("persistence = 1\n", "persistence = 1\npersistence_set = [1, 3]\n")
+    t = t.replace("seed = 1\n", "seed = 1\nblock_m = 2000\n")
+    p.write_text(t, encoding="utf-8")
+    return p
+
+
+def test_blocks_basin_split_and_run_lengths(tmp_path):
+    out = tmp_path / "out"
+    s = run(extended_config(tmp_path), out, searcher=searcher, reader=reader)
+    assert s["block_km"] == 2 and s["older_split"] == "within_unit" and s["persistence_set"] == [1, 3]
+    a = {x["key"]: x for x in s["definitions"]}["all"]
+    basin = a["groups"]["Flooded, Unit A, outside the basin"]
+    assert basin["cells"] == 3
+    assert basin["recovered"]["0.9"] == "2024-03-01"
+    assert set(a["older_gap_days_by_persistence"]) == {"1", "3"}
+    assert a["older_gap_days_by_persistence"]["3"] == {"0.8": 92, "0.9": 92}
+    assert a["stable"] is True
+    rec = pd.read_excel(out / "thriving.xlsx", sheet_name="Recovery")
+    assert set(rec["persistence"]) == {1, 3}
+    text = (out / "report.md").read_text(encoding="utf-8")
+    assert "already at this level on 2024-03-01" in text
+    assert "blocks of 2 by 2 km" in text
+    assert "median of each regional unit" in text
+    assert "1, 3 ten-day periods in a row" in text
+
+
+def test_cells_in_one_block_share_a_block():
+    from thrive.data.thriving import cell_blocks
+
+    cells = gpd.GeoDataFrame(geometry=[box(X0, Y0, X0 + 1000, Y0 + 1000), box(X0 + 1000, Y0, X0 + 2000, Y0 + 1000), box(X0 + 2000, Y0, X0 + 3000, Y0 + 1000)], crs=3035)
+    b = cell_blocks(cells, 2000)
+    assert b[0] == b[1] != b[2]
+
+
+def test_older_split_within_each_unit():
+    from thrive.data.thriving import select_groups
+
+    geoms, rows = [], []
+    for i in range(8):
+        geoms.append(box(X0 + 1000 * i, Y0, X0 + 1000 * (i + 1), Y0 + 1000))
+        unit = "A" if i < 4 else "B"
+        older = (40.0 + i) if unit == "A" else (10.0 + i)
+        rows.append({"region_id": unit, "region_name": f"Unit {unit}", "population": 100.0, "older": older, "older_known": True, "flooded_share_x": 1.0})
+    cells = gpd.GeoDataFrame(rows, geometry=geoms, crs=3035)
+    g = {"flooded_share_min": 0.5, "min_cells": 2, "min_residents": 10}
+    pooled = select_groups(cells, "x", g)
+    assert set(pooled["Flooded, more older residents"]) == {0, 1, 2, 3}
+    within = select_groups(cells, "x", {**g, "older_split": "within_unit"})
+    assert set(within["Flooded, more older residents"]) == {2, 3, 6, 7}
+    assert set(within["Flooded, fewer older residents"]) == {0, 1, 4, 5}

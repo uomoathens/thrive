@@ -190,7 +190,7 @@ def grid_cells(gpkg_path: Path, layer, area, cfg: dict, crs: int):
     return cells, pop, older, sorted(pts.columns)
 
 
-def exposure(cells, flood, target, near):
+def exposure(cells, flood, target, near, block_m: float | None = None):
     import geopandas as gpd
 
     cells = cells.copy()
@@ -251,7 +251,18 @@ def exposure(cells, flood, target, near):
     per_cell["share_in_target"] = (per_cell["land_km2"] / per_cell["cell_land_km2"]).clip(upper=1.0)
     per_cell["flooded_share"] = (per_cell["flooded_km2"] / per_cell["cell_land_km2"]).fillna(0.0).clip(upper=1.0)
     age_cells = pieces.groupby(["region_id", "cell_id"], as_index=False)[["population_with_age", "population_exposed_with_age", "older_in_region", "older_exposed"]].sum()
+    if block_m:
+        age_cells["block"] = block_ids(cells.set_index("cell_id"), block_m).reindex(age_cells["cell_id"]).to_numpy()
     return by_region, cells_out, float(unplaced["population"].sum()), int(len(unplaced)), per_cell, age_cells
+
+
+def block_ids(cells, block_m: float) -> pd.Series:
+    import numpy as np
+
+    cent = cells.geometry.centroid
+    bx = np.floor(cent.x.to_numpy() / block_m).astype(np.int64)
+    by = np.floor(cent.y.to_numpy() / block_m).astype(np.int64)
+    return pd.Series(bx * 1_000_000 + by, index=cells.index)
 
 
 def add_shares(df):
@@ -316,7 +327,11 @@ def ratio_intervals(age_cells: pd.DataFrame, reps: int, seed: int, min_exposed: 
     import numpy as np
 
     rng = np.random.default_rng(seed)
-    w = rng.poisson(1.0, size=(reps, len(age_cells))).astype(float)
+    if "block" in age_cells.columns:
+        _, inv = np.unique(age_cells["block"].to_numpy(), return_inverse=True)
+        w = rng.poisson(1.0, size=(reps, int(inv.max()) + 1)).astype(float)[:, inv]
+    else:
+        w = rng.poisson(1.0, size=(reps, len(age_cells))).astype(float)
     out = {}
     groups = {"Thessaly": np.ones(len(age_cells), dtype=bool)}
     for rid in sorted(age_cells["region_id"].unique()):
@@ -399,7 +414,7 @@ def report(summary: dict, by_region: pd.DataFrame, check: pd.DataFrame, sources:
     if age:
         lines += [
             "",
-            f"In brackets, the 95% interval from {summary['replicates']:,} resamplings of the 1 km squares (Poisson bootstrap). It shows how much a ratio depends on which squares the water happened to reach. A direction counts only if the interval stays on one side of 1 under every flood definition.",
+            f"In brackets, the 95% interval from {summary['replicates']:,} resamplings of the 1 km squares (Poisson bootstrap)" + (f", drawn in blocks of {summary['block_km']:g} by {summary['block_km']:g} km, so that neighbouring squares, which flood together and are settled together, are resampled together" if summary.get("block_km") else "") + ". It shows how much a ratio depends on which places the water happened to reach. A direction counts only if the interval stays on one side of 1 under every flood definition.",
             "",
             f"Direction for Thessaly as a whole, across all definitions: **{summary['direction_thessaly']}**. Direction inside the regional units, across all definitions and every unit with enough people exposed: **{summary['direction_within_units']}**. Following THRIVE's own rule, a direction is reported as a finding only when every measure agrees.",
             "",
@@ -494,6 +509,7 @@ def run(config_path: Path, out_dir: Path, fetcher: Fetcher = fetch, grid_path: P
     min_exposed = float(a.get("min_exposed_for_ratio", 1000))
     unc = cfg.get("uncertainty", {})
     reps, seed = int(unc.get("replicates", 1000)), int(unc.get("seed", 20230907))
+    block_m = float(unc.get("block_m", 0)) or None
     defs = cfg.get("extent") or [{"key": "observed_all", "name": "Observed flood", "source": "observed", "exclude": []}]
     extents, main, shares = [], None, {}
     for d in defs:
@@ -504,7 +520,7 @@ def run(config_path: Path, out_dir: Path, fetcher: Fetcher = fetch, grid_path: P
         if f is None or f.empty:
             extents.append({"key": d["key"], "name": d["name"], "available": False})
             continue
-        res = exposure(cells, f, target, near)
+        res = exposure(cells, f, target, near, block_m)
         shares[d["key"]] = res[4]
         if main is None:
             main = res
@@ -531,6 +547,7 @@ def run(config_path: Path, out_dir: Path, fetcher: Fetcher = fetch, grid_path: P
     summary["direction_thessaly"] = direction_ci([e["intervals"].get("Thessaly") for e in usable]) if older_col else "no data"
     summary["direction_by_unit"] = {rid: (direction_ci([e["intervals"].get(rid) if e["region_ratios"].get(rid) is not None else None for e in usable]) if older_col else "no data") for rid in by_region["region_id"]}
     summary["replicates"] = reps
+    summary["block_km"] = block_m / 1000 if block_m else None
     summary["regions"] = json.loads(by_region.to_json(orient="records"))
     check_df = validation(by_region, cfg.get("validation", {}))
     summary["validation"] = json.loads(check_df.to_json(orient="records"))

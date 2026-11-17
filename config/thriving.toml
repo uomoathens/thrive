@@ -36,10 +36,19 @@ min_cells = 20
 min_residents = 50
 control_ring_m = [3000, 15000]
 control_rings = [[3000, 15000], [5000, 20000], [10000, 30000]]
+older_split = "within_unit"
+
+[groups.basin]
+name = "Flooded, Larisa, outside the Karla basin"
+region_id = "EL612"
+lon = 22.75
+lat = 39.533
+radius_m = 15000
 
 [recovery]
 alphas = [0.80, 0.85, 0.90, 0.95]
 persistence = 3
+persistence_set = [2, 3, 5]
 max_gap = 3
 min_coverage = 0.3
 baseline_window = 1
@@ -50,6 +59,7 @@ recovery_start = "2024-03-01"
 [uncertainty]
 replicates = 1000
 seed = 20230907
+block_m = 10000
 
 [seasons]
 min_periods = 5
@@ -73,6 +83,10 @@ end = "2024-08-31"
 
 [[comparisons]]
 a = "Flooded, Larisa"
+b = "Flooded, Karditsa, Trikala"
+
+[[comparisons]]
+a = "Flooded, Larisa, outside the Karla basin"
 b = "Flooded, Karditsa, Trikala"
 
 [[comparisons]]

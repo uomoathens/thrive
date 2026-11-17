@@ -42,6 +42,12 @@ def _span(a: int, b: int) -> str:
     return f"{a}" if a == b else f"{a} to {b}"
 
 
+def _pts(a: float, b: float) -> str:
+    lo, hi = sorted((_r(a), _r(b)))
+    fmt = lambda v: f"{MINUS}{abs(v)}" if v < 0 else f"{v}"
+    return fmt(lo) if lo == hi else f"{fmt(lo)} to {fmt(hi)}"
+
+
 def _signed(n: float) -> str:
     v = _r(n)
     return f"{MINUS}{abs(v):,}" if v < 0 else f"+{v:,}" if v > 0 else "0"
@@ -109,9 +115,60 @@ def phase_a(f: Facts):
         "fun": f"Among counties that received any flood money at all, the typical one in the most vulnerable fifth received {ratios['fun']:.2f} times as much as its counterpart in the least vulnerable fifth.",
     }
     labels = {"all": "All money", "big": f"Without the {n_big} largest", "med": "Median county", "fun": "Median funded county"}
+    f.set("a_checks", phase_a_checks(s, src))
     f.data["MS"] = [{"k": k, "l": labels[k], "raw": [round(float(x), 4) for x in raw[k]], "r": round(float(ratios[k]), 2), "t": text[k]} for k in ("all", "big", "med", "fun")]
     f.data["none"] = [round(float(x), 4) for x in none]
     f.data["asof_a"] = src["retrieved_at"]
+
+
+def phase_a_checks(s: dict, src: dict) -> str:
+    rb, parts = s["robustness"], []
+    if src.get("left_out_states"):
+        parts.append(f"{' and '.join(src['left_out_states'])} is left out, with ${src['left_out_funding'] / 1e6:,.0f} million of grants: since 2022 the National Risk Index describes Connecticut by nine planning regions, while its grants still name the eight former counties, which do not map one to one onto the regions.")
+    if "foreign_grants" in src:
+        n = int(src["foreign_grants"])
+        parts.append(f"{n:,} grants (${src['foreign_funding'] / 1e6:,.0f} million) name counties that mostly belong to a state other than the one recorded for them; they stay unplaced rather than go to a county of the same name in the recorded state." if n else "No grant names counties that mostly belong to another state.")
+    if src.get("possible_duplicates"):
+        parts.append(f"{int(src['possible_duplicates']):,} grants share their state, their counties and their amount to the cent with another grant under a different identifier; they are counted as recorded and listed in the Excel file for checking with FEMA.")
+    if rb.get("r_cov_obligated_only") is not None:
+        parts.append(f"Counting only the money FEMA records as obligated, and leaving out the ${src['money_from_fallback'] / 1e9:.2f} billion for which only the planned federal share is known, the coverage ratio is {rb['r_cov_obligated_only']:.2f}.")
+    return " ".join(parts)
+
+
+UNIT_NAMES = {"EL611": "Karditsa and Trikala", "EL612": "Larisa"}
+
+
+def phase_b_text(s: dict, ext: dict) -> tuple[str, str]:
+    block = s.get("block_km")
+    if block:
+        note = f"In brackets is the 95 % interval from {s['replicates']:,} resamplings in which the 1 km squares are drawn in blocks of {block:g} by {block:g} km, because neighbouring squares flood together and are settled together."
+    else:
+        note = f"In brackets is the 95 % interval from {s['replicates']:,} resamplings of the 1 km squares, each drawn on its own."
+    out = []
+    for rid, name in UNIT_NAMES.items():
+        v = s["direction_by_unit"].get(rid)
+        rat = [ext[k]["region_ratios"].get(rid) for k in DEFS]
+        ivs = [ext[k]["intervals"].get(rid) for k in DEFS]
+        if any(x is None for x in rat) or any(x is None for x in ivs):
+            out.append(f"{name} had too few people in the flood for a ratio.")
+            continue
+        lo, hi = min(i[0] for i in ivs), max(i[1] for i in ivs)
+        if v == "older people less exposed":
+            out.append(f"In {name}, under every flood map, older people were less likely than their neighbours to live where the water reached, and the 95 % interval stays below 1 each time (at most {hi:.2f}).")
+        elif v == "older people more exposed":
+            out.append(f"In {name}, under every flood map, older people were more likely than their neighbours to live where the water reached, and the 95 % interval stays above 1 each time (at least {lo:.2f}).")
+        else:
+            side = "above 1" if all(x > 1 for x in rat) else ("below 1" if all(x < 1 for x in rat) else "on either side of 1, depending on the map,")
+            out.append(f"In {name} the ratio is {side} ({min(rat):.2f} to {max(rat):.2f}), but the intervals run from {lo:.2f} to {hi:.2f}, so the pattern is not firm enough to report.")
+    th = [ext[k]["older_exposure_ratio"] for k in DEFS]
+    tiv = [ext[k]["intervals"]["Thessaly"] for k in DEFS]
+    if s["direction_thessaly"] == "not robust":
+        out.append(f"For Thessaly as a whole the ratio runs from {min(th):.2f} to {max(th):.2f} across the maps, and the intervals from {min(i[0] for i in tiv):.2f} to {max(i[1] for i in tiv):.2f}, so there is no firm direction either.")
+    else:
+        out.append(f"For Thessaly as a whole the direction is firm under every map: {s['direction_thessaly']}.")
+    if not block:
+        out.append("These intervals treat every square as if it were independent. Neighbouring squares flood together and are settled together, so the intervals are too narrow; from the next run on the squares are resampled in blocks of 10 by 10 km, and a first check with such blocks already takes the Larisa interval with flood traces across 1.")
+    return note, " ".join(out)
 
 
 def phase_b(f: Facts):
@@ -129,15 +186,9 @@ def phase_b(f: Facts):
     for r in ("EL611", "EL612", "EL613"):
         f.set(f"b_diff_{r.lower()}", _signed(val[r]["difference"]))
     f.claim(_json(d / "summary.json")["replicates"] == 1000, "Phase B: the intervals no longer come from 1,000 resamplings.")
-    f.claim(s["direction_by_unit"].get("EL612") == "older people less exposed", "Phase B: Larisa is no longer a clear case of older people less exposed.")
-    f.claim(s["direction_by_unit"].get("EL611") == "not robust", "Phase B: Karditsa and Trikala no longer have an unclear direction.")
-    f.claim(s["direction_thessaly"] == "not robust", "Phase B: Thessaly as a whole now has a clear direction.")
-    kt = [ext[k]["intervals"]["EL611"] for k in DEFS]
-    f.claim(all(ext[k]["region_ratios"]["EL611"] > 1 for k in DEFS), "Phase B: the Karditsa and Trikala ratio is no longer above 1 under every map.")
-    f.claim(kt[0][0] < 1 <= kt[0][1] and all(iv[0] > 1 for iv in kt[1:]), "Phase B: in Karditsa and Trikala it is no longer only the flood-traces interval that reaches below 1.")
-    f.set("b_kt_low", f"{kt[0][0]:.2f}")
-    f.claim(ext["observed_all"]["older_exposure_ratio"] > 1 and all(ext[k]["older_exposure_ratio"] < 1 for k in DEFS[1:]), "Phase B: for Thessaly the ratio no longer lands above 1 with traces and below 1 without.")
-    f.claim(all(ext[k]["intervals"]["Thessaly"][0] <= 1 <= ext[k]["intervals"]["Thessaly"][1] for k in DEFS), "Phase B: for Thessaly not every interval includes 1 any more.")
+    note, findings = phase_b_text(s, ext)
+    f.set("b_iv_note", note)
+    f.set("b_findings", findings)
     f.claim(all(ext[k]["region_ratios"].get("EL613") is None for k in DEFS), "Phase B: Magnesia now has enough people in the flood for a ratio.")
     cells = gpd.read_file(d / "cells.gpkg")
     mag = []
@@ -169,30 +220,7 @@ def thriving(f: Facts):
     def rows(group, season, ring=None):
         return [x for x in si if x["group"] == group and x["season"] == season and (ring is None or x["ring"] == ring)]
 
-    su = rows("All flooded cells", "Summer 2024")
-    f.claim(len(su) == 9 and all(x["interval"] and x["interval"][1] < 1 for x in su), "Thriving: the flooded land is no longer clearly less green than normal in the summer of 2024 everywhere.")
-    if len(su) == 9:
-        f.set("t_less", _span(_r(100 * (1 - max(x["value"] for x in su))), _r(100 * (1 - min(x["value"] for x in su)))))
-        f.set("t_less_iv", _span(_r(100 * (1 - max(x["interval"][1] for x in su))), _r(100 * (1 - min(x["interval"][0] for x in su)))))
-    cmp_ = {(c["a"], c["season"]): c for c in s["comparisons"]}
-    for season, key in (("Spring 2024", "t_la_sp"), ("Summer 2024", "t_la_su")):
-        c = cmp_.get(("Flooded, Larisa", season))
-        ok = c is not None and c["verdict"] == "lower" and len(c["detail"]) == 9 and all(x["interval"][1] <= -0.05 for x in c["detail"])
-        f.claim(ok, f"Thriving: Larisa is no longer clearly below Karditsa and Trikala in {season}, with every interval well away from zero.")
-        if c:
-            dif = [-x["difference"] for x in c["detail"]]
-            f.set(key, _span(_r(100 * min(dif)), _r(100 * max(dif))))
-    o_su, o_sp = cmp_.get(("Flooded, more older residents", "Summer 2024")), cmp_.get(("Flooded, more older residents", "Spring 2024"))
-    f.claim(o_su is not None and o_sp is not None and o_su["verdict"] == "no difference shown" and o_sp["verdict"] == "no difference shown", "Thriving: a difference now shows between squares with more and with fewer older residents.")
-    if o_su and o_sp:
-        f.claim(all(0.005 <= x["difference"] < 0.015 for x in o_su["detail"]), "Thriving: in the summer the squares with more older residents are no longer about 1 point greener.")
-        lo, hi = min(x["interval"][0] for x in o_su["detail"]), max(x["interval"][1] for x in o_su["detail"])
-        f.set("t_old_lo", f"{_r(-100 * lo)}")
-        f.set("t_old_hi", f"{_r(100 * hi)}")
-        wsp = max(x["interval"][1] for x in o_sp["detail"]) - min(x["interval"][0] for x in o_sp["detail"])
-        f.claim(wsp > hi - lo, "Thriving: the spring intervals for older residents are no longer wider than the summer ones.")
-    sizes = [v["cells"] for dd in s["definitions"] for g, v in dd["groups"].items() if "older residents" in g]
-    f.set("t_old_sq", _span(min(sizes), max(sizes)))
+    f.set("t_findings", thriving_text(s, rows))
     mg = [x for x in si if x["group"] == "Flooded, Magnisia, Sporades"]
     f.claim(all(x["value"] is not None and x["value"] < 0 for x in mg if x["season"] == "Spring 2024") and all(x["value"] is None for x in mg if x["season"] == "Summer 2024"), "Thriving: Magnesia is no longer mostly water in the spring of 2024 with too few images in the summer.")
     cells = f.data["cells"]
@@ -204,6 +232,7 @@ def thriving(f: Facts):
     f.set("t_add", f"{int(add.sum()):,}")
     f.set("t_add_mag", f"{int((add & (cells['region_id'] == 'EL613')).sum()):,}")
     f.set("t_add_res", f"{_r(float(cells.loc[add, 'population'].sum())):,}")
+    f.set("t_add_mag_res", f"{_r(float(cells.loc[add & (cells['region_id'] == 'EL613'), 'population'].sum())):,}")
     cm = [dd for dd in s["definitions"] if dd["key"] == "cems_maximum"][0]
     f.set("t_drop", f"{cm['groups']['All flooded cells']['cells_left_out_not_green']:,}")
     ser = pd.read_excel(d / "thriving.xlsx", sheet_name="Ten-day series")
@@ -238,6 +267,73 @@ def thriving(f: Facts):
             ivs[k][tk] = [next((None if x["interval"] is None else list(x["interval"]) for x in r if x["definition"] == DEF_NAMES[k]), None) for r in rr]
     f.data["TV"] = {"dates": dates, "s": series, "seasons": seasons, "ivs": ivs}
     f.data["asof_t"] = _json(d / "sources.json")["retrieved_at"]
+
+
+VERDICT_WORDS = {
+    "lower": "and every interval stays below zero",
+    "higher": "and every interval stays above zero",
+    "no difference shown": "and every interval includes zero, so no difference shows",
+    "not robust": "but not every interval stays on one side of zero, so the gap is not firm under every map and control area",
+    "no data": "but too few images or squares were left to judge",
+}
+
+
+def _gap(c) -> str | None:
+    if c is None or any(x["difference"] is None for x in c["detail"]):
+        return None
+    dif = [-100 * x["difference"] for x in c["detail"]]
+    return _pts(min(dif), max(dif))
+
+
+def thriving_text(s: dict, rows) -> str:
+    out = []
+    block = s.get("block_km")
+    su = rows("All flooded cells", "Summer 2024")
+    if su and all(x["value"] is not None and x["interval"] for x in su):
+        less = _span(_r(100 * (1 - max(x["value"] for x in su))), _r(100 * (1 - min(x["value"] for x in su))))
+        if all(x["interval"][1] < 1 for x in su):
+            iv = _span(_r(100 * (1 - max(x["interval"][1] for x in su))), _r(100 * (1 - min(x["interval"][0] for x in su))))
+            out.append(f"In the summer of 2024, almost a year after Daniel, the flooded land was still {less} % less green than normal under every flood map and every control area, with 95 % intervals running from {iv} %.")
+        else:
+            out.append(f"In the summer of 2024 the flooded land was {less} % less green than normal, but not every interval stays below normal, so the deficit is not firm under every flood map and control area.")
+    cmp_ = {(c["a"], c["season"]): c for c in s["comparisons"]}
+    sp, smr = cmp_.get(("Flooded, Larisa", "Spring 2024")), cmp_.get(("Flooded, Larisa", "Summer 2024"))
+    if sp and smr and _gap(sp) and _gap(smr):
+        lead = "Larisa fared worse than Karditsa and Trikala, by" if sp["verdict"] == smr["verdict"] == "lower" else "Larisa's shortfall against Karditsa and Trikala was"
+        if sp["verdict"] == smr["verdict"]:
+            out.append(f"{lead} {_gap(sp)} points in the spring and {_gap(smr)} in the summer, {VERDICT_WORDS[sp['verdict']]}.")
+        else:
+            out.append(f"{lead} {_gap(sp)} points in the spring, {VERDICT_WORDS[sp['verdict']]}, and {_gap(smr)} in the summer, {VERDICT_WORDS[smr['verdict']]}.")
+    basin = (s.get("basin") or {}).get("name")
+    bsp, bsu = (cmp_.get((basin, "Spring 2024")), cmp_.get((basin, "Summer 2024"))) if basin else (None, None)
+    if bsp and bsu and _gap(bsp) and _gap(bsu):
+        mean = lambda c: -sum(x["difference"] for x in c["detail"]) / len(c["detail"])
+        smaller = sp is not None and smr is not None and _gap(sp) and _gap(smr) and mean(bsp) < mean(sp) and mean(bsu) < mean(smr)
+        lead = "Part of that gap is a new lake: the basin" if smaller else "The basin"
+        tail = "" if smaller else " That basin does not explain the gap."
+        if bsp["verdict"] == bsu["verdict"]:
+            rest = f"the gap is {_gap(bsp)} points in the spring and {_gap(bsu)} in the summer, {VERDICT_WORDS[bsp['verdict']]}."
+        else:
+            rest = f"the gap is {_gap(bsp)} points in the spring, {VERDICT_WORDS[bsp['verdict']]}, and {_gap(bsu)} in the summer, {VERDICT_WORDS[bsu['verdict']]}."
+        out.append(f"{lead} of the former Lake Karla filled with water in September 2023 and stayed flooded well into 2024. Leaving out Larisa's squares within {float(s['basin']['radius_m']) / 1000:g} km of the old lake's centre, {rest}{tail}")
+    else:
+        out.append("Part of Larisa's flooded land lies in the basin of the former Lake Karla, which filled with water in September 2023 and stayed flooded well into 2024; there greenness measures a new lake rather than slow recovery, and from the next run on Larisa is also compared without that basin.")
+    o_sp, o_su = cmp_.get(("Flooded, more older residents", "Spring 2024")), cmp_.get(("Flooded, more older residents", "Summer 2024"))
+    sizes = [v["cells"] for dd in s["definitions"] for g, v in dd["groups"].items() if "older residents" in g]
+    if o_sp and o_su and _gap(o_su) and sizes:
+        dsu = [100 * x["difference"] for x in o_su["detail"]]
+        if o_sp["verdict"] == "no difference shown" and o_su["verdict"] == "no difference shown":
+            lo, hi = min(x["interval"][0] for x in o_su["detail"]), max(x["interval"][1] for x in o_su["detail"])
+            out.append(f"Between flooded squares with more and with fewer residents aged 65 and over no difference shows. In the summer the two groups differ by {_pts(min(dsu), max(dsu))} {'point' if _pts(min(dsu), max(dsu)) in ('1', MINUS + '1') else 'points'}, but each group holds only {_span(min(sizes), max(sizes))} squares, so the intervals run from about {_r(-100 * lo)} points less to {_r(100 * hi)} points more. A modest gap either way cannot be ruled out.")
+        else:
+            out.append(f"Between flooded squares with more and with fewer residents aged 65 and over, the summer difference is {_pts(min(dsu), max(dsu))} points ({o_su['verdict']}), and the spring verdict is: {o_sp['verdict']}. Each group holds {_span(min(sizes), max(sizes))} squares.")
+        if s.get("older_split") != "within_unit":
+            out.append("The two groups were split at one median for the whole plain, so under the standing-water map they draw unevenly on the regional units: 26 of the 28 squares with more older residents lie in Karditsa and Trikala, which came back sooner, against 17 of the 29 with fewer. From the next run on they are split within each regional unit.")
+    if block:
+        out.append(f"Every interval resamples the squares in blocks of {block:g} by {block:g} km, because neighbouring squares flood and recover together.")
+    else:
+        out.append("These intervals resample single squares as if each were independent, which makes them too narrow; from the next run on the squares are resampled in blocks of 10 by 10 km.")
+    return " ".join(out)
 
 
 def collect(root: Path) -> Facts:

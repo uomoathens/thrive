@@ -198,7 +198,7 @@ def test_run_simple_numbers(config, tmp_path):
     assert sources["amount_field"] == "totalObligatedAmount"
     assert [c["ok"] for c in json.loads((out / "preflight.json").read_text())] == [True, True, True]
     assert len(json.loads((out / "sample.json").read_text())["openfema"]) == len(records)
-    assert pd.ExcelFile(out / "phase-a.xlsx").sheet_names == ["Quintiles", "Counties", "Activities", "Largest grants", "Unmatched counties", "Sources"]
+    assert pd.ExcelFile(out / "phase-a.xlsx").sheet_names == ["Quintiles", "Counties", "Activities", "Largest grants", "Unmatched counties", "Counties of another state", "Possible duplicates", "Sources"]
     assert "most vulnerable" in (out / "report.md").read_text()
 
 
@@ -272,3 +272,44 @@ def test_duplicate_identifiers_are_counted_once(config, tmp_path):
     summary = run(config, out, fetcher(records, nri_attrs(SIMPLE)))
     assert summary["total_funding"] == pytest.approx(350.0)
     assert json.loads((out / "sources.json").read_text())["duplicate_identifier_rows"] == 2
+
+
+def test_grant_naming_another_states_counties_is_not_placed(config, tmp_path):
+    rows = REAL_KY + EXTRA
+    out = tmp_path / "out"
+    records = [sub("Kentucky", "Knox; Erie; Dauphin; Cass", 100.0), sub("Kentucky", "Kenton", 1000.0)]
+    run(config, out, fetcher(records, nri_attrs(rows)))
+    counties = pd.read_excel(out / "phase-a.xlsx", sheet_name="Counties", dtype={"fips": str})
+    got = dict(zip(counties["fips"], counties["funding"]))
+    assert got["21121"] == pytest.approx(0.0)
+    sources = json.loads((out / "sources.json").read_text())
+    assert sources["foreign_grants"] == 1 and sources["foreign_funding"] == pytest.approx(100.0)
+    assert len(pd.read_excel(out / "phase-a.xlsx", sheet_name="Counties of another state")) == 1
+
+
+def test_state_left_out_and_its_money_reported(config, tmp_path):
+    rows = REAL_KY + EXTRA + [("Connecticut", "Capitol", "Planning Region", "09110", 900000, 1000.0, None, 30.0, "Relatively Low")]
+    config.write_text(config.read_text(encoding="utf-8").replace('version = ["NRI_VER"]\n', 'version = ["NRI_VER"]\nleave_out_states = ["Connecticut"]\nleave_out_reason = "Regions replaced counties."\n'), encoding="utf-8")
+    out = tmp_path / "out"
+    summary = run(config, out, fetcher([sub("Connecticut", "Hartford", 500.0), sub("Kentucky", "Kenton", 1000.0)], nri_attrs(rows)))
+    sources = json.loads((out / "sources.json").read_text())
+    assert sources["left_out_funding"] == pytest.approx(500.0) and sources["unmatched_funding"] == pytest.approx(0.0)
+    assert summary["counties"] == len(rows) - 2
+    assert "Left out: Connecticut" in (out / "report.md").read_text()
+
+
+def test_obligated_only_measure_and_possible_duplicates(config, tmp_path):
+    out = tmp_path / "out"
+    records = [
+        sub("Arkansas", "C0", 300.0),
+        sub("Arkansas", "C9; C8", None, share=50.0),
+        sub("Arkansas", "C8; C9", None, share=50.0),
+        sub("Arkansas", "C9", 10.0),
+    ]
+    summary = run(config, out, fetcher(records, nri_attrs(SIMPLE)))
+    rb = summary["robustness"]
+    assert rb["r_cov_obligated_only"] == pytest.approx((10.0 / 200.0) / (300.0 / 200.0))
+    assert rb["r_cov_obligated_only"] < summary["r_cov_most_vs_least_vulnerable"]
+    dups = pd.read_excel(out / "phase-a.xlsx", sheet_name="Possible duplicates")
+    assert len(dups) == 2
+    assert "Possible duplicates: 2 grants" in (out / "report.md").read_text()

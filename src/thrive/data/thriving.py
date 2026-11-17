@@ -402,13 +402,34 @@ def select_groups(cells, key: str, g: dict) -> dict[str, list[int]]:
     for rid, sub in flooded.groupby("region_id"):
         if len(sub) >= g["min_cells"]:
             out[f"Flooded, {sub['region_name'].iloc[0]}"] = sub.index.tolist()
+    basin = g.get("basin")
+    if basin:
+        from pyproj import Transformer
+        from shapely.geometry import Point
+
+        x, y = Transformer.from_crs(4326, cells.crs, always_xy=True).transform(float(basin["lon"]), float(basin["lat"]))
+        far = flooded.geometry.centroid.distance(Point(x, y)) > float(basin["radius_m"])
+        sub = flooded[(flooded["region_id"] == basin["region_id"]) & far]
+        if len(sub) >= g["min_cells"]:
+            out[basin["name"]] = sub.index.tolist()
     lived = flooded[(flooded["population"] >= g["min_residents"]) & flooded["older_known"].astype(bool)]
     if len(lived) >= 2 * g["min_cells"]:
         os_ = lived["older"] / lived["population"]
-        med = float(os_.median())
+        if g.get("older_split") == "within_unit":
+            med = os_.groupby(lived["region_id"]).transform("median")
+        else:
+            med = float(os_.median())
         out["Flooded, more older residents"] = lived.index[os_ > med].tolist()
         out["Flooded, fewer older residents"] = lived.index[os_ <= med].tolist()
     return out
+
+
+def cell_blocks(cells, block_m: float) -> np.ndarray:
+    cent = cells.geometry.centroid
+    bx = np.floor(cent.x.to_numpy() / block_m).astype(np.int64)
+    by = np.floor(cent.y.to_numpy() / block_m).astype(np.int64)
+    _, inv = np.unique(bx * 1_000_000 + by, return_inverse=True)
+    return inv
 
 
 def control_cells(cells, g: dict, ring=None) -> list[int]:
@@ -423,6 +444,14 @@ def control_cells(cells, g: dict, ring=None) -> list[int]:
     cent = dry.geometry.centroid
     keep = cent.within(outer) & ~cent.within(inner)
     return dry.index[keep].tolist()
+
+
+def _recovered_cell(when, day, start) -> str:
+    if when is None:
+        return "not within the period"
+    if when == start:
+        return f"already at this level on {start}"
+    return f"{when} (day {day})"
 
 
 def _season_cell(v, iv=None) -> str:
@@ -449,6 +478,7 @@ def report(summary: dict) -> str:
         "",
         f"Measure: greenness (NDVI) from Sentinel-2 ({summary['collection']}), per 1 km cell and per ten-day period, compared with the same period of {', '.join(str(y) for y in summary['baseline_years'])} in the same cell. Each group is divided by unflooded cells {summary['control_ring_km'][0]:g} to {summary['control_ring_km'][1]:g} km from the flood, so that a dry or wet year does not count as damage or recovery. 100% means as green as normal, relative to those neighbours.",
         f"Images: {summary['items_used']:,} of {summary['items_listed']:,} scenes used ({summary['items_failed']} could not be read, {summary['items_excluded']} failed the reflectance check). Control: {summary['control_cells']:,} cells.",
+        f"A 1 km cell counts as flooded when at least {summary.get('flooded_share_min', 0.5):.0%} of its land lies inside the flood definition." + (f" The cells with more and with fewer older residents are split at the median of each regional unit, so that both groups draw on every unit alike." if summary.get("older_split") == "within_unit" else ""),
         f"Ten-day periods in which a group is not normally green (average greenness below {summary['min_baseline_ndvi']:.2f} in the years before) are skipped, because a bare flooded field then looks the same as a bare normal one. Cells that are not green in a normal year at all (median below {summary['min_cell_ndvi']:.2f}: lakes, towns, bare ground) are left out.",
         "",
         "| Period | Year | Scenes | Expected at least |",
@@ -463,7 +493,7 @@ def report(summary: dict) -> str:
     if summary["groups_left_out"]:
         lines.append("")
     main_ring = summary["control_rings"][0]["ring"]
-    lines += ["## Greenness season by season", "", f"Average over the ten-day periods of each season with a clear view; a season needs at least {summary['season_min_periods']} such periods. In brackets, the 95% interval from {summary['replicates']:,} resamplings of the squares (Poisson bootstrap), with control squares {main_ring} from the flood. It shows how much a figure depends on which squares happen to be in a group."]
+    lines += ["## Greenness season by season", "", f"Average over the ten-day periods of each season with a clear view; a season needs at least {summary['season_min_periods']} such periods. In brackets, the 95% interval from {summary['replicates']:,} resamplings of the squares (Poisson bootstrap)" + (f", drawn in blocks of {summary['block_km']:g} by {summary['block_km']:g} km so that neighbouring squares are resampled together" if summary.get("block_km") else "") + f", with control squares {main_ring} from the flood. It shows how much a figure depends on which places happen to be in a group."]
     for d in summary["definitions"]:
         lines += ["", f"### {d['name']}", "", "| Group | Cells | Residents | " + " | ".join(x["name"] for x in seasons) + " |", "| --- | --- | --- | " + " | ".join("---" for _ in seasons) + " |"]
         for gname, gr in d["groups"].items():
@@ -483,12 +513,14 @@ def report(summary: dict) -> str:
         for gname, gr in d["groups"].items():
             lr = gr["lowest_ratio"]
             low = "n/a" if lr is None else ("below zero" if lr < 0 else f"{lr:.0%}") + f" ({gr['lowest_date']})"
-            rec = ["not within the period" if gr["recovered"][str(a)] is None else f"{gr['recovered'][str(a)]} (day {gr['days'][str(a)]})" for a in summary["alphas"]]
+            rec = [_recovered_cell(gr["recovered"][str(a)], gr["days"][str(a)], summary["recovery_start"]) for a in summary["alphas"]]
             lines.append(f"| {gname} | {low} | " + " | ".join(rec) + " |")
         lines.append("")
-        lines.append(f"Order of recovery the same under every threshold: **{'yes' if d['stable'] else 'no'}**.")
-        if d.get("older_gap_days") is not None:
-            lines.append("Days by which the cells with more older residents recovered later (positive) or earlier (negative) than those with fewer: " + "; ".join(f"α {int(float(a) * 100)}%: {'n/a' if v is None else f'{v:+d}'}" for a, v in d["older_gap_days"].items()) + ".")
+        runs = summary.get("persistence_set", [summary["persistence"]])
+        lines.append(f"Order of recovery the same under every threshold and every run length ({', '.join(str(x) for x in runs)} ten-day periods in a row): **{'yes' if d['stable'] else 'no'}**.")
+        for pr, gaps in (d.get("older_gap_days_by_persistence") or {str(summary["persistence"]): d.get("older_gap_days")}).items():
+            if gaps is not None:
+                lines.append(f"Days by which the cells with more older residents recovered later (positive) or earlier (negative) than those with fewer, {pr} periods in a row: " + "; ".join(f"α {int(float(a) * 100)}%: {'n/a' if v is None else f'{v:+d}'}" for a, v in gaps.items()) + ".")
     lines += [
         "",
         f"Recovery days, across every flood definition and threshold: **{summary['direction']}**. Following THRIVE's own rule, a direction is reported as a finding only when every measure agrees.",
@@ -496,6 +528,8 @@ def report(summary: dict) -> str:
         "## Limits",
         "",
         "Autumn greenness after the flood is hard to read. The storm struck a few weeks before the cotton harvest, and in a normal year the harvested fields of the plain are bare by October, so a field that was never harvested, or that later grew weeds or another crop, can look as green as normal or greener while yielding nothing. Greenness alone cannot tell crop from weeds, so greenness right after the flood does not mean the land was working again. That is why the recovery count starts with the next growing season.",
+        "",
+        "Storm Elias brought a second flood on 27 and 28 September 2023, so autumn 2023 reflects both storms. In Larisa the basin of the former Lake Karla filled with water and stayed flooded well into 2024; land under water there measures a new lake, not slow recovery, which is why Larisa is also compared without that basin.",
         "",
         "Greenness measures fields and gardens coming back, not households: a farm can be green again while its owners are still waiting for help, and a village can be rebuilt on land that stays bare. Clouds remove many autumn and winter images, crops rotate between years, and farmers may have left fields fallow on purpose. Greenness below zero means the ground is mostly water. The cells with more older residents are compared with those with fewer within the flooded area only, and both include the fields around each village.",
     ]
@@ -515,6 +549,9 @@ def run(config_path: Path, out_dir: Path, searcher: Callable | None = None, read
     if missing:
         raise KeyError(f"cells file lacks flood shares for {missing}; columns: {list(cells.columns)}")
     groups_by_def = {k: select_groups(cells, k, g) for k in keys}
+    unc = cfg["uncertainty"]
+    block_m = float(unc.get("block_m", 0)) or None
+    blocks = cell_blocks(cells, block_m) if block_m else None
     rings = [list(r) for r in g.get("control_rings", [g["control_ring_m"]])]
     controls = {tuple(r): control_cells(cells, g, r) for r in rings}
     control = controls[tuple(rings[0])]
@@ -585,7 +622,11 @@ def run(config_path: Path, out_dir: Path, searcher: Callable | None = None, read
             for i, row in s.iterrows():
                 series_rows.append({"definition": d["name"], "group": gname, "date": row["date"], "group_ratio": row["ratio"], "control_ratio": ctrl["ratio"].iloc[i], "relative": r.iloc[i], "coverage": row["coverage"], "control_coverage": ctrl["coverage"].iloc[i]})
         mask = np.array([dekad_start(*p) >= rec_start for p in post])
-        finding = robust_recovery({gname: np.where(mask, v.to_numpy(), np.nan) for gname, v in rel.items()}, {gname: 1.0 for gname in rel}, alphas, int(rc["persistence"]))
+        masked = {gname: np.where(mask, v.to_numpy(), np.nan) for gname, v in rel.items()}
+        runs = [int(x) for x in rc.get("persistence_set", [rc["persistence"]])]
+        findings = {pr: robust_recovery(masked, {gname: 1.0 for gname in rel}, alphas, pr) for pr in runs}
+        finding = findings[int(rc["persistence"])] if int(rc["persistence"]) in findings else robust_recovery(masked, {gname: 1.0 for gname in rel}, alphas, int(rc["persistence"]))
+        stable_all = all(fd.stable for fd in findings.values()) and len({o for fd in findings.values() for o in fd.orders}) == 1
         groups_out = {}
         for gname, v in rel.items():
             arr = v.to_numpy()
@@ -595,38 +636,53 @@ def run(config_path: Path, out_dir: Path, searcher: Callable | None = None, read
                 i = dd[gname]
                 recovered[str(a)] = None if i is None else dekad_start(*post[i]).isoformat()
                 days[str(a)] = None if i is None else (dekad_start(*post[i]) - flood_day).days
-                rec_rows.append({"definition": d["name"], "group": gname, "alpha": a, "recovered": recovered[str(a)], "days_after_flood": days[str(a)]})
             sv = {x["name"]: season_value(raw[gname], ctrl["ratio"].to_numpy(), post_dates, x["start"], x["end"], int(se["min_periods"])) for x in season_list}
             for x in season_list:
                 season_rows.append({"definition": d["name"], "group": gname, "season": x["name"], "greenness_vs_normal": sv[x["name"]][0], "ten_day_periods": sv[x["name"]][1]})
             groups_out[gname] = {**info[gname], "seasons": {n: v[0] for n, v in sv.items()}, "lowest_ratio": None if lowest is None else float(arr[lowest]), "lowest_date": None if lowest is None else dekad_start(*post[lowest]).isoformat(), "recovered": recovered, "days": days}
-        gaps = None
+        for pr, fd in findings.items():
+            for a, dd in zip(alphas, fd.days):
+                for gname, i in dd.items():
+                    rec_rows.append({"definition": d["name"], "group": gname, "persistence": pr, "alpha": a, "recovered": None if i is None else dekad_start(*post[i]).isoformat(), "days_after_flood": None if i is None else (dekad_start(*post[i]) - flood_day).days})
+        gaps, gaps_by = None, {}
         a_name, b_name = "Flooded, more older residents", "Flooded, fewer older residents"
         if a_name in groups_out and b_name in groups_out:
             horizon = (dekad_start(*post[-1]) - flood_day).days + 10
-            gaps = {}
-            for a in alphas:
-                da, db = groups_out[a_name]["days"][str(a)], groups_out[b_name]["days"][str(a)]
-                gaps[str(a)] = None if da is None and db is None else (horizon if da is None else da) - (horizon if db is None else db)
-            gaps_all.extend(gaps.values())
-        defs_out.append({"key": k, "name": d["name"], "groups": groups_out, "stable": finding.stable, "orders": [list(o) for o in finding.orders], "older_gap_days": gaps})
-    unc = cfg["uncertainty"]
+            for pr, fd in findings.items():
+                gp = {}
+                for a, dd in zip(alphas, fd.days):
+                    ia, ib = dd[a_name], dd[b_name]
+                    da = None if ia is None else (dekad_start(*post[ia]) - flood_day).days
+                    db = None if ib is None else (dekad_start(*post[ib]) - flood_day).days
+                    gp[str(a)] = None if da is None and db is None else (horizon if da is None else da) - (horizon if db is None else db)
+                gaps_by[str(pr)] = gp
+                gaps_all.extend(gp.values())
+            gaps = gaps_by.get(str(int(rc["persistence"])))
+            if gaps is None:
+                gaps = {}
+                for a in alphas:
+                    da, db = groups_out[a_name]["days"][str(a)], groups_out[b_name]["days"][str(a)]
+                    gaps[str(a)] = None if da is None and db is None else (horizon if da is None else da) - (horizon if db is None else db)
+        defs_out.append({"key": k, "name": d["name"], "groups": groups_out, "stable": stable_all, "orders": [list(o) for o in finding.orders], "older_gap_days": gaps, "older_gap_days_by_persistence": gaps_by or None})
     reps = int(unc["replicates"])
     rng = np.random.default_rng(int(unc["seed"]))
+    wall = rng.poisson(1.0, size=(reps, int(blocks.max()) + 1)).astype(np.float32) if blocks is not None else None
+
+    def weights(idx):
+        return wall[:, blocks[np.asarray(idx, dtype=int)]] if wall is not None else poisson_weights(rng, reps, len(idx))
     green_groups = {d["key"]: {gn: [c for c in idx if c in green] for gn, idx in groups_by_def[d["key"]].items() if len([c for c in idx if c in green]) >= g["min_cells"]} for d in cfg["definitions"]}
     gmats, gweights = {}, {}
     for kd, gs in green_groups.items():
         for gn, idx in gs.items():
             P, B = matrices(dek, base, idx, post)
             pr, valid = point_ratio(P, B, float(rc["min_coverage"]), min_base)
-            W = poisson_weights(rng, reps, len(idx))
-            gmats[(kd, gn)] = (pr, replicate_ratio(P, valid, B, W))
+            gmats[(kd, gn)] = (pr, replicate_ratio(P, valid, B, weights(idx)))
     ring_rows, sens = [], []
     for r in rings:
         cc = [c for c in controls[tuple(r)] if c in green]
         P, B = matrices(dek, base, cc, post)
         cpr, cvalid = point_ratio(P, B, float(rc["min_coverage"]), min_base)
-        crep = replicate_ratio(P, cvalid, B, poisson_weights(rng, reps, len(cc)))
+        crep = replicate_ratio(P, cvalid, B, weights(cc))
         ring_name = f"{r[0] / 1000:g} to {r[1] / 1000:g} km"
         for dd in cfg["definitions"]:
             for gn in green_groups[dd["key"]]:
@@ -671,6 +727,11 @@ def run(config_path: Path, out_dir: Path, searcher: Callable | None = None, read
         "collection": st["collection"],
         "control_rings": sens,
         "replicates": reps,
+        "block_km": block_m / 1000 if block_m else None,
+        "flooded_share_min": float(g["flooded_share_min"]),
+        "older_split": g.get("older_split", "pooled"),
+        "basin": g.get("basin"),
+        "persistence_set": [int(x) for x in rc.get("persistence_set", [rc["persistence"]])],
         "season_intervals": ring_rows,
         "seasons": season_list,
         "season_min_periods": int(se["min_periods"]),

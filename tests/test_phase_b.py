@@ -325,3 +325,31 @@ def test_ratio_intervals_and_direction():
     assert direction_ci([[0.9, 1.1]]) == "not robust"
     assert direction_ci([None]) == "no data"
     assert ratio_intervals(cells.assign(population_exposed_with_age=0.0), 50, 1, 10)["A"] is None
+
+
+def test_neighbouring_squares_are_resampled_together():
+    import numpy as np
+    import pandas as pd
+    from thrive.data.phase_b import ratio_intervals
+
+    rng = np.random.default_rng(3)
+    n = 400
+    pa = rng.uniform(50, 150, n)
+    pe = pa * rng.uniform(0, 0.5, n)
+    oe = pe * np.repeat(rng.uniform(0.1, 0.5, n // 20), 20)
+    cells = pd.DataFrame({"region_id": ["A"] * n, "cell_id": range(n), "population_with_age": pa, "population_exposed_with_age": pe, "older_in_region": 0.2 * pa, "older_exposed": oe})
+    free = ratio_intervals(cells, 500, 1, 10)["A"]
+    blocked = ratio_intervals(cells.assign(block=np.repeat(range(n // 20), 20)), 500, 1, 10)["A"]
+    assert blocked[1] - blocked[0] > 2 * (free[1] - free[0])
+
+
+def test_exposure_marks_the_block_of_each_square():
+    from thrive.data.phase_b import exposure
+
+    cells = gpd.GeoDataFrame({"population": [100.0] * 3, "population_missing": [False] * 3, "older": [20.0] * 3, "older_known": [True] * 3},
+                             geometry=[box(0, 0, 1000, 1000), box(1000, 0, 2000, 1000), box(10000, 0, 11000, 1000)], crs=3035)
+    near = gpd.GeoDataFrame({"region_id": ["EL611"], "region_name": ["In"]}, geometry=[box(0, 0, 12000, 1000)], crs=3035)
+    flood = gpd.GeoDataFrame(geometry=[box(0, 0, 500, 1000)], crs=3035)
+    age = exposure(cells, flood, near, near, 10000)[5].set_index("cell_id")
+    assert age.loc[0, "block"] == age.loc[1, "block"] != age.loc[2, "block"]
+    assert "block" not in exposure(cells, flood, near, near)[5].columns

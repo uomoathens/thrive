@@ -25,6 +25,7 @@ min_exposed_for_ratio = 1000
 [uncertainty]
 replicates = 1000
 seed = 20230907
+block_m = 10000
 
 [[extent]]
 key = "observed_all"
