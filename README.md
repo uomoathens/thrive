@@ -182,13 +182,13 @@ The grid counts <span data-v="b_pop">687,327</span> residents in Thessaly, withi
 
 | Flood definition | km² flooded | Residents in the flood | Share of residents | Ratio, Thessaly | Ratio, Karditsa & Trikala | Ratio, Larisa |
 | --- | --- | --- | --- | --- | --- | --- |
-| Every observed flood polygon, with flood traces | 1,475 | 58,071 | 8.4 % | 1.04 (0.97 to 1.14) | 1.07 (0.99 to 1.14) | 0.87 (0.78 to 0.98) |
-| Standing water only | 913 | 33,919 | 4.9 % | 0.95 (0.87 to 1.07) | 1.19 (1.10 to 1.27) | 0.79 (0.71 to 0.88) |
-| Copernicus maximum water extent | 999 | 35,824 | 5.2 % | 0.95 (0.86 to 1.06) | 1.18 (1.09 to 1.25) | 0.79 (0.71 to 0.87) |
+| Every observed flood polygon, with flood traces | 1,475 | 58,071 | 8.4 % | 1.04 (0.91 to 1.22) | 1.07 (0.89 to 1.21) | 0.87 (0.72 to 1.13) |
+| Standing water only | 913 | 33,919 | 4.9 % | 0.95 (0.83 to 1.27) | 1.19 (1.01 to 1.30) | 0.79 (0.53 to 1.02) |
+| Copernicus maximum water extent | 999 | 35,824 | 5.2 % | 0.95 (0.82 to 1.26) | 1.18 (1.01 to 1.28) | 0.79 (0.54 to 1.00) |
 
-The ratio compares the share of people aged 65 and over among those in the flood with their share among all residents. <span data-v="b_iv_note">In brackets is the 95 % interval from 1,000 resamplings of the 1 km squares, each drawn on its own.</span> It shows how much a ratio depends on which places the water happened to reach. A direction counts only if the interval stays on one side of 1 under every flood definition.
+The ratio compares the share of people aged 65 and over among those in the flood with their share among all residents. <span data-v="b_iv_note">In brackets is the 95 % interval from 1,000 resamplings in which the 1 km squares are drawn in blocks of 10 by 10 km, because neighbouring squares flood together and are settled together.</span> It shows how much a ratio depends on which places the water happened to reach. A direction counts only if the interval stays on one side of 1 under every flood definition.
 
-<span data-v="b_findings">In Karditsa and Trikala the ratio is above 1 (1.07 to 1.19), but the intervals run from 0.99 to 1.27, so the pattern is not firm enough to report. In Larisa, under every flood map, older people were less likely than their neighbours to live where the water reached, and the 95 % interval stays below 1 each time (at most 0.98). For Thessaly as a whole the ratio runs from 0.95 to 1.04 across the maps, and the intervals from 0.86 to 1.14, so there is no firm direction either. These intervals treat every square as if it were independent. Neighbouring squares flood together and are settled together, so the intervals are too narrow; from the next run on the squares are resampled in blocks of 10 by 10 km, and a first check with such blocks already takes the Larisa interval with flood traces across 1.</span> Magnesia had <span data-v="b_mag">99 to 123</span> residents in the mapped flood, depending on the definition, too few for a ratio, for the reason given above.
+<span data-v="b_findings">In Karditsa and Trikala the ratio is above 1 (1.07 to 1.19), but the intervals run from 0.89 to 1.30, so the pattern is not firm enough to report. In Larisa the ratio is below 1 (0.79 to 0.87), but the intervals run from 0.53 to 1.13, so the pattern is not firm enough to report. For Thessaly as a whole the ratio runs from 0.95 to 1.04 across the maps, and the intervals from 0.82 to 1.27, so there is no firm direction either.</span> Magnesia had <span data-v="b_mag">99 to 123</span> residents in the mapped flood, depending on the definition, too few for a ratio, for the reason given above.
 
 ### Thriving in plain words
 
