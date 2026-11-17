@@ -527,7 +527,7 @@ def report(summary: dict) -> str:
         "",
         "## Limits",
         "",
-        "Autumn greenness after the flood is hard to read. The storm struck a few weeks before the cotton harvest, and in a normal year the harvested fields of the plain are bare by October, so a field that was never harvested, or that later grew weeds or another crop, can look as green as normal or greener while yielding nothing. Greenness alone cannot tell crop from weeds, so greenness right after the flood does not mean the land was working again. That is why the recovery count starts with the next growing season.",
+        "Autumn greenness after the flood is hard to read. The storm struck a few weeks before the cotton harvest, and in a normal year cotton is picked from late September, most of it by early November, so in a normal autumn the fields are picked and left bare, and a field that was never harvested, or that later grew weeds or another crop, can look as green as normal or greener while yielding nothing. Greenness alone cannot tell crop from weeds, so greenness right after the flood does not mean the land was working again. That is why the recovery count starts with the next growing season.",
         "",
         "Storm Elias brought a second flood on 27 and 28 September 2023, so autumn 2023 reflects both storms. In Larisa the basin of the former Lake Karla filled with water and stayed flooded well into 2024; land under water there measures a new lake, not slow recovery, which is why Larisa is also compared without that basin.",
         "",
