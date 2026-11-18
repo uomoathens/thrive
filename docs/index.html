@@ -160,7 +160,7 @@ footer{margin-top:72px;padding-top:24px;border-top:1px solid var(--border);font-
 <div class="stat"><div class="v" data-count="44.5" data-pre="€" data-suf="bn" data-dec="1">€44.5bn</div><div class="l">lost to weather and climate extremes in the EU each year, on average, 2020 to 2023</div><div class="s">European Environment Agency</div></div>
 <div class="stat"><div class="v" data-count="5" data-suf="×" data-dec="0">5×</div><div class="l">the yearly average of the 1980s</div><div class="s">European Environment Agency</div></div>
 <div class="stat"><div class="v">2030</div><div class="l">deadline for national climate-resilience plans in the proposed EU law</div><div class="s">COM(2026) 730, Article 7</div></div>
-<div class="stat"><div class="v">7–47%</div><div class="l">of flood triage rankings in which language models kept the rule they were given</div><div class="s">Who Gets Help First?, 2026</div></div>
+<div class="stat"><div class="v">7% to 47%</div><div class="l">of flood triage rankings in which language models kept the rule they were given</div><div class="s">Who Gets Help First?, 2026</div></div>
 </div>
 
 <section id="problem" class="reveal">
@@ -343,7 +343,7 @@ items.push({p:p,lab:lab,x:x,h:d.v/max*ph});
 el("line",{"class":"base",x1:L,x2:W-R,y1:T+ph,y2:T+ph},svg);
 return function(){tween(900,function(t){items.forEach(function(it,i){var k=Math.max(0,Math.min(1,t*1.25-i*0.06));var h=it.h*ease(k);it.p.setAttribute("d",barPath(it.x,T+ph-h,bw,h));it.lab.setAttribute("y",T+ph-h-8);it.lab.setAttribute("opacity",k)})})};
 }
-var eu=[{l:"1980s",v:8.5},{l:"1990s",v:14.0},{l:"2000s",v:15.8},{l:"2010s",v:17.8},{l:"2020–2023",v:44.5}];
+var eu=[{l:"1980s",v:8.5},{l:"1990s",v:14.0},{l:"2000s",v:15.8},{l:"2010s",v:17.8},{l:"2020-2023",v:44.5}];
 var grow1=barChart("c1",eu,50,10,function(v){return"€"+v+"bn"},function(v){return"€"+v.toFixed(1)+"bn"},function(d){return"<b>"+d.l+"</b><br>€"+d.v.toFixed(1)+" billion a year on average"+(d.l==="1980s"?"":"<br>"+(d.v/8.5).toFixed(1)+"× the 1980s")});
 table("t1",["Period","Average yearly loss"],eu.map(function(d){return[d.l,"€"+d.v.toFixed(1)+" billion"]}));
 var rule=[{l:"Meltemi 7B",v:0.0723,n:899},{l:"Apertus 8B",v:0.2933,n:733},{l:"Qwen 2.5 7B",v:0.3681,n:891},{l:"Llama 3.1 8B",v:0.4641,n:849},{l:"Krikri 8B",v:0.4692,n:878}];
