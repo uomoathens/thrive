@@ -6,7 +6,7 @@
 
 **[Try the interactive version →](https://uomoathens.github.io/thrive/)**
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24170980.svg)](https://doi.org/10.5281/zenodo.24170980)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24334032.svg)](https://doi.org/10.5281/zenodo.24334032)
 
 THRIVE is the companion software to the book *AI for Resilient Cities: Predicting, Protecting, and Thriving in a Changing Climate* (Springer, Cham, 2027, [link.springer.com/book/9783032364166](https://link.springer.com/book/9783032364166)). It takes the three verbs in the title and turns each into a question.
 
@@ -277,7 +277,7 @@ The book:
 
 The software, this release:
 
-> Sargiotis, D. (2026). *THRIVE: Trustworthy Hazard-to-Recovery Intelligence for Vulnerability-aware Equity* (Version 0.7.0) [Computer software]. Zenodo. https://doi.org/10.5281/zenodo.24170980
+> Sargiotis, D. (2026). *THRIVE: Trustworthy Hazard-to-Recovery Intelligence for Vulnerability-aware Equity* (Version 0.7.1) [Computer software]. Zenodo. https://doi.org/10.5281/zenodo.24334032
 
 The related audit:
 
