@@ -18,7 +18,7 @@ THRIVE answers the three in a loop, so that what we learn after one flood change
 
 ![tests](https://github.com/uomoathens/thrive/actions/workflows/ci.yml/badge.svg)
 
-Version 0.7.0 holds the four core calculations, each with its own tests, and three pipelines for real data, all of which run on GitHub. Phase A, on US flood grants, keeps its results in `results/phase-a`; Phase B, on who was in the water of Storm Daniel in Thessaly, in `results/phase-b`; and Thriving, on how the flooded land of Thessaly came back, in `results/thriving`. A summary of each is below, and the figures in this README and on the interactive page are copied from those results automatically after every run. The calculations are checked on worked examples, which give exactly the numbers on the interactive page. The charts below show published figures or simple examples, and each caption says which.
+Version 0.7.1 holds the four core calculations, each with its own tests, and three pipelines for real data, all of which run on GitHub. Phase A, on US flood grants, keeps its results in `results/phase-a`; Phase B, on who was in the water of Storm Daniel in Thessaly, in `results/phase-b`; and Thriving, on how the flooded land of Thessaly came back, in `results/thriving`. A summary of each is below, and the figures in this README and on the interactive page are copied from those results automatically after every run. The calculations are checked on worked examples, which give exactly the numbers on the interactive page. The charts below show published figures or simple examples, and each caption says which.
 
 To try it:
 
