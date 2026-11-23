@@ -56,6 +56,24 @@ The Note ends in 2023, when regional accounts end. Eurostat counts nights spent 
 | all guests | -0.56 (p 0.39) | -0.17 (p 0.67) | -0.41 (p 0.58) | +0.03 (p 0.94) | -0.54 (p 0.72) | 208 |
 | guests from abroad | -0.45 (p 0.62) | -0.80 (p 0.24) | -1.07 (p 0.26) | -0.71 (p 0.27) | -2.59 (p 0.21) | 208 |
 
+The same cumulative effect, fire year to two years after, under each check fixed in advance:
+
+| Check | Nights by | Cumulative | Observations |
+| --- | --- | --- | --- |
+| 2022 to 2025, all regions | all guests | -0.54 (p 0.72) | 208 |
+| 2022 to 2025, all regions | guests from abroad | -2.59 (p 0.21) | 208 |
+| 2023 to 2025, without the rebound of 2022 from the pandemic | all guests | -1.20 (p 0.37) | 156 |
+| 2023 to 2025, without the rebound of 2022 from the pandemic | guests from abroad | -2.16 (p 0.26) | 156 |
+| 2022 to 2025, without Evros | all guests | -1.94 (p 0.13) | 204 |
+| 2022 to 2025, without Evros | guests from abroad | -3.48 (p 0.12) | 204 |
+| 2022 to 2025, without the region of Rhodes | all guests | -0.68 (p 0.65) | 204 |
+| 2022 to 2025, without the region of Rhodes | guests from abroad | -3.02 (p 0.14) | 204 |
+
+Following THRIVE's own rule, a direction is reported as a finding only when every check agrees and is significant at the 5 % level:
+
+- all guests: **not robust**
+- guests from abroad: **not robust**
+
 Nights in the regions with the largest recent fires (all guests):
 
 | Region | Fires burning 1 % or more | 2021 | 2022 | 2023 | 2024 | 2025 |
