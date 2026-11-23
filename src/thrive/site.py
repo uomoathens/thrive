@@ -388,6 +388,32 @@ def phase_c(f: Facts):
         for y in (2023, 2024, 2025):
             if y in g:
                 f.set(f"c_rh_{y}", f"{'+' if g[y] >= 0 else MINUS}{abs(g[y]):.1f}")
+    labels = {"A": "Agriculture (A)", "B-E": "Industry (B to E)", "C": "Manufacturing (C)", "G-I": "Tourism-related services (G to I)"}
+    order = ["year before", "fire year", "year after", "two years after", "cumulative"]
+    sectors = []
+    for r in s["results"]:
+        if r["measure"] != "growth_real":
+            continue
+        pbo = {c["horizon"]: c["pbo"] for c in coefs if c["sector"] == r["sector"] and c["measure"] == "real"}
+        f.claim(all(h in pbo for h in order), f"Phase C: the Note's values for sector {r['sector']} are missing.")
+        sectors.append({
+            "k": r["sector"],
+            "l": labels.get(r["sector"], r["sector"]),
+            "thrive": [round(float(v), 4) for v in r["coef"] + [r["cumulative"]]],
+            "p": [None if v is None else round(float(v), 4) for v in r["p"] + [r["cumulative_p"]]],
+            "pbo": [pbo.get(h) for h in order],
+        })
+    short = {"main": "2022 to 2025", "from_2023": "From 2023", "no_evros": "Without Evros", "no_rhodes": "Without Rhodes"}
+    res = {"TOTAL": "All guests", "FOR": "Guests from abroad"}
+    nights = [{
+        "check": short.get(v["key"], v["key"]),
+        "full": v["name"],
+        "res": res.get(v["residence"], v["residence"]),
+        "cum": round(float(v["cumulative"]), 4),
+        "p": round(float(v["cumulative_p"]), 4),
+        "obs": v["observations"],
+    } for v in t["variants"]]
+    f.data["PC"] = {"sectors": sectors, "nights": nights, "rhodes": {str(k): round(float(v), 2) for k, v in (g.items() if rhodes else []) if int(k) in (2023, 2024, 2025)}}
     f.data["asof_c"] = src["retrieved_at"]
 
 
@@ -430,6 +456,9 @@ def render_page(h: str, f: Facts, used: set[str]) -> str:
     for d in td:
         d.update(f.data["TD"][d["k"]])
     h = h[:i] + json.dumps(td, ensure_ascii=False) + h[i + n:]
+    i = h.index("var PC=") + len("var PC=")
+    _, n = json.JSONDecoder().raw_decode(h[i:])
+    h = h[:i] + json.dumps(f.data["PC"], ensure_ascii=False, separators=(",", ":")) + h[i + n:]
     i = h.index("var TV=") + len("var TV=")
     tv, n = json.JSONDecoder().raw_decode(h[i:])
     t = f.data["TV"]

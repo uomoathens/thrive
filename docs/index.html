@@ -136,6 +136,7 @@ footer{margin-top:72px;padding-top:24px;border-top:1px solid var(--border);font-
 <a href="#thessaly">Thessaly</a>
 <a href="#thessaly-recovery">Recovery</a>
 <a href="#recover">Thriving</a>
+<a href="#wildfires">Wildfires</a>
 <a href="#decide">Who decides</a>
 <a href="#loop">How it works</a>
 <a href="#cite">Cite</a>
@@ -152,7 +153,7 @@ footer{margin-top:72px;padding-top:24px;border-top:1px solid var(--border);font-
 <a class="btn primary" href="https://link.springer.com/book/9783032364166">AI for Resilient Cities · Springer, 2027</a>
 <a class="btn" href="https://github.com/uomoathens/thrive">Code on GitHub</a>
 </div>
-<span class="chip"><i class="dot"></i><span>First results on real data: <a href="#results">United States</a>, and Storm Daniel in Thessaly: <a href="#thessaly">who was in the water</a> and <a href="#thessaly-recovery">how the land came back</a>. These are first results and have not been peer-reviewed. The figures are updated automatically from the latest runs, last on <span data-v="asof">23 November 2026</span>.</span></span>
+<span class="chip"><i class="dot"></i><span>First results on real data: <a href="#results">United States</a>, and Storm Daniel in Thessaly: <a href="#thessaly">who was in the water</a> and <a href="#thessaly-recovery">how the land came back</a>; and wildfires in Greece: <a href="#wildfires">what a fire costs Tourism</a>. These are first results and have not been peer-reviewed. The figures are updated automatically from the latest runs, last on <span data-v="asof">23 November 2026</span>.</span></span>
 <p class="src" style="margin-top:14px">Dimitrios Sargiotis, National Technical University of Athens</p>
 </header>
 
@@ -264,6 +265,33 @@ footer{margin-top:72px;padding-top:24px;border-top:1px solid var(--border);font-
 <div class="prose"><p>Two of the three maps give almost the same curves, and that is not a mistake. Of the <span data-v="t_w">827</span> squares under standing water, <span data-v="t_wc">826</span> are also inside the Copernicus maximum, which adds <span data-v="t_add">77</span> more, with <span data-v="t_add_res">55</span> residents in all; <span data-v="t_add_mag">35</span> of them lie in Magnesia, with <span data-v="t_add_mag_res">0</span> residents. Then <span data-v="t_drop">62</span> squares of the Copernicus map drop out as land that is not green in a normal year. The two maps end up measuring almost the same fields, so their curves never differ by more than about one point.</p><p><span data-v="t_findings">In the summer of 2024, almost a year after Daniel, the flooded land was still 13 to 15 % less green than normal under every flood map and every control area, with 95 % intervals running from 9 to 23 %. Larisa's shortfall against Karditsa and Trikala was 19 to 28 points in the spring, and every interval stays below zero, and 9 to 12 in the summer, but not every interval stays on one side of zero, so the gap is not firm under every map and control area. Part of that gap is a new lake: the basin of the former Lake Karla filled with water in September 2023 and stayed flooded well into 2024. Leaving out Larisa's squares within 15 km of the old lake's centre, the gap is 5 points in the spring and −1 to 1 in the summer, and every interval includes zero, so no difference shows. Between flooded squares with more and with fewer residents aged 65 and over no difference shows. In the summer the two groups differ by 0 to 1 points, but each group holds only 27 to 78 squares, so the intervals run from about 7 points less to 9 points more. A modest gap either way cannot be ruled out. Every interval resamples the squares in blocks of 10 by 10 km, because neighbouring squares flood and recover together.</span></p><p>In Magnesia the flooded squares were still mostly water in the spring of 2024, and the summer gave too few clear images for a figure. Greenness also has its limits as a measure. It shows fields coming back, not households: a farm can be green again while the family that works it is still waiting for help.</p></div>
 </section>
 
+<section id="wildfires" class="reveal">
+<h2>Greece: what does a wildfire cost Tourism?</h2>
+<div class="prose"><p>In November 2026 the Hellenic Parliamentary Budget Office published the first estimate of what climate extremes cost the regions of Greece. Its clearest result concerns wildfires: Tourism-related services (trade, transport, accommodation and food) grow more slowly after a fire, mostly in the season after it, when bookings fall. Before building anything on that result, THRIVE rebuilt it from open data alone: every burnt area mapped by the European Forest Fire Information System since 2016, matched to the <span data-v="c_regions">52</span> regions it crossed, and the regional accounts of Eurostat. The run stops if any number differs from the Note.</p></div>
+<div class="card">
+<p class="ctitle">Growth after a fire: THRIVE against the Note</p>
+<p class="csub">Change in the growth of value added per inhabitant, in percentage points, for each 1% of a region's area burnt. <span data-v="c_obs">312</span> observations, <span data-v="c_regions">52</span> regions. The year before is a check: a fire cannot change growth before it happens.</p>
+<div class="presets" id="fsel"></div>
+<div class="legend"><span><i class="sw" style="background:var(--c1)"></i>THRIVE, from open data</span><span><i class="sw" style="background:var(--text-2);opacity:.55"></i>Parliamentary Budget Office, Table C2</span></div>
+<svg class="chart" id="c9" viewBox="0 0 720 300" role="img" aria-label="Bar chart of the change in growth after a wildfire, by year, from THRIVE and from the Parliamentary Budget Office"></svg>
+<div class="result" id="r9" aria-live="polite"></div>
+<p class="src">Sources: Spaliara, M. E. and Tsoukalas, J. (2026), <a href="http://pbo.gr/el-gr/erevnitiki-drastiriotita/artmid/585/articleid/46007/preview/true/climate-extremes-and-regional-growth-in-greece-evidence-from-52-regions">Climate Extremes and Regional Growth in Greece: Evidence from 52 Regions</a>, Research Note No 3, Hellenic Parliamentary Budget Office; EFFIS burnt areas database, Copernicus and JRC; Eurostat nama_10r_3gva, nama_10r_3popgdp, nama_10r_2gvagr. THRIVE Phase C, <a href="https://github.com/uomoathens/thrive/tree/main/results/phase-c">results/phase-c</a>.</p>
+<details><summary>Show the numbers for every sector</summary><table id="t9"></table></details>
+</div>
+<div class="prose"><p>The replication holds exactly. The Rhodes fire of 2023 burnt <span data-v="c_rh_ha">18,687</span> hectares, <span data-v="c_rh_share">6.9</span>% of the region, as in the Note, and every one of the <span data-v="c_n_coef">24</span> coefficients matches it to the second decimal. For Tourism-related services the change is <span data-v="c_gi_t0">−0.21</span> points in the fire year and <span data-v="c_gi_t1">−0.54</span> points in the year after, <span data-v="c_gi_cum">−0.80</span> points over three years.</p><p>The Note ends in 2023, when the regional accounts end, so it sees the fires of Rhodes and Evros only in their fire year. Eurostat counts the nights spent at tourist accommodation up to <span data-v="c_t_last">2025</span>, so THRIVE asked the same question of nights, under four checks fixed in advance.</p></div>
+<div class="card">
+<p class="ctitle">Nights spent after a fire, under four checks</p>
+<p class="csub">Change in the growth of nights over the fire year and the two years after, in percentage points, for each 1% of a region's area burnt. Each label gives the p-value; a direction counts only if every check is below 0.05.</p>
+<div class="tstats"><div><div class="v" id="n23"></div><div class="l">nights in the region of Rhodes in 2023, the year of the fire</div></div><div><div class="v" id="n24"></div><div class="l">in 2024, the season after</div></div><div><div class="v" id="n25"></div><div class="l">in 2025</div></div></div>
+<div class="legend"><span><i class="sw" style="background:var(--c1)"></i>All guests</span><span><i class="sw" style="background:var(--c2)"></i>Guests from abroad</span></div>
+<svg class="chart" id="c10" viewBox="0 0 720 300" role="img" aria-label="Bar chart of the change in the growth of nights after a wildfire under four checks, for all guests and for guests from abroad"></svg>
+<div class="result" id="r10" aria-live="polite"></div>
+<p class="src">Source: Eurostat, nights spent at tourist accommodation establishments by NUTS 3 region (tour_occ_nin3), with the burnt areas above. THRIVE Phase C, <a href="https://github.com/uomoathens/thrive/tree/main/results/phase-c">results/phase-c</a>.</p>
+<details><summary>Show the numbers</summary><table id="t10"></table></details>
+</div>
+<div class="prose"><p>All <span data-v="c_t_n">8</span> estimates point the same way, from <span data-v="c_t_range">−3.48 to −0.54</span>, but none is significant (the smallest p is <span data-v="c_t_pmin">0.12</span>), so by THRIVE's own rule no finding is reported. Fewer nights after a fire cannot be ruled out, but on these data the loss the Note finds in value added does not show clearly as a loss of nights. Fewer nights per guest, lower prices or lower spending per night would each fit it; telling them apart needs data that are not yet open.</p></div>
+</section>
+
 <section id="decide" class="reveal">
 <h2>Why a language model should explain, and never decide</h2>
 <div class="prose"><p>In an earlier study, five small open language models (7 to 8 billion parameters, run in 4-bit form) ranked flood calls under a clear rule: vulnerable people first, then households, then workers, then property. Most of the time they broke it.</p></div>
@@ -298,7 +326,7 @@ footer{margin-top:72px;padding-top:24px;border-top:1px solid var(--border);font-
   url       = {https://link.springer.com/book/9783032364166}
 }</pre>
 <button class="copy" id="copy" type="button">Copy BibTeX</button>
-<div class="prose"><p>The software: Sargiotis, D. (2026). <i>THRIVE: Trustworthy Hazard-to-Recovery Intelligence for Vulnerability-aware Equity</i> (Version 0.7.1) [Computer software]. Zenodo. <a href="https://doi.org/10.5281/zenodo.24334032">doi:10.5281/zenodo.24334032</a></p></div>
+<div class="prose"><p>The software: Sargiotis, D. (2026). <i>THRIVE: Trustworthy Hazard-to-Recovery Intelligence for Vulnerability-aware Equity</i> (Version 0.8.0) [Computer software]. Zenodo. <a href="https://doi.org/10.5281/zenodo.24170979">doi:10.5281/zenodo.24170979</a></p></div>
 </section>
 
 <footer>
@@ -532,6 +560,50 @@ pick(0);
 document.getElementById("copy").addEventListener("click",function(){var b=this,t=document.getElementById("bib").textContent;function done(){b.textContent="Copied";setTimeout(function(){b.textContent="Copy BibTeX"},1600)}
 if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(done,function(){})}else{var r=document.createRange();r.selectNodeContents(document.getElementById("bib"));var s=getSelection();s.removeAllRanges();s.addRange(r);try{document.execCommand("copy");done()}catch(e){}}});
 function countUp(elm){var to=+elm.dataset.count,pre=elm.dataset.pre||"",suf=elm.dataset.suf||"",dec=+elm.dataset.dec||0;tween(1100,function(t){elm.textContent=pre+(to*t).toFixed(dec)+suf})}
+var PC={"sectors":[{"k":"A","l":"Agriculture (A)","thrive":[-0.5703,-0.7519,-0.2361,-0.2144,-1.2023],"p":[0.1497,0.0565,0.6747,0.6581,0.2391],"pbo":[-0.57,-0.75,-0.24,-0.21,-1.2]},{"k":"B-E","l":"Industry (B to E)","thrive":[0.0186,-0.1068,-0.788,-0.433,-1.3279],"p":[0.9424,0.443,0.0681,0.0289,0.0309],"pbo":[0.02,-0.11,-0.79,-0.43,-1.33]},{"k":"C","l":"Manufacturing (C)","thrive":[-0.1304,-0.2158,-0.1752,-0.0426,-0.4337],"p":[0.0514,0.0026,0.406,0.7267,0.0278],"pbo":[-0.13,-0.22,-0.18,-0.04,-0.43]},{"k":"G-I","l":"Tourism-related services (G to I)","thrive":[0.0724,-0.2066,-0.5388,-0.0536,-0.799],"p":[0.536,0.0519,0.0001,0.7682,0.002],"pbo":[0.07,-0.21,-0.54,-0.05,-0.8]}],"nights":[{"check":"2022 to 2025","full":"2022 to 2025, all regions","res":"All guests","cum":-0.5439,"p":0.7172,"obs":208},{"check":"2022 to 2025","full":"2022 to 2025, all regions","res":"Guests from abroad","cum":-2.5871,"p":0.2112,"obs":208},{"check":"From 2023","full":"2023 to 2025, without the rebound of 2022 from the pandemic","res":"All guests","cum":-1.1985,"p":0.3668,"obs":156},{"check":"From 2023","full":"2023 to 2025, without the rebound of 2022 from the pandemic","res":"Guests from abroad","cum":-2.1576,"p":0.2639,"obs":156},{"check":"Without Evros","full":"2022 to 2025, without Evros","res":"All guests","cum":-1.9421,"p":0.1326,"obs":204},{"check":"Without Evros","full":"2022 to 2025, without Evros","res":"Guests from abroad","cum":-3.4841,"p":0.1244,"obs":204},{"check":"Without Rhodes","full":"2022 to 2025, without the region of Rhodes","res":"All guests","cum":-0.684,"p":0.652,"obs":204},{"check":"Without Rhodes","full":"2022 to 2025, without the region of Rhodes","res":"Guests from abroad","cum":-3.0233,"p":0.143,"obs":204}],"rhodes":{"2023":4.04,"2024":14.25,"2025":1.46}},fk=3;
+var c9=document.getElementById("c9"),fsel=document.getElementById("fsel"),g9={W:720,H:300,L:66,R:16,T:26,B:40,min:-1.4,max:0.4};
+g9.ph=g9.H-g9.T-g9.B;g9.pw=g9.W-g9.L-g9.R;g9.band=g9.pw/5;g9.bw=30;
+function Y9(v){return g9.T+(g9.max-Math.max(g9.min,Math.min(v,g9.max)))/(g9.max-g9.min)*g9.ph}
+function sg(v){return(v<0?"\u2212":v>0?"+":"")+Math.abs(v).toFixed(2)}
+var HZ=["Year before","Fire year","Year after","Two years after","Three years together"];
+(function(){yGrid(c9,g9.L,g9.R,g9.T,g9.ph,g9.W,g9.min,g9.max,0.2,function(v){return(Math.abs(v)<1e-9?"0":(v<0?"\u2212":"+")+Math.abs(v).toFixed(1))});
+g9.items=[];
+HZ.forEach(function(z,i){var x0=g9.L+g9.band*i+g9.band/2;
+txt(z,{"class":"tick",x:x0,y:g9.T+g9.ph+22,"text-anchor":"middle"},c9);
+var a=el("path",{"class":"bar f1"},c9),b=el("path",{"class":"bar fn"},c9),la=txt("",{"class":"val","text-anchor":"middle",x:x0-g9.bw/2-8},c9),lb=txt("",{"class":"val","text-anchor":"middle",x:x0+g9.bw/2+8},c9);
+var hit=el("rect",{"class":"hit",x:g9.L+g9.band*i,y:g9.T,width:g9.band,height:g9.ph+30},c9);
+hit.addEventListener("mousemove",function(ev){var s=PC.sectors[fk];showTip(ev,"<b>"+z+"</b> · "+s.l+"<br>THRIVE "+sg(s.thrive[i])+(s.p[i]===null?"":" (p "+s.p[i].toFixed(2)+")")+"<br>Note "+sg(s.pbo[i]))});
+hit.addEventListener("mouseleave",hideTip);
+g9.items.push({x0:x0,a:a,b:b,la:la,lb:lb})});
+var y0=Y9(0);el("line",{"class":"base",x1:g9.L,x2:g9.W-g9.R,y1:y0,y2:y0},c9);
+PC.sectors.forEach(function(s,k){var bt=document.createElement("button");bt.type="button";bt.textContent=s.l;bt.addEventListener("click",function(){show9(k,true)});fsel.appendChild(bt)});
+var rows=[];PC.sectors.forEach(function(s){HZ.forEach(function(z,i){rows.push([s.l,z,sg(s.thrive[i]),s.p[i]===null?"n/a":s.p[i].toFixed(2),sg(s.pbo[i])])})});
+table("t9",["Sector","Year","THRIVE","p-value, THRIVE","Note, Table C2"],rows);
+})();
+function bar9(x,v,w){var y0=Y9(0),y=Y9(v);return v>=0?barPath(x,y,w,y0-y):"M"+x+","+y0+"H"+(x+w)+"V"+y+"H"+x+"Z"}
+function draw9(t){var s=PC.sectors[fk];g9.items.forEach(function(it,i){var va=s.thrive[i]*t,vb=s.pbo[i]*t;it.a.setAttribute("d",bar9(it.x0-g9.bw-8,va,g9.bw));it.b.setAttribute("d",bar9(it.x0+8,vb,g9.bw));
+it.la.textContent=t>=1?sg(s.thrive[i]):"";it.lb.textContent=t>=1?sg(s.pbo[i]):"";it.la.setAttribute("y",va<0?Y9(va)+15:Y9(va)-7);it.lb.setAttribute("y",vb<0?Y9(vb)+15:Y9(vb)-7)})}
+function show9(k,animate){fk=k;[].forEach.call(fsel.children,function(b,j){b.classList.toggle("on",j===k)});var s=PC.sectors[k],d=Math.max.apply(null,s.thrive.map(function(v,i){return Math.abs(v-s.pbo[i])}));
+if(animate)tween(700,draw9);else draw9(1);
+document.getElementById("r9").innerHTML='<span class="badge '+(d<0.005?'a">Same':'b">Differs')+'</span><span>'+s.l+": over three years THRIVE finds "+sg(s.thrive[4])+" points per 1% of area burnt, the Note "+sg(s.pbo[4])+". The largest difference in any year is "+d.toFixed(3)+" points.</span>"}
+var c10=document.getElementById("c10"),g10={W:720,H:300,L:66,R:16,T:26,B:40,min:-4.5,max:0.5};
+g10.ph=g10.H-g10.T-g10.B;g10.pw=g10.W-g10.L-g10.R;
+function Y10(v){return g10.T+(g10.max-Math.max(g10.min,Math.min(v,g10.max)))/(g10.max-g10.min)*g10.ph}
+var NK=[];PC.nights.forEach(function(n){if(NK.indexOf(n.check)<0)NK.push(n.check)});
+(function(){yGrid(c10,g10.L,g10.R,g10.T,g10.ph,g10.W,g10.min,g10.max,0.5,function(v){return(Math.abs(v)<1e-9?"0":(v<0?"\u2212":"+")+Math.abs(v).toFixed(1))});
+var band=g10.pw/Math.max(1,NK.length),bw=28;g10.bw=bw;g10.items=[];
+NK.forEach(function(c,i){var x0=g10.L+band*i+band/2;txt(c,{"class":"tick",x:x0,y:g10.T+g10.ph+22,"text-anchor":"middle"},c10);
+PC.nights.filter(function(n){return n.check===c}).forEach(function(n,j){var x=j===0?x0-bw-12:x0+12,p=el("path",{"class":"bar "+(j===0?"f1":"f2")},c10),lab=txt("",{"class":"val","text-anchor":"middle",x:x+bw/2},c10);g10.items.push({n:n,x:x,p:p,lab:lab})});
+var hit=el("rect",{"class":"hit",x:g10.L+band*i,y:g10.T,width:band,height:g10.ph+30},c10);
+hit.addEventListener("mousemove",function(ev){var html="<b>"+c+"</b>";PC.nights.filter(function(n){return n.check===c}).forEach(function(n){html+="<br>"+n.res+": "+sg(n.cum)+" (p "+n.p.toFixed(2)+", "+n.obs+" observations)"});showTip(ev,html)});
+hit.addEventListener("mouseleave",hideTip)});
+var y0=Y10(0);el("line",{"class":"base",x1:g10.L,x2:g10.W-g10.R,y1:y0,y2:y0},c10);
+table("t10",["Check","Nights by","Three years together","p-value","Observations"],PC.nights.map(function(n){return[n.full,n.res,sg(n.cum),n.p.toFixed(2),n.obs]}));
+["2023","2024","2025"].forEach(function(y){var v=PC.rhodes[y];document.getElementById("n"+y.slice(2)).textContent=v===undefined?"n/a":(v<0?"\u2212":"+")+Math.abs(v).toFixed(1)+"%"});
+var ps=PC.nights.map(function(n){return n.p}),mn=ps.length?Math.min.apply(null,ps):1;
+document.getElementById("r10").innerHTML='<span class="badge n">'+(mn<0.05?"Check":"Not robust")+'</span><span>Every estimate is negative, but the smallest p-value is '+mn.toFixed(2)+", above 0.05, so no direction is reported.</span>"})();
+function grow10(){tween(900,function(t){g10.items.forEach(function(it){var v=it.n.cum*t,y0=Y10(0),y=Y10(v);it.p.setAttribute("d","M"+it.x+","+y0+"V"+y+"H"+(it.x+g10.bw)+"V"+y0+"Z");it.lab.setAttribute("y",y+15);it.lab.textContent=t>=1?"p "+it.n.p.toFixed(2):""})})}
+show9(fk,false);
 var done={};
 var io="IntersectionObserver" in window?new IntersectionObserver(function(es){es.forEach(function(e){if(!e.isIntersecting)return;var t=e.target;t.classList.add("in");
 if(t.classList.contains("stats")&&!done.s){done.s=1;t.querySelectorAll("[data-count]").forEach(countUp)}
@@ -540,10 +612,11 @@ if(t.id==="decide"&&!done.d){done.d=1;grow4()}
 if(t.id==="results"&&!done.q){done.q=1;show5(mi,2);grow6()}
 if(t.id==="thessaly"&&!done.t){done.t=1;show7(ti,2)}
 if(t.id==="thessaly-recovery"&&!done.v){done.v=1;grow8()}
+if(t.id==="wildfires"&&!done.w){done.w=1;show9(fk,true);grow10()}
 if(t.id==="recover"&&!done.r){done.r=1;(rc.lines||[]).forEach(function(pl){pl.style.transition="stroke-dashoffset 1.4s ease";requestAnimationFrame(function(){pl.style.strokeDashoffset=0})})}
 io.unobserve(t)})},{threshold:0.18}):null;
 document.querySelectorAll(".reveal").forEach(function(s){if(io)io.observe(s);else{s.classList.add("in")}});
-if(!io){grow1();grow4();show5(0,false);grow6();show7(0,false);(rc.lines||[]).forEach(function(pl){pl.style.strokeDashoffset=0})}
+if(!io){grow1();grow4();show5(0,false);grow6();show7(0,false);grow10();(rc.lines||[]).forEach(function(pl){pl.style.strokeDashoffset=0})}
 var links=[].slice.call(document.querySelectorAll(".links a")),secs=links.map(function(a){return document.querySelector(a.getAttribute("href"))});
 function spy(){var y=scrollY+120,on=-1;secs.forEach(function(s,i){if(s&&s.offsetTop<=y)on=i});links.forEach(function(a,i){a.classList.toggle("on",i===on)})}
 addEventListener("scroll",spy,{passive:true});spy();
