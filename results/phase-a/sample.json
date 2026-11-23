@@ -89,7 +89,7 @@
       "selectionProgramActivity": null,
       "selectionFederalShareAmount": null,
       "selectionFundCode": null,
-      "id": "651bb534-76a6-411d-bc37-16e96b987782"
+      "id": "07b94433-18ee-465e-b227-bbb98af8feb3"
     },
     {
       "subapplicationIdentifier": "DR-1866-0003-F",
@@ -180,7 +180,7 @@
       "selectionProgramActivity": null,
       "selectionFederalShareAmount": null,
       "selectionFundCode": null,
-      "id": "2e4e9a54-b981-4883-ad48-ddb9c83aa884"
+      "id": "baba39bd-716d-4871-9a8d-7cd63b9455e3"
     },
     {
       "subapplicationIdentifier": "DR-4241-0040-R",
@@ -271,98 +271,7 @@
       "selectionProgramActivity": null,
       "selectionFederalShareAmount": null,
       "selectionFundCode": null,
-      "id": "f4a15373-fd41-4f28-87f2-0db30036dd08"
-    },
-    {
-      "subapplicationIdentifier": "DR-4673-0276-R",
-      "program": "Hazard Mitigation Grant Program",
-      "fiscalYear": 2022,
-      "region": 4,
-      "applicantUei": null,
-      "applicantName": "Statewide",
-      "subapplicantUei": null,
-      "subapplicantName": "Lee (County)",
-      "subapplicantCity": null,
-      "subapplicantState": "Florida",
-      "subapplicantStateAbbreviation": "FL",
-      "subapplicantZipCode": null,
-      "subapplicantZip4": null,
-      "subjectEO12372": null,
-      "eo12372ReviewDate": null,
-      "subapplicantFederalDebt": null,
-      "dateInitiatedInSystem": null,
-      "dateSubmittedToApplicant": null,
-      "dateSubmittedToFema": "2025-02-07T00:00:00.000Z",
-      "subapplicationTitle": null,
-      "proposedProjectStartDate": null,
-      "proposedProjectEndDate": null,
-      "estimatedTotalDuration": null,
-      "fundingCategory": null,
-      "subapplicantType": null,
-      "status": "Approved",
-      "subapplicationType": "Project",
-      "benefitingCounties": "Lee",
-      "primaryActivity": "Utility and infrastructure protection",
-      "primarySubactivity": "Wastewater and/or sanitary sewer system",
-      "secondaryActivity": null,
-      "secondarySubactivity": null,
-      "tertiaryActivity": null,
-      "tertiarySubactivity": null,
-      "primaryCommunityLifeline": null,
-      "primaryCommunityLifelineComponent": null,
-      "secondaryCommunityLifeline": null,
-      "secondaryCommunityLifelineComponent": null,
-      "tertiaryCommunityLifeline": null,
-      "tertiaryCommunityLifelineComponent": null,
-      "primaryHazard": "Hurricane",
-      "secondaryHazard": null,
-      "tertiaryHazard": null,
-      "natureBasedSolution": null,
-      "smallImpoverished": null,
-      "populationAffected": null,
-      "phasedProject": null,
-      "construction": null,
-      "priorSubapplication": null,
-      "communityRatingSystem": null,
-      "crsRating": null,
-      "cooperatingTechnicalPartner": null,
-      "adoptedIcc": null,
-      "yearBuildingCode": null,
-      "buildingCodesOnBcegs": null,
-      "bcegsRating": null,
-      "mitigationPlanCovered": null,
-      "mitigationPlanType": null,
-      "mitigationPlanSubtype": null,
-      "dateMitigationPlanApproved": null,
-      "costEffectivenessMethod": null,
-      "preCalculatedBenefit": null,
-      "environmentalBenefit": null,
-      "seaLevelRise": null,
-      "socialBenefit": null,
-      "mitigatingProjectSiteInventory": null,
-      "projectSiteInventoryLocationKnown": null,
-      "numberBuildingLocations": null,
-      "numberInfrastructureLocations": null,
-      "numberVacantLandLocations": null,
-      "federalShareAmount": 9817180.5,
-      "nonFederalShareAmount": 3272393.5,
-      "mgmtFederalShareAmount": null,
-      "mgmtNonFederalShareAmount": null,
-      "totalSubapplicationAmount": 13089574,
-      "totalObligatedAmount": 1378056.32,
-      "totalPaymentAmount": null,
-      "federalSharePercentage": 0.75,
-      "nonFederalSharePercentage": 0.25,
-      "benefitCostRatio": 2.42,
-      "bcaTotalBenefits": 32978664,
-      "bcaTotalCosts": 13627803,
-      "disasterNumber": "4673",
-      "selectionStatus": null,
-      "selectionFundingCategory": null,
-      "selectionProgramActivity": null,
-      "selectionFederalShareAmount": null,
-      "selectionFundCode": null,
-      "id": "2cb25a43-e768-4dc2-ae2c-b315e29af469"
+      "id": "ecea4adf-65d3-4a9d-911a-8001975ae2bb"
     },
     {
       "subapplicationIdentifier": "DR-1549-0095-R",
@@ -453,7 +362,7 @@
       "selectionProgramActivity": null,
       "selectionFederalShareAmount": null,
       "selectionFundCode": null,
-      "id": "94d385a7-abc1-478d-84d6-f5854a7eedb8"
+      "id": "5b14d944-29da-40f5-b1d3-d9e7393a94f2"
     },
     {
       "subapplicationIdentifier": "DR-1579-0006-R",
@@ -544,7 +453,7 @@
       "selectionProgramActivity": null,
       "selectionFederalShareAmount": null,
       "selectionFundCode": null,
-      "id": "48c4ef8a-3af0-477b-a69e-ac22ec58c42a"
+      "id": "92f853c0-db77-4515-9ec4-9efb6de7f9a5"
     },
     {
       "subapplicationIdentifier": "DR-4497-0025-R",
@@ -635,7 +544,7 @@
       "selectionProgramActivity": null,
       "selectionFederalShareAmount": null,
       "selectionFundCode": null,
-      "id": "fbbcb449-7f92-4c3a-932e-717c42f56940"
+      "id": "0d55d50f-9c50-47f0-a687-39fb1a53c983"
     },
     {
       "subapplicationIdentifier": "DR-1776-0006-R",
@@ -726,7 +635,7 @@
       "selectionProgramActivity": null,
       "selectionFederalShareAmount": null,
       "selectionFundCode": null,
-      "id": "9da39fcc-9656-4e6f-ab66-6257d9420cb2"
+      "id": "429f1568-9e8f-4586-9d92-cbe2c8d1c212"
     },
     {
       "subapplicationIdentifier": "DR-4145-0008-P",
@@ -817,7 +726,7 @@
       "selectionProgramActivity": null,
       "selectionFederalShareAmount": null,
       "selectionFundCode": null,
-      "id": "01693960-4875-4eef-a5a1-bd26f9facee6"
+      "id": "d2d3a231-6384-4f98-97ae-a405fa230ef3"
     },
     {
       "subapplicationIdentifier": "DR-4542-0007-R",
@@ -908,7 +817,7 @@
       "selectionProgramActivity": null,
       "selectionFederalShareAmount": null,
       "selectionFundCode": null,
-      "id": "40549699-5e1f-454d-b4a7-972e3bc7a485"
+      "id": "08042e38-4b98-404a-9484-1c935ee3a15e"
     },
     {
       "subapplicationIdentifier": "DR-1606-0024-R",
@@ -999,7 +908,7 @@
       "selectionProgramActivity": null,
       "selectionFederalShareAmount": null,
       "selectionFundCode": null,
-      "id": "c4419784-06dc-42d2-bf3d-9a91c9b13c2f"
+      "id": "affb2469-1d5a-4e50-b25e-70b782ba07a3"
     },
     {
       "subapplicationIdentifier": "DR-4022-0135-R",
@@ -1090,7 +999,7 @@
       "selectionProgramActivity": null,
       "selectionFederalShareAmount": null,
       "selectionFundCode": null,
-      "id": "527aeb52-59f0-4f43-bdb7-dec28c7b0c65"
+      "id": "fe4d70ee-01a2-4f0d-badd-c9fd941120ed"
     },
     {
       "subapplicationIdentifier": "DR-4533-0002-P",
@@ -1181,7 +1090,7 @@
       "selectionProgramActivity": null,
       "selectionFederalShareAmount": null,
       "selectionFundCode": null,
-      "id": "f628c4eb-b3b6-4c2c-a4b5-b87571dc937b"
+      "id": "a67f64eb-97bb-4db8-b4a8-c390ce1b487a"
     },
     {
       "subapplicationIdentifier": "DR-4184-0007-R",
@@ -1272,7 +1181,7 @@
       "selectionProgramActivity": null,
       "selectionFederalShareAmount": null,
       "selectionFundCode": null,
-      "id": "0398c0c3-d34c-45b2-8214-a9e7b685d86c"
+      "id": "17bdd771-2193-40b6-befd-292cd0f21348"
     },
     {
       "subapplicationIdentifier": "DR-4699-0036-P",
@@ -1363,7 +1272,7 @@
       "selectionProgramActivity": null,
       "selectionFederalShareAmount": null,
       "selectionFundCode": null,
-      "id": "da30e135-8c0a-49d6-afab-cae87f3c7c50"
+      "id": "7f99efd7-7aa1-49bb-8e9d-4b7abe324eb9"
     },
     {
       "subapplicationIdentifier": "DR-4702-0015-R",
@@ -1454,7 +1363,7 @@
       "selectionProgramActivity": null,
       "selectionFederalShareAmount": null,
       "selectionFundCode": null,
-      "id": "c81d8a47-8a0d-4c65-a0c8-f9cc3f00437e"
+      "id": "e4057069-08bc-42d4-99b9-6ada189ed685"
     },
     {
       "subapplicationIdentifier": "DR-4796-0058-R",
@@ -1545,7 +1454,7 @@
       "selectionProgramActivity": null,
       "selectionFederalShareAmount": null,
       "selectionFundCode": null,
-      "id": "e7367ad8-7dc8-4fb2-a59a-9adfd74f76e0"
+      "id": "adaee177-9482-476a-937f-9f88744b1722"
     },
     {
       "subapplicationIdentifier": "DR-1689-0003-M",
@@ -1636,7 +1545,7 @@
       "selectionProgramActivity": null,
       "selectionFederalShareAmount": null,
       "selectionFundCode": null,
-      "id": "5135a776-4024-4ff9-be6a-c28d00030305"
+      "id": "40f50f5c-1a47-4eff-bfca-c1722b3a520a"
     },
     {
       "subapplicationIdentifier": "DR-1984-0039",
@@ -1727,7 +1636,7 @@
       "selectionProgramActivity": null,
       "selectionFederalShareAmount": null,
       "selectionFundCode": null,
-      "id": "978aa61a-cf7b-463d-ae0d-ede9a21113f0"
+      "id": "b7c124e9-5606-441a-a0e9-23668a05e1be"
     },
     {
       "subapplicationIdentifier": "DR-4705-0013-R",
@@ -1818,7 +1727,7 @@
       "selectionProgramActivity": null,
       "selectionFederalShareAmount": null,
       "selectionFundCode": null,
-      "id": "004b33a6-9b27-45c6-9e70-56ab6afb212c"
+      "id": "fed66fa9-7ace-4cee-89d4-6b126cd55b59"
     },
     {
       "subapplicationIdentifier": "DR-1675-0104-R",
@@ -1909,7 +1818,7 @@
       "selectionProgramActivity": null,
       "selectionFederalShareAmount": null,
       "selectionFundCode": null,
-      "id": "77e636c0-9a90-4319-93c3-20c7077b45d2"
+      "id": "bc5c5709-de98-4ad0-8a9c-5a828abd4d80"
     },
     {
       "subapplicationIdentifier": "DR-1711-0008-P",
@@ -2000,7 +1909,7 @@
       "selectionProgramActivity": null,
       "selectionFederalShareAmount": null,
       "selectionFundCode": null,
-      "id": "c906807d-1398-4e16-b9d2-8e065bd3d120"
+      "id": "b5e0c597-4813-40a2-a234-6f96b91bb3f8"
     },
     {
       "subapplicationIdentifier": "DR-1912-0018-R",
@@ -2091,7 +2000,7 @@
       "selectionProgramActivity": null,
       "selectionFederalShareAmount": null,
       "selectionFundCode": null,
-      "id": "1b50f3dd-3fd2-433e-8ca6-b445226f0583"
+      "id": "fd45a84a-d8cb-481c-836b-bab869db7a64"
     },
     {
       "subapplicationIdentifier": "DR-1914-0005",
@@ -2182,7 +2091,7 @@
       "selectionProgramActivity": null,
       "selectionFederalShareAmount": null,
       "selectionFundCode": null,
-      "id": "ac1e56a4-3410-4399-8ecb-0f2035c5b685"
+      "id": "17cbd2c3-bbff-4d65-8091-0595d4a7f45e"
     },
     {
       "subapplicationIdentifier": "DR-1344-0014-R",
@@ -2273,7 +2182,98 @@
       "selectionProgramActivity": null,
       "selectionFederalShareAmount": null,
       "selectionFundCode": null,
-      "id": "84986a1e-d8b2-4451-a379-966062f871ba"
+      "id": "5e7b1905-a68c-49c4-8fd4-bd2a48e66cdb"
+    },
+    {
+      "subapplicationIdentifier": "DR-4346-0024-F",
+      "program": "Hazard Mitigation Grant Program",
+      "fiscalYear": 2018,
+      "region": 4,
+      "applicantUei": null,
+      "applicantName": "Statewide",
+      "subapplicantUei": null,
+      "subapplicantName": "SC-DEPARTMENT OF PUBLIC SAFETY",
+      "subapplicantCity": null,
+      "subapplicantState": "South Carolina",
+      "subapplicantStateAbbreviation": "SC",
+      "subapplicantZipCode": null,
+      "subapplicantZip4": null,
+      "subjectEO12372": null,
+      "eo12372ReviewDate": null,
+      "subapplicantFederalDebt": null,
+      "dateInitiatedInSystem": null,
+      "dateSubmittedToApplicant": null,
+      "dateSubmittedToFema": "2018-09-21T00:00:00.000Z",
+      "subapplicationTitle": null,
+      "proposedProjectStartDate": null,
+      "proposedProjectEndDate": null,
+      "estimatedTotalDuration": null,
+      "fundingCategory": null,
+      "subapplicantType": null,
+      "status": "Closed",
+      "subapplicationType": "5% initiative",
+      "benefitingCounties": "Statewide",
+      "primaryActivity": "Other",
+      "primarySubactivity": null,
+      "secondaryActivity": null,
+      "secondarySubactivity": null,
+      "tertiaryActivity": null,
+      "tertiarySubactivity": null,
+      "primaryCommunityLifeline": null,
+      "primaryCommunityLifelineComponent": null,
+      "secondaryCommunityLifeline": null,
+      "secondaryCommunityLifelineComponent": null,
+      "tertiaryCommunityLifeline": null,
+      "tertiaryCommunityLifelineComponent": null,
+      "primaryHazard": "Tropical Cyclones",
+      "secondaryHazard": "Hurricane",
+      "tertiaryHazard": "Coastal Storm",
+      "natureBasedSolution": null,
+      "smallImpoverished": null,
+      "populationAffected": null,
+      "phasedProject": null,
+      "construction": null,
+      "priorSubapplication": null,
+      "communityRatingSystem": null,
+      "crsRating": null,
+      "cooperatingTechnicalPartner": null,
+      "adoptedIcc": null,
+      "yearBuildingCode": null,
+      "buildingCodesOnBcegs": null,
+      "bcegsRating": null,
+      "mitigationPlanCovered": null,
+      "mitigationPlanType": null,
+      "mitigationPlanSubtype": null,
+      "dateMitigationPlanApproved": null,
+      "costEffectivenessMethod": null,
+      "preCalculatedBenefit": null,
+      "environmentalBenefit": null,
+      "seaLevelRise": null,
+      "socialBenefit": null,
+      "mitigatingProjectSiteInventory": null,
+      "projectSiteInventoryLocationKnown": null,
+      "numberBuildingLocations": null,
+      "numberInfrastructureLocations": null,
+      "numberVacantLandLocations": null,
+      "federalShareAmount": 0,
+      "nonFederalShareAmount": 0,
+      "mgmtFederalShareAmount": null,
+      "mgmtNonFederalShareAmount": null,
+      "totalSubapplicationAmount": 0,
+      "totalObligatedAmount": null,
+      "totalPaymentAmount": null,
+      "federalSharePercentage": 1,
+      "nonFederalSharePercentage": 0,
+      "benefitCostRatio": null,
+      "bcaTotalBenefits": 0,
+      "bcaTotalCosts": 0,
+      "disasterNumber": "4346",
+      "selectionStatus": null,
+      "selectionFundingCategory": null,
+      "selectionProgramActivity": null,
+      "selectionFederalShareAmount": null,
+      "selectionFundCode": null,
+      "id": "9ec13ad4-fafe-4b8d-987d-00b27b26e00d"
     }
   ],
   "nri": [
