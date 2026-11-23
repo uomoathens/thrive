@@ -356,6 +356,23 @@ def coefficient_check(results: list[dict], cfg_val: dict) -> pd.DataFrame:
     return pd.DataFrame(rows)
 
 
+def tourism_verdict(variants: list[dict], residences, alpha: float) -> dict:
+    out = {}
+    for resid in residences:
+        rows = [v for v in variants if v["residence"] == resid]
+        if not rows:
+            out[resid] = "no data"
+            continue
+        sig = [v["cumulative_p"] is not None and v["cumulative_p"] < alpha for v in rows]
+        if all(sig) and all(v["cumulative"] < 0 for v in rows):
+            out[resid] = "lower after a fire"
+        elif all(sig) and all(v["cumulative"] > 0 for v in rows):
+            out[resid] = "higher after a fire"
+        else:
+            out[resid] = "not robust"
+    return out
+
+
 def tourism_summary(results: list[dict], nights: pd.DataFrame, exposure: pd.DataFrame, tc: dict, first: int, last: int) -> dict:
     share = exposure.set_index(["region_id", "year"])["share_pct"]
     focus = []
@@ -432,6 +449,22 @@ def report(summary: dict, burnt: pd.DataFrame, coefs: pd.DataFrame, sources: dic
         cum = f"{_fmt(r['cumulative'])} (p {r['cumulative_p']:.2f})" if r["cumulative_p"] is not None else _fmt(r["cumulative"])
         label = {"TOTAL": "all guests", "FOR": "guests from abroad", "DOM": "guests from Greece"}.get(r["sector"], r["sector"])
         lines.append(f"| {label} | " + " | ".join(cells) + f" | {cum} | {r['observations']} |")
+    labels = {"TOTAL": "all guests", "FOR": "guests from abroad", "DOM": "guests from Greece"}
+    variants = summary["tourism"].get("variants", [])
+    if variants:
+        lines += [
+            "",
+            "The same cumulative effect, fire year to two years after, under each check fixed in advance:",
+            "",
+            "| Check | Nights by | Cumulative | Observations |",
+            "| --- | --- | --- | --- |",
+        ]
+        for v in variants:
+            cum = f"{_fmt(v['cumulative'])} (p {v['cumulative_p']:.2f})" if v["cumulative_p"] is not None else _fmt(v["cumulative"])
+            lines.append(f"| {v['name']} | {labels.get(v['residence'], v['residence'])} | {cum} | {v['observations']} |")
+        lines += ["", "Following THRIVE's own rule, a direction is reported as a finding only when every check agrees and is significant at the 5 % level:", ""]
+        for resid, verdict in summary["tourism"]["verdict"].items():
+            lines.append(f"- {labels.get(resid, resid)}: **{verdict}**")
     lines += [
         "",
         "Nights in the regions with the largest recent fires (all guests):",
@@ -537,6 +570,13 @@ def run(config_path: Path, out_dir: Path, fetcher: Fetcher = fetch, effis_path: 
     for resid in tc["residence"]:
         if (nights["sector"] == resid).any():
             tourism_results.append(event_study(nights, exposure, resid, "growth_nights", t_first, t_last, leads, lags))
+    tourism_variants = []
+    for v in tc.get("variant", []):
+        subset = nights[~nights["region_id"].isin(v.get("exclude", []))]
+        for resid in tc["residence"]:
+            if (subset["sector"] == resid).any():
+                res = event_study(subset, exposure, resid, "growth_nights", int(v["first_year"]), t_last, leads, lags)
+                tourism_variants.append({"key": v["key"], "name": v["name"], "residence": resid, **res})
     burnt_df = burnt_check(exposure, val)
     coef_df = coefficient_check(results, val)
     gate = st["gate_sector"]
@@ -559,7 +599,7 @@ def run(config_path: Path, out_dir: Path, fetcher: Fetcher = fetch, effis_path: 
         "results": results,
         "burnt_check": json.loads(burnt_df.to_json(orient="records")),
         "coefficient_check": json.loads(coef_df.to_json(orient="records")),
-        "tourism": tourism_summary(tourism_results, nights, exposure, tc, t_first, t_last),
+        "tourism": {**tourism_summary(tourism_results, nights, exposure, tc, t_first, t_last), "variants": tourism_variants, "verdict": tourism_verdict(tourism_variants, tc["residence"], float(tc.get("alpha", 0.05)))},
     }
     sources = {
         "retrieved_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
@@ -600,6 +640,10 @@ def run(config_path: Path, out_dir: Path, fetcher: Fetcher = fetch, effis_path: 
             {"residence": r["sector"], "horizon": h, "coefficient": c, "std_error": se, "p_value": p, "observations": r["observations"], "regions": r["regions"]}
             for r in tourism_results for h, c, se, p in zip(r["horizons"] + ["cumulative"], r["coef"] + [r["cumulative"]], r["se"] + [r["cumulative_se"]], r["p"] + [r["cumulative_p"]])
         ]).to_excel(xl, sheet_name="Nights after a fire", index=False)
+        pd.DataFrame([
+            {"check": v["name"], "residence": v["residence"], "horizon": h, "coefficient": c, "std_error": se, "p_value": p, "observations": v["observations"], "regions": v["regions"]}
+            for v in tourism_variants for h, c, se, p in zip(v["horizons"] + ["cumulative"], v["coef"] + [v["cumulative"]], v["se"] + [v["cumulative_se"]], v["p"] + [v["cumulative_p"]])
+        ]).to_excel(xl, sheet_name="Nights checks", index=False)
         nights.merge(regions[["region_id", "region_name"]], on="region_id", how="left").to_excel(xl, sheet_name="Tourism nights", index=False)
         exposure.to_excel(xl, sheet_name="Burnt share by region", index=False)
         growth.merge(regions[["region_id", "region_name"]], on="region_id", how="left").to_excel(xl, sheet_name="Growth panel", index=False)

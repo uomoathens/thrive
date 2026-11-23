@@ -30,6 +30,31 @@ residence = ["TOTAL", "FOR"]
 first_year = 2022
 last_year = 2025
 focus = ["EL421", "EL511", "EL642"]
+alpha = 0.05
+
+[[tourism.variant]]
+key = "main"
+name = "2022 to 2025, all regions"
+first_year = 2022
+exclude = []
+
+[[tourism.variant]]
+key = "from_2023"
+name = "2023 to 2025, without the rebound of 2022 from the pandemic"
+first_year = 2023
+exclude = []
+
+[[tourism.variant]]
+key = "no_evros"
+name = "2022 to 2025, without Evros"
+first_year = 2022
+exclude = ["EL511"]
+
+[[tourism.variant]]
+key = "no_rhodes"
+name = "2022 to 2025, without the region of Rhodes"
+first_year = 2022
+exclude = ["EL421"]
 
 [[sector]]
 key = "A"

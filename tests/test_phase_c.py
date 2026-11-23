@@ -180,6 +180,16 @@ def test_nights_growth_by_residence():
     assert (out["year"] == 2024).all()
 
 
+def test_tourism_verdict_needs_every_check():
+    from thrive.data.phase_c import tourism_verdict
+
+    def v(r, cum, p):
+        return {"residence": r, "cumulative": cum, "cumulative_p": p}
+
+    rows = [v("TOTAL", -1.0, 0.01), v("TOTAL", -0.8, 0.03), v("FOR", -2.0, 0.01), v("FOR", -1.5, 0.20), v("DOM", 0.5, 0.01), v("DOM", 0.7, 0.02)]
+    assert tourism_verdict(rows, ["TOTAL", "FOR", "DOM", "X"], 0.05) == {"TOTAL": "lower after a fire", "FOR": "not robust", "DOM": "higher after a fire", "X": "no data"}
+
+
 def test_burnt_check_needs_name_share_and_hectares():
     exp = pd.DataFrame({"region_id": ["EL421", "EL511"], "region_name": ["Kalymnos, Karpathos, Kasos, Kos, Rodos", "Evros"], "year": [2023, 2023], "burnt_ha": [18700.0, 80000.0], "share_pct": [6.92, 18.9]})
     cfg = {"tolerance": {"share_pct": 0.3, "hectares_rel": 0.05}, "burnt": [
@@ -290,7 +300,13 @@ def test_run_writes_every_output_and_refuses_an_unreplicated_result(tmp_path, be
     report = (out / "report.md").read_text(encoding="utf-8")
     assert "NOT replicated" in report
     sheets = pd.ExcelFile(out / "phase-c.xlsx").sheet_names
-    assert sheets == ["Replication", "Burnt area check", "Event studies", "Nights after a fire", "Tourism nights", "Burnt share by region", "Growth panel", "Fires by region", "Sources"]
+    assert sheets == ["Replication", "Burnt area check", "Event studies", "Nights after a fire", "Nights checks", "Tourism nights", "Burnt share by region", "Growth panel", "Fires by region", "Sources"]
+    keys = {(v["key"], v["residence"]) for v in summary["tourism"]["variants"]}
+    assert keys == {(k, r) for k in ("main", "from_2023", "no_evros", "no_rhodes") for r in ("TOTAL", "FOR")}
+    main = next(v for v in summary["tourism"]["variants"] if v["key"] == "main" and v["residence"] == "TOTAL")
+    assert main["coef"] == pytest.approx(tour["TOTAL"]["coef"], abs=1e-12)
+    later = next(v for v in summary["tourism"]["variants"] if v["key"] == "from_2023" and v["residence"] == "TOTAL")
+    assert later["observations"] == 4 * 3
     src = json.loads((out / "sources.json").read_text(encoding="utf-8"))
     assert src["effis_date_field"] == "FIREDATE" and src["effis_id_field"] == "id"
 
