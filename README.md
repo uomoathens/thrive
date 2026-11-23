@@ -147,20 +147,20 @@ The limits, stated now: a grant that names several counties is split equally bet
 
 ### What Phase A found
 
-The latest run counted <span data-v="a_records">63,640</span> FEMA records, kept <span data-v="a_grants">16,461</span> flood-related grants with a funded status, and placed $<span data-v="a_total">13.67</span> billion of them in <span data-v="a_counties">3,131</span> counties. Another $<span data-v="a_statewide">1.89</span> billion went to statewide grants, which have no county, and $<span data-v="a_unmatched">0.51</span> billion (<span data-v="a_unmatched_share">3.5</span> % of the money meant for named counties) carried a county name that could not be matched.
+The latest run counted <span data-v="a_records">63,647</span> FEMA records, kept <span data-v="a_grants">16,526</span> flood-related grants with a funded status, and placed $<span data-v="a_total">13.80</span> billion of them in <span data-v="a_counties">3,131</span> counties. Another $<span data-v="a_statewide">1.86</span> billion went to statewide grants, which have no county, and $<span data-v="a_unmatched">0.51</span> billion (<span data-v="a_unmatched_share">3.4</span> % of the money meant for named counties) carried a county name that could not be matched.
 
 | Measure | Coverage ratio, most vulnerable fifth against least vulnerable |
 | --- | --- |
-| All money | <span data-v="a_r_all">2.39</span> |
-| Without the <span data-v="a_n_big">20</span> counties that received the most (<span data-v="a_big_share">36</span> % of the money) | <span data-v="a_r_big">1.53</span> |
+| All money | <span data-v="a_r_all">2.40</span> |
+| Without the <span data-v="a_n_big">20</span> counties that received the most (<span data-v="a_big_share">37</span> % of the money) | <span data-v="a_r_big">1.54</span> |
 | Median county | <span data-v="a_r_med">0.85</span> |
-| Median county, among those that received any flood money | <span data-v="a_r_fun">1.14</span> |
+| Median county, among those that received any flood money | <span data-v="a_r_fun">1.17</span> |
 
 Taken as totals, the most vulnerable counties received more flood money per dollar of risk, not less. The picture is less clear county by county. The typical county in the most vulnerable fifth received a little less than the typical county in the least vulnerable one, and it was more likely to have received nothing at all (<span data-v="a_none_most">14</span> % of counties against <span data-v="a_none_least">8</span> %). The measures do not agree, so by THRIVE's own rule there is **no robust direction** to report. A few places such as New Orleans, Harris County and the New York area, all hit by very large storms, carry the totals.
 
 One record needs checking with FEMA before it is used in any argument: a single Hurricane Sandy grant of $<span data-v="a_greene">507</span> million (DR-4085-0018-R) is attributed to Greene County, New York, which makes it the second-largest county in the table. Greene sits in the middle vulnerability group, so the record does not change the comparison between the most and the least vulnerable fifth.
 
-<span data-v="a_checks">Connecticut is left out, with $78 million of grants: since 2022 the National Risk Index describes Connecticut by nine planning regions, while its grants still name the eight former counties, which do not map one to one onto the regions. 295 grants ($326 million) name counties that mostly belong to a state other than the one recorded for them; they stay unplaced rather than go to a county of the same name in the recorded state. 467 grants share their state, their counties and their amount to the cent with another grant under a different identifier; they are counted as recorded and listed in the Excel file for checking with FEMA. Counting only the money FEMA records as obligated, and leaving out the $2.41 billion for which only the planned federal share is known, the coverage ratio is 2.17.</span>
+<span data-v="a_checks">Connecticut is left out, with $78 million of grants: since 2022 the National Risk Index describes Connecticut by nine planning regions, while its grants still name the eight former counties, which do not map one to one onto the regions. 295 grants ($326 million) name counties that mostly belong to a state other than the one recorded for them; they stay unplaced rather than go to a county of the same name in the recorded state. 469 grants share their state, their counties and their amount to the cent with another grant under a different identifier; they are counted as recorded and listed in the Excel file for checking with FEMA. Counting only the money FEMA records as obligated, and leaving out the $2.40 billion for which only the planned federal share is known, the coverage ratio is 2.18.</span>
 
 What we take from this is narrower than a headline. In the United States, the gap does not seem to lie in the national totals, which large disasters dominate; it may lie in which smaller counties never receive any grant. That question needs data on applications as well as awards, and it is where Phase A will go next.
 
