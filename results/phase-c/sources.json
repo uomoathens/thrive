@@ -1,0 +1,52 @@
+{
+  "retrieved_at": "2026-11-23T16:25:42+00:00",
+  "replicates": "Spaliara, M. E. and Tsoukalas, J. (2026). Climate Extremes and Regional Growth in Greece: Evidence from 52 Regions. Research Note No 3, Hellenic Parliamentary Budget Office, November 2026.",
+  "replicates_url": "http://pbo.gr/el-gr/erevnitiki-drastiriotita/artmid/585/articleid/46007/preview/true/climate-extremes-and-regional-growth-in-greece-evidence-from-52-regions",
+  "eurostat_urls": {
+    "gva": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/nama_10r_3gva?format=JSON&lang=EN&sinceTimePeriod=2014&unit=CP_MEUR&nace_r2=A&nace_r2=B-E&nace_r2=C&nace_r2=G-I&nace_r2=TOTAL",
+    "population": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/nama_10r_3popgdp?format=JSON&lang=EN&sinceTimePeriod=2014&unit=THS",
+    "volume": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/nama_10r_2gvagr?format=JSON&lang=EN&sinceTimePeriod=2014&unit=I20&na_item=B1G"
+  },
+  "eurostat_sha256": {
+    "gva": "c54d5d1e275d741874750d9fe88c7650e7e9791a9cec7db4695e469950be722f",
+    "population": "cd4601c42231c89d3e8709fb47b69367abd5321555094143448372cb1df26988",
+    "volume": "13130b2c5088bb2f932d5a56fad5d909c80eaf8e1ab6629ce1cb552187d28278"
+  },
+  "eurostat_updated": {
+    "gva": "2026-03-23T23:00:00+0100",
+    "population": "2026-02-10T11:00:00+0100",
+    "volume": "2026-03-23T23:00:00+0100"
+  },
+  "regions_url": "https://gisco-services.ec.europa.eu/distribution/v2/nuts/geojson/NUTS_RG_01M_2021_4326_LEVL_3.geojson",
+  "regions_sha256": "554336d416056abcd1d6f3239e3d5893560ca180056971557403c6fd8ff66d2c",
+  "effis_url": "https://forest-fire.emergency.copernicus.eu/downloads/data.request.form/effis_layer.zip",
+  "effis_licence": "https://forest-fire.emergency.copernicus.eu/about-effis/data-license",
+  "effis_sha256": "755250df2a09411da3749a8d72a2e82184c9403bda92505ccf808cbd410b2753",
+  "effis_layer": "modis.ba.poly.shp",
+  "effis_fields": [
+    "id",
+    "FIREDATE",
+    "FINALDATE",
+    "LASTUPDATE",
+    "COUNTRY",
+    "PROVINCE",
+    "COMMUNE",
+    "AREA_HA",
+    "BROADLEA",
+    "CONIFER",
+    "MIXED",
+    "SCLEROPH",
+    "TRANSIT",
+    "OTHERNATLC",
+    "AGRIAREAS",
+    "ARTIFSURF",
+    "OTHERLC",
+    "PERCNA2K",
+    "CLASS"
+  ],
+  "effis_date_field": "FIREDATE",
+  "effis_id_field": "id",
+  "effis_features_in_box": 5597,
+  "effis_unparsed_dates": 0,
+  "crs": "EPSG:3035"
+}

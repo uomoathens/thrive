@@ -1,0 +1,627 @@
+{
+  "source": "Spaliara, M. E. and Tsoukalas, J. (2026). Climate Extremes and Regional Growth in Greece: Evidence from 52 Regions. Research Note No 3, Hellenic Parliamentary Budget Office, November 2026.",
+  "replicated": true,
+  "gate_sector": "G-I",
+  "first_year": 2018,
+  "last_year": 2023,
+  "regions": 52,
+  "gate_observations": 312,
+  "unit_years_1pct": 27,
+  "fires_matched": 1802,
+  "fire_years": [
+    2016,
+    2026
+  ],
+  "tolerance": {
+    "share_pct": 0.3,
+    "hectares_rel": 0.05,
+    "coefficient": 0.05
+  },
+  "results": [
+    {
+      "sector": "A",
+      "measure": "growth_real",
+      "horizons": [
+        "year before",
+        "fire year",
+        "year after",
+        "two years after"
+      ],
+      "coef": [
+        -0.5703185743705118,
+        -0.7518544186707412,
+        -0.23605378784490583,
+        -0.2143915841437768
+      ],
+      "se": [
+        0.3898777277010884,
+        0.3852760253228392,
+        0.5591615026095939,
+        0.4816443969389662
+      ],
+      "p": [
+        0.14965410883990515,
+        0.056503877282874156,
+        0.6746850274051042,
+        0.658113605931847
+      ],
+      "cumulative": -1.2022997906594237,
+      "cumulative_se": 1.0093327637668552,
+      "cumulative_p": 0.23909619223985323,
+      "observations": 312,
+      "regions": 52,
+      "years": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023
+      ]
+    },
+    {
+      "sector": "A",
+      "measure": "growth_nominal",
+      "horizons": [
+        "year before",
+        "fire year",
+        "year after",
+        "two years after"
+      ],
+      "coef": [
+        -0.6422986883145803,
+        -0.8005234127790757,
+        -0.05667410736297751,
+        -0.2215270041957148
+      ],
+      "se": [
+        0.42043575464975874,
+        0.42309251337550313,
+        0.6635689975982375,
+        0.5499815348524051
+      ],
+      "p": [
+        0.13276645860351002,
+        0.06416447355212149,
+        0.9322714393604287,
+        0.6887862993243142
+      ],
+      "cumulative": -1.078724524337768,
+      "cumulative_se": 1.06435743512291,
+      "cumulative_p": 0.3156064527176704,
+      "observations": 312,
+      "regions": 52,
+      "years": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023
+      ]
+    },
+    {
+      "sector": "B-E",
+      "measure": "growth_real",
+      "horizons": [
+        "year before",
+        "fire year",
+        "year after",
+        "two years after"
+      ],
+      "coef": [
+        0.018610698890328424,
+        -0.10683976991804725,
+        -0.7880060061622471,
+        -0.4330275968993038
+      ],
+      "se": [
+        0.25634259035311424,
+        0.13818911677272946,
+        0.4228043011210128,
+        0.19254302870233447
+      ],
+      "p": [
+        0.9424077072290151,
+        0.44300727876327756,
+        0.06811710647936263,
+        0.028860513404237
+      ],
+      "cumulative": -1.3278733729795982,
+      "cumulative_se": 0.5981666862339207,
+      "cumulative_p": 0.030897303031518053,
+      "observations": 312,
+      "regions": 52,
+      "years": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023
+      ]
+    },
+    {
+      "sector": "B-E",
+      "measure": "growth_nominal",
+      "horizons": [
+        "year before",
+        "fire year",
+        "year after",
+        "two years after"
+      ],
+      "coef": [
+        -0.016663369245630916,
+        -0.11745659034524766,
+        -0.6774523759639263,
+        -0.43421244409283777
+      ],
+      "se": [
+        0.26032076039602325,
+        0.1366701889352287,
+        0.3349513419115447,
+        0.2430627614174673
+      ],
+      "p": [
+        0.9492117774580453,
+        0.39413261154335105,
+        0.048379603710905904,
+        0.07997603626613262
+      ],
+      "cumulative": -1.2291214104020116,
+      "cumulative_se": 0.5716715813238532,
+      "cumulative_p": 0.036315979799100444,
+      "observations": 312,
+      "regions": 52,
+      "years": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023
+      ]
+    },
+    {
+      "sector": "C",
+      "measure": "growth_real",
+      "horizons": [
+        "year before",
+        "fire year",
+        "year after",
+        "two years after"
+      ],
+      "coef": [
+        -0.13042707282139276,
+        -0.21584008238912283,
+        -0.17521673533953364,
+        -0.042645141594558136
+      ],
+      "se": [
+        0.06537969726251609,
+        0.06818940879899908,
+        0.20911052770591826,
+        0.12131851345805544
+      ],
+      "p": [
+        0.05140880551436051,
+        0.002613248322348118,
+        0.40598859088191264,
+        0.7266510271547922
+      ],
+      "cumulative": -0.4337019593232146,
+      "cumulative_se": 0.191536707897682,
+      "cumulative_p": 0.02783519203353972,
+      "observations": 312,
+      "regions": 52,
+      "years": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023
+      ]
+    },
+    {
+      "sector": "C",
+      "measure": "growth_nominal",
+      "horizons": [
+        "year before",
+        "fire year",
+        "year after",
+        "two years after"
+      ],
+      "coef": [
+        -0.16075947802994442,
+        -0.2275563454984163,
+        -0.014684025506654631,
+        -0.036263480565031016
+      ],
+      "se": [
+        0.04906862211764188,
+        0.06310669644968726,
+        0.08003336941164366,
+        0.10211508841672017
+      ],
+      "p": [
+        0.001895960503443276,
+        0.000706873482681728,
+        0.8551537884129591,
+        0.7239614592952474
+      ],
+      "cumulative": -0.27850385157010193,
+      "cumulative_se": 0.16407580444328682,
+      "cumulative_p": 0.09571444120697134,
+      "observations": 312,
+      "regions": 52,
+      "years": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023
+      ]
+    },
+    {
+      "sector": "G-I",
+      "measure": "growth_real",
+      "horizons": [
+        "year before",
+        "fire year",
+        "year after",
+        "two years after"
+      ],
+      "coef": [
+        0.07238559707151856,
+        -0.20661633164371399,
+        -0.5388205124567235,
+        -0.05356912072628281
+      ],
+      "se": [
+        0.11617073764003977,
+        0.10381761136923205,
+        0.12594151456694933,
+        0.1808196048735171
+      ],
+      "p": [
+        0.5359976361894621,
+        0.051943731790372684,
+        8.285534648874926e-05,
+        0.7682366969169638
+      ],
+      "cumulative": -0.7990059648267203,
+      "cumulative_se": 0.24493120142793295,
+      "cumulative_p": 0.0019752601285487393,
+      "observations": 312,
+      "regions": 52,
+      "years": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023
+      ]
+    },
+    {
+      "sector": "G-I",
+      "measure": "growth_nominal",
+      "horizons": [
+        "year before",
+        "fire year",
+        "year after",
+        "two years after"
+      ],
+      "coef": [
+        0.05069708842533255,
+        -0.21718279310218236,
+        -0.4103592953317554,
+        -0.05820087289148371
+      ],
+      "se": [
+        0.10255543910464257,
+        0.09233888110895294,
+        0.14421780248878943,
+        0.1273482059277835
+      ],
+      "p": [
+        0.6231899189193774,
+        0.0225707601566308,
+        0.006371403623791489,
+        0.6495963526866729
+      ],
+      "cumulative": -0.6857429613254215,
+      "cumulative_se": 0.2705667288642336,
+      "cumulative_p": 0.014373978498581562,
+      "observations": 312,
+      "regions": 52,
+      "years": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023
+      ]
+    }
+  ],
+  "burnt_check": [
+    {
+      "region_id": "EL511",
+      "region_name": "Evros",
+      "year": 2023,
+      "burnt_ha_thrive": 94578.4418264233,
+      "burnt_ha_pbo": 94578,
+      "share_pct_thrive": 22.2612470383,
+      "share_pct_pbo": 22.3,
+      "name_matches": true,
+      "within_tolerance": true
+    },
+    {
+      "region_id": "EL642",
+      "region_name": "Evvoia",
+      "year": 2021,
+      "burnt_ha_thrive": 52667.778309682,
+      "burnt_ha_pbo": 52668,
+      "share_pct_thrive": 12.630651472,
+      "share_pct_pbo": 12.6,
+      "name_matches": true,
+      "within_tolerance": true
+    },
+    {
+      "region_id": "EL421",
+      "region_name": "Kalymnos, Karpathos, Kasos, Kos, Rodos",
+      "year": 2023,
+      "burnt_ha_thrive": 18686.6437813212,
+      "burnt_ha_pbo": 18687,
+      "share_pct_thrive": 6.8812954279,
+      "share_pct_pbo": 6.9,
+      "name_matches": true,
+      "within_tolerance": true
+    }
+  ],
+  "coefficient_check": [
+    {
+      "sector": "A",
+      "measure": "real",
+      "horizon": "year before",
+      "thrive": -0.5703,
+      "pbo": -0.57,
+      "difference": -0.0003,
+      "p_value_thrive": 0.1497,
+      "within_tolerance": true
+    },
+    {
+      "sector": "A",
+      "measure": "real",
+      "horizon": "fire year",
+      "thrive": -0.7519,
+      "pbo": -0.75,
+      "difference": -0.0019,
+      "p_value_thrive": 0.0565,
+      "within_tolerance": true
+    },
+    {
+      "sector": "A",
+      "measure": "real",
+      "horizon": "year after",
+      "thrive": -0.2361,
+      "pbo": -0.24,
+      "difference": 0.0039,
+      "p_value_thrive": 0.6747,
+      "within_tolerance": true
+    },
+    {
+      "sector": "A",
+      "measure": "real",
+      "horizon": "two years after",
+      "thrive": -0.2144,
+      "pbo": -0.21,
+      "difference": -0.0044,
+      "p_value_thrive": 0.6581,
+      "within_tolerance": true
+    },
+    {
+      "sector": "A",
+      "measure": "real",
+      "horizon": "cumulative",
+      "thrive": -1.2023,
+      "pbo": -1.2,
+      "difference": -0.0023,
+      "p_value_thrive": 0.2391,
+      "within_tolerance": true
+    },
+    {
+      "sector": "B-E",
+      "measure": "real",
+      "horizon": "year before",
+      "thrive": 0.0186,
+      "pbo": 0.02,
+      "difference": -0.0014,
+      "p_value_thrive": 0.9424,
+      "within_tolerance": true
+    },
+    {
+      "sector": "B-E",
+      "measure": "real",
+      "horizon": "fire year",
+      "thrive": -0.1068,
+      "pbo": -0.11,
+      "difference": 0.0032,
+      "p_value_thrive": 0.443,
+      "within_tolerance": true
+    },
+    {
+      "sector": "B-E",
+      "measure": "real",
+      "horizon": "year after",
+      "thrive": -0.788,
+      "pbo": -0.79,
+      "difference": 0.002,
+      "p_value_thrive": 0.0681,
+      "within_tolerance": true
+    },
+    {
+      "sector": "B-E",
+      "measure": "real",
+      "horizon": "two years after",
+      "thrive": -0.433,
+      "pbo": -0.43,
+      "difference": -0.003,
+      "p_value_thrive": 0.0289,
+      "within_tolerance": true
+    },
+    {
+      "sector": "B-E",
+      "measure": "real",
+      "horizon": "cumulative",
+      "thrive": -1.3279,
+      "pbo": -1.33,
+      "difference": 0.0021,
+      "p_value_thrive": 0.0309,
+      "within_tolerance": true
+    },
+    {
+      "sector": "C",
+      "measure": "real",
+      "horizon": "year before",
+      "thrive": -0.1304,
+      "pbo": -0.13,
+      "difference": -0.0004,
+      "p_value_thrive": 0.0514,
+      "within_tolerance": true
+    },
+    {
+      "sector": "C",
+      "measure": "real",
+      "horizon": "fire year",
+      "thrive": -0.2158,
+      "pbo": -0.22,
+      "difference": 0.0042,
+      "p_value_thrive": 0.0026,
+      "within_tolerance": true
+    },
+    {
+      "sector": "C",
+      "measure": "real",
+      "horizon": "year after",
+      "thrive": -0.1752,
+      "pbo": -0.18,
+      "difference": 0.0048,
+      "p_value_thrive": 0.406,
+      "within_tolerance": true
+    },
+    {
+      "sector": "C",
+      "measure": "real",
+      "horizon": "two years after",
+      "thrive": -0.0426,
+      "pbo": -0.04,
+      "difference": -0.0026,
+      "p_value_thrive": 0.7267,
+      "within_tolerance": true
+    },
+    {
+      "sector": "C",
+      "measure": "real",
+      "horizon": "cumulative",
+      "thrive": -0.4337,
+      "pbo": -0.43,
+      "difference": -0.0037,
+      "p_value_thrive": 0.0278,
+      "within_tolerance": true
+    },
+    {
+      "sector": "G-I",
+      "measure": "real",
+      "horizon": "year before",
+      "thrive": 0.0724,
+      "pbo": 0.07,
+      "difference": 0.0024,
+      "p_value_thrive": 0.536,
+      "within_tolerance": true
+    },
+    {
+      "sector": "G-I",
+      "measure": "real",
+      "horizon": "fire year",
+      "thrive": -0.2066,
+      "pbo": -0.21,
+      "difference": 0.0034,
+      "p_value_thrive": 0.0519,
+      "within_tolerance": true
+    },
+    {
+      "sector": "G-I",
+      "measure": "real",
+      "horizon": "year after",
+      "thrive": -0.5388,
+      "pbo": -0.54,
+      "difference": 0.0012,
+      "p_value_thrive": 0.0001,
+      "within_tolerance": true
+    },
+    {
+      "sector": "G-I",
+      "measure": "real",
+      "horizon": "two years after",
+      "thrive": -0.0536,
+      "pbo": -0.05,
+      "difference": -0.0036,
+      "p_value_thrive": 0.7682,
+      "within_tolerance": true
+    },
+    {
+      "sector": "G-I",
+      "measure": "real",
+      "horizon": "cumulative",
+      "thrive": -0.799,
+      "pbo": -0.8,
+      "difference": 0.001,
+      "p_value_thrive": 0.002,
+      "within_tolerance": true
+    },
+    {
+      "sector": "G-I",
+      "measure": "nominal",
+      "horizon": "fire year",
+      "thrive": -0.2172,
+      "pbo": -0.22,
+      "difference": 0.0028,
+      "p_value_thrive": 0.0226,
+      "within_tolerance": true
+    },
+    {
+      "sector": "G-I",
+      "measure": "nominal",
+      "horizon": "year after",
+      "thrive": -0.4104,
+      "pbo": -0.41,
+      "difference": -0.0004,
+      "p_value_thrive": 0.0064,
+      "within_tolerance": true
+    },
+    {
+      "sector": "G-I",
+      "measure": "nominal",
+      "horizon": "two years after",
+      "thrive": -0.0582,
+      "pbo": -0.06,
+      "difference": 0.0018,
+      "p_value_thrive": 0.6496,
+      "within_tolerance": true
+    },
+    {
+      "sector": "G-I",
+      "measure": "nominal",
+      "horizon": "cumulative",
+      "thrive": -0.6857,
+      "pbo": -0.69,
+      "difference": 0.0043,
+      "p_value_thrive": 0.0144,
+      "within_tolerance": true
+    }
+  ]
+}
