@@ -72,6 +72,9 @@ def main(argv: list[str] | None = None) -> int:
     pt = sub.add_parser("thriving", help="when did the flooded land of Thessaly come back: Sentinel-2 greenness after Storm Daniel")
     pt.add_argument("--config", default="config/thriving.toml")
     pt.add_argument("--out", default="results/thriving")
+    pc = sub.add_parser("phase-c", help="replicate the wildfire result of the Hellenic Parliamentary Budget Office: growth of Greek regions after a fire")
+    pc.add_argument("--config", default="config/phase-c.toml")
+    pc.add_argument("--out", default="results/phase-c")
     ps = sub.add_parser("site", help="update the page and the README from the latest results, or stop if a stated finding no longer holds")
     ps.add_argument("--root", default=".")
     ps.add_argument("--report", default=None)
@@ -104,6 +107,16 @@ def main(argv: list[str] | None = None) -> int:
 
         summary = run_t(Path(args.config), Path(args.out))
         print(f"Thriving done: {summary['items_used']} scenes used, direction: {summary['direction']}")
+    elif args.command == "phase-c":
+        from pathlib import Path
+
+        from thrive.data.phase_c import run as run_c
+
+        summary = run_c(Path(args.config), Path(args.out))
+        if not summary["replicated"]:
+            print("Phase C done: the result of the Parliamentary Budget Office was NOT replicated; see report.md")
+            return 3
+        print(f"Phase C done: replicated on {summary['gate_observations']} observations in {summary['regions']} regions")
     elif args.command == "site":
         from pathlib import Path
 

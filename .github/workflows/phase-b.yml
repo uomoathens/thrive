@@ -57,7 +57,7 @@ jobs:
               echo "No change in results"
               exit 0
             fi
-            git commit -m "Phase B results"
+            git commit --allow-empty-message -m ""
             if git push origin HEAD:main; then
               exit 0
             fi

@@ -1,0 +1,95 @@
+[source]
+name = "Spaliara, M. E. and Tsoukalas, J. (2026). Climate Extremes and Regional Growth in Greece: Evidence from 52 Regions. Research Note No 3, Hellenic Parliamentary Budget Office, November 2026."
+url = "http://pbo.gr/el-gr/erevnitiki-drastiriotita/artmid/585/articleid/46007/preview/true/climate-extremes-and-regional-growth-in-greece-evidence-from-52-regions"
+
+[eurostat]
+api = "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/{code}"
+since = 2014
+country = "EL"
+expected_regions = 52
+
+[eurostat.gva]
+code = "nama_10r_3gva"
+unit = "CP_MEUR"
+total = "TOTAL"
+
+[eurostat.population]
+code = "nama_10r_3popgdp"
+unit = "THS"
+
+[eurostat.volume]
+code = "nama_10r_2gvagr"
+na_item = "B1G"
+unit = "I20"
+
+[[sector]]
+key = "A"
+name = "Agriculture, forestry and fishing (A)"
+
+[[sector]]
+key = "B-E"
+name = "Industry excluding construction (B-E)"
+
+[[sector]]
+key = "C"
+name = "Manufacturing (C)"
+
+[[sector]]
+key = "G-I"
+name = "Trade, transport, accommodation and food services (G-I)"
+
+[effis]
+url = "https://forest-fire.emergency.copernicus.eu/downloads/data.request.form/effis_layer.zip"
+licence = "https://forest-fire.emergency.copernicus.eu/about-effis/data-license"
+date_fields = ["FIREDATE", "firedate", "FIRE_DATE", "INITIALDATE", "initialdate"]
+id_fields = ["id", "ID", "FIRE_ID", "fire_id", "OBJECTID"]
+first_year = 2016
+max_unparsed_share = 0.01
+
+[regions]
+url = "https://gisco-services.ec.europa.eu/distribution/v2/nuts/geojson/NUTS_RG_01M_2021_4326_LEVL_3.geojson"
+crs = 3035
+
+[study]
+first_year = 2018
+last_year = 2023
+leads = 1
+lags = 2
+gate_sector = "G-I"
+
+[[validation.burnt]]
+region_id = "EL511"
+name_contains = "Evros"
+year = 2023
+hectares = 94578
+share_pct = 22.3
+
+[[validation.burnt]]
+region_id = "EL642"
+name_contains = "Evvoia"
+year = 2021
+hectares = 52668
+share_pct = 12.6
+
+[[validation.burnt]]
+region_id = "EL421"
+name_contains = "Rodos"
+year = 2023
+hectares = 18687
+share_pct = 6.9
+
+[validation.tolerance]
+share_pct = 0.3
+hectares_rel = 0.05
+coefficient = 0.05
+
+[validation.real]
+source = "Table C2, p. 24"
+A = [-0.57, -0.75, -0.24, -0.21, -1.20]
+B-E = [0.02, -0.11, -0.79, -0.43, -1.33]
+C = [-0.13, -0.22, -0.18, -0.04, -0.43]
+G-I = [0.07, -0.21, -0.54, -0.05, -0.80]
+
+[validation.nominal]
+source = "Appendix B, p. 24, and Table 2, p. 11"
+G-I = [-0.22, -0.41, -0.06, -0.69]
