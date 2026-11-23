@@ -101,6 +101,27 @@ def eurostat_tables(cfg: dict, fetcher: Fetcher = fetch) -> dict:
     return out
 
 
+def tourism_table(cfg: dict, fetcher: Fetcher = fetch) -> dict:
+    e, t = cfg["eurostat"], cfg["tourism"]
+    url = eurostat_url(e["api"], t["code"], {"unit": t["unit"], "nace_r2": t["nace_r2"], "c_resid": t["residence"]}, int(e["since"]))
+    raw = fetcher(url)
+    frame, meta = jsonstat_frame(raw)
+    frame = _single(frame, {"geo", "time", "c_resid"})
+    return {"url": url, "sha256": sha256(raw), "updated": meta["updated"], "nights": greek_nuts(frame, e["country"], 3)}
+
+
+def nights_growth(nights: pd.DataFrame) -> pd.DataFrame:
+    n = nights.assign(year=nights["time"].astype(int)).pivot_table(index=["geo", "c_resid"], columns="year", values="value")
+    rows = []
+    for (geo, resid), series in n.iterrows():
+        for year in series.index:
+            prev = year - 1
+            if prev not in series.index or not np.isfinite(series[year]) or not np.isfinite(series[prev]) or series[prev] <= 0:
+                continue
+            rows.append({"region_id": geo, "sector": resid, "year": int(year), "nights": float(series[year]), "growth_nights": (series[year] / series[prev] - 1.0) * 100.0})
+    return pd.DataFrame(rows, columns=["region_id", "sector", "year", "nights", "growth_nights"])
+
+
 def growth_panel(gva3: pd.DataFrame, pop3: pd.DataFrame, gva2_total: pd.DataFrame, vol2: pd.DataFrame) -> pd.DataFrame:
     g = gva3.assign(year=gva3["time"].astype(int)).pivot_table(index=["geo", "nace_r2"], columns="year", values="value")
     p = pop3.assign(year=pop3["time"].astype(int)).pivot_table(index="geo", columns="year", values="value")
@@ -335,6 +356,30 @@ def coefficient_check(results: list[dict], cfg_val: dict) -> pd.DataFrame:
     return pd.DataFrame(rows)
 
 
+def tourism_summary(results: list[dict], nights: pd.DataFrame, exposure: pd.DataFrame, tc: dict, first: int, last: int) -> dict:
+    share = exposure.set_index(["region_id", "year"])["share_pct"]
+    focus = []
+    for rid in tc.get("focus", []):
+        rows = nights[(nights["region_id"] == rid) & (nights["sector"] == "TOTAL")].sort_values("year")
+        fire_years = exposure[(exposure["region_id"] == rid) & (exposure["share_pct"] >= 1.0)]["year"].tolist()
+        focus.append({
+            "region_id": rid,
+            "region_name": exposure.loc[exposure["region_id"] == rid, "region_name"].iloc[0] if (exposure["region_id"] == rid).any() else None,
+            "fire_years_1pct": [int(y) for y in fire_years],
+            "burnt_share_pct": {int(y): float(share.get((rid, y), 0.0)) for y in fire_years},
+            "nights": {int(r["year"]): r["nights"] for _, r in rows.iterrows()},
+            "growth_pct": {int(r["year"]): r["growth_nights"] for _, r in rows.iterrows()},
+        })
+    window = exposure[exposure["year"].between(first - 2, last)]
+    return {
+        "first_year": first,
+        "last_year": last,
+        "results": results,
+        "focus": focus,
+        "unit_years_1pct": int((window["share_pct"] >= 1.0).sum()),
+    }
+
+
 def _fmt(x, digits=2):
     return "n/a" if x is None or (isinstance(x, float) and not np.isfinite(x)) else f"{x:+.{digits}f}"
 
@@ -342,13 +387,13 @@ def _fmt(x, digits=2):
 def report(summary: dict, burnt: pd.DataFrame, coefs: pd.DataFrame, sources: dict) -> str:
     ok = summary["replicated"]
     lines = [
-        "# Phase C, step C.1: replication of the wildfire result of the Hellenic Parliamentary Budget Office",
+        "# Phase C: wildfires, regional growth and Tourism, after the Hellenic Parliamentary Budget Office",
         "",
         "Generated automatically by `thrive phase-c`. `sources.json` records what was downloaded and when.",
         "",
         f"Source being replicated: {summary['source']}",
         "",
-        "## Verdict",
+        "## Verdict on the replication",
         "",
         ("The result was replicated: the burnt areas and every coefficient of the gate sector are within tolerance." if ok else "The result was NOT replicated. Nothing is built on it until the differences below are explained."),
         "",
@@ -373,6 +418,35 @@ def report(summary: dict, burnt: pd.DataFrame, coefs: pd.DataFrame, sources: dic
     for _, r in coefs.iterrows():
         pv = "n/a" if r["p_value_thrive"] is None or pd.isna(r["p_value_thrive"]) else f"{r['p_value_thrive']:.2f}"
         lines.append(f"| {r['sector']} | {r['measure']} | {r['horizon']} | {_fmt(r['thrive'])} | {_fmt(r['pbo'])} | {_fmt(r['difference'])} | {pv} | {'yes' if r['within_tolerance'] else 'no'} |")
+    lines += [
+        "",
+        "## Tourism nights after a fire (beyond the Note)",
+        "",
+        f"The Note ends in 2023, when regional accounts end. Eurostat counts nights spent at tourist accommodation by NUTS 3 region up to {summary['tourism']['last_year']}, so the same event study is run on the annual growth of nights, {summary['tourism']['first_year']} to {summary['tourism']['last_year']}. Percentage points of growth in nights per 1 % of the region's area burnt; region and year fixed effects; standard errors clustered by region. This is an extension of the Note, not part of the replication.",
+        "",
+        "| Nights by | Year before | Fire year | Year after | Two years after | Cumulative | Observations |",
+        "| --- | --- | --- | --- | --- | --- | --- |",
+    ]
+    for r in summary["tourism"]["results"]:
+        cells = [f"{_fmt(c)} (p {p:.2f})" if p is not None else _fmt(c) for c, p in zip(r["coef"], r["p"])]
+        cum = f"{_fmt(r['cumulative'])} (p {r['cumulative_p']:.2f})" if r["cumulative_p"] is not None else _fmt(r["cumulative"])
+        label = {"TOTAL": "all guests", "FOR": "guests from abroad", "DOM": "guests from Greece"}.get(r["sector"], r["sector"])
+        lines.append(f"| {label} | " + " | ".join(cells) + f" | {cum} | {r['observations']} |")
+    lines += [
+        "",
+        "Nights in the regions with the largest recent fires (all guests):",
+        "",
+    ]
+    yrs = sorted({y for f in summary["tourism"]["focus"] for y in f["nights"]})
+    lines += ["| Region | Fires burning 1 % or more | " + " | ".join(str(y) for y in yrs) + " |", "| --- | --- | " + " | ".join("---" for _ in yrs) + " |"]
+    for f in summary["tourism"]["focus"]:
+        fires = ", ".join(f"{y} ({s:.1f} %)" for y, s in f["burnt_share_pct"].items()) or "none"
+        vals = []
+        for y in yrs:
+            n = f["nights"].get(y)
+            g = f["growth_pct"].get(y)
+            vals.append("n/a" if n is None else (f"{n:,.0f} ({g:+.1f} %)" if g is not None else f"{n:,.0f}"))
+        lines.append(f"| {f['region_name']} ({f['region_id']}) | {fires} | " + " | ".join(vals) + " |")
     lines += [
         "",
         "## The data",
@@ -406,6 +480,7 @@ def run(config_path: Path, out_dir: Path, fetcher: Fetcher = fetch, effis_path: 
             return None
 
     tables = check("Eurostat regional accounts", e["api"].format(code=e["gva"]["code"]), lambda: eurostat_tables(cfg, fetcher))
+    tourism = check("Eurostat tourism nights", e["api"].format(code=cfg["tourism"]["code"]), lambda: tourism_table(cfg, fetcher))
     nuts_bytes = check("GISCO NUTS 3 regions", rg["url"], lambda: fetcher(rg["url"]))
     work = Path(tempfile.mkdtemp(prefix="thrive-c-"))
     if effis_path is None:
@@ -448,13 +523,20 @@ def run(config_path: Path, out_dir: Path, fetcher: Fetcher = fetch, effis_path: 
     earliest = int(burnt["year"].min())
     if earliest > first - lags or earliest > int(ef["first_year"]):
         raise ValueError(f"EFFIS fires start in {earliest}; the study needs {first - lags}")
-    years = range(min(needed), max(int(burnt["year"].max()), max(needed)) + 1)
+    tc = cfg["tourism"]
+    t_first, t_last = int(tc["first_year"]), int(tc["last_year"])
+    years = range(min(min(needed), t_first - lags), max(int(burnt["year"].max()), max(needed), t_last + leads) + 1)
     exposure = exposure_table(burnt, regions, years)
     growth = growth_panel(tables["gva3"], tables["pop3"], tables["gva2_total"], tables["vol2"])
     results = []
     for s in cfg["sector"]:
         for measure in ("growth_real", "growth_nominal"):
             results.append(event_study(growth, exposure, s["key"], measure, first, last, leads, lags))
+    nights = nights_growth(tourism["nights"])
+    tourism_results = []
+    for resid in tc["residence"]:
+        if (nights["sector"] == resid).any():
+            tourism_results.append(event_study(nights, exposure, resid, "growth_nights", t_first, t_last, leads, lags))
     burnt_df = burnt_check(exposure, val)
     coef_df = coefficient_check(results, val)
     gate = st["gate_sector"]
@@ -477,6 +559,7 @@ def run(config_path: Path, out_dir: Path, fetcher: Fetcher = fetch, effis_path: 
         "results": results,
         "burnt_check": json.loads(burnt_df.to_json(orient="records")),
         "coefficient_check": json.loads(coef_df.to_json(orient="records")),
+        "tourism": tourism_summary(tourism_results, nights, exposure, tc, t_first, t_last),
     }
     sources = {
         "retrieved_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
@@ -485,6 +568,9 @@ def run(config_path: Path, out_dir: Path, fetcher: Fetcher = fetch, effis_path: 
         "eurostat_urls": tables["urls"],
         "eurostat_sha256": tables["sha256"],
         "eurostat_updated": tables["updated"],
+        "tourism_url": tourism["url"],
+        "tourism_sha256": tourism["sha256"],
+        "tourism_updated": tourism["updated"],
         "regions_url": rg["url"],
         "regions_sha256": sha256(nuts_bytes),
         "effis_url": ef["url"] if effis_path is None else str(effis_path),
@@ -510,6 +596,11 @@ def run(config_path: Path, out_dir: Path, fetcher: Fetcher = fetch, effis_path: 
             {"sector": r["sector"], "measure": r["measure"], "horizon": h, "coefficient": c, "std_error": s, "p_value": p, "observations": r["observations"], "regions": r["regions"]}
             for r in results for h, c, s, p in zip(r["horizons"] + ["cumulative"], r["coef"] + [r["cumulative"]], r["se"] + [r["cumulative_se"]], r["p"] + [r["cumulative_p"]])
         ]).to_excel(xl, sheet_name="Event studies", index=False)
+        pd.DataFrame([
+            {"residence": r["sector"], "horizon": h, "coefficient": c, "std_error": se, "p_value": p, "observations": r["observations"], "regions": r["regions"]}
+            for r in tourism_results for h, c, se, p in zip(r["horizons"] + ["cumulative"], r["coef"] + [r["cumulative"]], r["se"] + [r["cumulative_se"]], r["p"] + [r["cumulative_p"]])
+        ]).to_excel(xl, sheet_name="Nights after a fire", index=False)
+        nights.merge(regions[["region_id", "region_name"]], on="region_id", how="left").to_excel(xl, sheet_name="Tourism nights", index=False)
         exposure.to_excel(xl, sheet_name="Burnt share by region", index=False)
         growth.merge(regions[["region_id", "region_name"]], on="region_id", how="left").to_excel(xl, sheet_name="Growth panel", index=False)
         fires_out.to_excel(xl, sheet_name="Fires by region", index=False)

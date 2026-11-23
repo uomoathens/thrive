@@ -22,6 +22,15 @@ code = "nama_10r_2gvagr"
 na_item = "B1G"
 unit = "I20"
 
+[tourism]
+code = "tour_occ_nin3"
+unit = "NR"
+nace_r2 = "I551-I553"
+residence = ["TOTAL", "FOR"]
+first_year = 2022
+last_year = 2025
+focus = ["EL421", "EL511", "EL642"]
+
 [[sector]]
 key = "A"
 name = "Agriculture, forestry and fishing (A)"
