@@ -336,12 +336,68 @@ def thriving_text(s: dict, rows) -> str:
     return " ".join(out)
 
 
+def _m(x: float, digits: int = 2) -> str:
+    v = round(x, digits)
+    return f"{MINUS}{abs(v):.{digits}f}" if v < 0 else f"{v:.{digits}f}"
+
+
+def phase_c(f: Facts):
+    d = f.root / "results" / "phase-c"
+    s, src = _json(d / "summary.json"), _json(d / "sources.json")
+    f.claim(bool(s["replicated"]), "Phase C: the result of the Parliamentary Budget Office is no longer replicated within tolerance.")
+    coefs = s["coefficient_check"]
+    f.claim(len(coefs) > 0 and all(abs(c["difference"]) < 0.005 for c in coefs), "Phase C: not every coefficient now matches the Note to the second decimal.")
+    f.set("c_n_coef", f"{len(coefs)}")
+    f.set("c_obs", f"{s['gate_observations']}")
+    f.set("c_regions", f"{s['regions']}")
+    f.set("c_unit_years", f"{s['unit_years_1pct']}")
+    f.set("c_fires", f"{s['fires_matched']:,}")
+    burnt = {b["region_id"]: b for b in s["burnt_check"]}
+    rh = burnt.get("EL421")
+    f.claim(rh is not None and rh["within_tolerance"], "Phase C: the burnt area of Rhodes in 2023 no longer matches Table C1.")
+    if rh:
+        f.set("c_rh_ha", f"{_r(rh['burnt_ha_thrive']):,}")
+        f.set("c_rh_share", f"{rh['share_pct_thrive']:.1f}")
+    gi = next(r for r in s["results"] if r["sector"] == s["gate_sector"] and r["measure"] == "growth_real")
+    gn = next(r for r in s["results"] if r["sector"] == s["gate_sector"] and r["measure"] == "growth_nominal")
+    f.set("c_gi_t0", _m(gi["coef"][1]))
+    f.set("c_gi_t1", _m(gi["coef"][2]))
+    f.set("c_gi_cum", _m(gi["cumulative"]))
+    f.set("c_gn_cum", _m(gn["cumulative"]))
+    f.claim(gi["coef"][2] < gi["coef"][1] < 0, "Phase C: the loss in Tourism-related services is no longer largest in the year after the fire.")
+    t = s["tourism"]
+    f.set("c_t_first", f"{t['first_year']}")
+    f.set("c_t_last", f"{t['last_year']}")
+    main = {r["sector"]: r for r in t["results"]}
+    f.set("c_t_all", _m(main["TOTAL"]["cumulative"]))
+    f.set("c_t_all_p", f"{main['TOTAL']['cumulative_p']:.2f}")
+    f.set("c_t_for", _m(main["FOR"]["cumulative"]))
+    f.set("c_t_for_p", f"{main['FOR']['cumulative_p']:.2f}")
+    cums = [v["cumulative"] for v in t["variants"]]
+    ps = [v["cumulative_p"] for v in t["variants"] if v["cumulative_p"] is not None]
+    f.set("c_t_n", f"{len(cums)}")
+    f.set("c_t_range", f"{_m(min(cums))} to {_m(max(cums))}")
+    f.set("c_t_pmin", f"{min(ps):.2f}")
+    f.claim(all(c < 0 for c in cums), "Phase C: not every check now gives fewer nights after a fire.")
+    f.claim(all(v == "not robust" for v in t["verdict"].values()), "Phase C: the tourism nights verdict is no longer 'not robust'.")
+    rhodes = next((x for x in t["focus"] if x["region_id"] == "EL421"), None)
+    f.claim(rhodes is not None and all(str(y) in {str(k) for k in rhodes["growth_pct"]} for y in (2023, 2024, 2025)), "Phase C: nights for the region of Rhodes in 2023 to 2025 are missing.")
+    if rhodes:
+        g = {int(k): v for k, v in rhodes["growth_pct"].items()}
+        f.claim(all(g.get(y, -1) >= 0 for y in (2023, 2024, 2025)), "Phase C: nights in the region of Rhodes no longer grew in every year from 2023 to 2025.")
+        for y in (2023, 2024, 2025):
+            if y in g:
+                f.set(f"c_rh_{y}", f"{'+' if g[y] >= 0 else MINUS}{abs(g[y]):.1f}")
+    f.data["asof_c"] = src["retrieved_at"]
+
+
 def collect(root: Path) -> Facts:
     f = Facts(root)
     phase_a(f)
     phase_b(f)
     thriving(f)
-    stamps = [datetime.fromisoformat(str(f.data[k]).replace("Z", "+00:00")) for k in ("asof_a", "asof_b", "asof_t")]
+    phase_c(f)
+    stamps = [datetime.fromisoformat(str(f.data[k]).replace("Z", "+00:00")) for k in ("asof_a", "asof_b", "asof_t", "asof_c")]
     last = max(stamps)
     f.set("asof", f"{last.day} {last.strftime('%B %Y')}")
     return f

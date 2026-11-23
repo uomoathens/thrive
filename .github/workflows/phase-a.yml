@@ -8,7 +8,8 @@ on:
     branches: [main]
     paths:
       - config/phase-a.toml
-      - src/thrive/data/**
+      - src/thrive/data/phase_a.py
+      - src/thrive/data/download.py
       - .github/workflows/phase-a.yml
 
 permissions:

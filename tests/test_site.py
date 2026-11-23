@@ -100,3 +100,27 @@ def test_unknown_marker_is_reported(tmp_path):
     with pytest.raises(SiteError) as exc:
         build(root)
     assert any("nothing_like_this" in x for x in exc.value.problems)
+
+
+def test_phase_c_stops_the_update_if_the_replication_fails(tmp_path):
+    root = copy_repo(tmp_path)
+    p = root / "results" / "phase-c" / "summary.json"
+    s = json.loads(p.read_text(encoding="utf-8"))
+    s["replicated"] = False
+    s["coefficient_check"][0]["difference"] = 0.02
+    p.write_text(json.dumps(s), encoding="utf-8")
+    with pytest.raises(SiteError) as exc:
+        build(root)
+    assert any("no longer replicated" in x for x in exc.value.problems)
+    assert any("second decimal" in x for x in exc.value.problems)
+
+
+def test_phase_c_stops_if_nights_become_a_finding(tmp_path):
+    root = copy_repo(tmp_path)
+    p = root / "results" / "phase-c" / "summary.json"
+    s = json.loads(p.read_text(encoding="utf-8"))
+    s["tourism"]["verdict"]["FOR"] = "lower after a fire"
+    p.write_text(json.dumps(s), encoding="utf-8")
+    with pytest.raises(SiteError) as exc:
+        build(root)
+    assert any("not robust" in x for x in exc.value.problems)
