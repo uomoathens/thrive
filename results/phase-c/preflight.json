@@ -6,6 +6,12 @@
     "error": null
   },
   {
+    "check": "Eurostat tourism nights",
+    "url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/tour_occ_nin3",
+    "ok": true,
+    "error": null
+  },
+  {
     "check": "GISCO NUTS 3 regions",
     "url": "https://gisco-services.ec.europa.eu/distribution/v2/nuts/geojson/NUTS_RG_01M_2021_4326_LEVL_3.geojson",
     "ok": true,

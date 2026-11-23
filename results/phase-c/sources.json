@@ -1,5 +1,5 @@
 {
-  "retrieved_at": "2026-11-23T16:25:42+00:00",
+  "retrieved_at": "2026-11-23T16:32:35+00:00",
   "replicates": "Spaliara, M. E. and Tsoukalas, J. (2026). Climate Extremes and Regional Growth in Greece: Evidence from 52 Regions. Research Note No 3, Hellenic Parliamentary Budget Office, November 2026.",
   "replicates_url": "http://pbo.gr/el-gr/erevnitiki-drastiriotita/artmid/585/articleid/46007/preview/true/climate-extremes-and-regional-growth-in-greece-evidence-from-52-regions",
   "eurostat_urls": {
@@ -17,6 +17,9 @@
     "population": "2026-02-10T11:00:00+0100",
     "volume": "2026-03-23T23:00:00+0100"
   },
+  "tourism_url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/tour_occ_nin3?format=JSON&lang=EN&sinceTimePeriod=2014&unit=NR&nace_r2=I551-I553&c_resid=TOTAL&c_resid=FOR",
+  "tourism_sha256": "8c4eefb1563417f0363c40886de2a4ed463b9b4eb7640dcdcacf46b86aa04842",
+  "tourism_updated": "2026-10-20T23:00:00+0200",
   "regions_url": "https://gisco-services.ec.europa.eu/distribution/v2/nuts/geojson/NUTS_RG_01M_2021_4326_LEVL_3.geojson",
   "regions_sha256": "554336d416056abcd1d6f3239e3d5893560ca180056971557403c6fd8ff66d2c",
   "effis_url": "https://forest-fire.emergency.copernicus.eu/downloads/data.request.form/effis_layer.zip",

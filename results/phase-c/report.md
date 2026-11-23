@@ -1,10 +1,10 @@
-# Phase C, step C.1: replication of the wildfire result of the Hellenic Parliamentary Budget Office
+# Phase C: wildfires, regional growth and Tourism, after the Hellenic Parliamentary Budget Office
 
 Generated automatically by `thrive phase-c`. `sources.json` records what was downloaded and when.
 
 Source being replicated: Spaliara, M. E. and Tsoukalas, J. (2026). Climate Extremes and Regional Growth in Greece: Evidence from 52 Regions. Research Note No 3, Hellenic Parliamentary Budget Office, November 2026.
 
-## Verdict
+## Verdict on the replication
 
 The result was replicated: the burnt areas and every coefficient of the gate sector are within tolerance.
 
@@ -46,6 +46,23 @@ Percentage points of growth in GVA per inhabitant per 1 % of the region's area b
 | G-I | nominal | year after | -0.41 | -0.41 | -0.00 | 0.01 | yes |
 | G-I | nominal | two years after | -0.06 | -0.06 | +0.00 | 0.65 | yes |
 | G-I | nominal | cumulative | -0.69 | -0.69 | +0.00 | 0.01 | yes |
+
+## Tourism nights after a fire (beyond the Note)
+
+The Note ends in 2023, when regional accounts end. Eurostat counts nights spent at tourist accommodation by NUTS 3 region up to 2025, so the same event study is run on the annual growth of nights, 2022 to 2025. Percentage points of growth in nights per 1 % of the region's area burnt; region and year fixed effects; standard errors clustered by region. This is an extension of the Note, not part of the replication.
+
+| Nights by | Year before | Fire year | Year after | Two years after | Cumulative | Observations |
+| --- | --- | --- | --- | --- | --- | --- |
+| all guests | -0.56 (p 0.39) | -0.17 (p 0.67) | -0.41 (p 0.58) | +0.03 (p 0.94) | -0.54 (p 0.72) | 208 |
+| guests from abroad | -0.45 (p 0.62) | -0.80 (p 0.24) | -1.07 (p 0.26) | -0.71 (p 0.27) | -2.59 (p 0.21) | 208 |
+
+Nights in the regions with the largest recent fires (all guests):
+
+| Region | Fires burning 1 % or more | 2021 | 2022 | 2023 | 2024 | 2025 |
+| --- | --- | --- | --- | --- | --- | --- |
+| Kalymnos, Karpathos, Kasos, Kos, Rodos (EL421) | 2023 (6.9 %) | 14,171,238 (+102.5 %) | 24,182,894 (+70.6 %) | 25,158,840 (+4.0 %) | 28,745,136 (+14.3 %) | 29,164,349 (+1.5 %) |
+| Evros (EL511) | 2022 (1.1 %), 2023 (22.3 %) | 296,377 (-9.0 %) | 461,903 (+55.8 %) | 552,585 (+19.6 %) | 590,011 (+6.8 %) | 615,172 (+4.3 %) |
+| Evvoia (EL642) | 2016 (1.1 %), 2019 (1.0 %), 2021 (12.6 %) | 960,340 (+23.2 %) | 1,555,193 (+61.9 %) | 1,748,518 (+12.4 %) | 1,721,401 (-1.6 %) | 1,957,544 (+13.7 %) |
 
 ## The data
 
