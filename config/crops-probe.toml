@@ -1,0 +1,105 @@
+[region]
+nuts_url = "https://gisco-services.ec.europa.eu/distribution/v2/nuts/geojson/NUTS_RG_01M_2021_4326_LEVL_2.geojson"
+nuts2 = "EL61"
+
+[edo]
+base = "https://drought.emergency.copernicus.eu/data/Drought_Observatories_datasets/"
+years = [2019, 2025]
+sample_date = "2024-07-21"
+max_sample_mb = 800
+max_depth = 4
+needed = ["warm_spell", "soil_moisture_anomaly", "fapar_anomaly"]
+
+[[edo.indicator]]
+key = "warm_spell"
+name = "Warm Spell Duration (JRC MARS)"
+dir = "EDO_JRC_MARS_Warm_Spell_Duration"
+
+[[edo.indicator]]
+key = "tmax"
+name = "Daily Maximum Temperature (JRC MARS)"
+dir = "EDO_JRC_MARS_Daily_Maximum_Temperature"
+
+[[edo.indicator]]
+key = "heat_cold_wave"
+name = "Heat and Cold Wave Index"
+dir = "EDO_Heat_and_Cold_Wave_Index_HCWI"
+
+[[edo.indicator]]
+key = "soil_moisture_anomaly"
+name = "Soil Moisture Index Anomaly"
+dir = "EDO_Soil_Moisture_Index_Anomaly"
+
+[[edo.indicator]]
+key = "fapar_anomaly"
+name = "fAPAR Anomaly (VIIRS)"
+dir = "EDO_Fraction_of_Absorbed_Photosynthetically_Active_Radiation_Anomalies_fAPAR_VIIRS"
+
+[[edo.indicator]]
+key = "spei3"
+name = "Standardized Precipitation Evapotranspiration Index, 3 months (JRC MARS)"
+dir = "EDO_JRC_MARS_Standardized_Precipitation_Evapotranspiration_Index_SPEI3"
+
+[cropmap]
+base = "https://jeodpp.jrc.ec.europa.eu/ftp/public/JRC-OpenData/EUCROPMAP/2022/"
+max_depth = 2
+header_workers = 8
+prefer_tiles = true
+
+[cropmap.classes]
+100 = "Artificial"
+211 = "Common wheat"
+212 = "Durum wheat"
+213 = "Barley"
+214 = "Rye"
+215 = "Oats"
+216 = "Maize"
+217 = "Rice"
+218 = "Triticale"
+219 = "Other cereals"
+221 = "Potatoes"
+222 = "Sugar beet"
+223 = "Other root crops"
+230 = "Other non-permanent industrial crops"
+231 = "Sunflower"
+232 = "Rapeseed and turnip rapeseed"
+233 = "Soya"
+240 = "Dry pulses"
+250 = "Fodder crops (cereals and leguminous)"
+290 = "Bare arable land"
+300 = "Woodland and Shrubland (incl. permanent crops)"
+500 = "Grasslands"
+600 = "Bare land/lichens moss"
+700 = "Water"
+800 = "Wetlands"
+
+[eurostat]
+api = "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/{code}"
+code = "apro_cpshr"
+strucpro = "AR"
+since = 2019
+
+[compare]
+year = 2022
+tolerance = 0.35
+cotton_name = "Cotton"
+
+[[compare.pair]]
+name = "Cotton"
+classes = [230]
+label_contains = "Cotton"
+
+[[compare.pair]]
+name = "Maize"
+classes = [216]
+label_contains = "Grain maize"
+
+[[compare.pair]]
+name = "Durum wheat"
+classes = [212]
+label_contains = "Durum wheat"
+
+[[compare.pair]]
+name = "Common wheat"
+classes = [211]
+label_contains = "Common wheat"

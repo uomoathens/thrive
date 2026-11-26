@@ -75,6 +75,9 @@ def main(argv: list[str] | None = None) -> int:
     pc = sub.add_parser("phase-c", help="replicate the wildfire result of the Hellenic Parliamentary Budget Office: growth of Greek regions after a fire")
     pc.add_argument("--config", default="config/phase-c.toml")
     pc.add_argument("--out", default="results/phase-c")
+    pp = sub.add_parser("crops-probe", help="check whether the open data for a study of heat and drought damage to crops in Thessaly can be downloaded and used")
+    pp.add_argument("--config", default="config/crops-probe.toml")
+    pp.add_argument("--out", default="results/crops-probe")
     ps = sub.add_parser("site", help="update the page and the README from the latest results, or stop if a stated finding no longer holds")
     ps.add_argument("--root", default=".")
     ps.add_argument("--report", default=None)
@@ -117,6 +120,13 @@ def main(argv: list[str] | None = None) -> int:
             print("Phase C done: the result of the Parliamentary Budget Office was NOT replicated; see report.md")
             return 3
         print(f"Phase C done: replicated on {summary['gate_observations']} observations in {summary['regions']} regions")
+    elif args.command == "crops-probe":
+        from pathlib import Path
+
+        from thrive.data.crops_probe import run as run_p
+
+        summary = run_p(Path(args.config), Path(args.out))
+        print(f"Crops probe done: drought data ready {summary['edo_ready']}, cotton mapped {summary['cotton_mapped']}; see report.md")
     elif args.command == "site":
         from pathlib import Path
 
