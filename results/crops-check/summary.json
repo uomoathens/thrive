@@ -1,0 +1,237 @@
+{
+  "finished": "2026-11-26T13:05:10+00:00",
+  "plan_fixed": "2026-11-26",
+  "rows": 60299,
+  "verdict": "not robust",
+  "reasons": [
+    "not every main estimate is below zero with its interval below zero",
+    "the placebo shows an effect of heat that has not happened yet",
+    "hot days do not improve the prediction of every unseen Summer"
+  ],
+  "train": [
+    2019,
+    2022
+  ],
+  "main": [
+    {
+      "threshold_C": 35,
+      "hot_days_in": "this ten-day period",
+      "n": 60299,
+      "cells": 1039,
+      "clusters": 46,
+      "b": -0.0006325056012183993,
+      "se": 0.000754433855122224,
+      "lo": -0.0021111959572579584,
+      "hi": 0.0008461847548211598,
+      "pct": -0.06323056117176762,
+      "pct_lo": -0.21089689505645604,
+      "pct_hi": 0.08465428701442956
+    },
+    {
+      "threshold_C": 35,
+      "hot_days_in": "this and the previous ten-day period",
+      "n": 60299,
+      "cells": 1039,
+      "clusters": 46,
+      "b": -0.0016826241016020924,
+      "se": 0.0007164704738410257,
+      "lo": -0.003086906230330503,
+      "hi": -0.0002783419728736819,
+      "pct": -0.1681209283315499,
+      "pct_lo": -0.3082146634028504,
+      "pct_hi": -0.027830323934052714
+    },
+    {
+      "threshold_C": 37,
+      "hot_days_in": "this ten-day period",
+      "n": 60299,
+      "cells": 1039,
+      "clusters": 46,
+      "b": -0.005741669045652252,
+      "se": 0.0007035887244127992,
+      "lo": -0.007120702945501338,
+      "hi": -0.0043626351458031665,
+      "pct": -0.5725217166079877,
+      "pct_lo": -0.7095410808486413,
+      "pct_hi": -0.4353132676719662
+    },
+    {
+      "threshold_C": 37,
+      "hot_days_in": "this and the previous ten-day period",
+      "n": 60299,
+      "cells": 1039,
+      "clusters": 46,
+      "b": -0.00623136602768145,
+      "se": 0.0006693495021461795,
+      "lo": -0.007543291051887962,
+      "hi": -0.004919441003474938,
+      "pct": -0.6211991330894118,
+      "pct_lo": -0.7514911834340499,
+      "pct_hi": -0.49073603716852654
+    },
+    {
+      "threshold_C": 40,
+      "hot_days_in": "this ten-day period",
+      "n": 60299,
+      "cells": 1039,
+      "clusters": 46,
+      "b": -0.009694160193239196,
+      "se": 0.0015892648395693814,
+      "lo": -0.012809119278795184,
+      "hi": -0.006579201107683208,
+      "pct": -0.9647323292639287,
+      "pct_lo": -1.2727431664558475,
+      "pct_hi": -0.6557605550534862
+    },
+    {
+      "threshold_C": 40,
+      "hot_days_in": "this and the previous ten-day period",
+      "n": 60299,
+      "cells": 1039,
+      "clusters": 46,
+      "b": -0.011485718984292355,
+      "se": 0.0014184215852816376,
+      "lo": -0.014265825291444365,
+      "hi": -0.008705612677140345,
+      "pct": -1.142000992652914,
+      "pct_lo": -1.4164550566973744,
+      "pct_hi": -0.8667828555239177
+    }
+  ],
+  "placebo": [
+    {
+      "threshold_C": 35,
+      "hot_days_in": "this ten-day period",
+      "n": 54071,
+      "b_heat": -0.0009759782470031339,
+      "b_next": 0.007698468185114097,
+      "se_next": 0.000644896994775494,
+      "lo_next": 0.006434470075354129,
+      "hi_next": 0.008962466294874065
+    },
+    {
+      "threshold_C": 35,
+      "hot_days_in": "this and the previous ten-day period",
+      "n": 54071,
+      "b_heat": -0.0017178966690576626,
+      "b_next": 0.007441871140702194,
+      "se_next": 0.0007329059898402522,
+      "lo_next": 0.0060053754006153,
+      "hi_next": 0.008878366880789088
+    },
+    {
+      "threshold_C": 37,
+      "hot_days_in": "this ten-day period",
+      "n": 54071,
+      "b_heat": -0.005867846742302694,
+      "b_next": 0.006728393927025011,
+      "se_next": 0.0005964749104136623,
+      "lo_next": 0.005559303102614233,
+      "hi_next": 0.007897484751435788
+    },
+    {
+      "threshold_C": 37,
+      "hot_days_in": "this and the previous ten-day period",
+      "n": 54071,
+      "b_heat": -0.005825852730555758,
+      "b_next": 0.005457197527932516,
+      "se_next": 0.0007022693129674389,
+      "lo_next": 0.004080749674516336,
+      "hi_next": 0.006833645381348696
+    },
+    {
+      "threshold_C": 40,
+      "hot_days_in": "this ten-day period",
+      "n": 54071,
+      "b_heat": -0.008200974875035153,
+      "b_next": 0.008809261597269401,
+      "se_next": 0.001545252814459177,
+      "lo_next": 0.005780566080929414,
+      "hi_next": 0.011837957113609389
+    },
+    {
+      "threshold_C": 40,
+      "hot_days_in": "this and the previous ten-day period",
+      "n": 54071,
+      "b_heat": -0.009991941743619271,
+      "b_next": 0.006062096387510024,
+      "se_next": 0.0018564399405769827,
+      "lo_next": 0.0024234741039791383,
+      "hi_next": 0.009700718671040911
+    }
+  ],
+  "forecast": [
+    {
+      "threshold_C": 35,
+      "test_year": 2023,
+      "rows": 8769,
+      "rmse_without": 0.19513224002560464,
+      "rmse_with": 0.19406075061083045,
+      "improves": true
+    },
+    {
+      "threshold_C": 35,
+      "test_year": 2024,
+      "rows": 2159,
+      "rmse_without": 0.22121776009454813,
+      "rmse_with": 0.21987750213939738,
+      "improves": true
+    },
+    {
+      "threshold_C": 35,
+      "test_year": 2025,
+      "rows": 12447,
+      "rmse_without": 0.36051965626732707,
+      "rmse_with": 0.36139234973615597,
+      "improves": false
+    },
+    {
+      "threshold_C": 37,
+      "test_year": 2023,
+      "rows": 8769,
+      "rmse_without": 0.19513224002560464,
+      "rmse_with": 0.19420937340882843,
+      "improves": true
+    },
+    {
+      "threshold_C": 37,
+      "test_year": 2024,
+      "rows": 2159,
+      "rmse_without": 0.22121776009454813,
+      "rmse_with": 0.22215782369631515,
+      "improves": false
+    },
+    {
+      "threshold_C": 37,
+      "test_year": 2025,
+      "rows": 12447,
+      "rmse_without": 0.36051965626732707,
+      "rmse_with": 0.3596512811760373,
+      "improves": true
+    },
+    {
+      "threshold_C": 40,
+      "test_year": 2023,
+      "rows": 8769,
+      "rmse_without": 0.19513224002560464,
+      "rmse_with": 0.19395220403827776,
+      "improves": true
+    },
+    {
+      "threshold_C": 40,
+      "test_year": 2024,
+      "rows": 2159,
+      "rmse_without": 0.22121776009454813,
+      "rmse_with": 0.22258524098415147,
+      "improves": false
+    },
+    {
+      "threshold_C": 40,
+      "test_year": 2025,
+      "rows": 12447,
+      "rmse_without": 0.36051965626732707,
+      "rmse_with": 0.3601643016469866,
+      "improves": true
+    }
+  ]
+}
