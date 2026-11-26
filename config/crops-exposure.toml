@@ -1,0 +1,26 @@
+years = [2019, 2026]
+season = ["06-01", "09-30"]
+
+[cells]
+path = "results/phase-b/cells.gpkg"
+layer = "cells"
+
+[cropmap]
+url = "https://jeodpp.jrc.ec.europa.eu/ftp/public/JRC-OpenData/EUCROPMAP/2022/tiles/EU27/EU27_Final_Filtered_Map_Masked_Map1_EPSG3035-0000327680-0000262144.tif"
+
+[cropmap.classes]
+cotton = 230
+maize = 216
+
+[edo]
+base = "https://drought.emergency.copernicus.eu/data/Drought_Observatories_datasets/"
+tmax_dir = "EDO_JRC_MARS_Daily_Maximum_Temperature"
+max_depth = 3
+thresholds = [35, 37, 40]
+min_valid_share = 0.9
+
+[exposure]
+threshold = 37
+days = 10
+extreme_threshold = 40
+extreme_days = 5

@@ -78,6 +78,12 @@ def main(argv: list[str] | None = None) -> int:
     ph = sub.add_parser("crops-heat", help="estimate whether cotton and maize in Thessaly are less green in ten-day periods with more hot days")
     ph.add_argument("--config", default="config/crops-heat.toml")
     ph.add_argument("--out", default="results/crops-heat")
+    pe = sub.add_parser("crops-exposure", help="count the hot days of every Summer on the cotton and maize of Thessaly")
+    pe.add_argument("--config", default="config/crops-exposure.toml")
+    pe.add_argument("--out", default="results/crops-exposure")
+    pk = sub.add_parser("crops-check", help="placebo and unseen-Summer checks of the crops heat estimates")
+    pk.add_argument("--config", default="config/crops-check.toml")
+    pk.add_argument("--out", default="results/crops-check")
     ps = sub.add_parser("site", help="update the page and the README from the latest results, or stop if a stated finding no longer holds")
     ps.add_argument("--root", default=".")
     ps.add_argument("--report", default=None)
@@ -126,6 +132,20 @@ def main(argv: list[str] | None = None) -> int:
 
         summary = run_h(Path(args.config), Path(args.out))
         print(f"Crops heat done: {summary['cells']} squares, {summary['scenes_used']} scenes used, verdict: {summary['verdict']}")
+    elif args.command == "crops-exposure":
+        from pathlib import Path
+
+        from thrive.data.crops_exposure import run as run_e
+
+        summary = run_e(Path(args.config), Path(args.out))
+        print(f"Crops exposure done: {summary['squares']} squares, Summers {', '.join(str(y) for y in summary['years'])}")
+    elif args.command == "crops-check":
+        from pathlib import Path
+
+        from thrive.data.crops_check import run as run_k
+
+        summary = run_k(Path(args.config), Path(args.out))
+        print(f"Crops check done: verdict {summary['verdict']}")
     elif args.command == "site":
         from pathlib import Path
 

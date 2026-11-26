@@ -153,7 +153,10 @@ def add_lag(df: pd.DataFrame, cols: list[str]) -> pd.DataFrame:
     prev = df[["cell", "year", "k"] + cols].copy()
     prev["k"] = prev["k"] + 1
     prev = prev.rename(columns={c: f"{c}_prev" for c in cols})
-    out = df.merge(prev, on=["cell", "year", "k"], how="left")
+    nxt = df[["cell", "year", "k"] + cols].copy()
+    nxt["k"] = nxt["k"] - 1
+    nxt = nxt.rename(columns={c: f"{c}_next" for c in cols})
+    out = df.merge(prev, on=["cell", "year", "k"], how="left").merge(nxt, on=["cell", "year", "k"], how="left")
     for c in cols:
         out[f"{c}_two"] = out[c] + out[f"{c}_prev"]
     return out

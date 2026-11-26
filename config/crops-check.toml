@@ -1,0 +1,8 @@
+plan_fixed = "2026-11-26"
+panel = "results/crops-heat/crops-heat.xlsx"
+thresholds = [35, 37, 40]
+windows = ["this", "two"]
+control = "sma"
+train_years = [2019, 2022]
+test_years = [2023, 2024, 2025]
+forecast_window = "two"
