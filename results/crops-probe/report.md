@@ -22,16 +22,16 @@ Generated automatically by `thrive crops-probe`. It checks, before any analysis,
 ### Sample read over Thessaly
 
 - **warm_spell**: ver2-1-0/hwd2m_m_edo_20240101_20241231_d.nc; read
-  - /tmp/tmpqlytuill/hwd2m_m_edo_20240101_20241231_d.nc: band 203 of 366 (2024-07-21), CRS EPSG:3035, pixel 10000 x 10000, 522 pixels, valid 100%, min 0.0, mean 4.647509578544061, max 14.0
+  - /tmp/tmpx5ilgqh9/hwd2m_m_edo_20240101_20241231_d.nc: band 203 of 366 (2024-07-21), CRS EPSG:3035, pixel 10000 x 10000, 522 pixels, valid 100%, min 0.0, mean 4.647509578544061, max 14.0
 - **tmax**: ver2-1-0/tmaxm_m_edo_20240101_20241231_d.nc; read
-  - /tmp/tmpqlytuill/tmaxm_m_edo_20240101_20241231_d.nc: band 203 of 366 (2024-07-21), CRS EPSG:3035, pixel 10000 x 10000, 522 pixels, valid 76%, min 29.299999237060547, mean 36.1313924282412, max 40.0
+  - /tmp/tmpx5ilgqh9/tmaxm_m_edo_20240101_20241231_d.nc: band 203 of 366 (2024-07-21), CRS EPSG:3035, pixel 10000 x 10000, 522 pixels, valid 76%, min 29.299999237060547, mean 36.1313924282412, max 40.0
 - **heat_cold_wave**: no sample; failed: no file with a date and an accepted format under the size limit
 - **soil_moisture_anomaly**: ver3-0-2/smian_m_eul_20240101_20241221_t.nc; read
-  - /tmp/tmpqlytuill/smian_m_eul_20240101_20241221_t.nc: band 21 of 36 (2024-07-21), CRS EPSG:4326, pixel 0.016667 x 0.016667, 14282 pixels, valid 59%, min -2.9898533821105957, mean -0.878532451534361, max 1.6044965982437134
+  - /tmp/tmpx5ilgqh9/smian_m_eul_20240101_20241221_t.nc: band 21 of 36 (2024-07-21), CRS EPSG:4326, pixel 0.016667 x 0.016667, 14282 pixels, valid 59%, min -2.9898533821105957, mean -0.878532451534361, max 1.6044965982437134
 - **fapar_anomaly**: ver3-1-0/fpanv_m_edo_20240101_20241221_t.nc; read
-  - /tmp/tmpqlytuill/fpanv_m_edo_20240101_20241221_t.nc: band 21 of 36 (2024-07-21), CRS EPSG:4326, pixel 0.041667 x 0.041667, 2233 pixels, valid 59%, min -6.530825614929199, mean -1.1158155415059872, max 0.8543393015861511
+  - /tmp/tmpx5ilgqh9/fpanv_m_edo_20240101_20241221_t.nc: band 21 of 36 (2024-07-21), CRS EPSG:4326, pixel 0.041667 x 0.041667, 2233 pixels, valid 59%, min -6.530825614929199, mean -1.1158155415059872, max 0.8543393015861511
 - **spei3**: ver1-1-0/sem03_m_edo_20240101_20241221_t.nc; read
-  - /tmp/tmpqlytuill/sem03_m_edo_20240101_20241221_t.nc: band 21 of 36 (2024-07-21), CRS EPSG:3035, pixel 10000 x 10000, 522 pixels, valid 76%, min -4.599279403686523, mean -1.554401262809487, max 1.2134017944335938
+  - /tmp/tmpx5ilgqh9/sem03_m_edo_20240101_20241221_t.nc: band 21 of 36 (2024-07-21), CRS EPSG:3035, pixel 10000 x 10000, 522 pixels, valid 76%, min -4.599279403686523, mean -1.554401262809487, max 1.2134017944335938
 
 ## 2. EU crop map 2022 over Thessaly (NUTS EL61)
 
@@ -317,6 +317,6 @@ Source: Crop production in EU standard humidity by NUTS 2 region (updated 2026-1
 | crop | map_classes | map_hectares | eurostat_label | eurostat_year | eurostat_hectares | map_to_eurostat | within_tolerance |
 |---|---|---|---|---|---|---|---|
 | Cotton | 230 | 97065.0 | Cotton fibre | 2022 | 81830.0 | 1.19 | True |
-| Maize, grain and green | 216 | 32631.0 | Grain maize and corn-cob-mix, Green maize, Other cereals harvested green (excluding green maize) | 2022 | 35440.0 | 0.92 | True |
+| Maize, grain and green | 216 | 32631.0 | Grain maize and corn-cob-mix, Green maize | 2022 | 32650.0 | 1.0 | True |
 | Wheat, durum and common | 211, 212 | 129286.0 | Common wheat and spelt, Durum wheat | 2022 | 95500.0 | 1.35 | False |
 
