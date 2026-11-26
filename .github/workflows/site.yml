@@ -3,7 +3,7 @@ name: site
 on:
   workflow_dispatch:
   workflow_run:
-    workflows: [phase-a, phase-b, thriving, phase-c]
+    workflows: [phase-b, thriving, phase-c]
     types: [completed]
   push:
     branches: [main]

@@ -251,6 +251,12 @@ def exposure_table(panel_heat: pd.DataFrame, crops: pd.DataFrame, cells, thresho
     return pd.DataFrame(rows)
 
 
+def _fmt(v: float) -> str:
+    if abs(v) >= 1000 or float(v).is_integer():
+        return f"{v:,.0f}"
+    return f"{v:,.4g}"
+
+
 def report(s: dict, specs: pd.DataFrame, by_crop: pd.DataFrame, exposure: pd.DataFrame) -> str:
     def table(df):
         if df is None or df.empty:
@@ -258,7 +264,7 @@ def report(s: dict, specs: pd.DataFrame, by_crop: pd.DataFrame, exposure: pd.Dat
         cols = list(df.columns)
         lines = ["| " + " | ".join(cols) + " |", "|" + "---|" * len(cols)]
         for _, r in df.iterrows():
-            lines.append("| " + " | ".join("" if pd.isna(r[c]) else (f"{r[c]:,.4g}" if isinstance(r[c], float) else str(r[c])) for c in cols) + " |")
+            lines.append("| " + " | ".join("" if pd.isna(r[c]) else (_fmt(r[c]) if isinstance(r[c], float) else str(r[c])) for c in cols) + " |")
         return "\n".join(lines) + "\n"
 
     lines = [
@@ -292,7 +298,7 @@ def report(s: dict, specs: pd.DataFrame, by_crop: pd.DataFrame, exposure: pd.Dat
         "## Limits",
         "",
         "- The crop map is of 2022; crops rotate, so a square counted as cotton may have grown another crop in another year. The cotton class of the map is the class of other non-permanent industrial crops, which in Thessaly is mostly cotton; its 2022 area is 19% above the Eurostat cotton area.",
-        "- Temperature is a 10 km grid and soil moisture a model at about 1.5 km; neither sees the irrigation of a single field.",
+        "- Temperature is a 10 km grid and soil moisture a model at about 2 km; neither sees the irrigation of a single field.",
         "- Greenness is not yield. A lower NDVI shows stress or earlier ageing of the canopy, not tonnes lost.",
         "- The years 2019 to 2025 are few; a result can depend on one unusual summer.",
     ]

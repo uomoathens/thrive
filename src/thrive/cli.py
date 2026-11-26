@@ -37,10 +37,10 @@ def _demo() -> str:
     for eta in (0.0, 0.5, 1.0, 2.0):
         a, b = project_values(levees, eta)
         plan = allocate(levees, LEVEE_COST, eta)
-        out.append(f"   eta {eta:.1f}: A ${a / 1e6:.1f}m, B ${b / 1e6:.1f}m, funded: {', '.join(plan.selected)}")
+        out.append(f"   eta {eta:.1f}: A €{a / 1e6:.1f}m, B €{b / 1e6:.1f}m, funded: {', '.join(plan.selected)}")
     flip = crossover(lambda e: project_values(levees, e)[0] - project_values(levees, e)[1])
     passes = crossover(lambda e: project_values(levees, e)[1] - LEVEE_COST)
-    out.append(f"   B overtakes A at eta {flip:.2f} and passes the $10m cost at eta {passes:.2f}")
+    out.append(f"   B overtakes A at eta {flip:.2f} and passes the €10m cost at eta {passes:.2f}")
     out += ["", "2. Who recovered first? (made-up curves)"]
     groups = recovery_example()
     finding = robust_recovery(groups, {g: 1.0 for g in groups}, [0.90, 0.97])
@@ -63,9 +63,6 @@ def main(argv: list[str] | None = None) -> int:
     sub.add_parser("info", help="show the book and the frameworks each phase builds on")
     sub.add_parser("cite", help="print the citation of the book")
     sub.add_parser("demo", help="run the worked examples of the README")
-    pa = sub.add_parser("phase-a", help="download open US data and compare flood funding with social vulnerability")
-    pa.add_argument("--config", default="config/phase-a.toml")
-    pa.add_argument("--out", default="results/phase-a")
     pb = sub.add_parser("phase-b", help="who was in the water of Storm Daniel: Copernicus flood extent against the 1 km population grid")
     pb.add_argument("--config", default="config/phase-b.toml")
     pb.add_argument("--out", default="results/phase-b")
@@ -91,14 +88,6 @@ def main(argv: list[str] | None = None) -> int:
         print(BOOK.citation())
     elif args.command == "demo":
         print(_demo())
-    elif args.command == "phase-a":
-        from pathlib import Path
-
-        from thrive.data.phase_a import run
-
-        summary = run(Path(args.config), Path(args.out))
-        r = summary["r_cov_most_vs_least_vulnerable"]
-        print(f"Phase A done: {summary['counties']} counties, coverage ratio {r:.2f}" if r is not None else "Phase A done: coverage ratio not defined")
     elif args.command == "phase-b":
         from pathlib import Path
 

@@ -325,3 +325,12 @@ def test_run_end_to_end(tmp_path, monkeypatch):
     ex = pd.read_excel(out / "crops-heat.xlsx", sheet_name="exposure")
     assert set(ex["region_id"]) == {"EL611", "EL612"}
     assert (ex["cotton_ha_exposed"] <= ex["cotton_ha"]).all()
+
+
+def test_report_numbers_are_readable():
+    from thrive.data.crops_heat import _fmt
+
+    assert _fmt(41630.0) == "41,630"
+    assert _fmt(0.0) == "0"
+    assert _fmt(-0.005742) == "-0.005742"
+    assert _fmt(7.9) == "7.9"
