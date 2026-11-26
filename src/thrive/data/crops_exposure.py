@@ -63,7 +63,7 @@ def report(s: dict, table: pd.DataFrame) -> str:
         cols = list(df.columns)
         lines = ["| " + " | ".join(cols) + " |", "|" + "---|" * len(cols)]
         for _, r in df.iterrows():
-            lines.append("| " + " | ".join("" if pd.isna(r[c]) else (f"{r[c]:,.0f}" if isinstance(r[c], (int, np.integer)) or (isinstance(r[c], float) and float(r[c]).is_integer()) else str(r[c])) for c in cols) + " |")
+            lines.append("| " + " | ".join("" if pd.isna(r[c]) else str(r[c]) if c == "Έτος" else (f"{r[c]:,.0f}" if isinstance(r[c], (int, np.integer)) or (isinstance(r[c], float) and float(r[c]).is_integer()) else str(r[c])) for c in cols) + " |")
         return "\n".join(lines) + "\n"
 
     lines = [
