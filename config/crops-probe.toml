@@ -44,7 +44,6 @@ dir = "EDO_JRC_MARS_Standardized_Precipitation_Evapotranspiration_Index_SPEI3"
 base = "https://jeodpp.jrc.ec.europa.eu/ftp/public/JRC-OpenData/EUCROPMAP/2022/"
 max_depth = 2
 header_workers = 8
-prefer_tiles = true
 
 [cropmap.classes]
 100 = "Artificial"
@@ -76,7 +75,7 @@ prefer_tiles = true
 [eurostat]
 api = "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/{code}"
 code = "apro_cpshr"
-strucpro = "AR"
+strucpro = "AR_THS_HA"
 since = 2019
 
 [compare]
@@ -87,19 +86,14 @@ cotton_name = "Cotton"
 [[compare.pair]]
 name = "Cotton"
 classes = [230]
-label_contains = "Cotton"
+label_contains = ["Cotton fibre"]
 
 [[compare.pair]]
-name = "Maize"
+name = "Maize, grain and green"
 classes = [216]
-label_contains = "Grain maize"
+label_contains = ["Grain maize", "Green maize"]
 
 [[compare.pair]]
-name = "Durum wheat"
-classes = [212]
-label_contains = "Durum wheat"
-
-[[compare.pair]]
-name = "Common wheat"
-classes = [211]
-label_contains = "Common wheat"
+name = "Wheat, durum and common"
+classes = [211, 212]
+label_contains = ["Durum wheat", "Common wheat"]

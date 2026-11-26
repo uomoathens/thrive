@@ -6,7 +6,7 @@ import tomllib
 import urllib.parse
 import zipfile
 from concurrent.futures import ThreadPoolExecutor
-from datetime import date, datetime, timezone
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
 import numpy as np
@@ -133,7 +133,9 @@ def pick_sample(files: list[dict], target: date, max_bytes: int) -> dict | None:
         if not ds:
             continue
         kind, d = ds[0]
-        if kind == "y":
+        if len(ds) >= 2 and ds[0][0] == ds[1][0] == "ymd" and ds[0][1] <= target <= ds[1][1]:
+            gap = 0
+        elif kind == "y":
             gap = 0 if d.year == target.year else abs(d.year - target.year) * 365
         elif kind == "ym":
             gap = 0 if (d.year, d.month) == (target.year, target.month) else abs((d - target).days)
@@ -159,7 +161,26 @@ def window_stats(arr: np.ndarray, nodata) -> dict:
     return out
 
 
-def read_bbox(path: Path, bbox: list[float]) -> dict:
+def band_for_date(tags: dict, count: int, target: date) -> tuple[int, str]:
+    vals = tags.get("NETCDF_DIM_time_VALUES")
+    units = str(tags.get("time#units", ""))
+    if vals and " since " in units:
+        unit, origin_text = units.split(" since ", 1)
+        try:
+            origin = date.fromisoformat(origin_text.strip()[:10])
+            nums = [float(x) for x in str(vals).strip("{}").split(",") if x.strip()]
+            per_day = {"days": 1.0, "hours": 24.0, "minutes": 1440.0, "seconds": 86400.0}[unit.strip().lower()]
+            dates = [origin + timedelta(days=n / per_day) for n in nums]
+            if dates:
+                i = min(range(len(dates)), key=lambda k: abs((dates[k] - target).days))
+                return i + 1, dates[i].isoformat()
+        except (ValueError, KeyError):
+            pass
+    k = max(1, min(count, round(count * target.timetuple().tm_yday / 366)))
+    return k, "estimated from the band order"
+
+
+def read_bbox(path: Path, bbox: list[float], target: date | None = None) -> dict:
     import rasterio
     from rasterio.warp import transform_bounds
     from rasterio.windows import from_bounds
@@ -176,34 +197,37 @@ def read_bbox(path: Path, bbox: list[float]) -> dict:
             crs = ds.crs or "EPSG:4326"
             b = transform_bounds("EPSG:4326", crs, *bbox) if str(crs) != "EPSG:4326" else bbox
             win = from_bounds(*b, transform=ds.transform).round_offsets().round_lengths()
-            arr = ds.read(1, window=win, boundless=True, fill_value=np.nan if ds.dtypes[0].startswith("float") else 0)
+            band, when = band_for_date(ds.tags(), ds.count, target) if target and ds.count > 1 else (1, "first band")
+            arr = ds.read(band, window=win, boundless=True, fill_value=np.nan if ds.dtypes[0].startswith("float") else 0)
             res = ds.res
             results.append({
                 "layer": t.split(":")[-1],
                 "crs": str(crs),
                 "res": f"{res[0]:.5g} x {res[1]:.5g}",
                 "bands": ds.count,
+                "band_used": band,
+                "band_date": when,
                 "band_names": ", ".join(d for d in (ds.descriptions or ()) if d)[:200],
                 **window_stats(arr, ds.nodata),
             })
     return {"layers": results}
 
 
-def sample_indicator(entry: dict, sample: dict | None, bbox: list[float], workdir: Path) -> dict:
+def sample_indicator(entry: dict, sample: dict | None, bbox: list[float], workdir: Path, target: date | None = None) -> dict:
     if sample is None:
         return {"indicator": entry["key"], "sample": None, "ok": False, "error": "no file with a date and an accepted format under the size limit"}
     local = workdir / sample["name"]
     try:
         fetch_to_file(sample["url"], local)
-        target = local
+        local_target = local
         if local.suffix.lower() == ".zip":
             with zipfile.ZipFile(local) as z:
                 inner = [n for n in z.namelist() if Path(n).suffix.lower() in (".tif", ".tiff", ".nc", ".nc4")]
                 if not inner:
                     raise ValueError("the zip holds no GeoTIFF or NetCDF")
                 z.extract(inner[0], workdir)
-                target = workdir / inner[0]
-        stats = read_bbox(target, bbox)
+                local_target = workdir / inner[0]
+        stats = read_bbox(local_target, bbox, target)
         return {"indicator": entry["key"], "sample": sample["path"], "ok": True, "error": None, **stats}
     except Exception as exc:
         return {"indicator": entry["key"], "sample": sample["path"], "ok": False, "error": f"{type(exc).__name__}: {exc}"[:400]}
@@ -240,7 +264,7 @@ def probe_edo(cfg: dict, bbox: list[float], fetcher: Fetcher, workdir: Path) -> 
             "all_years_present": all(covered[y] > 0 for y in covered),
         })
         sample = pick_sample(rasters, target, int(e["max_sample_mb"]) * 1024 ** 2)
-        samples.append(sample_indicator(ind, sample, bbox, workdir))
+        samples.append(sample_indicator(ind, sample, bbox, workdir, target))
     return pd.DataFrame(rows), samples
 
 
@@ -266,6 +290,18 @@ def tif_header(url: str) -> dict:
 
 def intersects(b: tuple, bbox: list[float]) -> bool:
     return not (b[2] < bbox[0] or b[0] > bbox[2] or b[3] < bbox[1] or b[1] > bbox[3])
+
+
+def contains(b: tuple, bbox: list[float]) -> bool:
+    return b[0] <= bbox[0] and b[1] <= bbox[1] and b[2] >= bbox[2] and b[3] >= bbox[3]
+
+
+def choose_files(hits: list[dict], bbox: list[float]) -> list[dict]:
+    full = [h for h in hits if contains(h["bounds4326"], bbox)]
+    if full:
+        return [min(full, key=lambda h: (h["bounds4326"][2] - h["bounds4326"][0]) * (h["bounds4326"][3] - h["bounds4326"][1]))]
+    big = [h for h in hits if any(o is not h and contains(h["bounds4326"], o["bounds4326"]) for o in hits)]
+    return [h for h in hits if h not in big]
 
 
 def class_counts(url: str, geom4326) -> dict:
@@ -302,11 +338,7 @@ def probe_cropmap(cfg: dict, geom4326, fetcher: Fetcher) -> tuple[pd.DataFrame, 
     with ThreadPoolExecutor(max_workers=int(c["header_workers"])) as pool:
         heads = list(pool.map(lambda f: _safe(tif_header, f["url"]), tifs))
     good = [h for h in heads if "error" not in h]
-    hits = [h for h in good if intersects(h["bounds4326"], bbox)]
-    if c.get("prefer_tiles", True):
-        tiled = [h for h in hits if "/tiles/" in h["url"]]
-        if tiled:
-            hits = tiled
+    hits = choose_files([h for h in good if intersects(h["bounds4326"], bbox)], bbox)
     totals: dict = {}
     errors = [h for h in heads if "error" in h]
     for h in hits:
@@ -362,9 +394,10 @@ def compare(classes: pd.DataFrame, crops: pd.DataFrame, cfg: dict) -> pd.DataFra
     year = str(cfg["compare"]["year"])
     for pair in cfg["compare"]["pair"]:
         map_ha = float(classes.loc[classes["class"].isin(pair["classes"]), "hectares"].sum()) if not classes.empty else 0.0
-        stat = crops[crops["label"].str.contains(pair["label_contains"], case=False, regex=False)] if not crops.empty else crops
+        pats = pair["label_contains"] if isinstance(pair["label_contains"], list) else [pair["label_contains"]]
+        stat = crops[crops["label"].apply(lambda s: any(x.lower() in str(s).lower() for x in pats))] if not crops.empty else crops
         stat_year = stat[stat["time"] == year] if not stat.empty and "time" in stat else stat
-        stat_ha = float(stat_year["thousand_ha"].max() * 1000) if not stat_year.empty else None
+        stat_ha = float(stat_year.groupby("label")["thousand_ha"].max().sum() * 1000) if not stat_year.empty else None
         ratio = map_ha / stat_ha if stat_ha else None
         tol = float(cfg["compare"]["tolerance"])
         out.append({
@@ -419,7 +452,7 @@ def write_report(out: Path, edo, samples, classes, cmeta, crops, emeta, cmp, ver
     for s in samples:
         lines.append(f"- **{s['indicator']}**: {s.get('sample') or 'no sample'}; " + ("read" if s["ok"] else f"failed: {s['error']}"))
         for layer in s.get("layers", []):
-            lines.append(f"  - {layer['layer']}: CRS {layer['crs']}, pixel {layer['res']}, {layer['pixels']} pixels, valid {layer['valid_share']:.0%}, min {layer['min']}, mean {layer['mean']}, max {layer['max']}")
+            lines.append(f"  - {layer['layer']}: band {layer.get('band_used')} of {layer.get('bands')} ({layer.get('band_date')}), CRS {layer['crs']}, pixel {layer['res']}, {layer['pixels']} pixels, valid {layer['valid_share']:.0%}, min {layer['min']}, mean {layer['mean']}, max {layer['max']}")
     lines += ["", "## 2. EU crop map 2022 over Thessaly (NUTS " + cfg["region"]["nuts2"] + ")", "", f"GeoTIFF files listed: {cmeta['tif_files']}; headers read: {cmeta['headers_read']}; files over Thessaly: {cmeta['files_over_region']}.", "", table(classes), "### Eurostat crop areas, Thessaly", "", f"Source: {emeta.get('label')} (updated {emeta.get('updated')}).", ""]
     lines += [table(crops), "### Crop map against Eurostat", "", table(cmp)]
     if cmeta["errors"]:

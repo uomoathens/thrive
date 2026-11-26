@@ -74,10 +74,37 @@ def test_compare_flags_cotton_within_tolerance():
     })
     out = cp.compare(classes, crops, cfg).set_index("crop")
     assert bool(out.loc["Cotton", "within_tolerance"]) is True
-    assert bool(out.loc["Maize", "within_tolerance"]) is False
+    assert bool(out.loc["Maize, grain and green", "within_tolerance"]) is False
 
 
 def test_config_lists_the_needed_indicators():
     cfg = cp.load_config(Path("config/crops-probe.toml"))
     keys = {i["key"] for i in cfg["edo"]["indicator"]}
     assert set(cfg["edo"]["needed"]) <= keys
+
+
+def test_pick_sample_prefers_the_file_whose_range_holds_the_date():
+    files = [
+        {"name": "x_20240101_20241231_d.nc", "path": "x_20240101_20241231_d.nc", "size_bytes": 10},
+        {"name": "x_20250101_20251231_d.nc", "path": "x_20250101_20251231_d.nc", "size_bytes": 10},
+    ]
+    assert cp.pick_sample(files, date(2024, 7, 21), 10 ** 6)["name"] == "x_20240101_20241231_d.nc"
+
+
+def test_band_for_date_reads_netcdf_time_and_falls_back_to_order():
+    tags = {"NETCDF_DIM_time_VALUES": "{19723,19733,19743,19924}", "time#units": "days since 1970-01-01"}
+    band, when = cp.band_for_date(tags, 4, date(2024, 7, 20))
+    assert band == 4 and when == "2024-07-20"
+    band, when = cp.band_for_date({}, 36, date(2024, 7, 21))
+    assert band == 20 and when == "estimated from the band order"
+
+
+def test_choose_files_drops_a_mosaic_that_duplicates_tiles():
+    region = [21.0, 38.9, 23.4, 40.2]
+    mosaic = {"url": "m", "bounds4326": (-10.0, 30.0, 40.0, 70.0)}
+    tile = {"url": "t", "bounds4326": (20.0, 38.0, 24.0, 41.0)}
+    assert cp.choose_files([mosaic, tile], region) == [tile]
+    left = {"url": "a", "bounds4326": (20.0, 38.0, 22.0, 41.0)}
+    right = {"url": "b", "bounds4326": (22.0, 38.0, 24.0, 41.0)}
+    assert cp.choose_files([mosaic, left, right], region) == [mosaic]
+    assert cp.choose_files([left, right], region) == [left, right]
