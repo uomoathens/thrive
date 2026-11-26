@@ -1,0 +1,44 @@
+[
+  {
+    "year": 2019,
+    "scenes": 178,
+    "needed": 200,
+    "ok": false
+  },
+  {
+    "year": 2020,
+    "scenes": 182,
+    "needed": 200,
+    "ok": false
+  },
+  {
+    "year": 2021,
+    "scenes": 179,
+    "needed": 200,
+    "ok": false
+  },
+  {
+    "year": 2022,
+    "scenes": 0,
+    "needed": 200,
+    "ok": false
+  },
+  {
+    "year": 2023,
+    "scenes": 161,
+    "needed": 200,
+    "ok": false
+  },
+  {
+    "year": 2024,
+    "scenes": 178,
+    "needed": 200,
+    "ok": false
+  },
+  {
+    "year": 2025,
+    "scenes": 270,
+    "needed": 200,
+    "ok": true
+  }
+]
