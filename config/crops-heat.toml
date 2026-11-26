@@ -35,9 +35,13 @@ days = 10
 url = "https://earth-search.aws.element84.com/v1"
 collection = "sentinel-2-c1-l2a"
 max_cloud = 80
-min_items_per_summer = 200
+min_items_per_summer = 120
 max_failed_share = 0.1
 workers = 6
+
+[stac.fallback]
+years = [2022]
+collection = "sentinel-2-l2a"
 
 [stac.assets]
 red = "red"

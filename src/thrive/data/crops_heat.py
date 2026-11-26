@@ -270,6 +270,8 @@ def report(s: dict, specs: pd.DataFrame, by_crop: pd.DataFrame, exposure: pd.Dat
         "",
         f"Squares: {s['cells']} squares with at least {s['min_crop_ha']:.0f} ha of cotton and maize in the EU crop map 2022 ({s['cotton_ha']:,.0f} ha of cotton class and {s['maize_ha']:,.0f} ha of maize). Summers: {', '.join(str(y) for y in s['years'])}, ten-day periods June to September. Sentinel-2 scenes used: {s['scenes_used']:,} of {s['scenes_found']:,}.",
         "",
+        "Sentinel-2 collection by summer: " + ", ".join(f"{y} {c}" for y, c in s["collections"].items()) + ". The reprocessed collection 1 of Earth Search has no scenes for 2022, so that summer is read from the original Level-2A collection of the same ESA product; a common effect of each year absorbs any difference in level between the two.",
+        "",
         "Heat: daily maximum temperature of the European Drought Observatory (JRC MARS, 10 km), counted as days at or above a threshold in each ten-day period. Soil moisture: soil moisture index anomaly of the European Drought Observatory (about 2 km). Greenness: median Sentinel-2 NDVI of each square in each ten-day period.",
         "",
         f"Model: log greenness on hot days and soil moisture, with a separate normal for each square and ten-day period of the year, and either a common effect of each year or a common effect of each ten-day period of each year. Standard errors are clustered on {s['block_km']:.0f} km blocks. Squares flooded by Storm Daniel are left out from September 2023 to the end of {s['flood_until']}.",
@@ -354,17 +356,20 @@ def run(config_path: Path, out_dir: Path, searcher: Callable | None = None, read
     minx, miny, maxx, maxy = study.total_bounds
     lon, lat = t.transform([minx, maxx, maxx, minx], [miny, miny, maxy, maxy])
     bbox = (min(lon), min(lat), max(lon), max(lat))
-    search = searcher or (lambda a, b: stac_items(st, bbox, a, b))
+    search = searcher or (lambda a, b, coll: stac_items({**st, "collection": coll}, bbox, a, b))
+    fallback = st.get("fallback", {})
     items, checks = [], []
     for y in years:
         a, b = f"{y}-{cfg['season'][0]}", f"{y}-{cfg['season'][1]}"
-        found = [i for i in search(a, b) if i.get("cloud") is None or float(i["cloud"]) <= st["max_cloud"]]
+        coll = fallback["collection"] if y in [int(v) for v in fallback.get("years", [])] else st["collection"]
+        found = [i for i in search(a, b, coll) if i.get("cloud") is None or float(i["cloud"]) <= st["max_cloud"]]
         ok = len(found) >= int(st["min_items_per_summer"])
-        checks.append({"year": y, "scenes": len(found), "needed": int(st["min_items_per_summer"]), "ok": ok})
+        checks.append({"year": y, "collection": coll, "scenes": len(found), "needed": int(st["min_items_per_summer"]), "ok": ok})
         items += found
     (out_dir / "preflight.json").write_text(json.dumps(checks, indent=2) + "\n", encoding="utf-8")
     if not all(c["ok"] for c in checks):
-        raise RuntimeError("too few Sentinel-2 scenes: " + "; ".join(f"{c['year']}: {c['scenes']}" for c in checks if not c["ok"]))
+        raise RuntimeError("too few Sentinel-2 scenes: " + "; ".join(f"{c['year']} ({c['collection']}): {c['scenes']}" for c in checks if not c["ok"]))
+    sources["sentinel2"] = {"stac": st["url"], "by_year": checks}
     obs, inventory = collect(items, grid, px, reader or read_item, int(st.get("workers", 8)), float(px["default_scale"]), float(px["default_offset"]), float(px["max_negative_share"]))
     (out_dir / "items.json").write_text(json.dumps(inventory, indent=2, default=str) + "\n", encoding="utf-8")
     failed = sum(1 for i in inventory if "error" in i)
@@ -417,6 +422,7 @@ def run(config_path: Path, out_dir: Path, searcher: Callable | None = None, read
         "years": years,
         "scenes_found": len(items),
         "scenes_used": int(obs["item"].nunique()) if len(obs) else 0,
+        "collections": {str(c["year"]): c["collection"] for c in checks},
         "rows": int(len(panel)),
         "block_km": float(cfg["block_m"]) / 1000,
         "flood_until": int(cfg["flood"]["until_year"]),

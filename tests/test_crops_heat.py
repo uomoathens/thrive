@@ -226,6 +226,10 @@ min_items_per_summer = 10
 max_failed_share = 0.1
 workers = 2
 
+[stac.fallback]
+years = [2020]
+collection = "sentinel-2-l2a"
+
 [stac.assets]
 red = "red"
 nir = "nir"
@@ -259,7 +263,7 @@ def fake_fetcher(files):
     return fetch
 
 
-def scene_items(a, b):
+def scene_items(a, b, coll):
     out, d = [], date.fromisoformat(a)
     while d <= date.fromisoformat(b):
         if d.day in (3, 8, 13, 18, 23, 28):
@@ -315,6 +319,7 @@ def test_run_end_to_end(tmp_path, monkeypatch):
     for r in main:
         assert r["b"] == pytest.approx(-0.03, abs=0.004)
     assert s["verdict"] == "lower greenness after hot days"
+    assert s["collections"] == {"2019": "sentinel-2-c1-l2a", "2020": "sentinel-2-l2a"}
     for name in ("report.md", "summary.json", "sources.json", "crops-heat.xlsx", "preflight.json", "items.json"):
         assert (out / name).exists()
     ex = pd.read_excel(out / "crops-heat.xlsx", sheet_name="exposure")
