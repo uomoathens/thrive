@@ -68,73 +68,6 @@ class Facts:
         self.values[key] = value
 
 
-def phase_a(f: Facts):
-    import pandas as pd
-
-    d = f.root / "results" / "phase-a"
-    s, src = _json(d / "summary.json"), _json(d / "sources.json")
-    rb = s["robustness"]
-    f.set("a_records", f"{src['openfema_records']:,}")
-    f.set("a_grants", f"{src['subgrants_in_scope']:,}")
-    f.set("a_total", f"{s['total_funding'] / 1e9:.2f}")
-    f.set("a_counties", f"{s['counties']:,}")
-    f.set("a_statewide", f"{src['statewide_funding'] / 1e9:.2f}")
-    f.set("a_unmatched", f"{src['unmatched_funding'] / 1e9:.2f}")
-    f.set("a_unmatched_share", f"{src['unmatched_share'] * 100:.1f}")
-    ratios = {"all": s["r_cov_most_vs_least_vulnerable"], "big": rb["r_cov_without_largest"], "med": rb["r_cov_median_county"], "fun": rb["r_cov_median_funded_county"]}
-    for k, v in ratios.items():
-        f.set(f"a_r_{k}", f"{v:.2f}")
-    n_big = int(rb["largest_counties_left_out"])
-    f.set("a_n_big", f"{n_big}")
-    f.set("a_big_share", f"{_r(rb['share_of_money_in_largest_counties'] * 100)}")
-    none = s["share_without_funding_by_quintile"]
-    f.set("a_none_most", f"{_r(none[4] * 100)}")
-    f.set("a_none_least", f"{_r(none[0] * 100)}")
-    f.claim(s["robust_direction"] == "not robust", "Phase A: the four measures now agree on a direction, so 'the measures do not agree' is no longer true.")
-    f.claim(ratios["all"] > 1, "Phase A: with all the money, the most vulnerable fifth no longer receives more per dollar of risk.")
-    f.claim(ratios["big"] < ratios["all"], "Phase A: leaving out the largest counties no longer lowers the ratio.")
-    f.claim(0.8 <= ratios["med"] < 1, "Phase A: the median county in the most vulnerable fifth no longer receives 'a little less'.")
-    f.claim(ratios["fun"] > 1, "Phase A: the median funded county in the most vulnerable fifth no longer receives more.")
-    f.claim(all(b > a for a, b in zip(none, none[1:])), "Phase A: the share of counties without flood money no longer rises at every step of vulnerability.")
-    big = rb["largest_counties"]
-    f.claim("Orleans, Louisiana" in big and "Harris, Texas" in big and any(c.endswith(", New York") and c.split(",")[0] in {"Kings", "Queens", "New York", "Suffolk", "Nassau", "Richmond", "Bronx"} for c in big), "Phase A: New Orleans, Harris County or the New York area is no longer among the largest counties.")
-    grants = pd.read_excel(d / "phase-a.xlsx", sheet_name="Largest grants")
-    g = grants[grants["identifier"] == "DR-4085-0018-R"]
-    f.claim(len(g) == 1 and str(g["counties"].iloc[0]) == "Greene", "Phase A: the Greene County grant DR-4085-0018-R is no longer in the table of largest grants.")
-    if len(g) == 1:
-        f.set("a_greene", f"{_r(float(g['amount'].iloc[0]) / 1e6)}")
-    counties = pd.read_excel(d / "phase-a.xlsx", sheet_name="Counties")
-    gr = counties[(counties["county"] == "Greene") & (counties["state"] == "New York")]
-    f.claim(len(gr) == 1 and int(gr["quintile"].iloc[0]) == 3, "Phase A: Greene County, New York is no longer in the middle vulnerability group.")
-    f.claim(len(big) > 1 and big[1] == "Greene, New York", "Phase A: Greene County, New York is no longer the second-largest county.")
-    raw = {"all": s["funding_per_eal_dollar_by_quintile"], "big": rb["funding_per_eal_dollar_by_quintile_without_largest"], "med": rb["median_county_ratio_by_quintile"], "fun": rb["median_ratio_of_funded_counties_by_quintile"]}
-    text = {
-        "all": f"Counting all the money, the most vulnerable fifth received {ratios['all']:.2f} times as much per dollar of flood risk as the least vulnerable fifth.",
-        "big": f"Leave out the {n_big} counties that received the most, {f.values['a_big_share']}% of all the money, and the ratio falls to {ratios['big']:.2f}.",
-        "med": f"The typical county tells another story. In the most vulnerable fifth it received {ratios['med']:.2f} times as much as the typical county in the least vulnerable fifth.",
-        "fun": f"Among counties that received any flood money at all, the typical one in the most vulnerable fifth received {ratios['fun']:.2f} times as much as its counterpart in the least vulnerable fifth.",
-    }
-    labels = {"all": "All money", "big": f"Without the {n_big} largest", "med": "Median county", "fun": "Median funded county"}
-    f.set("a_checks", phase_a_checks(s, src))
-    f.data["MS"] = [{"k": k, "l": labels[k], "raw": [round(float(x), 4) for x in raw[k]], "r": round(float(ratios[k]), 2), "t": text[k]} for k in ("all", "big", "med", "fun")]
-    f.data["none"] = [round(float(x), 4) for x in none]
-    f.data["asof_a"] = src["retrieved_at"]
-
-
-def phase_a_checks(s: dict, src: dict) -> str:
-    rb, parts = s["robustness"], []
-    if src.get("left_out_states"):
-        parts.append(f"{' and '.join(src['left_out_states'])} is left out, with ${src['left_out_funding'] / 1e6:,.0f} million of grants: since 2022 the National Risk Index describes Connecticut by nine planning regions, while its grants still name the eight former counties, which do not map one to one onto the regions.")
-    if "foreign_grants" in src:
-        n = int(src["foreign_grants"])
-        parts.append(f"{n:,} grants (${src['foreign_funding'] / 1e6:,.0f} million) name counties that mostly belong to a state other than the one recorded for them; they stay unplaced rather than go to a county of the same name in the recorded state." if n else "No grant names counties that mostly belong to another state.")
-    if src.get("possible_duplicates"):
-        parts.append(f"{int(src['possible_duplicates']):,} grants share their state, their counties and their amount to the cent with another grant under a different identifier; they are counted as recorded and listed in the Excel file for checking with FEMA.")
-    if rb.get("r_cov_obligated_only") is not None:
-        parts.append(f"Counting only the money FEMA records as obligated, and leaving out the ${src['money_from_fallback'] / 1e9:.2f} billion for which only the planned federal share is known, the coverage ratio is {rb['r_cov_obligated_only']:.2f}.")
-    return " ".join(parts)
-
-
 UNIT_NAMES = {"EL611": "Karditsa and Trikala", "EL612": "Larisa"}
 
 
@@ -419,11 +352,10 @@ def phase_c(f: Facts):
 
 def collect(root: Path) -> Facts:
     f = Facts(root)
-    phase_a(f)
     phase_b(f)
     thriving(f)
     phase_c(f)
-    stamps = [datetime.fromisoformat(str(f.data[k]).replace("Z", "+00:00")) for k in ("asof_a", "asof_b", "asof_t", "asof_c")]
+    stamps = [datetime.fromisoformat(str(f.data[k]).replace("Z", "+00:00")) for k in ("asof_b", "asof_t", "asof_c")]
     last = max(stamps)
     f.set("asof", f"{last.day} {last.strftime('%B %Y')}")
     return f
@@ -441,16 +373,8 @@ def _spans(text: str, f: Facts, name: str, used: set[str]) -> str:
     return SPAN.sub(sub, text)
 
 
-def _replace_js(h: str, start: str, value: str, end: str) -> str:
-    i = h.index(start) + len(start)
-    j = h.index(end, i)
-    return h[:i] + value + h[j:]
-
-
 def render_page(h: str, f: Facts, used: set[str]) -> str:
     h = _spans(h, f, "page", used)
-    h = _replace_js(h, "MS=", json.dumps(f.data["MS"], ensure_ascii=False, separators=(",", ":")), ";\nvar c5=")
-    h = _replace_js(h, "var none=", json.dumps(f.data["none"]), ".map(")
     i = h.index("var TD=") + len("var TD=")
     td, n = json.JSONDecoder().raw_decode(h[i:])
     for d in td:

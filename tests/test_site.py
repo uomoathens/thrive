@@ -84,13 +84,13 @@ def test_block_resampling_changes_the_phase_b_text(tmp_path):
 
 def test_new_numbers_reach_the_page(tmp_path):
     root = copy_repo(tmp_path)
-    p = root / "results" / "phase-a" / "sources.json"
+    p = root / "results" / "phase-c" / "summary.json"
     s = json.loads(p.read_text(encoding="utf-8"))
-    s["openfema_records"] = 70001
+    s["fires_matched"] = 1803
     p.write_text(json.dumps(s), encoding="utf-8")
     out = build(root)
     assert "README.md" in out["changed"]
-    assert '<span data-v="a_records">70,001</span>' in (root / "README.md").read_text(encoding="utf-8")
+    assert '<span data-v="c_fires">1,803</span>' in (root / "README.md").read_text(encoding="utf-8")
 
 
 def test_unknown_marker_is_reported(tmp_path):

@@ -132,11 +132,11 @@ footer{margin-top:72px;padding-top:24px;border-top:1px solid var(--border);font-
 <div class="links">
 <a href="#problem">The bill</a>
 <a href="#protect">Protecting</a>
-<a href="#results">United States</a>
 <a href="#thessaly">Thessaly</a>
 <a href="#thessaly-recovery">Recovery</a>
 <a href="#recover">Thriving</a>
 <a href="#wildfires">Wildfires</a>
+<a href="#heat">Heat</a>
 <a href="#decide">Who decides</a>
 <a href="#loop">How it works</a>
 <a href="#cite">Cite</a>
@@ -153,7 +153,7 @@ footer{margin-top:72px;padding-top:24px;border-top:1px solid var(--border);font-
 <a class="btn primary" href="https://link.springer.com/book/9783032364166">AI for Resilient Cities · Springer, 2027</a>
 <a class="btn" href="https://github.com/uomoathens/thrive">Code on GitHub</a>
 </div>
-<span class="chip"><i class="dot"></i><span>First results on real data: <a href="#results">United States</a>, and Storm Daniel in Thessaly: <a href="#thessaly">who was in the water</a> and <a href="#thessaly-recovery">how the land came back</a>; and wildfires in Greece: <a href="#wildfires">what a fire costs Tourism</a>. These are first results and have not been peer-reviewed. The figures are updated automatically from the latest runs, last on <span data-v="asof">23 November 2026</span>.</span></span>
+<span class="chip"><i class="dot"></i><span>First results on real data: Storm Daniel in Thessaly, <a href="#thessaly">who was in the water</a> and <a href="#thessaly-recovery">how the land came back</a>; wildfires in Greece, <a href="#wildfires">what a fire costs Tourism</a>; and heat in Attica, <a href="#heat">what street trees do</a>. These are first results and have not been peer-reviewed. The figures are updated automatically from the latest runs, last on <span data-v="asof">23 November 2026</span>.</span></span>
 <p class="src" style="margin-top:14px">Dimitrios Sargiotis, National Technical University of Athens</p>
 </header>
 
@@ -179,48 +179,25 @@ footer{margin-top:72px;padding-top:24px;border-top:1px solid var(--border);font-
 <section id="protect" class="reveal">
 <h2>Protecting: who gets the levee?</h2>
 <div class="prose">
-<p>In the United States, flood-mitigation projects funded by FEMA must pass a benefit-cost test, and the benefits it counts are mostly the property value a project protects. Zachary Liscow of Yale gives an example. Two levees cost $10 million each. Levee A protects 50 homes worth $210,000. Levee B protects 100 homes worth $90,000. Counted in property value, A saves $10.5 million and passes, while B saves $9 million and fails. B protects twice as many homes.</p>
-<p>Economists have a fix called equity weights. A dollar saved counts for more when the household that saves it has less, and one number, η, sets how much more. Drag it and watch the decision change.</p>
+<p>Many benefit-cost tests for flood protection count mostly the property value a project protects. Zachary Liscow of Yale gives an example, shown here in euros. Two levees cost €10 million each. Levee A protects 50 homes worth €210,000. Levee B protects 100 homes worth €90,000. Counted in property value, A saves €10.5 million and passes, while B saves €9 million and fails. B protects twice as many homes.</p>
+<p>Economists have a fix called equity weights. A euro saved counts for more when the household that saves it has less, and one number, η, sets how much more. Drag it and watch the decision change.</p>
 </div>
 <div class="card">
-<div class="chead"><div><p class="ctitle">Which levee gets built?</p><p class="csub">Benefit of each levee, million dollars</p></div></div>
+<div class="chead"><div><p class="ctitle">Which levee gets built?</p><p class="csub">Benefit of each levee, million euros</p></div></div>
 <div class="ctrl"><label for="eta">Equity weight η</label><input type="range" id="eta" min="0" max="2" step="0.01" value="0"><output id="etaout" for="eta">0.00</output></div>
 <div class="presets" id="etap"><button type="button" data-v="0">η = 0 · property value only</button><button type="button" data-v="0.5">η = 0.5</button><button type="button" data-v="1">η = 1</button><button type="button" data-v="2">η = 2</button></div>
-<div class="legend"><span><i class="sw" style="background:var(--c1)"></i>Levee A · 50 homes worth $210,000</span><span><i class="sw" style="background:var(--c2)"></i>Levee B · 100 homes worth $90,000</span></div>
+<div class="legend"><span><i class="sw" style="background:var(--c1)"></i>Levee A · 50 homes worth €210,000</span><span><i class="sw" style="background:var(--c2)"></i>Levee B · 100 homes worth €90,000</span></div>
 <svg class="chart" id="c2" viewBox="0 0 720 280" role="img" aria-label="Bar chart of the benefits of levee A and levee B"></svg>
 <div class="result" id="r2" aria-live="polite"></div>
-<p class="src">Example from Z. Liscow, Benefit-Cost Analysis and Equity, NBER 2023. To draw the weighted bars we assume household income follows home value. That assumption is ours, for illustration.</p>
-<details><summary>How the weights are computed</summary><p>Each dollar saved by a household is multiplied by (average income ÷ household income)<sup>η</sup>. With income following home value, the average across the 150 homes is $130,000, so a home in A is weighted (130/210)<sup>η</sup> and a home in B (130/90)<sup>η</sup>. B overtakes A at η ≈ 0.18 and passes the $10 million cost at η ≈ 0.29.</p></details>
+<p class="src">Example adapted from Z. Liscow, Benefit-Cost Analysis and Equity, NBER 2023, with the amounts in euros. To draw the weighted bars we assume household income follows home value. That assumption is ours, for illustration.</p>
+<details><summary>How the weights are computed</summary><p>Each euro saved by a household is multiplied by (average income ÷ household income)<sup>η</sup>. With income following home value, the average across the 150 homes is €130,000, so a home in A is weighted (130/210)<sup>η</sup> and a home in B (130/90)<sup>η</sup>. B overtakes A at η ≈ 0.18 and passes the €10 million cost at η ≈ 0.29.</p></details>
 </div>
 <div class="prose"><p>THRIVE builds this idea into the allocation from the start. Choosing η is a political decision, so THRIVE never fixes it. It shows an elected council what each value would mean and leaves the choice to them.</p></div>
 </section>
 
-<section id="results" class="reveal">
-<h2>First results: who got the flood money in the United States?</h2>
-<div class="prose"><p>Phase A is the first time THRIVE runs on real data. It adds up the flood-related FEMA hazard-mitigation grants since 2000, $<span data-v="a_total">13.80</span> billion placed in <span data-v="a_counties">3,131</span> counties, and divides each county's money by its expected yearly flood loss from the National Risk Index. The counties are then split into five equal groups by social vulnerability.</p><p>Each bar compares a group with the least vulnerable fifth. Above the line, the group received more money per dollar of risk; below it, less. Switch the measure and watch the answer move.</p></div>
-<div class="card">
-<p class="ctitle">Flood money per dollar of flood risk, against the least vulnerable fifth</p>
-<p class="csub">US counties in five groups by social vulnerability. 1 means the same as the least vulnerable fifth.</p>
-<div class="presets" id="msel"></div>
-<div class="legend"><span><i class="sw" style="background:var(--c1)"></i>Money per dollar of risk, against group 1</span><span><i class="swl" style="background:none;border-top:2px dashed var(--axis);height:0"></i>Same as the least vulnerable group</span></div>
-<svg class="chart" id="c5" viewBox="0 0 720 290" role="img" aria-label="Bar chart of flood money per dollar of risk in five vulnerability groups, against the least vulnerable group"></svg>
-<div class="result" id="r5" aria-live="polite"></div>
-<p class="src">Source: OpenFEMA Hazard Mitigation Assistance Subapplications v2 and FEMA National Risk Index v1.20, THRIVE Phase A, <a href="https://github.com/uomoathens/thrive/tree/main/results/phase-a">results/phase-a</a>.</p>
-<details><summary>Show the numbers</summary><table id="t5"></table></details>
-</div>
-<div class="prose"><p>The four measures do not agree, so by THRIVE's own rule there is no robust direction to report. That is a finding in itself. A few places hit by very large storms, such as New Orleans, Harris County and the New York area, carry the totals and hide what happens to the typical county.</p></div>
-<div class="card">
-<p class="ctitle">Counties that received no flood money at all</p>
-<p class="csub">Share of the counties in each group, 2000 onwards</p>
-<svg class="chart" id="c6" viewBox="0 0 720 260" role="img" aria-label="Bar chart of the share of counties with no flood money in each vulnerability group"></svg>
-<p class="src">Same source. Grants that name several counties are split equally between them, statewide grants ($<span data-v="a_statewide">1.86</span> billion) are left out, and money obligated is not always money spent. One grant of $<span data-v="a_greene">507</span> million recorded for Greene County, New York, still needs to be confirmed with FEMA. Greene sits in the middle vulnerability group, so the record does not change the comparison between the most and the least vulnerable fifth.</p>
-</div>
-<div class="prose"><p>Here the direction holds at every step: the more vulnerable the group, the larger the share of counties with nothing. Whether those counties never applied, or applied and were turned down, cannot be seen in the awards alone. FEMA's application data is where Phase A goes next.</p></div>
-</section>
-
 <section id="thessaly" class="reveal">
 <h2>Thessaly: who lived where the water of Daniel reached?</h2>
-<div class="prose"><p>Phase B lays the flood maps of Storm Daniel, made by the Copernicus Emergency Management Service from satellite images in September 2023, over the 2021 census on Eurostat's grid of 1 km squares. The grid gives the residents of every square and how many of them are 65 or over, and its totals match the census of ELSTAT to within 0.2% in every regional unit.</p><p>What counts as flooded is itself a choice. Flood traces mark ground the water had already left when the image was taken. So THRIVE answers the same question three times. Pick a definition.</p></div>
+<div class="prose"><p>Phase 1 lays the flood maps of Storm Daniel, made by the Copernicus Emergency Management Service from satellite images in September 2023, over the 2021 census on Eurostat's grid of 1 km squares. The grid gives the residents of every square and how many of them are 65 or over, and its totals match the census of ELSTAT to within 0.2% in every regional unit.</p><p>What counts as flooded is itself a choice. Flood traces mark ground the water had already left when the image was taken. So THRIVE answers the same question three times. Pick a definition.</p></div>
 <div class="card">
 <p class="ctitle">Residents in the flood, and how old they were</p>
 <p class="csub">Thessaly, <span data-v="b_pop">687,327</span> residents. Each bar compares the share of people aged 65 and over among those in the flood with their share among all residents.</p>
@@ -229,7 +206,7 @@ footer{margin-top:72px;padding-top:24px;border-top:1px solid var(--border);font-
 <div class="legend"><span><i class="sw" style="background:var(--c1)"></i>Older people more often in the flood</span><span><i class="sw" style="background:var(--c2)"></i>Less often</span><span><i class="sw" style="background:var(--text-2);opacity:.55"></i>No clear difference</span><span><i class="swl" style="background:var(--text);height:12px;width:2px;border-radius:0"></i>95% interval</span><span><i class="swl" style="background:none;border-top:2px dashed var(--axis);height:0"></i>Same as everyone else</span></div>
 <svg class="chart" id="c7" viewBox="0 0 720 290" role="img" aria-label="Bar chart of the ratio between the share of people aged 65 and over among those in the flood and among all residents, by area"></svg>
 <div class="result" id="r7" aria-live="polite"></div>
-<p class="src">Sources: Copernicus EMS activation EMSR692, <span data-v="b_products">28</span> delineation products; Eurostat census grid 2021, version 2.2; ELSTAT, Census 2021. THRIVE Phase B, <a href="https://github.com/uomoathens/thrive/tree/main/results/phase-b">results/phase-b</a>.</p>
+<p class="src">Sources: Copernicus EMS activation EMSR692, <span data-v="b_products">28</span> delineation products; Eurostat census grid 2021, version 2.2; ELSTAT, Census 2021. THRIVE Phase 1, <a href="https://github.com/uomoathens/thrive/tree/main/results/phase-b">results/phase-b</a>.</p>
 <details><summary>Show the numbers</summary><table id="t7"></table></details>
 </div>
 <div class="prose"><p><span data-v="b_findings">In Karditsa and Trikala the ratio is above 1 (1.07 to 1.19), but the intervals run from 0.89 to 1.30, so the pattern is not firm enough to report. In Larisa the ratio is below 1 (0.79 to 0.87), but the intervals run from 0.53 to 1.13, so the pattern is not firm enough to report. For Thessaly as a whole the ratio runs from 0.95 to 1.04 across the maps, and the intervals from 0.82 to 1.27, so there is no firm direction either.</span> <span data-v="b_iv_note">In brackets is the 95 % interval from 1,000 resamplings in which the 1 km squares are drawn in blocks of 10 by 10 km, because neighbouring squares flood together and are settled together.</span> They show how much a ratio depends on which places the water happened to reach.</p><p>Magnesia shows almost no one in the flood (<span data-v="b_mag">99 to 123</span> residents, depending on the map). That says little about Volos and the villages of Pelion: their floods were flash floods in streets and streams that drained within hours, and satellites passing later rarely see them. Being in the flood is also not the same as being harmed, and open data cannot tell the two apart.</p></div>
@@ -237,7 +214,7 @@ footer{margin-top:72px;padding-top:24px;border-top:1px solid var(--border);font-
 
 <section id="recover" class="reveal">
 <h2>Thriving: who recovered first?</h2>
-<div class="prose"><p>Satellites can see a neighbourhood come back to life: lights return at night, and fields turn green again. To compare areas you have to choose what counts as recovered. The two curves below are invented, but the problem is real. A 2026 preprint on Winter Storm Uri in Texas, not yet peer-reviewed, found that its answer to "do more vulnerable areas recover more slowly?" flipped when the definition changed: not with the share of normal light it asked for, but with the number of days in a row the light had to stay there (three or five). Drag the threshold, or move along the chart to read any day.</p></div>
+<div class="prose"><p>Satellites can see a neighbourhood come back to life: lights return at night, and fields turn green again. To compare areas you have to choose what counts as recovered. The two curves below are invented, but the problem is real. In Thessaly after Storm Daniel, which group of flooded land recovered first changed with the threshold and with the number of ten-day periods in a row the land had to stay above it, so THRIVE does not report it as a finding (<a href="#thessaly-recovery">Phase&nbsp;2</a>). Drag the threshold, or move along the chart to read any day.</p></div>
 <div class="card">
 <p class="ctitle">Night-time light after a flood, as a share of normal</p>
 <p class="csub">Made-up curves for two areas. The axis starts at 60%.</p>
@@ -259,7 +236,7 @@ footer{margin-top:72px;padding-top:24px;border-top:1px solid var(--border);font-
 <div class="legend"><span><i class="swl" style="background:var(--c1)"></i>Karditsa &amp; Trikala</span><span><i class="swl" style="background:var(--c2)"></i>Larisa</span><span><i class="swl" style="background:var(--text-2)"></i>All flooded land</span><span><i class="swl" style="background:none;border-top:2px dashed var(--axis);height:0"></i>Normal</span></div>
 <svg class="chart" id="c8" viewBox="0 0 720 320" role="img" aria-label="Line chart of the greenness of flooded land against normal, by ten-day period, for Karditsa and Trikala, Larisa and all flooded land"></svg>
 <div class="result" id="r8" aria-live="polite"></div>
-<p class="src">Sources: Sentinel-2 Collection 1 through the Earth Search catalogue; flood maps of Copernicus EMS activation EMSR692; Eurostat census grid 2021. THRIVE Thriving, <a href="https://github.com/uomoathens/thrive/tree/main/results/thriving">results/thriving</a>. On cotton: <a href="https://nhess.copernicus.org/articles/24/2375/2024/">Natural Hazards and Earth System Sciences 24, 2375 (2024)</a>; <a href="https://icac.org/wp-content/uploads/2025/01/AKalyvas_Greece.pdf">A. Kalyvas, Hellenic Agricultural Organisation DEMETER, Cotton and Industrial Plants Institute, report to the ICAC</a>; <a href="https://www.context.news/climate-risks/deluge-then-drought-greek-farmers-dealt-double-blow">Context, Thomson Reuters Foundation, 2024</a>.</p>
+<p class="src">Sources: Sentinel-2 Collection 1 through the Earth Search catalogue; flood maps of Copernicus EMS activation EMSR692; Eurostat census grid 2021. THRIVE Phase 2, <a href="https://github.com/uomoathens/thrive/tree/main/results/thriving">results/thriving</a>. On cotton: <a href="https://nhess.copernicus.org/articles/24/2375/2024/">Natural Hazards and Earth System Sciences 24, 2375 (2024)</a>; <a href="https://icac.org/wp-content/uploads/2025/01/AKalyvas_Greece.pdf">A. Kalyvas, Hellenic Agricultural Organisation DEMETER, Cotton and Industrial Plants Institute, report to the ICAC</a>; <a href="https://www.context.news/climate-risks/deluge-then-drought-greek-farmers-dealt-double-blow">Context, Thomson Reuters Foundation, 2024</a>.</p>
 <details><summary>Show the numbers by season, with 95% intervals</summary><table id="t8"></table></details>
 </div>
 <div class="prose"><p>Two of the three maps give almost the same curves, and that is not a mistake. Of the <span data-v="t_w">827</span> squares under standing water, <span data-v="t_wc">826</span> are also inside the Copernicus maximum, which adds <span data-v="t_add">77</span> more, with <span data-v="t_add_res">55</span> residents in all; <span data-v="t_add_mag">35</span> of them lie in Magnesia, with <span data-v="t_add_mag_res">0</span> residents. Then <span data-v="t_drop">62</span> squares of the Copernicus map drop out as land that is not green in a normal year. The two maps end up measuring almost the same fields, so their curves never differ by more than about one point.</p><p><span data-v="t_findings">In the summer of 2024, almost a year after Daniel, the flooded land was still 13 to 15 % less green than normal under every flood map and every control area, with 95 % intervals running from 9 to 23 %. Larisa's shortfall against Karditsa and Trikala was 19 to 28 points in the spring, and every interval stays below zero, and 9 to 12 in the summer, but not every interval stays on one side of zero, so the gap is not firm under every map and control area. Part of that gap is a new lake: the basin of the former Lake Karla filled with water in September 2023 and stayed flooded well into 2024. Leaving out Larisa's squares within 15 km of the old lake's centre, the gap is 5 points in the spring and −1 to 1 in the summer, and every interval includes zero, so no difference shows. Between flooded squares with more and with fewer residents aged 65 and over no difference shows. In the summer the two groups differ by 0 to 1 points, but each group holds only 27 to 78 squares, so the intervals run from about 7 points less to 9 points more. A modest gap either way cannot be ruled out. Every interval resamples the squares in blocks of 10 by 10 km, because neighbouring squares flood and recover together.</span></p><p>In Magnesia the flooded squares were still mostly water in the spring of 2024, and the summer gave too few clear images for a figure. Greenness also has its limits as a measure. It shows fields coming back, not households: a farm can be green again while the family that works it is still waiting for help.</p></div>
@@ -275,7 +252,7 @@ footer{margin-top:72px;padding-top:24px;border-top:1px solid var(--border);font-
 <div class="legend"><span><i class="sw" style="background:var(--c1)"></i>THRIVE, from open data</span><span><i class="sw" style="background:var(--text-2);opacity:.55"></i>Parliamentary Budget Office, Table C2</span></div>
 <svg class="chart" id="c9" viewBox="0 0 720 300" role="img" aria-label="Bar chart of the change in growth after a wildfire, by year, from THRIVE and from the Parliamentary Budget Office"></svg>
 <div class="result" id="r9" aria-live="polite"></div>
-<p class="src">Sources: Spaliara, M. E. and Tsoukalas, J. (2026), <a href="http://pbo.gr/el-gr/erevnitiki-drastiriotita/artmid/585/articleid/46007/preview/true/climate-extremes-and-regional-growth-in-greece-evidence-from-52-regions">Climate Extremes and Regional Growth in Greece: Evidence from 52 Regions</a>, Research Note No 3, Hellenic Parliamentary Budget Office; EFFIS burnt areas database, Copernicus and JRC; Eurostat nama_10r_3gva, nama_10r_3popgdp, nama_10r_2gvagr. THRIVE Phase C, <a href="https://github.com/uomoathens/thrive/tree/main/results/phase-c">results/phase-c</a>.</p>
+<p class="src">Sources: Spaliara, M. E. and Tsoukalas, J. (2026), <a href="http://pbo.gr/el-gr/erevnitiki-drastiriotita/artmid/585/articleid/46007/preview/true/climate-extremes-and-regional-growth-in-greece-evidence-from-52-regions">Climate Extremes and Regional Growth in Greece: Evidence from 52 Regions</a>, Research Note No 3, Hellenic Parliamentary Budget Office; EFFIS burnt areas database, Copernicus and JRC; Eurostat nama_10r_3gva, nama_10r_3popgdp, nama_10r_2gvagr. THRIVE Phase 3, <a href="https://github.com/uomoathens/thrive/tree/main/results/phase-c">results/phase-c</a>.</p>
 <details><summary>Show the numbers for every sector</summary><table id="t9"></table></details>
 </div>
 <div class="prose"><p>The replication holds exactly. The Rhodes fire of 2023 burnt <span data-v="c_rh_ha">18,687</span> hectares, <span data-v="c_rh_share">6.9</span>% of the region, as in the Note, and every one of the <span data-v="c_n_coef">24</span> coefficients matches it to the second decimal. For Tourism-related services the change is <span data-v="c_gi_t0">−0.21</span> points in the fire year and <span data-v="c_gi_t1">−0.54</span> points in the year after, <span data-v="c_gi_cum">−0.80</span> points over three years.</p><p>The Note ends in 2023, when the regional accounts end, so it sees the fires of Rhodes and Evros only in their fire year. Eurostat counts the nights spent at tourist accommodation up to <span data-v="c_t_last">2025</span>, so THRIVE asked the same question of nights, under four checks fixed in advance.</p></div>
@@ -286,10 +263,35 @@ footer{margin-top:72px;padding-top:24px;border-top:1px solid var(--border);font-
 <div class="legend"><span><i class="sw" style="background:var(--c1)"></i>All guests</span><span><i class="sw" style="background:var(--c2)"></i>Guests from abroad</span></div>
 <svg class="chart" id="c10" viewBox="0 0 720 300" role="img" aria-label="Bar chart of the change in the growth of nights after a wildfire under four checks, for all guests and for guests from abroad"></svg>
 <div class="result" id="r10" aria-live="polite"></div>
-<p class="src">Source: Eurostat, nights spent at tourist accommodation establishments by NUTS 3 region (tour_occ_nin3), with the burnt areas above. THRIVE Phase C, <a href="https://github.com/uomoathens/thrive/tree/main/results/phase-c">results/phase-c</a>.</p>
+<p class="src">Source: Eurostat, nights spent at tourist accommodation establishments by NUTS 3 region (tour_occ_nin3), with the burnt areas above. THRIVE Phase 3, <a href="https://github.com/uomoathens/thrive/tree/main/results/phase-c">results/phase-c</a>.</p>
 <details><summary>Show the numbers</summary><table id="t10"></table></details>
 </div>
 <div class="prose"><p>All <span data-v="c_t_n">8</span> estimates point the same way, from <span data-v="c_t_range">−3.48 to −0.54</span>, but none is significant (the smallest p is <span data-v="c_t_pmin">0.12</span>), so by THRIVE's own rule no finding is reported. Fewer nights after a fire cannot be ruled out, but on these data the loss the Note finds in value added does not show clearly as a loss of nights. Fewer nights per guest, lower prices or lower spending per night would each fit it; telling them apart needs data that are not yet open.</p></div>
+</section>
+
+<section id="heat" class="reveal">
+<h2>Attica: what do street trees do in a heatwave?</h2>
+<div class="prose"><p>Phase 4 runs BUARO, the open software that implements the Bayesian urban adaptation and resilience model of the book <i>AI for Planetary Resilience</i>, on the seven regions of Attica. It reads the weekly deaths of Eurostat for each region, daily temperature from ERA5-Land of Copernicus, the 2021 census grid, the Urban Atlas and the Street Tree Layer 2021 of Copernicus, and every clear Summer image of Landsat 8 and 9 since 2014, 246 in all.</p>
+<p>Across Attica, each 1°C above the local heat threshold raises weekly deaths by about 5.4% (95% interval 4.4% to 6.4%), from 3.6% in Central Athens to 6.1% in Western Athens. Each Summer from 2023 is forecast only with data up to 31 May, and knowing the heat improved the forecast in 2 of the 3 Summers tested.</p></div>
+<div class="card">
+<p class="ctitle">Late-morning surface temperature by street tree cover, Attica</p>
+<p class="csub">Difference from built-up cells of 100 m with almost no trees (0 to 2%) in the same 1 km square, in °C, with 95% interval</p>
+<table>
+<thead><tr><th scope="col">Tree cover</th><th scope="col">Difference</th><th scope="col">95% interval</th><th scope="col">Cells</th></tr></thead>
+<tbody>
+<tr><td>0 to 2%</td><td>0.00°C</td><td>comparison</td><td>36,610</td></tr>
+<tr><td>2 to 5%</td><td>−0.23°C</td><td>−0.28 to −0.19</td><td>4,109</td></tr>
+<tr><td>5 to 10%</td><td>−0.31°C</td><td>−0.36 to −0.25</td><td>6,620</td></tr>
+<tr><td>10 to 20%</td><td>−0.52°C</td><td>−0.60 to −0.45</td><td>6,592</td></tr>
+<tr><td>20 to 30%</td><td>−0.81°C</td><td>−0.92 to −0.69</td><td>3,478</td></tr>
+<tr><td>30 to 40%</td><td>−1.00°C</td><td>−1.16 to −0.83</td><td>2,039</td></tr>
+<tr><td>40% and above</td><td>−1.41°C</td><td>−1.61 to −1.22</td><td>3,252</td></tr>
+</tbody>
+</table>
+<p class="src">Source: BUARO run of 18 November 2026, <a href="https://github.com/uomoathens/buaro/tree/main/results">results</a>, <a href="https://doi.org/10.5281/zenodo.24221769">doi:10.5281/zenodo.24221769</a>. Eurostat demo_r_mwk3_t; ERA5-Land, Urban Atlas 2021 and Street Tree Layer 2021 of Copernicus; Landsat 8 and 9 Collection 2 Level-2 of the U.S. Geological Survey.</p>
+</div>
+<div class="prose"><p>The model learned from the Summers of 2014 to 2022 and was then tested on 2023 to 2026, which it had never seen. Each 10 percentage points more street tree cover lowers the surface temperature by 0.23°C (0.20 to 0.27), and each unseen Summer confirms it on its own. Surface temperature is not air temperature: across European cities, trees cool the daytime air many times less than the surface (Du et al., Environmental Research Letters, 2024), so THRIVE reports the cooling of the surface and does not turn it into deaths avoided.</p>
+<p>At 3°C of global warming, the same Summers would bring about 2.3 times today's heat-related deaths in Attica, unless vulnerability falls. A trend suggesting that Attica is adapting disappears when the Summer of 2025 is left out, so it is not reported as a finding.</p></div>
 </section>
 
 <section id="decide" class="reveal">
@@ -379,16 +381,16 @@ var grow4=barChart("c4",rule,1,0.25,function(v){return Math.round(v*100)+"%"},fu
 table("t4",["Model","Kept the rule","Triage answers"],rule.map(function(d){return[d.l,(d.v*100).toFixed(1)+"%",d.n]}));
 var yb=(50*210+100*90)/150,c2=document.getElementById("c2"),eta=document.getElementById("eta"),cur={a:10.5,b:9},lv={};
 (function(){var W=720,H=280,L=66,R=16,T=26,B=38,ph=H-T-B,pw=W-L-R,max=24;lv={W:W,H:H,L:L,R:R,T:T,ph:ph,pw:pw,max:max};
-yGrid(c2,L,R,T,ph,W,0,max,4,function(v){return"$"+v+"m"});
+yGrid(c2,L,R,T,ph,W,0,max,4,function(v){return"€"+v+"m"});
 var yc=T+ph-10/max*ph;el("line",{"class":"base",x1:L,x2:W-R,y1:yc,y2:yc,"stroke-dasharray":"0"},c2);
-txt("cost of each levee: $10m",{"class":"tick",x:W-R,y:yc-7,"text-anchor":"end"},c2);
-lv.bars=[{n:"Levee A",c:"f1",d:"50 homes worth $210,000",x:L+pw*0.3},{n:"Levee B",c:"f2",d:"100 homes worth $90,000",x:L+pw*0.6}];
+txt("cost of each levee: €10m",{"class":"tick",x:W-R,y:yc-7,"text-anchor":"end"},c2);
+lv.bars=[{n:"Levee A",c:"f1",d:"50 homes worth €210,000",x:L+pw*0.3},{n:"Levee B",c:"f2",d:"100 homes worth €90,000",x:L+pw*0.6}];
 lv.bars.forEach(function(b,i){b.p=el("path",{"class":"bar "+b.c},c2);b.t=txt("",{"class":"val","text-anchor":"middle",x:b.x},c2);txt(b.n,{"class":"tick",x:b.x,y:T+ph+22,"text-anchor":"middle"},c2);
 var hit=el("rect",{"class":"hit",x:b.x-70,y:T,width:140,height:ph+30},c2);
-hit.addEventListener("mousemove",function(ev){var v=i===0?cur.a:cur.b;showTip(ev,"<b>"+b.n+"</b> · "+b.d+"<br>Benefit $"+v.toFixed(2)+" million<br>"+(v>=10?"Passes":"Fails")+" the $10 million cost test")});
+hit.addEventListener("mousemove",function(ev){var v=i===0?cur.a:cur.b;showTip(ev,"<b>"+b.n+"</b> · "+b.d+"<br>Benefit €"+v.toFixed(2)+" million<br>"+(v>=10?"Passes":"Fails")+" the €10 million cost test")});
 hit.addEventListener("mouseleave",hideTip)});
 el("line",{"class":"base",x1:L,x2:W-R,y1:T+ph,y2:T+ph},c2)})();
-function drawLevees(a,b){[a,b].forEach(function(v,i){var bw=30,bar=lv.bars[i],h=v/lv.max*lv.ph,y=lv.T+lv.ph-h;bar.p.setAttribute("d",barPath(bar.x-bw/2,y,bw,h));bar.t.setAttribute("y",y-9);bar.t.textContent="$"+v.toFixed(1)+"m"})}
+function drawLevees(a,b){[a,b].forEach(function(v,i){var bw=30,bar=lv.bars[i],h=v/lv.max*lv.ph,y=lv.T+lv.ph-h;bar.p.setAttribute("d",barPath(bar.x-bw/2,y,bw,h));bar.t.setAttribute("y",y-9);bar.t.textContent="€"+v.toFixed(1)+"m"})}
 function levees(animate){
 var e=+eta.value;setFill(eta);document.getElementById("etaout").textContent=e.toFixed(2);
 document.querySelectorAll("#etap button").forEach(function(btn){btn.classList.toggle("on",Math.abs(+btn.dataset.v-e)<1e-9)});
@@ -396,8 +398,8 @@ var a=10.5*Math.pow(yb/210,e),b=9*Math.pow(yb/90,e),a0=cur.a,b0=cur.b;cur={a:a,b
 if(animate)tween(380,function(t){drawLevees(a0+(a-a0)*t,b0+(b-b0)*t)});else drawLevees(a,b);
 var badge=a>b?'<span class="badge a">A wins</span>':(b>a?'<span class="badge b">B wins</span>':'<span class="badge n">Tie</span>');
 var win=a>b?"Levee A, on the richer side, comes out ahead.":(b>a?"Levee B, which protects twice as many homes, comes out ahead.":"The two levees are level.");
-var pass=b>=10?" B also passes the $10 million cost test.":" B still fails the $10 million cost test.";
-document.getElementById("r2").innerHTML=badge+"<span>At η = "+e.toFixed(2)+", A is worth $"+a.toFixed(1)+"m and B $"+b.toFixed(1)+"m. "+win+pass+"</span>";
+var pass=b>=10?" B also passes the €10 million cost test.":" B still fails the €10 million cost test.";
+document.getElementById("r2").innerHTML=badge+"<span>At η = "+e.toFixed(2)+", A is worth €"+a.toFixed(1)+"m and B €"+b.toFixed(1)+"m. "+win+pass+"</span>";
 }
 eta.addEventListener("input",function(){levees(false)});
 document.querySelectorAll("#etap button").forEach(function(btn){btn.addEventListener("click",function(){eta.value=btn.dataset.v;levees(true)})});
@@ -439,35 +441,6 @@ var badge=dA<dB?'<span class="badge a">A first</span>':(dB<dA?'<span class="badg
 document.getElementById("r3").innerHTML=badge+"<span>With “recovered” set at "+Math.round(a*100)+"%, Area A is back on day "+dA+" and Area B on day "+dB+". The gap is "+Math.abs(dA-dB)+" days.</span>";
 }
 alpha.addEventListener("input",recovery);recovery();
-var Q=["1 · least","2","3","4","5 · most"],MS=[{"k":"all","l":"All money","raw":[0.1409,0.1626,0.1917,0.3769,0.338],"r":2.4,"t":"Counting all the money, the most vulnerable fifth received 2.40 times as much per dollar of flood risk as the least vulnerable fifth."},{"k":"big","l":"Without the 20 largest","raw":[0.1409,0.1104,0.1459,0.2012,0.2164],"r":1.54,"t":"Leave out the 20 counties that received the most, 37% of all the money, and the ratio falls to 1.54."},{"k":"med","l":"Median county","raw":[0.033,0.031,0.0286,0.0263,0.0279],"r":0.85,"t":"The typical county tells another story. In the most vulnerable fifth it received 0.85 times as much as the typical county in the least vulnerable fifth."},{"k":"fun","l":"Median funded county","raw":[0.0413,0.041,0.0392,0.0403,0.0483],"r":1.17,"t":"Among counties that received any flood money at all, the typical one in the most vulnerable fifth received 1.17 times as much as its counterpart in the least vulnerable fifth."}];
-var c5=document.getElementById("c5"),msel=document.getElementById("msel"),mi=0,g5={W:720,H:290,L:66,R:16,T:26,B:38,max:3};
-g5.ph=g5.H-g5.T-g5.B;g5.pw=g5.W-g5.L-g5.R;g5.band=g5.pw/5;g5.bw=30;
-function Y5(v){return g5.T+g5.ph-v/g5.max*g5.ph}
-(function(){yGrid(c5,g5.L,g5.R,g5.T,g5.ph,g5.W,0,g5.max,0.5,function(v){return v.toFixed(1)+"×"});
-g5.g=el("g",{},c5);g5.items=[];
-for(var i=0;i<5;i++){(function(i){var x=g5.L+g5.band*i+(g5.band-g5.bw)/2;
-var p=el("path",{"class":"bar f1",d:barPath(x,g5.T+g5.ph,g5.bw,0)},g5.g);
-var lab=txt("",{"class":"val",x:x+g5.bw/2,"text-anchor":"middle"},c5);
-txt(Q[i],{"class":"tick",x:x+g5.bw/2,y:g5.T+g5.ph+22,"text-anchor":"middle"},c5);
-var hit=el("rect",{"class":"hit",x:g5.L+g5.band*i,y:g5.T,width:g5.band,height:g5.ph+30},c5);
-hit.addEventListener("mousemove",function(ev){var m=MS[mi],v=m.raw[i]/m.raw[0];g5.g.classList.add("dim");p.classList.add("hot");showTip(ev,"<b>Group "+(i+1)+(i===0?", least vulnerable":(i===4?", most vulnerable":""))+"</b><br>"+m.l+": $"+m.raw[i].toFixed(3)+" per dollar of expected yearly flood loss<br>"+v.toFixed(2)+"× the least vulnerable group")});
-hit.addEventListener("mouseleave",function(){g5.g.classList.remove("dim");p.classList.remove("hot");hideTip()});
-g5.items.push({p:p,lab:lab,x:x,v:0})})(i)}
-el("line",{"class":"base",x1:g5.L,x2:g5.W-g5.R,y1:g5.T+g5.ph,y2:g5.T+g5.ph},c5);
-var y1=Y5(1);el("line",{"class":"base",x1:g5.L,x2:g5.W-g5.R,y1:y1,y2:y1,"stroke-dasharray":"5 4"},c5);
-MS.forEach(function(m,k){var b=document.createElement("button");b.type="button";b.textContent=m.l;b.addEventListener("click",function(){show5(k,true)});msel.appendChild(b)});
-table("t5",["Group"].concat(MS.map(function(m){return m.l})),Q.map(function(q,i){return[q].concat(MS.map(function(m){return"$"+m.raw[i].toFixed(3)}))}).concat([["Most ÷ least"].concat(MS.map(function(m){return m.r.toFixed(2)}))]));
-})();
-function draw5(vals){g5.items.forEach(function(it,i){var v=vals[i],h=Math.min(v,g5.max)/g5.max*g5.ph,y=g5.T+g5.ph-h;it.p.setAttribute("d",barPath(it.x,y,g5.bw,h));it.lab.setAttribute("y",y-8);it.lab.textContent=v.toFixed(2)+"×"})}
-function show5(k,animate){mi=k;var m=MS[k],to=m.raw.map(function(x){return x/m.raw[0]}),from=g5.items.map(function(it){return it.v});
-g5.items.forEach(function(it,i){it.v=to[i]});
-[].forEach.call(msel.children,function(b,j){b.classList.toggle("on",j===k)});
-if(animate)tween(animate===2?900:420,function(t){draw5(to.map(function(v,i){return from[i]+(v-from[i])*t}))});else draw5(to);
-var badge=m.r>1.02?'<span class="badge a">More</span>':(m.r<0.98?'<span class="badge b">Less</span>':'<span class="badge n">Same</span>');
-document.getElementById("r5").innerHTML=badge+"<span>"+m.t+"</span>"}
-show5(0,false);draw5([0,0,0,0,0]);g5.items.forEach(function(it){it.v=0});
-var none=[0.0845, 0.0911, 0.1006, 0.1278, 0.1422].map(function(v,i){return{l:Q[i],v:v}});
-var grow6=barChart("c6",none,0.16,0.04,function(v){return Math.round(v*100)+"%"},function(v){return Math.round(v*100)+"%"},function(d){return"<b>Group "+d.l+"</b><br>"+(d.v*100).toFixed(1)+"% of its counties received no flood money"});
 var TD=[{"k": "observed_all", "l": "All flood, with traces", "d": "every observed flood polygon, including flood traces where the water had already gone", "km2": 1475, "exp": 58071, "share": 0.08448867340045112, "r": 1.0439, "u": [1.066, 0.8697], "iv": [[0.9090655694909688, 1.2185690550855304], [0.8891967779369918, 1.2066669314759508], [0.7226419264080518, 1.133130809433519]]}, {"k": "observed_water", "l": "Standing water only", "d": "standing water only, without flood traces", "km2": 913, "exp": 33919, "share": 0.04934858183322598, "r": 0.954, "u": [1.1878, 0.7947], "iv": [[0.8252654098322474, 1.269314348051253], [1.0080650937629518, 1.300240065180733], [0.5308839696199363, 1.019868985321231]]}, {"k": "cems_maximum", "l": "Copernicus maximum", "d": "the maximum water extent published by Copernicus", "km2": 999, "exp": 35824, "share": 0.052120799610280454, "r": 0.9457, "u": [1.1765, 0.7946], "iv": [[0.8242253891769775, 1.258687416284511], [1.0058951326531873, 1.2805729468310802], [0.5396106584344421, 0.9953783457316586]]}],TG=["Thessaly","Karditsa & Trikala","Larisa","Magnesia & Sporades"],ti=0;
 var c7=document.getElementById("c7"),tsel=document.getElementById("tsel"),g7={W:720,H:290,L:66,R:16,T:26,B:38,max:1.4};
 g7.ph=g7.H-g7.T-g7.B;g7.pw=g7.W-g7.L-g7.R;g7.band=g7.pw/4;g7.bw=34;
@@ -609,14 +582,13 @@ var io="IntersectionObserver" in window?new IntersectionObserver(function(es){es
 if(t.classList.contains("stats")&&!done.s){done.s=1;t.querySelectorAll("[data-count]").forEach(countUp)}
 if(t.id==="problem"&&!done.p){done.p=1;grow1()}
 if(t.id==="decide"&&!done.d){done.d=1;grow4()}
-if(t.id==="results"&&!done.q){done.q=1;show5(mi,2);grow6()}
 if(t.id==="thessaly"&&!done.t){done.t=1;show7(ti,2)}
 if(t.id==="thessaly-recovery"&&!done.v){done.v=1;grow8()}
 if(t.id==="wildfires"&&!done.w){done.w=1;show9(fk,true);grow10()}
 if(t.id==="recover"&&!done.r){done.r=1;(rc.lines||[]).forEach(function(pl){pl.style.transition="stroke-dashoffset 1.4s ease";requestAnimationFrame(function(){pl.style.strokeDashoffset=0})})}
 io.unobserve(t)})},{threshold:0.18}):null;
 document.querySelectorAll(".reveal").forEach(function(s){if(io)io.observe(s);else{s.classList.add("in")}});
-if(!io){grow1();grow4();show5(0,false);grow6();show7(0,false);grow10();(rc.lines||[]).forEach(function(pl){pl.style.strokeDashoffset=0})}
+if(!io){grow1();grow4();show7(0,false);grow10();(rc.lines||[]).forEach(function(pl){pl.style.strokeDashoffset=0})}
 var links=[].slice.call(document.querySelectorAll(".links a")),secs=links.map(function(a){return document.querySelector(a.getAttribute("href"))});
 function spy(){var y=scrollY+120,on=-1;secs.forEach(function(s,i){if(s&&s.offsetTop<=y)on=i});links.forEach(function(a,i){a.classList.toggle("on",i===on)})}
 addEventListener("scroll",spy,{passive:true});spy();
