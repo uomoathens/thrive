@@ -19,12 +19,12 @@ Verdict: **not robust**. Reason: not every main estimate is below zero with its 
 
 | threshold_C | hot_days_in | n | b_next | lo_next | hi_next |
 |---|---|---|---|---|---|
-| 35 | this ten-day period | 54071 | 0.007698 | 0.006434 | 0.008962 |
-| 35 | this and the previous ten-day period | 54071 | 0.007442 | 0.006005 | 0.008878 |
-| 37 | this ten-day period | 54071 | 0.006728 | 0.005559 | 0.007897 |
-| 37 | this and the previous ten-day period | 54071 | 0.005457 | 0.004081 | 0.006834 |
-| 40 | this ten-day period | 54071 | 0.008809 | 0.005781 | 0.01184 |
-| 40 | this and the previous ten-day period | 54071 | 0.006062 | 0.002423 | 0.009701 |
+| 35 | this ten-day period | 60299 | 0.006416 | 0.005071 | 0.007761 |
+| 35 | this and the previous ten-day period | 60299 | 0.006212 | 0.004678 | 0.007746 |
+| 37 | this ten-day period | 60299 | 0.005593 | 0.004266 | 0.00692 |
+| 37 | this and the previous ten-day period | 60299 | 0.004388 | 0.002879 | 0.005896 |
+| 40 | this ten-day period | 60299 | 0.006113 | 0.002888 | 0.009338 |
+| 40 | this and the previous ten-day period | 60299 | 0.003403 | -0.0004318 | 0.007237 |
 
 ## Unseen Summers: fitted on 2019 to 2022
 
