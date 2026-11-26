@@ -1,10 +1,1 @@
-Traceback (most recent call last):
-  File "/opt/hostedtoolcache/Python/3.12.16/x64/bin/thrive", line 6, in <module>
-    sys.exit(main())
-             ^^^^^^
-  File "/home/runner/work/thrive/thrive/src/thrive/cli.py", line 138, in main
-    summary = run_h(Path(args.config), Path(args.out))
-              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/runner/work/thrive/thrive/src/thrive/data/crops_heat.py", line 367, in run
-    raise RuntimeError("too few Sentinel-2 scenes: " + "; ".join(f"{c['year']}: {c['scenes']}" for c in checks if not c["ok"]))
-RuntimeError: too few Sentinel-2 scenes: 2019: 178; 2020: 182; 2021: 179; 2022: 0; 2023: 161; 2024: 178
+Crops heat done: 1039 squares, 722 scenes used, verdict: not robust

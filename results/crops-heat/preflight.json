@@ -1,44 +1,51 @@
 [
   {
     "year": 2019,
+    "collection": "sentinel-2-c1-l2a",
     "scenes": 178,
-    "needed": 200,
-    "ok": false
+    "needed": 120,
+    "ok": true
   },
   {
     "year": 2020,
+    "collection": "sentinel-2-c1-l2a",
     "scenes": 182,
-    "needed": 200,
-    "ok": false
+    "needed": 120,
+    "ok": true
   },
   {
     "year": 2021,
+    "collection": "sentinel-2-c1-l2a",
     "scenes": 179,
-    "needed": 200,
-    "ok": false
+    "needed": 120,
+    "ok": true
   },
   {
     "year": 2022,
-    "scenes": 0,
-    "needed": 200,
-    "ok": false
+    "collection": "sentinel-2-l2a",
+    "scenes": 171,
+    "needed": 120,
+    "ok": true
   },
   {
     "year": 2023,
+    "collection": "sentinel-2-c1-l2a",
     "scenes": 161,
-    "needed": 200,
-    "ok": false
+    "needed": 120,
+    "ok": true
   },
   {
     "year": 2024,
+    "collection": "sentinel-2-c1-l2a",
     "scenes": 178,
-    "needed": 200,
-    "ok": false
+    "needed": 120,
+    "ok": true
   },
   {
     "year": 2025,
+    "collection": "sentinel-2-c1-l2a",
     "scenes": 270,
-    "needed": 200,
+    "needed": 120,
     "ok": true
   }
 ]

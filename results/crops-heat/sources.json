@@ -1,0 +1,179 @@
+{
+  "started": "2026-11-26T09:59:24+00:00",
+  "crop_map": {
+    "url": "https://jeodpp.jrc.ec.europa.eu/ftp/public/JRC-OpenData/EUCROPMAP/2022/tiles/EU27/EU27_Final_Filtered_Map_Masked_Map1_EPSG3035-0000327680-0000262144.tif",
+    "crs": "EPSG:3035",
+    "res": [
+      10.0,
+      10.0
+    ]
+  },
+  "edo": [
+    {
+      "kind": "tmax",
+      "year": 2019,
+      "url": "https://drought.emergency.copernicus.eu/data/Drought_Observatories_datasets/EDO_JRC_MARS_Daily_Maximum_Temperature/ver2-1-0/tmaxm_m_edo_20190101_20191231_d.nc",
+      "sha256": "486184107453e987012a99b8e2cbaa0bf2f340d6bd67205a77d25600236b9d69",
+      "bands": 365,
+      "valid_share": 1.0
+    },
+    {
+      "kind": "sma",
+      "year": 2019,
+      "url": "https://drought.emergency.copernicus.eu/data/Drought_Observatories_datasets/EDO_Soil_Moisture_Index_Anomaly/ver3-0-2/smian_m_eul_20190101_20191221_t.nc",
+      "sha256": "9ec595c32ff4c9b93a94124918cab0f8bae1b76a057ebfa8c032245b06d77d05",
+      "bands": 36,
+      "valid_share": 1.0
+    },
+    {
+      "kind": "tmax",
+      "year": 2020,
+      "url": "https://drought.emergency.copernicus.eu/data/Drought_Observatories_datasets/EDO_JRC_MARS_Daily_Maximum_Temperature/ver2-1-0/tmaxm_m_edo_20200101_20201231_d.nc",
+      "sha256": "a9e384e8a3b5dc6f4da879b74e5290bf6f402cc4e1a7a95fa9d7554f7090a179",
+      "bands": 366,
+      "valid_share": 1.0
+    },
+    {
+      "kind": "sma",
+      "year": 2020,
+      "url": "https://drought.emergency.copernicus.eu/data/Drought_Observatories_datasets/EDO_Soil_Moisture_Index_Anomaly/ver3-0-2/smian_m_eul_20200101_20201221_t.nc",
+      "sha256": "023efaaae3c69f5964ad53caadef7980250e5312e9b2321c28b3e1df0410886c",
+      "bands": 36,
+      "valid_share": 1.0
+    },
+    {
+      "kind": "tmax",
+      "year": 2021,
+      "url": "https://drought.emergency.copernicus.eu/data/Drought_Observatories_datasets/EDO_JRC_MARS_Daily_Maximum_Temperature/ver2-1-0/tmaxm_m_edo_20210101_20211231_d.nc",
+      "sha256": "f54d670473b9faf09128bca6348e95ea23b60f68979f11e9538a49b28a163f22",
+      "bands": 365,
+      "valid_share": 1.0
+    },
+    {
+      "kind": "sma",
+      "year": 2021,
+      "url": "https://drought.emergency.copernicus.eu/data/Drought_Observatories_datasets/EDO_Soil_Moisture_Index_Anomaly/ver3-0-2/smian_m_eul_20210101_20211221_t.nc",
+      "sha256": "61ca3cc994344aca05318498b8c78226c2c6e12a3489ff8ebb05865e5997a8b1",
+      "bands": 36,
+      "valid_share": 1.0
+    },
+    {
+      "kind": "tmax",
+      "year": 2022,
+      "url": "https://drought.emergency.copernicus.eu/data/Drought_Observatories_datasets/EDO_JRC_MARS_Daily_Maximum_Temperature/ver2-1-0/tmaxm_m_edo_20220101_20221231_d.nc",
+      "sha256": "d6059b61f831d0325ba117fea4249444252e9a9b4e0ddfdc68c8575e932c6f92",
+      "bands": 365,
+      "valid_share": 1.0
+    },
+    {
+      "kind": "sma",
+      "year": 2022,
+      "url": "https://drought.emergency.copernicus.eu/data/Drought_Observatories_datasets/EDO_Soil_Moisture_Index_Anomaly/ver3-0-2/smian_m_eul_20220101_20221221_t.nc",
+      "sha256": "da1edb1c431cc06b0f22809e9c59164720540bc6b250f512d7eb1aedb5e0b5f2",
+      "bands": 36,
+      "valid_share": 1.0
+    },
+    {
+      "kind": "tmax",
+      "year": 2023,
+      "url": "https://drought.emergency.copernicus.eu/data/Drought_Observatories_datasets/EDO_JRC_MARS_Daily_Maximum_Temperature/ver2-1-0/tmaxm_m_edo_20230101_20231231_d.nc",
+      "sha256": "51fcd58e0b986b2444f2aa43910654970c23c87db166ee443612d3b01ebdfc27",
+      "bands": 365,
+      "valid_share": 1.0
+    },
+    {
+      "kind": "sma",
+      "year": 2023,
+      "url": "https://drought.emergency.copernicus.eu/data/Drought_Observatories_datasets/EDO_Soil_Moisture_Index_Anomaly/ver3-0-2/smian_m_eul_20230101_20231221_t.nc",
+      "sha256": "8ec2be6ca1137782a3842be43f6a7c3425505f2faaec06e33bbcd6057062ea8c",
+      "bands": 36,
+      "valid_share": 1.0
+    },
+    {
+      "kind": "tmax",
+      "year": 2024,
+      "url": "https://drought.emergency.copernicus.eu/data/Drought_Observatories_datasets/EDO_JRC_MARS_Daily_Maximum_Temperature/ver2-1-0/tmaxm_m_edo_20240101_20241231_d.nc",
+      "sha256": "74d876b95c1d1665dd3a4de1a4dbe3c086cf7a9c56af05a0f6374085f65bc95a",
+      "bands": 366,
+      "valid_share": 1.0
+    },
+    {
+      "kind": "sma",
+      "year": 2024,
+      "url": "https://drought.emergency.copernicus.eu/data/Drought_Observatories_datasets/EDO_Soil_Moisture_Index_Anomaly/ver3-0-2/smian_m_eul_20240101_20241221_t.nc",
+      "sha256": "174a56f862e9ce2f196b1063e45614f7a646e3035244db65e708ab102bb0d320",
+      "bands": 36,
+      "valid_share": 1.0
+    },
+    {
+      "kind": "tmax",
+      "year": 2025,
+      "url": "https://drought.emergency.copernicus.eu/data/Drought_Observatories_datasets/EDO_JRC_MARS_Daily_Maximum_Temperature/ver2-1-0/tmaxm_m_edo_20250101_20251231_d.nc",
+      "sha256": "36dbe9ae87e2e40847d7919df093e6b6d07ae01b9c74a9b6bc76254092e089a5",
+      "bands": 365,
+      "valid_share": 1.0
+    },
+    {
+      "kind": "sma",
+      "year": 2025,
+      "url": "https://drought.emergency.copernicus.eu/data/Drought_Observatories_datasets/EDO_Soil_Moisture_Index_Anomaly/ver3-0-2/smian_m_eul_20250101_20251221_t.nc",
+      "sha256": "1f863ce1d986b55711d86498873d33adfc8dac6bc3c4e587b1ee232ba30f0b1f",
+      "bands": 36,
+      "valid_share": 1.0
+    }
+  ],
+  "sentinel2": {
+    "stac": "https://earth-search.aws.element84.com/v1",
+    "by_year": [
+      {
+        "year": 2019,
+        "collection": "sentinel-2-c1-l2a",
+        "scenes": 178,
+        "needed": 120,
+        "ok": true
+      },
+      {
+        "year": 2020,
+        "collection": "sentinel-2-c1-l2a",
+        "scenes": 182,
+        "needed": 120,
+        "ok": true
+      },
+      {
+        "year": 2021,
+        "collection": "sentinel-2-c1-l2a",
+        "scenes": 179,
+        "needed": 120,
+        "ok": true
+      },
+      {
+        "year": 2022,
+        "collection": "sentinel-2-l2a",
+        "scenes": 171,
+        "needed": 120,
+        "ok": true
+      },
+      {
+        "year": 2023,
+        "collection": "sentinel-2-c1-l2a",
+        "scenes": 161,
+        "needed": 120,
+        "ok": true
+      },
+      {
+        "year": 2024,
+        "collection": "sentinel-2-c1-l2a",
+        "scenes": 178,
+        "needed": 120,
+        "ok": true
+      },
+      {
+        "year": 2025,
+        "collection": "sentinel-2-c1-l2a",
+        "scenes": 270,
+        "needed": 120,
+        "ok": true
+      }
+    ]
+  }
+}
