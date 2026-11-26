@@ -44,31 +44,31 @@ Across all 12 specifications: **not robust**. A direction is reported as a findi
 
 | year | region_id | region_name | cotton_ha | cotton_ha_exposed | maize_ha | maize_ha_exposed | mean_hot_days |
 |---|---|---|---|---|---|---|---|
-| 2019 | EL611 | Karditsa, Trikala | 4.163e+04 | 0 | 9,195 | 0 | 7.9 |
-| 2019 | EL612 | Larisa | 1.294e+04 | 3,614 | 2,645 | 699 | 6.8 |
+| 2019 | EL611 | Karditsa, Trikala | 41,633 | 0 | 9,195 | 0 | 7.9 |
+| 2019 | EL612 | Larisa | 12,945 | 3,614 | 2,645 | 699 | 6.8 |
 | 2019 | EL613 | Magnisia, Sporades | 606 | 0 | 103 | 0 | 0.8 |
-| 2020 | EL611 | Karditsa, Trikala | 4.163e+04 | 0 | 9,195 | 0 | 5.7 |
-| 2020 | EL612 | Larisa | 1.294e+04 | 0 | 2,645 | 0 | 4.2 |
+| 2020 | EL611 | Karditsa, Trikala | 41,633 | 0 | 9,195 | 0 | 5.7 |
+| 2020 | EL612 | Larisa | 12,945 | 0 | 2,645 | 0 | 4.2 |
 | 2020 | EL613 | Magnisia, Sporades | 606 | 0 | 103 | 0 | 0.9 |
-| 2021 | EL611 | Karditsa, Trikala | 4.163e+04 | 4.163e+04 | 9,195 | 9,195 | 21.5 |
-| 2021 | EL612 | Larisa | 1.294e+04 | 1.294e+04 | 2,645 | 2,645 | 20.6 |
+| 2021 | EL611 | Karditsa, Trikala | 41,633 | 41,633 | 9,195 | 9,195 | 21.5 |
+| 2021 | EL612 | Larisa | 12,945 | 12,945 | 2,645 | 2,645 | 20.6 |
 | 2021 | EL613 | Magnisia, Sporades | 606 | 508 | 103 | 95 | 11.4 |
-| 2022 | EL611 | Karditsa, Trikala | 4.163e+04 | 2.998e+04 | 9,195 | 5,978 | 9.2 |
-| 2022 | EL612 | Larisa | 1.294e+04 | 4,818 | 2,645 | 845 | 8.3 |
+| 2022 | EL611 | Karditsa, Trikala | 41,633 | 29,985 | 9,195 | 5,978 | 9.2 |
+| 2022 | EL612 | Larisa | 12,945 | 4,818 | 2,645 | 845 | 8.3 |
 | 2022 | EL613 | Magnisia, Sporades | 606 | 0 | 103 | 0 | 1.6 |
-| 2023 | EL611 | Karditsa, Trikala | 4.163e+04 | 4.163e+04 | 9,195 | 9,195 | 16.7 |
-| 2023 | EL612 | Larisa | 1.294e+04 | 1.18e+04 | 2,645 | 2,274 | 15.2 |
+| 2023 | EL611 | Karditsa, Trikala | 41,633 | 41,633 | 9,195 | 9,195 | 16.7 |
+| 2023 | EL612 | Larisa | 12,945 | 11,799 | 2,645 | 2,274 | 15.2 |
 | 2023 | EL613 | Magnisia, Sporades | 606 | 282 | 103 | 36 | 6.8 |
-| 2024 | EL611 | Karditsa, Trikala | 4.163e+04 | 4.163e+04 | 9,195 | 9,195 | 28.3 |
-| 2024 | EL612 | Larisa | 1.294e+04 | 1.257e+04 | 2,645 | 2,573 | 25.6 |
+| 2024 | EL611 | Karditsa, Trikala | 41,633 | 41,633 | 9,195 | 9,195 | 28.3 |
+| 2024 | EL612 | Larisa | 12,945 | 12,568 | 2,645 | 2,573 | 25.6 |
 | 2024 | EL613 | Magnisia, Sporades | 606 | 282 | 103 | 36 | 10.1 |
-| 2025 | EL611 | Karditsa, Trikala | 4.163e+04 | 4.163e+04 | 9,195 | 9,195 | 21.9 |
-| 2025 | EL612 | Larisa | 1.294e+04 | 1.257e+04 | 2,645 | 2,573 | 20.5 |
+| 2025 | EL611 | Karditsa, Trikala | 41,633 | 41,633 | 9,195 | 9,195 | 21.9 |
+| 2025 | EL612 | Larisa | 12,945 | 12,568 | 2,645 | 2,573 | 20.5 |
 | 2025 | EL613 | Magnisia, Sporades | 606 | 282 | 103 | 36 | 9.2 |
 
 ## Limits
 
 - The crop map is of 2022; crops rotate, so a square counted as cotton may have grown another crop in another year. The cotton class of the map is the class of other non-permanent industrial crops, which in Thessaly is mostly cotton; its 2022 area is 19% above the Eurostat cotton area.
-- Temperature is a 10 km grid and soil moisture a model at about 1.5 km; neither sees the irrigation of a single field.
+- Temperature is a 10 km grid and soil moisture a model at about 2 km; neither sees the irrigation of a single field.
 - Greenness is not yield. A lower NDVI shows stress or earlier ageing of the canopy, not tonnes lost.
 - The years 2019 to 2025 are few; a result can depend on one unusual summer.
