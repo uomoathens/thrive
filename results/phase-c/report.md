@@ -86,7 +86,7 @@ Nights in the regions with the largest recent fires (all guests):
 
 - Regions: 52 NUTS 3 regions of Greece; observations in the gate regression: 312.
 - Unit-years with at least 1 % of the area burnt, 2018 to 2023: 27.
-- EFFIS fires matched to Greek regions: 1802, years 2016 to 2026.
+- EFFIS fires matched to Greek regions: 1815, years 2016 to 2026.
 - Eurostat tables last updated: gva 2026-03-23T23:00:00+0100, population 2026-02-10T11:00:00+0100, volume 2026-03-23T23:00:00+0100.
 
 Tolerances: 0.05 percentage points for each coefficient; 0.3 percentage points for each burnt share; 5% for each burnt area.
