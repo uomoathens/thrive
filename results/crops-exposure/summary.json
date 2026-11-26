@@ -1,0 +1,27 @@
+{
+  "started": "2026-11-26T13:05:02+00:00",
+  "finished": "2026-11-26T13:06:41+00:00",
+  "squares": 5122,
+  "cotton_ha": 97110.22,
+  "maize_ha": 32617.85,
+  "years": [
+    2019,
+    2020,
+    2021,
+    2022,
+    2023,
+    2024,
+    2025
+  ],
+  "skipped": [
+    2026
+  ],
+  "season": [
+    "06-01",
+    "09-30"
+  ],
+  "rule_threshold": 37,
+  "rule_days": 10,
+  "extreme_threshold": 40,
+  "extreme_days": 5
+}

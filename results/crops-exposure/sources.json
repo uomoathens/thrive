@@ -1,0 +1,54 @@
+{
+  "started": "2026-11-26T13:05:02+00:00",
+  "crop_map": "https://jeodpp.jrc.ec.europa.eu/ftp/public/JRC-OpenData/EUCROPMAP/2022/tiles/EU27/EU27_Final_Filtered_Map_Masked_Map1_EPSG3035-0000327680-0000262144.tif",
+  "tmax": [
+    {
+      "year": 2019,
+      "url": "https://drought.emergency.copernicus.eu/data/Drought_Observatories_datasets/EDO_JRC_MARS_Daily_Maximum_Temperature/ver2-1-0/tmaxm_m_edo_20190101_20191231_d.nc",
+      "sha256": "486184107453e987012a99b8e2cbaa0bf2f340d6bd67205a77d25600236b9d69",
+      "last_day": "2019-12-31"
+    },
+    {
+      "year": 2020,
+      "url": "https://drought.emergency.copernicus.eu/data/Drought_Observatories_datasets/EDO_JRC_MARS_Daily_Maximum_Temperature/ver2-1-0/tmaxm_m_edo_20200101_20201231_d.nc",
+      "sha256": "a9e384e8a3b5dc6f4da879b74e5290bf6f402cc4e1a7a95fa9d7554f7090a179",
+      "last_day": "2020-12-31"
+    },
+    {
+      "year": 2021,
+      "url": "https://drought.emergency.copernicus.eu/data/Drought_Observatories_datasets/EDO_JRC_MARS_Daily_Maximum_Temperature/ver2-1-0/tmaxm_m_edo_20210101_20211231_d.nc",
+      "sha256": "f54d670473b9faf09128bca6348e95ea23b60f68979f11e9538a49b28a163f22",
+      "last_day": "2021-12-31"
+    },
+    {
+      "year": 2022,
+      "url": "https://drought.emergency.copernicus.eu/data/Drought_Observatories_datasets/EDO_JRC_MARS_Daily_Maximum_Temperature/ver2-1-0/tmaxm_m_edo_20220101_20221231_d.nc",
+      "sha256": "d6059b61f831d0325ba117fea4249444252e9a9b4e0ddfdc68c8575e932c6f92",
+      "last_day": "2022-12-31"
+    },
+    {
+      "year": 2023,
+      "url": "https://drought.emergency.copernicus.eu/data/Drought_Observatories_datasets/EDO_JRC_MARS_Daily_Maximum_Temperature/ver2-1-0/tmaxm_m_edo_20230101_20231231_d.nc",
+      "sha256": "51fcd58e0b986b2444f2aa43910654970c23c87db166ee443612d3b01ebdfc27",
+      "last_day": "2023-12-31"
+    },
+    {
+      "year": 2024,
+      "url": "https://drought.emergency.copernicus.eu/data/Drought_Observatories_datasets/EDO_JRC_MARS_Daily_Maximum_Temperature/ver2-1-0/tmaxm_m_edo_20240101_20241231_d.nc",
+      "sha256": "74d876b95c1d1665dd3a4de1a4dbe3c086cf7a9c56af05a0f6374085f65bc95a",
+      "last_day": "2024-12-31"
+    },
+    {
+      "year": 2025,
+      "url": "https://drought.emergency.copernicus.eu/data/Drought_Observatories_datasets/EDO_JRC_MARS_Daily_Maximum_Temperature/ver2-1-0/tmaxm_m_edo_20250101_20251231_d.nc",
+      "sha256": "36dbe9ae87e2e40847d7919df093e6b6d07ae01b9c74a9b6bc76254092e089a5",
+      "last_day": "2025-12-31"
+    },
+    {
+      "year": 2026,
+      "url": "https://drought.emergency.copernicus.eu/data/Drought_Observatories_datasets/EDO_JRC_MARS_Daily_Maximum_Temperature/ver2-1-0/tmaxm_m_edo_20260101_20260831_d.nc",
+      "sha256": "b81f2d304f8a9febc9a7e484b034d7cf0c0a966525cfd0fb3d16c5f6e9f9b35c",
+      "last_day": "2026-08-31"
+    }
+  ]
+}
