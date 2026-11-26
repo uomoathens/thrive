@@ -1,6 +1,6 @@
 {
-  "started": "2026-11-26T07:22:11+00:00",
-  "finished": "2026-11-26T07:30:00+00:00",
+  "started": "2026-11-26T07:36:45+00:00",
+  "finished": "2026-11-26T07:40:55+00:00",
   "edo_ready": true,
   "edo_ready_indicators": [
     "fapar_anomaly",
@@ -9,19 +9,17 @@
     "tmax",
     "warm_spell"
   ],
-  "cotton_mapped": false,
+  "cotton_mapped": true,
   "crop_map": {
     "tif_files": 159,
     "headers_read": 159,
-    "files_over_region": 3,
+    "files_over_region": 1,
     "files_used": [
-      "https://jeodpp.jrc.ec.europa.eu/ftp/public/JRC-OpenData/EUCROPMAP/2022/tiles/EU27/EU27_Final_Filtered_Map_Masked_Map1_EPSG3035-0000327680-0000262144.tif",
-      "https://jeodpp.jrc.ec.europa.eu/ftp/public/JRC-OpenData/EUCROPMAP/2022/tiles/EU27/EU27_Final_Filtered_Map_Masked_Map1_EPSG3035-0000327680-0000294912.tif",
-      "https://jeodpp.jrc.ec.europa.eu/ftp/public/JRC-OpenData/EUCROPMAP/2022/tiles/EU27/JRC_EUROCROPMAP2022_EU27_EPSG3035.tif"
+      "https://jeodpp.jrc.ec.europa.eu/ftp/public/JRC-OpenData/EUCROPMAP/2022/tiles/EU27/EU27_Final_Filtered_Map_Masked_Map1_EPSG3035-0000327680-0000262144.tif"
     ]
   },
   "eurostat": {
-    "url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/apro_cpshr?format=JSON&lang=EN&geo=EL61&strucpro=AR&sinceTimePeriod=2019",
+    "url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/apro_cpshr?format=JSON&lang=EN&geo=EL61&strucpro=AR_THS_HA&sinceTimePeriod=2019",
     "updated": "2026-11-24T23:00:00+0100",
     "label": "Crop production in EU standard humidity by NUTS 2 region"
   }
