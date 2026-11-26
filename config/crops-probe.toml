@@ -91,7 +91,7 @@ label_contains = ["Cotton fibre"]
 [[compare.pair]]
 name = "Maize, grain and green"
 classes = [216]
-label_contains = ["Grain maize", "Green maize"]
+label_equals = ["Grain maize and corn-cob-mix", "Green maize"]
 
 [[compare.pair]]
 name = "Wheat, durum and common"

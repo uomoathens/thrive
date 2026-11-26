@@ -394,8 +394,12 @@ def compare(classes: pd.DataFrame, crops: pd.DataFrame, cfg: dict) -> pd.DataFra
     year = str(cfg["compare"]["year"])
     for pair in cfg["compare"]["pair"]:
         map_ha = float(classes.loc[classes["class"].isin(pair["classes"]), "hectares"].sum()) if not classes.empty else 0.0
-        pats = pair["label_contains"] if isinstance(pair["label_contains"], list) else [pair["label_contains"]]
-        stat = crops[crops["label"].apply(lambda s: any(x.lower() in str(s).lower() for x in pats))] if not crops.empty else crops
+        if "label_equals" in pair:
+            exact = [x.lower() for x in pair["label_equals"]]
+            stat = crops[crops["label"].apply(lambda s: str(s).lower() in exact)] if not crops.empty else crops
+        else:
+            pats = pair["label_contains"] if isinstance(pair["label_contains"], list) else [pair["label_contains"]]
+            stat = crops[crops["label"].apply(lambda s: any(x.lower() in str(s).lower() for x in pats))] if not crops.empty else crops
         stat_year = stat[stat["time"] == year] if not stat.empty and "time" in stat else stat
         stat_ha = float(stat_year.groupby("label")["thousand_ha"].max().sum() * 1000) if not stat_year.empty else None
         ratio = map_ha / stat_ha if stat_ha else None

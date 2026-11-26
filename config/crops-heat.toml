@@ -1,0 +1,56 @@
+years = [2019, 2025]
+season = ["06-01", "09-30"]
+block_m = 10000
+
+[cells]
+path = "results/phase-b/cells.gpkg"
+layer = "cells"
+
+[cropmap]
+url = "https://jeodpp.jrc.ec.europa.eu/ftp/public/JRC-OpenData/EUCROPMAP/2022/tiles/EU27/EU27_Final_Filtered_Map_Masked_Map1_EPSG3035-0000327680-0000262144.tif"
+min_crop_ha = 50
+min_cells = 200
+
+[cropmap.classes]
+cotton = 230
+maize = 216
+
+[edo]
+base = "https://drought.emergency.copernicus.eu/data/Drought_Observatories_datasets/"
+tmax_dir = "EDO_JRC_MARS_Daily_Maximum_Temperature"
+sma_dir = "EDO_Soil_Moisture_Index_Anomaly"
+max_depth = 3
+thresholds = [35, 37, 40]
+
+[flood]
+column = "flooded_share_observed_all"
+share = 0.1
+until_year = 2024
+
+[exposure]
+threshold = 37
+days = 10
+
+[stac]
+url = "https://earth-search.aws.element84.com/v1"
+collection = "sentinel-2-c1-l2a"
+max_cloud = 80
+min_items_per_summer = 200
+max_failed_share = 0.1
+workers = 6
+
+[stac.assets]
+red = "red"
+nir = "nir"
+scl = "scl"
+
+[pixels]
+resolution_m = 40
+valid_classes = [4, 5, 6]
+guard_classes = [4, 5]
+min_valid_share = 0.7
+min_cell_in_scene = 0.9
+default_scale = 0.0001
+default_offset = -0.1
+max_negative_share = 0.05
+min_ndvi = 0.1

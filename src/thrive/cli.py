@@ -78,6 +78,9 @@ def main(argv: list[str] | None = None) -> int:
     pp = sub.add_parser("crops-probe", help="check whether the open data for a study of heat and drought damage to crops in Thessaly can be downloaded and used")
     pp.add_argument("--config", default="config/crops-probe.toml")
     pp.add_argument("--out", default="results/crops-probe")
+    ph = sub.add_parser("crops-heat", help="estimate whether cotton and maize in Thessaly are less green in ten-day periods with more hot days")
+    ph.add_argument("--config", default="config/crops-heat.toml")
+    ph.add_argument("--out", default="results/crops-heat")
     ps = sub.add_parser("site", help="update the page and the README from the latest results, or stop if a stated finding no longer holds")
     ps.add_argument("--root", default=".")
     ps.add_argument("--report", default=None)
@@ -127,6 +130,13 @@ def main(argv: list[str] | None = None) -> int:
 
         summary = run_p(Path(args.config), Path(args.out))
         print(f"Crops probe done: drought data ready {summary['edo_ready']}, cotton mapped {summary['cotton_mapped']}; see report.md")
+    elif args.command == "crops-heat":
+        from pathlib import Path
+
+        from thrive.data.crops_heat import run as run_h
+
+        summary = run_h(Path(args.config), Path(args.out))
+        print(f"Crops heat done: {summary['cells']} squares, {summary['scenes_used']} scenes used, verdict: {summary['verdict']}")
     elif args.command == "site":
         from pathlib import Path
 
